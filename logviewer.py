@@ -17,8 +17,11 @@ class Viewer():
         logs = []
 
         for file in os.listdir(dirPath):
-            if file.endswith('.json'):
-                logs.append(json.load(open(dirPath + file, 'r')))
+            try:
+                if file.endswith('.json'):
+                    logs.append(json.load(open(dirPath + file, 'r')))
+            except: 
+                pass
 
         self.logs = pd.DataFrame(logs)
 
@@ -46,6 +49,12 @@ class Viewer():
                         logs.append(row)
 
         logs = pd.DataFrame(logs)
+
+        #convert time units from ns to s
+        logs.total_duration = logs.total_duration / 1000000000
+        logs.load_duration = logs.load_duration / 1000000000
+        logs.prompt_eval_duration = logs.prompt_eval_duration / 1000000000
+        logs.eval_duration = logs.eval_duration / 1000000000
 
         print(logs)
 
@@ -110,10 +119,6 @@ class Viewer():
                     except:
                         print('\nInvalid selection\n\n')
 
-                    
-
-                    
-
                 case '0':
                     print('Goodbye!')
                     run = False
@@ -121,10 +126,18 @@ class Viewer():
                 case _:
                     print('\nInvalid response\n\n')
 
+    
+    #writes the average stats for each model, for each prompt, and for each model-prompt pair to .csv files in the logs/summaries folder
+    def writeCSV(self):
+        
+        models = self.logs.groupby('model')
+        prompts = self.logs.groupby('prompt')
+        pairs = self.logs.groupby(['model', 'prompt'])
 
-    def run(self, model = 'qwen3:8b'):
 
-        self.display(model = model)
+    def run(self, model = None, prompt = None):
+
+        self.display(model, prompt)
 
 
 
