@@ -1,3 +1,12 @@
+# /// script
+# requires-python = ">=3.13"
+# dependencies = [
+#     "numpy",
+#     "pandas",
+#     "rich",
+# ]
+# ///
+
 #CLI for the logs created in benchmarking
 
 import os
