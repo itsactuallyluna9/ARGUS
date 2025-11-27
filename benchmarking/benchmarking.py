@@ -244,6 +244,6 @@ if __name__ == "__main__":
     # gemma3 4B, gemma3 12B, qwen3 8B, qwen3 27(?)B, and llama3 8B?, and qwen 14B
     benchmark_summarizer([
         'gemma3:4b', 'gemma3:12b',
-        'qwen3:8b', 'qwen3:14b', 'qwen3:27b',
-        'qwen3:8b-think', 'qwen3:14b-think', 'qwen3:27b-think',
+        'qwen3:8b', 'qwen3:14b', 'qwen3:30b',
+        'qwen3:8b-think', 'qwen3:14b-think', 'qwen3:30b-think',
         'llama3:8b', 'llama3.1:8b'], 10)
