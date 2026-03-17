@@ -170,7 +170,7 @@ def benchmark_articles():
 def benchmark_model(model_name: str):
     summarizer = Summarizer(model=model_name, prompt=summarizer_prompt)
 
-    for article_file in Path(".").glob("article*.md"):
+    for article_file in track(list(Path(".").glob("article*.md")), description=f"Benchmarking {model_name}"):
         article_text = article_file.read_text()
         summary_response = summarizer.evaluate(article_text, keep_alive=60*5)
         summary = summary_response.message.content
@@ -189,10 +189,10 @@ def benchmark_models():
 
 def unload_model(model_name: str):
     ollama.generate(model_name, keep_alive=0)
-    sleep(2)
+    sleep(10)
 
 def main():
-    for _ in track(range(3)):
+    for _ in track(range(3), description="Running benchmarks..."):
         benchmark_models()
 
 if __name__ == "__main__":
