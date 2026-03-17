@@ -45,24 +45,18 @@ class Summarizer:
         ollama.pull(self.model)
         
         try:
-            response = ollama.chat(
-                self.model,
-                [
-                    {"role": "system", "content": self.prompt},
-                    {"role": "user", "content": article_text},
-                ],
+            response = ollama.generate(
+                model=self.model,
+                prompt=f"{self.prompt}\nArticle text: {article_text}",
                 think=True,
                 keep_alive=keep_alive
             )
 
         #if model doesn't support thinking, fall back to normal response
         except:
-            response = ollama.chat(
-                self.model,
-                [
-                    {"role": "system", "content": self.prompt},
-                    {"role": "user", "content": article_text},
-                ],
+            response = ollama.generate(
+                model=self.model,
+                prompt=f"{self.prompt}\nArticle text: {article_text}",
                 think=False,
                 keep_alive=keep_alive
             )
@@ -82,8 +76,8 @@ class Summarizer:
                 "eval_duration": response.eval_duration,
                 "prompt": self.prompt,
                 "article_text": article_text,
-                "response": response.message.content,
-                "thinking": response.message.thinking,
+                "response": response.response,
+                "thinking": response.thinking,
                 "node": node()
             }, f, indent=4)
         return response
@@ -159,7 +153,7 @@ def benchmark_article(article_file: Path):
     for model in track(summarizer_models, description="Benchmarking summarization models..."):
         summarizer = Summarizer(model=model, prompt=summarizer_prompt)
         summary_response = summarizer.evaluate(article_text)
-        summary = summary_response.message.content
+        summary = summary_response.response
 
         if summary is None:
             print(f"[!] Model {model} did not return a summary.")
@@ -179,7 +173,7 @@ def benchmark_model(model_name: str):
     for article_file in track(list(Path(".").glob("article*.md")), description=f"Benchmarking {model_name}"):
         article_text = article_file.read_text()
         summary_response = summarizer.evaluate(article_text, keep_alive=60*5)
-        summary = summary_response.message.content
+        summary = summary_response.response
 
         if summary is None:
             print(f"[!] Model {model_name} did not return a summary.")
@@ -201,7 +195,7 @@ def unload_model(model_name: str):
     sleep(10)
 
 def main():
-    for _ in track(range(3), description="Running benchmarks..."):
+    for _ in track(range(1), description="Running benchmarks..."):
         benchmark_models()
 
 if __name__ == "__main__":
