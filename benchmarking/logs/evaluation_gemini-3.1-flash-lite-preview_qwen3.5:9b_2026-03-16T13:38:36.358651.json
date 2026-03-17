@@ -1,7 +1,0 @@
-{
-    "accuracy": 100,
-    "completeness": 95,
-    "reasoning": "The summary accurately captures the core event and provides excellent context regarding the history of Oscar ties. The factual claims are precise and align perfectly with the source text. It is nearly complete, missing only minor details like the clarification that the 1932 'tie' was technically not a true tie according to later Academy notes, which is a nuanced historical detail but not critical to the main event summary.",
-    "model": "qwen3.5:9b",
-    "evalModel": "gemini-3.1-flash-lite-preview"
-}

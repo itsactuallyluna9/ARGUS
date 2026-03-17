@@ -1,7 +1,0 @@
-{
-    "accuracy": 100,
-    "completeness": 95,
-    "reasoning": "The summary is highly accurate and correctly identifies all key factual claims provided in the article. It captures the essence of the event, the historical context of Oscar ties, and the reactions of those involved. It is nearly complete, missing only the minor detail regarding the specific technicality of the 1932 'tie' not being a true statistical tie, though this does not detract from the overall quality of the summary.",
-    "model": "qwen3.5:27b",
-    "evalModel": "gemini-3.1-flash-lite-preview"
-}

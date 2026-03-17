@@ -1,7 +1,0 @@
-{
-    "accuracy": 100,
-    "completeness": 100,
-    "reasoning": "The summary provides an excellent and accurate representation of the article, covering all key technical details, the project's purpose, and its future roadmap. Every factual claim is supported by the source text, and the overview captures the nuance of why the project is being launched as a form of protest against regulatory overreach.",
-    "model": "qwen3.5:27b",
-    "evalModel": "gemini-3.1-flash-lite-preview"
-}

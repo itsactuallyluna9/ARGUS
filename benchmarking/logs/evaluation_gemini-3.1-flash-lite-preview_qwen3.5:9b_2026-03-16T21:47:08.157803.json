@@ -1,7 +1,0 @@
-{
-    "accuracy": 85,
-    "completeness": 90,
-    "reasoning": "The summary accurately captures the central conflict and the key scientific and ethical perspectives discussed in the article. However, there is a minor factual inaccuracy in the 'Population Status' section: the summary states the population dropped from 183 in a 1995 thesis to a lower count in 2018, while the source text explicitly states the 1995 study counted 36 monkeys and the later research indicated a 14 percent increase over that specific number. Aside from this numerical error, the summary provides a comprehensive overview of the situation.",
-    "model": "qwen3.5:9b",
-    "evalModel": "gemini-3.1-flash-lite-preview"
-}

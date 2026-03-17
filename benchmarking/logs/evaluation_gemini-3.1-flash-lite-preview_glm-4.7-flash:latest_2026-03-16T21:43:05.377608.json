@@ -1,7 +1,0 @@
-{
-    "accuracy": 100,
-    "completeness": 100,
-    "reasoning": "The summary provides an excellent and accurate overview of the Ageless Linux project. It successfully captures the technical implementation, the underlying motivation of the protest, and the specific regulatory challenges being highlighted. All key facts, including the future roadmap and the rationale behind using BitTorrent and the Milk-V Duo, are covered accurately and comprehensively.",
-    "model": "glm-4.7-flash:latest",
-    "evalModel": "gemini-3.1-flash-lite-preview"
-}

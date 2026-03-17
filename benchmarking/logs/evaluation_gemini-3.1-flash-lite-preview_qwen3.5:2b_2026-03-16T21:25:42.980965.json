@@ -1,7 +1,0 @@
-{
-    "accuracy": 0,
-    "completeness": 0,
-    "reasoning": "The provided summary is empty, meaning it fails to address any of the content in the article or verify any factual claims. As no information was provided in the summary field, it receives the lowest possible scores for both accuracy and completeness.",
-    "model": "qwen3.5:2b",
-    "evalModel": "gemini-3.1-flash-lite-preview"
-}

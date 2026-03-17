@@ -1,7 +1,0 @@
-{
-    "accuracy": 90,
-    "completeness": 85,
-    "reasoning": "The summary accurately captures the main conflict between scientific classification, local public sentiment, and conservation ethics regarding the Dania Beach vervet monkeys. It correctly identifies the core details, such as the population estimate and the origins of the colony. The completeness score is slightly lower as it misses the specific historical detail regarding the 1947 escape from a biomedical research/zoo facility, which is a key part of the article's narrative on their origin.",
-    "model": "deepseek-r1:14b",
-    "evalModel": "gemini-3.1-flash-lite-preview"
-}

@@ -1,7 +1,0 @@
-{
-    "accuracy": 95,
-    "completeness": 90,
-    "reasoning": "The summary is highly accurate in reflecting the article's contents, correctly identifying Trump's contradictory comments and the subsequent public backlash. It is quite complete, capturing the core conflict, the military casualties, the refusal of allied nations to provide warships, and the specific tension regarding the Financial Times interview. It minorly omits some of the specific quotes from the family members of the fallen service members, but this does not detract from the overall summary quality.",
-    "model": "qwen3.5:9b",
-    "evalModel": "gemini-3.1-flash-lite-preview"
-}

@@ -1,7 +1,0 @@
-{
-    "accuracy": 100,
-    "completeness": 95,
-    "reasoning": "The summary and the extracted points are highly accurate and faithfully reflect the content of the article. It captures the central contradiction of Trump's comments and the resulting backlash. It is nearly complete, missing only the specific mention of the military casualties and the reaction of the families of the fallen, which provided emotional weight to the backlash section of the report.",
-    "model": "qwen3.5:2b",
-    "evalModel": "gemini-3.1-flash-lite-preview"
-}

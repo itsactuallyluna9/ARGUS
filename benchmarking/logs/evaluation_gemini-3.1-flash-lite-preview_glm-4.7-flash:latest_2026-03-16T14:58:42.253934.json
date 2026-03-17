@@ -1,7 +1,0 @@
-{
-    "accuracy": 100,
-    "completeness": 95,
-    "reasoning": "The summary is highly accurate and captures all the essential details provided in the article. It identifies the category, the winners, the context, and the presenters correctly. It is nearly complete, missing only the minor historical detail regarding the 1932 'tie' involving the 3-vote rule, but this is a peripheral fact that does not detract from the main summary.",
-    "model": "glm-4.7-flash:latest",
-    "evalModel": "gemini-3.1-flash-lite-preview"
-}

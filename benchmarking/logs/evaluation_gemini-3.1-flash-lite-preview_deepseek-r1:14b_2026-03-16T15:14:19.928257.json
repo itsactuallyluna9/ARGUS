@@ -1,7 +1,0 @@
-{
-    "accuracy": 100,
-    "completeness": 95,
-    "reasoning": "The summary is highly accurate, capturing the main event and key details correctly. It is very complete, though it omits the minor detail that this was the seventh tie in the entire history of the Oscars, which is explicitly mentioned in the text.",
-    "model": "deepseek-r1:14b",
-    "evalModel": "gemini-3.1-flash-lite-preview"
-}

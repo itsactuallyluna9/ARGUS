@@ -1,7 +1,0 @@
-{
-    "accuracy": 100,
-    "completeness": 95,
-    "reasoning": "The summary is highly accurate, correctly identifying all key factual details including the specific winning films, the historical context of Oscar ties, and the reaction of participants. It captures the essence of the report well, though it omits the minor technical detail regarding the historical rule change for the 1932 acting tie in its bulleted points, though it does mention it in the full summary.",
-    "model": "qwen3.5:9b",
-    "evalModel": "gemini-3.1-flash-lite-preview"
-}

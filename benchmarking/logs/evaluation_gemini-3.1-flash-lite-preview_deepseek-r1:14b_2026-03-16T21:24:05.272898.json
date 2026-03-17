@@ -1,7 +1,0 @@
-{
-    "accuracy": 100,
-    "completeness": 95,
-    "reasoning": "The summary accurately reflects the key events and contradictory statements described in the article. It captures the essence of the backlash against the President's comments and the refusal of various nations to assist. The score is near-perfect, only missing minor procedural details about the Prime Minister of the UK's specific plans for a 'viable plan' while staying out of the wider war, but this does not detract from the overall quality of the summary.",
-    "model": "deepseek-r1:14b",
-    "evalModel": "gemini-3.1-flash-lite-preview"
-}

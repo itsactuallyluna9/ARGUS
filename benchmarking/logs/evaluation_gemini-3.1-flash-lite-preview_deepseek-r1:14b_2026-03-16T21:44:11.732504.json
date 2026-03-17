@@ -1,7 +1,0 @@
-{
-    "accuracy": 100,
-    "completeness": 90,
-    "reasoning": "The summary accurately captures the core purpose, technical nature, and goals of the Ageless Linux project. It effectively synthesizes the key claims and the context of the protest. It is very complete, though it omits specific mention of the Milk-V Duo single-board computer hardware, which was highlighted in the original text as a specific testing platform for the project's concept.",
-    "model": "deepseek-r1:14b",
-    "evalModel": "gemini-3.1-flash-lite-preview"
-}

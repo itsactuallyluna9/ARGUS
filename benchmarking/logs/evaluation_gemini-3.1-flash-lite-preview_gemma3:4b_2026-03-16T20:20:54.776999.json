@@ -1,7 +1,0 @@
-{
-    "accuracy": 100,
-    "completeness": 95,
-    "reasoning": "The summary is highly accurate and correctly identifies all key factual claims presented in the article. It is extremely complete, covering the specific event, its historical context, reactions from those involved, and a breakdown of previous ties. It only narrowly misses a 100% completeness score because it does not explicitly list every individual winner or the exact quote about ruining 22 million Oscar pools, though these are minor details that do not detract from the summary's overall utility.",
-    "model": "gemma3:4b",
-    "evalModel": "gemini-3.1-flash-lite-preview"
-}
