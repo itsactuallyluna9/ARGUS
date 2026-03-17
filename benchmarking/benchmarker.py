@@ -8,6 +8,7 @@
 #     "pydantic",
 #     "python-dotenv",
 #     "rich",
+#     "tenacity",
 # ]
 # ///
 
@@ -26,6 +27,7 @@ from google import genai
 from google.genai import types
 from pydantic import BaseModel
 from platform import node
+from tenacity import retry, wait_exponential
 
 load_dotenv()
 
@@ -38,6 +40,7 @@ class Summarizer:
     model: str
     prompt: str
 
+    @retry(wait=wait_exponential(1, 60))
     def evaluate(self, article_text: str, keep_alive=0):
         ollama.pull(self.model)
         
@@ -91,6 +94,7 @@ class Evaluator:
     model: str
     prompt: str
 
+    @retry(wait=wait_exponential(1, 60))
     def evaluate(self, article_text: str, summary: str, summary_model: str):
         # use gemini
         with genai.Client(api_key=os.environ.get("GEMINI_API_KEY")) as client:
@@ -182,7 +186,10 @@ def benchmark_model(model_name: str):
             continue
 
         evaluator = Evaluator(model="gemini-3.1-flash-lite-preview", prompt=evaluator_prompt)
-        evaluator.evaluate(article_text, summary, model_name)
+        try:
+            evaluator.evaluate(article_text, summary, model_name)
+        except:
+            print("-skipping evaluation!-")
 
 def benchmark_models():
     for model in track(summarizer_models, description="Benchmarking summarization models..."):
