@@ -1,0 +1,7 @@
+{
+    "accuracy": 100,
+    "completeness": 100,
+    "reasoning": "The summary provides a highly accurate and comprehensive overview of the event. It correctly identifies the winners, the context of the tie, the historical significance, and includes specific details such as the host, the announcer, and the nuanced history of previous ties mentioned in the article.",
+    "model": "gemma3:12b",
+    "evalModel": "gemini-3.1-flash-lite-preview"
+}

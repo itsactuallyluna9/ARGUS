@@ -1,0 +1,7 @@
+{
+    "accuracy": 100,
+    "completeness": 100,
+    "reasoning": "The summary is highly accurate and adheres strictly to the facts presented in the article. It effectively captures the central contradiction of Trump's position, the domestic and international backlash, and the specific geopolitical consequences mentioned. All key points are well-integrated and supported by the source text.",
+    "model": "qwen3.5:27b",
+    "evalModel": "gemini-3.1-flash-lite-preview"
+}

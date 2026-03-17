@@ -1,0 +1,7 @@
+{
+    "accuracy": 100,
+    "completeness": 100,
+    "reasoning": "The summary is highly accurate and captures all essential factual details presented in the article, including the names of the winning films, the specific award category, the context of the presenters and hosts, and the historical background of previous Oscar ties. It covers all key points comprehensively without omissions.",
+    "model": "glm-4.7-flash:latest",
+    "evalModel": "gemini-3.1-flash-lite-preview"
+}

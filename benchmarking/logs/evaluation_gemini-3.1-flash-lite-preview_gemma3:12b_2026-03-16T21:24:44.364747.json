@@ -1,0 +1,7 @@
+{
+    "accuracy": 100,
+    "completeness": 95,
+    "reasoning": "The summary is highly accurate and captures the core elements of the article, including the specific contradictions made by Trump, the international backlash, and the diplomatic tensions. It is nearly complete, missing only the specific mention of the 13 US service members killed which provides additional context for the backlash mentioned.",
+    "model": "gemma3:12b",
+    "evalModel": "gemini-3.1-flash-lite-preview"
+}

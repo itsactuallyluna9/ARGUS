@@ -1,0 +1,7 @@
+{
+    "accuracy": 100,
+    "completeness": 100,
+    "reasoning": "The summary accurately reflects all key factual claims provided in the article text, including the specific films involved, the historical rarity of the event, and the reactions of the hosts and filmmakers. It captures all pertinent details without omitting significant information.",
+    "model": "qwen3.5:9b",
+    "evalModel": "gemini-3.1-flash-lite-preview"
+}

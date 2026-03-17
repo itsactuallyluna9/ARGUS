@@ -1,0 +1,7 @@
+{
+    "accuracy": 40,
+    "completeness": 30,
+    "reasoning": "The summary is highly inaccurate and fails to capture the core subject matter of the article. It incorrectly characterizes the monkeys as living in a 'zoo' or 'captivity,' when the text clearly describes them as a wild, free-roaming population living in the mangroves of Dania Beach. The summary misinterprets the primary conflict\u2014which is about whether to protect an invasive, free-roaming population from potential eradication\u2014by framing it as an issue of 'zoo ethics' or 'captivity management,' which is fundamentally wrong. It misses key details such as the origins of the colony (biomedical research escapees), the specific ecological risks, and the ongoing debate regarding whether they are truly 'invasive' versus 'non-native'.",
+    "model": "qwen3.5:2b",
+    "evalModel": "gemini-3.1-flash-lite-preview"
+}

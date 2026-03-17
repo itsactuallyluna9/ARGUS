@@ -1,0 +1,7 @@
+{
+    "accuracy": 100,
+    "completeness": 95,
+    "reasoning": "The summary is highly accurate and captures all the core arguments and technical details of the article. It is nearly complete, missing only the specific mention of California's Digital Age Assurance Act as an example of the legislation the project is responding to, though this does not detract from the overall clarity of the summary.",
+    "model": "gemma3:4b",
+    "evalModel": "gemini-3.1-flash-lite-preview"
+}

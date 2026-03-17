@@ -1,0 +1,7 @@
+{
+    "accuracy": 100,
+    "completeness": 95,
+    "reasoning": "The summary is highly accurate and captures the core technical and political aspects of the article. It covers the motivation, methodology, and future plans of the Ageless Linux project. It is nearly complete, missing only minor details like the mention of the Milk-V Duo S specifically, but this does not detract from the overall quality of the summary.",
+    "model": "gemma3:12b",
+    "evalModel": "gemini-3.1-flash-lite-preview"
+}

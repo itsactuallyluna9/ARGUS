@@ -1,0 +1,7 @@
+{
+    "accuracy": 100,
+    "completeness": 100,
+    "reasoning": "The summary is highly accurate, correctly identifying the films involved, the presenter, and the historical context of Oscar ties provided in the text. It is also complete, covering all key factual points including the reactions of the filmmakers and the specific details regarding the rarity of the event.",
+    "model": "qwen3.5:27b",
+    "evalModel": "gemini-3.1-flash-lite-preview"
+}

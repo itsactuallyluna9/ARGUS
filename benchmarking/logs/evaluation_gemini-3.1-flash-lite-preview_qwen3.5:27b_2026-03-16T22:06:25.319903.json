@@ -1,0 +1,7 @@
+{
+    "accuracy": 85,
+    "completeness": 90,
+    "reasoning": "The summary is highly accurate in its portrayal of the central dilemma and the stakeholders involved. It correctly identifies the core conflict between regulatory agencies and local sentiment. It is slightly inaccurate regarding the species classification, as the text specifies the Dania Beach monkeys are Chlorocebus sabaeus (West African origin), while the summary labels them as Chlorocebus pygerythrus (East African origin). Additionally, while it captures most of the key points, it misses the interesting historical context regarding the monkeys' origin from a biomedical/zoo escape, which was a significant portion of the article.",
+    "model": "qwen3.5:27b",
+    "evalModel": "gemini-3.1-flash-lite-preview"
+}

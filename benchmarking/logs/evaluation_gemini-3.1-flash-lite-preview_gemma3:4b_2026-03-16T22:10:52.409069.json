@@ -1,0 +1,7 @@
+{
+    "accuracy": 95,
+    "completeness": 90,
+    "reasoning": "The summary accurately captures the central conflict, the scientific debate regarding invasive species, and the key stakeholders involved. It correctly identifies the primary arguments from both sides of the issue. It is nearly complete, though it misses a few specific, interesting details such as the monkeys' origin story (the 1947 escape from a biomedical research/zoo facility) and the specifics of why they are currently facing threats like electrocution or vehicle collisions, which were significant portions of the original text.",
+    "model": "gemma3:4b",
+    "evalModel": "gemini-3.1-flash-lite-preview"
+}

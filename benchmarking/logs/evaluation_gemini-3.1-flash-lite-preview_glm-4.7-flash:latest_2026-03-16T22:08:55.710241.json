@@ -1,0 +1,7 @@
+{
+    "accuracy": 100,
+    "completeness": 95,
+    "reasoning": "The summary is highly accurate, correctly synthesizing the core dilemma, the history of the monkey colony, and the conflicting scientific and social perspectives. It is almost entirely complete, capturing all major points, though it could have briefly mentioned the specific origin of the monkeys being tied to a 1947 escape from a biomedical/zoo facility to be perfectly comprehensive regarding their history.",
+    "model": "glm-4.7-flash:latest",
+    "evalModel": "gemini-3.1-flash-lite-preview"
+}
