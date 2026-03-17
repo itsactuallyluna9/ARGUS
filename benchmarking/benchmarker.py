@@ -25,6 +25,7 @@ from datetime import datetime
 from google import genai
 from google.genai import types
 from pydantic import BaseModel
+from platform import node
 
 load_dotenv()
 
@@ -79,7 +80,8 @@ class Summarizer:
                 "prompt": self.prompt,
                 "article_text": article_text,
                 "response": response.message.content,
-                "thinking": response.message.thinking
+                "thinking": response.message.thinking,
+                "node": node()
             }, f, indent=4)
         return response
 
