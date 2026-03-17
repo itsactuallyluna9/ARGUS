@@ -12,6 +12,7 @@
 # ///
 
 import os
+from time import sleep
 
 from dotenv import load_dotenv
 import ollama
@@ -36,7 +37,7 @@ class Summarizer:
     model: str
     prompt: str
 
-    def evaluate(self, article_text: str):
+    def evaluate(self, article_text: str, keep_alive=0):
         ollama.pull(self.model)
         
         try:
@@ -47,7 +48,7 @@ class Summarizer:
                     {"role": "user", "content": article_text},
                 ],
                 think=True,
-                keep_alive=0
+                keep_alive=keep_alive
             )
 
         #if model doesn't support thinking, fall back to normal response
@@ -59,7 +60,7 @@ class Summarizer:
                     {"role": "user", "content": article_text},
                 ],
                 think=False,
-                keep_alive=0
+                keep_alive=keep_alive
             )
 
         # we'll finish by unloading the model from memory
@@ -144,10 +145,10 @@ A few sentences justification for the values you chose for accuracy and complete
 Output your answer in the provided json schema.
 '''
 
+summarizer_models = ["qwen3.5:2b", "qwen3.5:9b", "qwen3.5:27b", "glm-4.7-flash:q4_K_M", "deepseek-r1:14b", "gemma3:4b", "gemma3:12b", "gpt-oss:20b", "magistral:24b", "nemotron-3-nano:4b"]
+
 def benchmark_article(article_file: Path):
     article_text = article_file.read_text()
-
-    summarizer_models = ["qwen3.5:2b", "qwen3.5:9b", "qwen3.5:27b", "glm-4.7-flash:latest", "deepseek-r1:14b", "gemma3:4b", "gemma3:12b"]
 
     for model in track(summarizer_models, description="Benchmarking summarization models..."):
         summarizer = Summarizer(model=model, prompt=summarizer_prompt)
@@ -160,10 +161,39 @@ def benchmark_article(article_file: Path):
 
         evaluator = Evaluator(model="gemini-3.1-flash-lite-preview", prompt=evaluator_prompt)
         evaluator.evaluate(article_text, summary, model)
+        sleep(5) # give a little break between articles
 
-def main():
+def benchmark_articles():
     for article_file in Path(".").glob("article*.md"):
         benchmark_article(article_file)
+
+def benchmark_model(model_name: str):
+    summarizer = Summarizer(model=model_name, prompt=summarizer_prompt)
+
+    for article_file in Path(".").glob("article*.md"):
+        article_text = article_file.read_text()
+        summary_response = summarizer.evaluate(article_text, keep_alive=60*5)
+        summary = summary_response.message.content
+
+        if summary is None:
+            print(f"[!] Model {model_name} did not return a summary.")
+            continue
+
+        evaluator = Evaluator(model="gemini-3.1-flash-lite-preview", prompt=evaluator_prompt)
+        evaluator.evaluate(article_text, summary, model_name)
+
+def benchmark_models():
+    for model in track(summarizer_models, description="Benchmarking summarization models..."):
+        benchmark_model(model)
+        unload_model(model)
+
+def unload_model(model_name: str):
+    ollama.generate(model_name, keep_alive=0)
+    sleep(2)
+
+def main():
+    for _ in track(range(3)):
+        benchmark_models()
 
 if __name__ == "__main__":
     main()
