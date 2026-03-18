@@ -1,0 +1,7 @@
+{
+    "accuracy": 100,
+    "completeness": 95,
+    "reasoning": "The summary is highly accurate and captures all essential details regarding the 2026 Oscar tie. It is nearly complete, missing only the specific mention of the 1950 and 1987 documentary ties in the listed points, but it effectively covers the core event, historical context, and the nature of previous ties discussed in the article.",
+    "model": "gemma3:12b",
+    "evalModel": "gemini-3.1-flash-lite-preview"
+}

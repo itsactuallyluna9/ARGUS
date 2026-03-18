@@ -1,0 +1,7 @@
+{
+    "accuracy": 100,
+    "completeness": 95,
+    "reasoning": "The summary is highly accurate and captures the core conflict, the economic context, and the consumer perspective presented in the article. It misses a minor detail regarding the specific mention of alternative lab-grown innovations (like ChoViva) and the nuance regarding global regulations, but covers all essential points effectively.",
+    "model": "deepseek-r1:14b",
+    "evalModel": "gemini-3.1-flash-lite-preview"
+}

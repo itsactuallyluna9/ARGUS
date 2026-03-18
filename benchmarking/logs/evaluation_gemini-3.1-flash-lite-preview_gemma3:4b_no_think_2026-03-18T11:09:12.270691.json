@@ -1,0 +1,7 @@
+{
+    "accuracy": 95,
+    "completeness": 90,
+    "reasoning": "The summary is highly accurate in its representation of the article's core arguments and facts, including the origin of the monkeys and the conflict between scientific and public perspectives. There is a minor inaccuracy in the attribution of a quote: the summary attributes 'Could you shoot a monkey?' to 'Simon Berfield', while the article correctly attributes it to Dan Simberloff. It is quite complete, though it misses some granular details like the specific scientific studies regarding the monkeys' DNA origin and the exact number of monkeys found in the 1995 study (36).",
+    "model": "gemma3:4b",
+    "evalModel": "gemini-3.1-flash-lite-preview"
+}

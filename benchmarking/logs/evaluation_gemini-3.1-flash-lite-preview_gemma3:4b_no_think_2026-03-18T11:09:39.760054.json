@@ -1,0 +1,7 @@
+{
+    "accuracy": 95,
+    "completeness": 90,
+    "reasoning": "The summary accurately captures the core issue, the economic context, and the consumer backlash described in the article. It is highly complete, though it misses the specific detail that the traditional Reese\u2019s Peanut Butter Cup is explicitly mentioned as still containing real milk chocolate, which provides a nuance to the 'reformulation' narrative. Overall, it captures the article's tone and factual claims very effectively.",
+    "model": "gemma3:4b",
+    "evalModel": "gemini-3.1-flash-lite-preview"
+}

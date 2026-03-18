@@ -1,0 +1,7 @@
+{
+    "accuracy": 100,
+    "completeness": 95,
+    "reasoning": "The summary is highly accurate and captures all the core factual claims presented in the article. It effectively synthesizes the causes of the weather patterns, the regional differences, and the short-term forecasts. It is nearly complete, missing only minor details regarding specific cities mentioned in the context of the Western heatwave, which does not detract from the overall quality of the summary.",
+    "model": "glm-4.7-flash:q4_K_M",
+    "evalModel": "gemini-3.1-flash-lite-preview"
+}

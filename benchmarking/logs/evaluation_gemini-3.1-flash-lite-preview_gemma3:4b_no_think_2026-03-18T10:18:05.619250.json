@@ -1,0 +1,7 @@
+{
+    "accuracy": 100,
+    "completeness": 95,
+    "reasoning": "The summary is highly accurate and captures the core findings of the article without error. It provides a comprehensive overview of the research methodology, the limitations of the nest structure, and the researchers' conclusions. While it misses specific details like the species name (Heyuannia huangi) and the exact size of the dinosaur, it covers all essential scientific points, making it an excellent summary.",
+    "model": "gemma3:4b",
+    "evalModel": "gemini-3.1-flash-lite-preview"
+}

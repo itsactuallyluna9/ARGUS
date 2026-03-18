@@ -1,0 +1,7 @@
+{
+    "accuracy": 85,
+    "completeness": 90,
+    "reasoning": "The summary accurately captures the main points of the article, though it contains a few factual errors regarding names and origins. It correctly identifies the core conflict between the invasive status and community affection. However, it incorrectly attributes the article to 'Emily Mullin' (the text says 'Freda Kreier'), incorrectly credits the monkeys' origin to a 'fertilizer company' (the text says a 'biomedical research organization-cum-zoo'), and misidentifies the expert as 'Carlos Nu\u00f1ez' (the text says 'Mart\u00edn Nu\u00f1ez').",
+    "model": "glm-4.7-flash:q4_K_M",
+    "evalModel": "gemini-3.1-flash-lite-preview"
+}

@@ -1,0 +1,7 @@
+{
+    "accuracy": 95,
+    "completeness": 90,
+    "reasoning": "The summary is highly accurate and captures the core arguments and narrative of the article well. It correctly identifies the scientific and social dimensions of the debate. However, it slightly misses a specific, interesting detail mentioned in the article: the confirmed origin of the monkeys being escapees from a primate center in 1947, instead generalizing their origin as 'unclear' or 'decades ago' in the body of the summary, despite the article explicitly linking them to the Leila Roosevelt Denis center.",
+    "model": "gemma3:12b",
+    "evalModel": "gemini-3.1-flash-lite-preview"
+}

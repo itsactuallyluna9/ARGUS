@@ -1,0 +1,7 @@
+{
+    "accuracy": 100,
+    "completeness": 95,
+    "reasoning": "The summary accurately reflects the key facts of the article regarding the CDC travel advisory, the countries added, and vaccination recommendations. It captures the essential context of the polio threat and the advisory system perfectly. It only slightly misses the additional detail that the CDC removed four countries (Finland, Ghana, Spain, and Zimbabwe) from the list, but it covers all primary points effectively.",
+    "model": "gemma3:4b",
+    "evalModel": "gemini-3.1-flash-lite-preview"
+}

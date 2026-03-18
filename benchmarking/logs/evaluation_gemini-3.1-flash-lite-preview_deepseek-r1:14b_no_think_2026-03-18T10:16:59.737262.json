@@ -1,0 +1,7 @@
+{
+    "accuracy": 100,
+    "completeness": 95,
+    "reasoning": "The summary is highly accurate and correctly identifies the main causes of the weather patterns described in the article. It captures the geographical split between the East and West effectively. It is nearly complete, though it misses the specific mention of the heat dome phenomenon in the West and the potential wildfire risks associated with that heat, which were significant details in the original text.",
+    "model": "deepseek-r1:14b",
+    "evalModel": "gemini-3.1-flash-lite-preview"
+}

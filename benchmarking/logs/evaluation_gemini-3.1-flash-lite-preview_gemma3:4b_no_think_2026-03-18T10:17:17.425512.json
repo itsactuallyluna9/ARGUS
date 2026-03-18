@@ -1,0 +1,7 @@
+{
+    "accuracy": 100,
+    "completeness": 95,
+    "reasoning": "The summary is highly accurate and correctly identifies the key facts of the article. It captures the essence of the 2026 Oscar tie, the historical context, and the reactions of those involved. It is nearly complete, missing only the minor details regarding the specific, technical explanation of the 1932 'tie' versus the other instances, but this omission does not detract from the overall quality of the summary.",
+    "model": "gemma3:4b",
+    "evalModel": "gemini-3.1-flash-lite-preview"
+}

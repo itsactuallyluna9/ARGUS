@@ -1,0 +1,7 @@
+{
+    "accuracy": 100,
+    "completeness": 95,
+    "reasoning": "The summary is highly accurate and captures the core contradictions in President Trump's statements as well as the external backlash. It is extremely complete, covering the diplomatic pressure on allies, the specific justification provided by Trump regarding domestic oil production, and the sentiments of military families. The only minor omission is the specific mention of UK Prime Minister Keir Starmer's refusal to be drawn into the wider war, though this is implied by the mention of the broader pushback from allies.",
+    "model": "deepseek-r1:14b",
+    "evalModel": "gemini-3.1-flash-lite-preview"
+}

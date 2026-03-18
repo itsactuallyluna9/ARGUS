@@ -1,0 +1,7 @@
+{
+    "accuracy": 100,
+    "completeness": 95,
+    "reasoning": "The summary is highly accurate and correctly reflects the core conflict of the article. It captures the essence of Trump's claim and the subsequent denials from the former presidents' representatives. It is nearly complete, missing only the minor detail that Trump explicitly ruled out George W. Bush during the Oval Office questioning, though this does not significantly detract from the overall narrative.",
+    "model": "deepseek-r1:14b",
+    "evalModel": "gemini-3.1-flash-lite-preview"
+}

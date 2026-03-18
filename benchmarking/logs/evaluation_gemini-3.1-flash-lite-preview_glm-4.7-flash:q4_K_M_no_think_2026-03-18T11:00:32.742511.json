@@ -1,0 +1,7 @@
+{
+    "accuracy": 100,
+    "completeness": 95,
+    "reasoning": "The summary is highly accurate and correctly identifies the nature, goals, and technical components of the project. It captures the essence of the protest and the specific regulatory concerns mentioned. It is nearly complete, missing only the specific timeline detail that the future releases are expected in the third quarter of 2026, though it correctly notes the year 2026.",
+    "model": "glm-4.7-flash:q4_K_M",
+    "evalModel": "gemini-3.1-flash-lite-preview"
+}

@@ -1,0 +1,7 @@
+{
+    "accuracy": 85,
+    "completeness": 90,
+    "reasoning": "The summary is generally strong and captures the core tension between scientific classification and public sentiment. However, there are minor accuracy errors: the text states the monkeys escaped from a biomedical research/zoo facility associated with a relative of Teddy Roosevelt, not a movie set as mentioned in the summary. Additionally, the summary states they were imported to Barbados before Florida, whereas the text identifies their origin as West Africa via the biomedical facility, with a separate mention of their species being present in the Caribbean. Otherwise, the key points are well-represented.",
+    "model": "glm-4.7-flash:q4_K_M",
+    "evalModel": "gemini-3.1-flash-lite-preview"
+}
