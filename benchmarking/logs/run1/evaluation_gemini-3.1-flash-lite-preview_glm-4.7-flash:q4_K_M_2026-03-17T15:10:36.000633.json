@@ -1,0 +1,7 @@
+{
+    "accuracy": 100,
+    "completeness": 100,
+    "reasoning": "The summary provides a highly accurate and comprehensive overview of the article, correctly identifying the core scientific research, methodology, and conclusions. It captures all key factual points, including the specific constraints of the oviraptor egg-laying pattern and the role of solar heat in incubation.",
+    "model": "glm-4.7-flash:q4_K_M",
+    "evalModel": "gemini-3.1-flash-lite-preview"
+}

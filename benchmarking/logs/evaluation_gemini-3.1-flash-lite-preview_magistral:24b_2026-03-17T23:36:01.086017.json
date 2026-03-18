@@ -1,0 +1,7 @@
+{
+    "accuracy": 100,
+    "completeness": 95,
+    "reasoning": "The summary is highly accurate and correctly identifies the core tension between rising cocoa costs and consumer expectations. It captures the role of climate change, the shift toward sugar-based coatings, and the variations in international regulations. It is nearly complete, missing only minor details like the mention of specific competitors like Choco Crossies or the ethical labor issues in cocoa production, which do not detract from the main narrative.",
+    "model": "magistral:24b",
+    "evalModel": "gemini-3.1-flash-lite-preview"
+}

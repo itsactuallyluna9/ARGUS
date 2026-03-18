@@ -1,0 +1,7 @@
+{
+    "accuracy": 100,
+    "completeness": 95,
+    "reasoning": "The summary is highly accurate and correctly reflects the article's core findings regarding oviraptor incubation. It includes all essential factual points, such as the methodology of the nest model and the specific temperature findings. It is nearly complete, missing only the specific mention of the dinosaur species Heyuannia huangi, which is a minor detail that does not significantly detract from the overall quality.",
+    "model": "qwen3.5:2b",
+    "evalModel": "gemini-3.1-flash-lite-preview"
+}

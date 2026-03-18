@@ -1,0 +1,7 @@
+{
+    "accuracy": 100,
+    "completeness": 95,
+    "reasoning": "The summary is highly accurate and correctly reflects the core conflict of the article. It captures the essential points, including Trump's claim, the denial from the former presidents' representatives, and the specific context of the request. It is nearly complete, missing only the minor detail regarding the specific reason Trump gave for not revealing the name (to avoid 'embarrassing' the individual).",
+    "model": "glm-4.7-flash:q4_K_M",
+    "evalModel": "gemini-3.1-flash-lite-preview"
+}

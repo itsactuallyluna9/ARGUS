@@ -1,0 +1,7 @@
+{
+    "accuracy": 100,
+    "completeness": 95,
+    "reasoning": "The summary is highly accurate and captures the core technical and philosophical objectives of the Ageless Linux project. It correctly identifies the project as a protest against potential overreach in age-verification laws. The completeness is excellent, covering the technical nature of the project, the underlying legal concerns, and the future roadmap. It only narrowly misses a 100 on completeness by not explicitly highlighting that the project aims to explore the legal consequences for even minor activities like torrent seeding, though it is referenced in the points.",
+    "model": "gemma3:12b",
+    "evalModel": "gemini-3.1-flash-lite-preview"
+}

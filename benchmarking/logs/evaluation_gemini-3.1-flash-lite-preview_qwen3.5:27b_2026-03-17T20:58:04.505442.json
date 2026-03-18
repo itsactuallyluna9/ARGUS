@@ -1,0 +1,7 @@
+{
+    "accuracy": 100,
+    "completeness": 100,
+    "reasoning": "The summary is highly accurate and captures all essential factual details from the article, including the specific comments made by Fonda, the context of the Oscars tribute, and the collaborative history between the actors. It correctly identifies the key points of the narrative without any distortions or errors.",
+    "model": "qwen3.5:27b",
+    "evalModel": "gemini-3.1-flash-lite-preview"
+}

@@ -1,0 +1,7 @@
+{
+    "accuracy": 100,
+    "completeness": 95,
+    "reasoning": "The summary is highly accurate and captures all essential details regarding the 2026 Oscar tie. It correctly identifies the films, the presenters, the host's reaction, and provides necessary historical context. The completeness score is slightly less than 100 only because it omits minor details like the specific names of the filmmakers mentioned in the press room quotes, though this does not detract from the core information provided in the article.",
+    "model": "glm-4.7-flash:q4_K_M",
+    "evalModel": "gemini-3.1-flash-lite-preview"
+}

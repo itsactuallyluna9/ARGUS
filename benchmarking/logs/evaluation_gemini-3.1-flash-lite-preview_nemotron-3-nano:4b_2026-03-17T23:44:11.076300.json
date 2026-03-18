@@ -1,0 +1,7 @@
+{
+    "accuracy": 95,
+    "completeness": 90,
+    "reasoning": "The summary is highly accurate in its reporting of the main event and key statistics. However, there is a minor error in the summary's narrative where it attributes the announcement of the tie to 'host Kumail Nanjiani' and then mentions 'presenter Conan O'Brien,' when in fact the article identifies Nanjiani as the presenter and O'Brien as the show host. The summary is quite complete, capturing the event, the history, and the reactions, though it omits some minor context about the specific rules of historical ties.",
+    "model": "nemotron-3-nano:4b",
+    "evalModel": "gemini-3.1-flash-lite-preview"
+}

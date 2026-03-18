@@ -1,0 +1,7 @@
+{
+    "accuracy": 100,
+    "completeness": 100,
+    "reasoning": "The summary and the included key points are highly accurate, precisely reflecting the findings and methodology described in the original article. It captures all critical information, including the species studied, the experimental setup, the findings regarding temperature regulation, and the conclusion about incubation strategy, without omitting any major details.",
+    "model": "nemotron-3-nano:4b",
+    "evalModel": "gemini-3.1-flash-lite-preview"
+}

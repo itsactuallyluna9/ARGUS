@@ -1,0 +1,7 @@
+{
+    "accuracy": 100,
+    "completeness": 95,
+    "reasoning": "The summary accurately captures the core issue, the economic drivers, and the consumer perspective presented in the article. It is highly complete, covering the specific product concerns, market volatility, industry strategies like shrinkflation and reformulation, and the role of regulations. It only narrowly misses the mention of specific alternatives mentioned late in the article, such as lab-grown 'chocolate' or specific premium brands, but otherwise provides a comprehensive overview.",
+    "model": "gemma3:4b",
+    "evalModel": "gemini-3.1-flash-lite-preview"
+}

@@ -1,0 +1,7 @@
+{
+    "accuracy": 100,
+    "completeness": 95,
+    "reasoning": "The summary is highly accurate and correctly reflects the contradictory nature of Trump's comments as reported in the article. It covers all major points, including the backlash from the public, the responses of international allies, and the specific impact on U.S. service members. It is nearly perfect in completeness, omitting only minor details regarding the specific quotes from individual foreign officials like Xavier Bettel, which does not detract from the core narrative.",
+    "model": "gpt-oss:20b",
+    "evalModel": "gemini-3.1-flash-lite-preview"
+}

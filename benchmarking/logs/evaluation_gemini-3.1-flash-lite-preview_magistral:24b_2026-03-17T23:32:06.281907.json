@@ -1,0 +1,7 @@
+{
+    "accuracy": 100,
+    "completeness": 95,
+    "reasoning": "The summary is highly accurate and correctly reflects the article's core information. It is nearly complete, missing only the specific details regarding the standard three-dose schedule recommended by the CDC for unvaccinated adults, though this is a minor omission in the context of a general summary.",
+    "model": "magistral:24b",
+    "evalModel": "gemini-3.1-flash-lite-preview"
+}

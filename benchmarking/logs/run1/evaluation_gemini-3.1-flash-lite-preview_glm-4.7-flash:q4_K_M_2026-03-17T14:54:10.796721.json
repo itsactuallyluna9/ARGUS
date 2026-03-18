@@ -1,0 +1,7 @@
+{
+    "accuracy": 100,
+    "completeness": 95,
+    "reasoning": "The summary is highly accurate and captures all the essential details regarding the 2026 Oscar tie. It correctly identifies the films, the presenters, and the historical context provided in the article. It is nearly complete, missing only the specific nuance regarding the 1932 'tie' technically not being a true tie based on vote counts, which is a minor detail in the context of the main story.",
+    "model": "glm-4.7-flash:q4_K_M",
+    "evalModel": "gemini-3.1-flash-lite-preview"
+}

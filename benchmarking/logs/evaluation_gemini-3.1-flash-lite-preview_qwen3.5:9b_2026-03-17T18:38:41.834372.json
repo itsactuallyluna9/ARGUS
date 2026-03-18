@@ -1,0 +1,7 @@
+{
+    "accuracy": 60,
+    "completeness": 70,
+    "reasoning": "The summary contains several significant factual inaccuracies. For example, it claims the monkeys have been there for 'over 20 years' when the article states they have been there for 'nearly 80 years.' It also incorrectly identifies the expert as 'Daryl Nu\u00f1ez' (the article calls him Mart\u00edn Nu\u00f1ez) and invents details not in the text, such as the monkeys causing 'nuisance behaviors' like 'breaking into yards, defecating' and the existence of a 'movie' or 'comic strip' regarding the monkeys. While it covers the main arguments well, these hallucinations significantly impact the accuracy.",
+    "model": "qwen3.5:9b",
+    "evalModel": "gemini-3.1-flash-lite-preview"
+}

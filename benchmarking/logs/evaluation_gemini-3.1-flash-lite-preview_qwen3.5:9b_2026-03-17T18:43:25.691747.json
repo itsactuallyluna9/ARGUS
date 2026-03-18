@@ -1,0 +1,7 @@
+{
+    "accuracy": 100,
+    "completeness": 100,
+    "reasoning": "The summary and key points are completely accurate and reflect the information provided in the source article. It covers all essential elements, including the specific country changes to the travel advisory, the CDC's recommendations for vaccination, the nature of the polio virus, and the current status of CDC travel levels.",
+    "model": "qwen3.5:9b",
+    "evalModel": "gemini-3.1-flash-lite-preview"
+}

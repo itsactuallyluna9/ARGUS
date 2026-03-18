@@ -1,0 +1,7 @@
+{
+    "accuracy": 100,
+    "completeness": 100,
+    "reasoning": "The summary provides a highly accurate and comprehensive overview of the article. It correctly identifies the key subjects, the methodology used by the researchers, the specific challenges posed by the oviraptor egg-laying pattern, and the conclusion regarding the role of sunlight in incubation. Every key factual claim provided in the input is reflected in the summary.",
+    "model": "qwen3.5:9b",
+    "evalModel": "gemini-3.1-flash-lite-preview"
+}

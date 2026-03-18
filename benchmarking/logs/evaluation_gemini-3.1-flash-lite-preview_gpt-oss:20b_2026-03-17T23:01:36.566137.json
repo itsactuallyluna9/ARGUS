@@ -1,0 +1,7 @@
+{
+    "accuracy": 100,
+    "completeness": 100,
+    "reasoning": "The summary is highly accurate, faithfully representing all key points and meteorological explanations provided in the text. It is complete, covering the specific weather patterns in both the East and West, citing the correct expert sources, and incorporating the context regarding climate research.",
+    "model": "gpt-oss:20b",
+    "evalModel": "gemini-3.1-flash-lite-preview"
+}

@@ -1,0 +1,7 @@
+{
+    "accuracy": 100,
+    "completeness": 95,
+    "reasoning": "The summary is highly accurate and captures the core tension of the article perfectly. The factual claims are well-supported by the text. It is nearly complete, missing only minor details such as the specific role of the task force mentioned in the latter half of the article, which is largely tangential to the main story about the Iran confession.",
+    "model": "qwen3.5:9b",
+    "evalModel": "gemini-3.1-flash-lite-preview"
+}
