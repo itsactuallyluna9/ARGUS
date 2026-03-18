@@ -1,0 +1,7 @@
+{
+    "accuracy": 100,
+    "completeness": 95,
+    "reasoning": "The summary is highly accurate and correctly reflects the article's core points, including the context of the Iran conflict and the specific controversies surrounding Trump's contradictory statements. It captures the essence of both the diplomatic pressures and the domestic backlash. It is nearly complete, missing only minor details such as the specific mentions of other nations (e.g., Japan, Australia) that refused to send warships, but this does not detract from the overall quality of the summary.",
+    "model": "gemma3:4b",
+    "evalModel": "gemini-3.1-flash-lite-preview"
+}

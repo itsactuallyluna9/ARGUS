@@ -1,0 +1,7 @@
+{
+    "accuracy": 100,
+    "completeness": 95,
+    "reasoning": "The summary is highly accurate, correctly synthesizing the causes and regional differences in weather patterns described in the article. It captures the main points regarding the atmospheric causes for the East's volatility and the West's heat dome. It is nearly complete, missing only minor details such as the specific mention of upcoming precipitation forecasts in the East and the specific environmental risks like wildfire concerns in the West, but these are auxiliary to the primary focus.",
+    "model": "gemma3:12b",
+    "evalModel": "gemini-3.1-flash-lite-preview"
+}

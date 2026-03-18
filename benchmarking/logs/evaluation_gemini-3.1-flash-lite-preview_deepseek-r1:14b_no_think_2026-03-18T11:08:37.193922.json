@@ -1,0 +1,7 @@
+{
+    "accuracy": 100,
+    "completeness": 95,
+    "reasoning": "The summary is highly accurate and captures all the core factual claims of the article. It is nearly complete, though it misses minor specific details such as the mention of specific cities (e.g., Phoenix, Las Vegas) expecting record heat and the short-term forecast for the East Coast (clippers, snow in NY/PA). Overall, it provides a comprehensive overview of the article's main points.",
+    "model": "deepseek-r1:14b",
+    "evalModel": "gemini-3.1-flash-lite-preview"
+}

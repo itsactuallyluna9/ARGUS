@@ -1,0 +1,7 @@
+{
+    "accuracy": 100,
+    "completeness": 95,
+    "reasoning": "The summary accurately captures the core purpose and technical nature of the Ageless Linux project. It correctly identifies the protest nature of the distribution, the reliance on Debian, and the motivation regarding legislative concerns. The completeness is high, though it omits the specific mention of the Milk-V Duo device and the use of BitTorrent for distribution, which are secondary details but relevant to the project's roadmap.",
+    "model": "deepseek-r1:14b",
+    "evalModel": "gemini-3.1-flash-lite-preview"
+}

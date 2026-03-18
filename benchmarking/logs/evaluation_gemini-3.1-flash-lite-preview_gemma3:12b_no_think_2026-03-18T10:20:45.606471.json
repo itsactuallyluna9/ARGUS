@@ -1,0 +1,7 @@
+{
+    "accuracy": 100,
+    "completeness": 95,
+    "reasoning": "The summary is highly accurate and correctly reflects the article's core narrative. It includes all essential factual claims. It is missing only minor context, such as the specific setting of the Kennedy Center meeting or the specific timing of the inauguration, which do not detract from the overall completeness of the report.",
+    "model": "gemma3:12b",
+    "evalModel": "gemini-3.1-flash-lite-preview"
+}

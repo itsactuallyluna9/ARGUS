@@ -1,0 +1,7 @@
+{
+    "accuracy": 100,
+    "completeness": 100,
+    "reasoning": "The summary accurately captures the core controversy and the subsequent denials from the former presidents' representatives. It includes all essential factual claims, provides necessary context about Trump's relationship with the former presidents, and maintains a neutral, objective tone that matches the original article.",
+    "model": "gemma3:12b",
+    "evalModel": "gemini-3.1-flash-lite-preview"
+}

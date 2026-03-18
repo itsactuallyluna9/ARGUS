@@ -1,0 +1,7 @@
+{
+    "accuracy": 100,
+    "completeness": 95,
+    "reasoning": "The summary is highly accurate, correctly reflecting both the consumer perspective represented by Brad Reese and the economic analysis provided by experts. It captures the primary reasons for the shift in ingredients and the regulatory distinctions between markets. It is nearly complete, though it could have briefly mentioned the long-term industry challenges like labor issues and aging farming demographics as discussed in the text.",
+    "model": "glm-4.7-flash:q4_K_M",
+    "evalModel": "gemini-3.1-flash-lite-preview"
+}

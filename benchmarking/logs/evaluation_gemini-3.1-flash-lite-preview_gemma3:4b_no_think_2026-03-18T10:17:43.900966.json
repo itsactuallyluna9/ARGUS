@@ -1,0 +1,7 @@
+{
+    "accuracy": 100,
+    "completeness": 95,
+    "reasoning": "The summary is highly accurate in its reporting of the core conflict and the context provided in the article. It captures all essential factual claims, including the denials from the former presidents' camps and the background of Trump's statements. The only minor detail omitted is the specific setting of the second time he mentioned the story (the Oval Office task force announcement), but this does not detract from the overall completeness of the summary.",
+    "model": "gemma3:4b",
+    "evalModel": "gemini-3.1-flash-lite-preview"
+}

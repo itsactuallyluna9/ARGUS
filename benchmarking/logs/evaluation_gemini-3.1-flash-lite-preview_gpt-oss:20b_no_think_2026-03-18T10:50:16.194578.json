@@ -1,0 +1,7 @@
+{
+    "accuracy": 95,
+    "completeness": 90,
+    "reasoning": "The summary is highly accurate in its description of the vervet monkey colony in Dania Beach and the associated ecological and ethical debates. It correctly identifies the scientific species, the origin story (biomedical facility), and the current conservation challenges. A minor inaccuracy exists regarding the timeline of the origin; the article states the facility opened in 1939 and the escape occurred in 1947, whereas the summary mentions the 'late 19th century,' which is a significant temporal error. Otherwise, it is very comprehensive.",
+    "model": "gpt-oss:20b",
+    "evalModel": "gemini-3.1-flash-lite-preview"
+}

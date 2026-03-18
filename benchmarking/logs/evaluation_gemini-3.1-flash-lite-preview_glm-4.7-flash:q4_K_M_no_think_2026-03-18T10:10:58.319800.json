@@ -1,0 +1,7 @@
+{
+    "accuracy": 100,
+    "completeness": 95,
+    "reasoning": "The summary is highly accurate and captures the core narrative, the reasoning behind the industry changes, and the perspectives involved. It covers the essential points well. It is only slightly lacking in completeness because it omits minor details like the specific mention of lab-grown alternatives like 'ChoViva' or the specific mention of other brands like 'Tony's Chocolonely', though these are secondary to the main focus on Hershey's and the market dynamics.",
+    "model": "glm-4.7-flash:q4_K_M",
+    "evalModel": "gemini-3.1-flash-lite-preview"
+}

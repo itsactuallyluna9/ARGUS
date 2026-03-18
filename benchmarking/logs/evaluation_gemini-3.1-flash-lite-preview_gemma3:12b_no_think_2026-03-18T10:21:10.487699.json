@@ -1,0 +1,7 @@
+{
+    "accuracy": 100,
+    "completeness": 95,
+    "reasoning": "The summary is highly accurate and captures all the core facts presented in the article correctly. It is nearly complete, missing only the specific details regarding the recommended vaccination schedule for adults who have never been vaccinated (the three-dose timeline), but it covers the primary purpose, the countries added/removed, and the medical context sufficiently.",
+    "model": "gemma3:12b",
+    "evalModel": "gemini-3.1-flash-lite-preview"
+}

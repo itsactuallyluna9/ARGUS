@@ -1,0 +1,7 @@
+{
+    "accuracy": 100,
+    "completeness": 95,
+    "reasoning": "The summary is highly accurate and captures all the primary points of the article correctly. It could have been slightly more complete by mentioning the scientific link between climate change/Arctic ice reduction and the jet stream behavior, but it covers the core weather phenomena and expert explanations very effectively.",
+    "model": "glm-4.7-flash:q4_K_M",
+    "evalModel": "gemini-3.1-flash-lite-preview"
+}

@@ -1,0 +1,7 @@
+{
+    "accuracy": 100,
+    "completeness": 95,
+    "reasoning": "The summary is highly accurate and captures the core tension in Trump's messaging and the resulting geopolitical backlash. It is very complete, covering the key factual claims and international reactions, though it omits the specific detail regarding the threat Trump made to NATO's future in the Financial Times interview, which adds slightly to the context of his pressure campaign.",
+    "model": "glm-4.7-flash:q4_K_M",
+    "evalModel": "gemini-3.1-flash-lite-preview"
+}

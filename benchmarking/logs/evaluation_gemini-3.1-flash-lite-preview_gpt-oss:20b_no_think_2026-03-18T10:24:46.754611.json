@@ -1,0 +1,7 @@
+{
+    "accuracy": 100,
+    "completeness": 95,
+    "reasoning": "The summary is highly accurate and correctly identifies all key factual points from the article. It captures the essence of the controversy and the geopolitical context effectively. It is almost completely comprehensive, missing only minor details like the specific quote regarding Luxembourg's stance on 'blackmail,' which does not detract from the overall integrity of the summary.",
+    "model": "gpt-oss:20b",
+    "evalModel": "gemini-3.1-flash-lite-preview"
+}

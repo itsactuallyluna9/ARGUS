@@ -1,0 +1,7 @@
+{
+    "accuracy": 100,
+    "completeness": 95,
+    "reasoning": "The summary is highly accurate and correctly identifies the key scientific findings of the study. It covers the methodology, the rationale for why oviraptor nesting behavior differed from modern birds, and the role of solar heat. It is nearly perfect in completeness, though it omits minor details like the specific species name (Heyuannia huangi) or the physical dimensions of the dinosaur, which are secondary to the core discovery of the incubation strategy.",
+    "model": "gemma3:12b",
+    "evalModel": "gemini-3.1-flash-lite-preview"
+}

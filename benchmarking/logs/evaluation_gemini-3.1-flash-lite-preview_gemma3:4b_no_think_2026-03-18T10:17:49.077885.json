@@ -1,0 +1,7 @@
+{
+    "accuracy": 100,
+    "completeness": 90,
+    "reasoning": "The summary is highly accurate and correctly reflects the core details of the article. It is nearly complete, though it misses the specific detail about the countries removed from the list (Finland, Ghana, Spain, and Zimbabwe), which provides important context regarding the dynamic nature of the CDC's advisory list.",
+    "model": "gemma3:4b",
+    "evalModel": "gemini-3.1-flash-lite-preview"
+}

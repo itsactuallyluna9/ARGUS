@@ -1,0 +1,7 @@
+{
+    "accuracy": 85,
+    "completeness": 80,
+    "reasoning": "The summary is accurate in its reporting of the scientific context and the ongoing local debate surrounding the Dania Beach vervet monkeys. It correctly identifies their non-native status and the lack of evidence currently classifying them as invasive. However, the summary is written from a subjective, first-person perspective that differs from the objective journalistic tone of the source article. It also omits some specific historical details found in the article, such as the specific origin story involving the biomedical research zoo founded by Leila Roosevelt Denis and the details of the 1947 escape.",
+    "model": "gpt-oss:20b",
+    "evalModel": "gemini-3.1-flash-lite-preview"
+}

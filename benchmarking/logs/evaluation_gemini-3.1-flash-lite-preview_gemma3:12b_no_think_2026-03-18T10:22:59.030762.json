@@ -1,0 +1,7 @@
+{
+    "accuracy": 100,
+    "completeness": 95,
+    "reasoning": "The summary is highly accurate, effectively capturing the core explanations and forecasts provided in the article. It is nearly complete, covering the primary meteorological causes and regional differences in weather patterns. It slightly overlooks the specific mention of potential wildfire and water supply risks associated with the Western heat dome, but otherwise provides an excellent overview.",
+    "model": "gemma3:12b",
+    "evalModel": "gemini-3.1-flash-lite-preview"
+}
