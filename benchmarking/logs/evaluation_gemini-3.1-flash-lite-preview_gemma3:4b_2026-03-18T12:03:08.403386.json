@@ -1,0 +1,7 @@
+{
+    "accuracy": 100,
+    "completeness": 95,
+    "reasoning": "The summary is highly accurate, correctly identifying all key participants, the specific award category, and the historical context of the tie. It is nearly complete; while it omits the minor detail that the 1932 'tie' was technically not a true tie based on vote counts, it provides a comprehensive overview of the event, the reactions of those involved, and the broader historical precedents mentioned in the article.",
+    "model": "gemma3:4b",
+    "evalModel": "gemini-3.1-flash-lite-preview"
+}

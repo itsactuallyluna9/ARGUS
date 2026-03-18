@@ -1,0 +1,7 @@
+{
+    "accuracy": 100,
+    "completeness": 90,
+    "reasoning": "The summary accurately captures the core issue of cocoa replacement in mass-market chocolate due to market volatility. It is highly accurate and covers the main points effectively. It slightly misses the specific detail of the consumer-led backlash involving Brad Reese, the grandson of the company founder, which serves as the narrative anchor for the article, but otherwise provides a comprehensive overview.",
+    "model": "deepseek-r1:14b",
+    "evalModel": "gemini-3.1-flash-lite-preview"
+}

@@ -1,0 +1,7 @@
+{
+    "accuracy": 95,
+    "completeness": 90,
+    "reasoning": "The summary is highly accurate and captures the core information regarding the CDC's polio advisory update. The only inaccuracy is a minor typographical error where 'Namibia' is misspelled as 'Namawi' in both the description and the points. The summary is very complete, covering the inclusion/exclusion of countries, the rationale for the list, vaccination recommendations, and the current state of other travel notifications.",
+    "model": "glm-4.7-flash:q4_K_M",
+    "evalModel": "gemini-3.1-flash-lite-preview"
+}

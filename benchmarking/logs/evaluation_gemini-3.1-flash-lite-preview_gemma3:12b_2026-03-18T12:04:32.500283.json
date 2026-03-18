@@ -1,0 +1,7 @@
+{
+    "accuracy": 100,
+    "completeness": 100,
+    "reasoning": "The summary and key points are highly accurate, correctly reflecting the methodology, the study's conclusions, and the distinction between oviraptor nesting habits and those of modern birds. It covers all essential details provided in the original text, including the specific research methods, the environmental impact on egg temperature, and the chronological context of the oviraptors.",
+    "model": "gemma3:12b",
+    "evalModel": "gemini-3.1-flash-lite-preview"
+}

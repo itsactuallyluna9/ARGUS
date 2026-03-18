@@ -1,0 +1,7 @@
+{
+    "accuracy": 100,
+    "completeness": 95,
+    "reasoning": "The summary is highly accurate and correctly identifies all key factual claims provided in the article. It is nearly complete, covering the specific winners, the presenter, the historical context, and the reactions of the filmmakers. It omits only minor details such as the specific list of all previous ties or host Conan O'Brien's remark about the Oscar pools, which are not critical to a summary of the main event.",
+    "model": "deepseek-r1:14b",
+    "evalModel": "gemini-3.1-flash-lite-preview"
+}

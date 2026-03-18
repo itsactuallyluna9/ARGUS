@@ -1,0 +1,7 @@
+{
+    "accuracy": 100,
+    "completeness": 95,
+    "reasoning": "The summary is highly accurate and captures the central conflict of the article well. It is very complete, covering the core claim, the denials from former presidents, and relevant context such as Trump's stance on Iran and his specific comments regarding other presidents. It misses only minor details regarding the specific events where these claims were made, but this does not detract from the overall completeness.",
+    "model": "gemma3:4b",
+    "evalModel": "gemini-3.1-flash-lite-preview"
+}

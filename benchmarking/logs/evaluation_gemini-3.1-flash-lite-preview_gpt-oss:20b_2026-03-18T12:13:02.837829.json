@@ -1,0 +1,7 @@
+{
+    "accuracy": 100,
+    "completeness": 95,
+    "reasoning": "The summary and factual claims are highly accurate and align perfectly with the source text. The completeness is excellent, covering the narrative of Brad Reese, the economic context of cocoa volatility, and the industry-wide strategies of reformulation and regulation. It only slightly misses some of the nuances regarding why cocoa prices remain high despite a recent drop in raw material costs, but this does not detract from the overall quality.",
+    "model": "gpt-oss:20b",
+    "evalModel": "gemini-3.1-flash-lite-preview"
+}

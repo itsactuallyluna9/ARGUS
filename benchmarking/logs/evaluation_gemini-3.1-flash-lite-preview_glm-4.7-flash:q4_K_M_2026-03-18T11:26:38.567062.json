@@ -1,0 +1,7 @@
+{
+    "accuracy": 100,
+    "completeness": 95,
+    "reasoning": "The summary accurately reflects the core details, arguments, and international context provided in the article. It captures the contradictory nature of Trump's statements, the reactions from allies, and the domestic criticism. It is highly complete, though it omits the specific mention of the 13 U.S. service members killed as a collective figure, focusing instead on a singular representative example.",
+    "model": "glm-4.7-flash:q4_K_M",
+    "evalModel": "gemini-3.1-flash-lite-preview"
+}

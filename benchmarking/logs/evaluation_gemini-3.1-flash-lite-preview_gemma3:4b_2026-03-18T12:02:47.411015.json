@@ -1,0 +1,7 @@
+{
+    "accuracy": 90,
+    "completeness": 90,
+    "reasoning": "The summary is highly accurate and captures the main points of the article well. The only minor error is a slight confusion in the point regarding regulations; the article states the US threshold is 15%, while the UK/EU thresholds are generally higher, but the summary attributes the 15% and 20% figures in a way that slightly misrepresents the specific jurisdictional breakdown of the article's claims. Overall, it is very comprehensive and reflects the article's tone and core arguments effectively.",
+    "model": "gemma3:4b",
+    "evalModel": "gemini-3.1-flash-lite-preview"
+}

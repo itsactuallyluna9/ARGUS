@@ -1,0 +1,7 @@
+{
+    "accuracy": 95,
+    "completeness": 95,
+    "reasoning": "The summary accurately captures the main points of the article. There is a minor discrepancy regarding the date of Robert Redford's death: the summary lists it as September 2025, while the article text states he died in September of 'last year' relative to the 2026 date of the event, which would be September 2025; however, the text also notes he was 89, which is consistent. Overall, the summary is highly comprehensive and accurate to the provided text.",
+    "model": "glm-4.7-flash:q4_K_M",
+    "evalModel": "gemini-3.1-flash-lite-preview"
+}

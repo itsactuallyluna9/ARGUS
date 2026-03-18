@@ -1,0 +1,7 @@
+{
+    "accuracy": 100,
+    "completeness": 95,
+    "reasoning": "The summary is highly accurate, correctly relaying the key events and Fonda's humorous comments. It is very complete, though it misses the specific detail that Fonda noted Redford had an uncredited role in her very first film, which technically means they were in five films together according to the article's text, though the distinction is minor.",
+    "model": "gemma3:12b",
+    "evalModel": "gemini-3.1-flash-lite-preview"
+}

@@ -1,0 +1,7 @@
+{
+    "accuracy": 100,
+    "completeness": 95,
+    "reasoning": "The summary is highly accurate and captures all the central themes of the article, including the economic drivers, the specific critique by Brad Reese, and the industry perspective provided by the economist. It is very complete, though it could have briefly mentioned that Hershey's clarified some of their classic products, like standard peanut butter cups, remain unchanged in their original formulation.",
+    "model": "gemma3:12b",
+    "evalModel": "gemini-3.1-flash-lite-preview"
+}

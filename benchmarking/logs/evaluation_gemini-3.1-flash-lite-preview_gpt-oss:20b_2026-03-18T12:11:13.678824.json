@@ -1,0 +1,7 @@
+{
+    "accuracy": 100,
+    "completeness": 100,
+    "reasoning": "The summary and key points are highly accurate, precisely reflecting the findings and methodology described in the article. It is complete as it covers all major aspects including the specific dinosaur species, the experimental setup, the temperature data findings, and the comparison to modern avian incubation strategies.",
+    "model": "gpt-oss:20b",
+    "evalModel": "gemini-3.1-flash-lite-preview"
+}

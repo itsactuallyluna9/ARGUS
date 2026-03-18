@@ -1,0 +1,7 @@
+{
+    "accuracy": 100,
+    "completeness": 95,
+    "reasoning": "The summary is highly accurate and correctly identifies the core findings of the study. It is nearly complete, missing only minor details such as the specific temperature variations (11 vs 1 degree Fahrenheit) that the researchers observed during their testing, though these omissions do not detract from the main conclusion.",
+    "model": "gemma3:4b",
+    "evalModel": "gemini-3.1-flash-lite-preview"
+}

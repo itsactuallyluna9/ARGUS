@@ -1,0 +1,7 @@
+{
+    "accuracy": 100,
+    "completeness": 95,
+    "reasoning": "The summary is highly accurate and captures all the core facts, including the technical implementation, the regulatory context, and the project's roadmap. It is nearly complete, missing only the specific mention of the third quarter of 2026 for the planned releases, but it captures the overall mission and methodology perfectly.",
+    "model": "gemma3:4b",
+    "evalModel": "gemini-3.1-flash-lite-preview"
+}

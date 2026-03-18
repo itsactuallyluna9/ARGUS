@@ -1,0 +1,7 @@
+{
+    "accuracy": 100,
+    "completeness": 95,
+    "reasoning": "The summary is highly accurate and captures all the core factual claims presented in the article. It provides a comprehensive overview of the meteorological causes and regional distinctions discussed in the text. The only minor omission is the specific mention of potential water supply concerns resulting from the Western snowmelt, but the summary is otherwise excellent.",
+    "model": "glm-4.7-flash:q4_K_M",
+    "evalModel": "gemini-3.1-flash-lite-preview"
+}

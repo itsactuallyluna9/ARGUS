@@ -1,0 +1,7 @@
+{
+    "accuracy": 100,
+    "completeness": 100,
+    "reasoning": "The summary is highly accurate and captures all the essential information provided in the article, including the specific changes to the polio advisory list, the vaccination recommendations for adults and children, and the context of other CDC health notices. It correctly identifies the severity of polio and the nature of the advisory system without omitting significant details.",
+    "model": "deepseek-r1:14b",
+    "evalModel": "gemini-3.1-flash-lite-preview"
+}

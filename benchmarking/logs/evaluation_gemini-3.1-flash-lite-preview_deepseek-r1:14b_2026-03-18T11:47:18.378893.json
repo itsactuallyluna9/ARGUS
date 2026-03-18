@@ -1,0 +1,7 @@
+{
+    "accuracy": 100,
+    "completeness": 95,
+    "reasoning": "The summary is highly accurate and captures the core scientific findings of the article effectively. It covers the methodology, the primary hypothesis, and the key differences between oviraptor and modern avian incubation. It is nearly complete, missing only minor specific details like the mention of the specific species Heyuannia huangi and the exact temperature data points, which are not critical for a general summary.",
+    "model": "deepseek-r1:14b",
+    "evalModel": "gemini-3.1-flash-lite-preview"
+}

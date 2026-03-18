@@ -1,0 +1,7 @@
+{
+    "accuracy": 100,
+    "completeness": 100,
+    "reasoning": "The summary and the key factual points accurately capture every significant detail provided in the original article, including the specific countries added and removed, the vaccination recommendations for different age groups, and the context regarding the polio virus and other travel advisories. The information is presented clearly and remains faithful to the source text.",
+    "model": "gpt-oss:20b",
+    "evalModel": "gemini-3.1-flash-lite-preview"
+}

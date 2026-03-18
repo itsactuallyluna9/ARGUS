@@ -1,0 +1,7 @@
+{
+    "accuracy": 100,
+    "completeness": 95,
+    "reasoning": "The summary accurately captures the core controversy and key actions taken by President Trump as reported in the article. It effectively synthesizes his contradictory rhetoric, the backlash from various stakeholders, and the specific diplomatic pressures applied to allies and China. While it could have briefly mentioned the specific casualty count referenced in the text to add further depth, it is highly comprehensive and captures all essential factual points.",
+    "model": "gemma3:4b",
+    "evalModel": "gemini-3.1-flash-lite-preview"
+}

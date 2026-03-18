@@ -1,0 +1,7 @@
+{
+    "accuracy": 100,
+    "completeness": 95,
+    "reasoning": "The summary is highly accurate and captures the core essence of the article effectively. It covers the primary causes of the weather events, the regional differences between the East and West, and the expert-cited context. It is nearly perfect in completeness, omitting only minor secondary details like the specific mentions of Phoenix or Sacramento, which do not detract from the overall understanding of the report.",
+    "model": "deepseek-r1:14b",
+    "evalModel": "gemini-3.1-flash-lite-preview"
+}
