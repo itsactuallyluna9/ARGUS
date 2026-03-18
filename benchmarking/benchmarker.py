@@ -145,7 +145,7 @@ A few sentences justification for the values you chose for accuracy and complete
 Output your answer in the provided json schema.
 '''
 
-summarizer_models = ["qwen3.5:2b", "qwen3.5:9b", "qwen3.5:27b", "glm-4.7-flash:q4_K_M", "deepseek-r1:14b", "gemma3:4b", "gemma3:12b", "gpt-oss:20b", "magistral:24b", "nemotron-3-nano:4b"]
+summarizer_models = ["glm-4.7-flash:q4_K_M", "deepseek-r1:14b", "gemma3:4b", "gemma3:12b", "gpt-oss:20b"]
 
 def benchmark_article(article_file: Path):
     article_text = article_file.read_text()

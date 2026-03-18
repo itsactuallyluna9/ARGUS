@@ -18,10 +18,10 @@ JSON schema: {
 '''
 
 
-def summarize_article(article_text: str, model: str = "qwen3.5:9b", prompt: str = default_prompt, keep_alive=360): 
+def summarize_article(article_text: str, model: str = "gpt-oss:20b", prompt: str = default_prompt, keep_alive=360): 
 
-    response = json.loads(
-        ollama.generate(model=model, prompt=f"{prompt}\nArticle text: {article_text}", think=True, keep_alive=keep_alive).response
-    )
+    
+    r = ollama.generate(model=model, prompt=f"{prompt}\nArticle text: {article_text}", think=True, keep_alive=keep_alive).response
+    response = json.loads(r.strip('```json').strip('```'))
 
     return response

@@ -11,14 +11,9 @@ FRONTEND_DIST = PROJECT_ROOT / "frontend" / "dist"
 app = Flask(__name__, static_folder=str(FRONTEND_DIST), static_url_path="/")
 CORS(app, resources={r"/api/*": {"origins": "*"}})
 
-chromaclient = chromadb.HttpClient(host="localhost", port=8000)
+# chromaclient = chromadb.HttpClient(host="localhost", port=8000)
 
-try:
-    chromaclient.create_collection(name="articles")
-except:
-    pass
-
-articles = chromaclient.get_collection(name="articles")
+# articles = chromaclient.get_or_create_collection(name="articles")
 
 @app.get("/api/hello")
 def api_hello():
@@ -53,5 +48,5 @@ def main() -> None:
 
 
 if __name__ == "__main__":
-    main()
-
+    pass
+    #main()
