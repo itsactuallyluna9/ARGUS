@@ -1,0 +1,8 @@
+{
+    "accuracy": 100,
+    "completeness": 95,
+    "reasoning": "The summary is highly accurate, correctly capturing the core tension of Trump's contradictory statements and the subsequent backlash. It is very complete, covering the key points, the international reaction, and the perspective of military families. It omitted only minor details like specific individual quotes from international officials like Xavier Bettel, but this does not significantly impact the overall comprehension of the article.",
+    "model": "deepseek-r1:14b",
+    "thinking": false,
+    "evalModel": "gemini-3.1-flash-lite-preview"
+}

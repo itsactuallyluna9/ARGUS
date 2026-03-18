@@ -1,0 +1,8 @@
+{
+    "accuracy": 95,
+    "completeness": 90,
+    "reasoning": "The summary accurately captures the core issue of cocoa replacement and the reasons behind it. It is highly accurate regarding the provided facts and quotes. It is nearly complete, though it misses minor nuances like the specific mention of alternative innovations like 'ChoViva' or the specific mention of the Reese family's counter-statement to Brad Reese, but these omissions do not detract from the overall quality of the summary.",
+    "model": "nemotron-3-nano:4b",
+    "thinking": false,
+    "evalModel": "gemini-3.1-flash-lite-preview"
+}

@@ -1,0 +1,8 @@
+{
+    "accuracy": 95,
+    "completeness": 90,
+    "reasoning": "The summary accurately captures the core explanation and regional weather forecasts provided in the text. However, there is a minor factual discrepancy in the points: the summary states the East will be cool and wet through 'late April,' while the article specifies the pattern is expected through the 'first week of April.' Otherwise, it is highly accurate and covers all significant points.",
+    "model": "glm-4.7-flash:q4_K_M",
+    "thinking": false,
+    "evalModel": "gemini-3.1-flash-lite-preview"
+}

@@ -1,0 +1,8 @@
+{
+    "accuracy": 100,
+    "completeness": 95,
+    "reasoning": "The summary is highly accurate and correctly identifies the core findings and methodology of the study. It is nearly complete, capturing the essential differences between oviraptor nesting and modern avian TCI. The only minor detail omitted is the specific mention of the Heyuannia huangi species, but the overall summary remains comprehensive.",
+    "model": "deepseek-r1:14b",
+    "thinking": false,
+    "evalModel": "gemini-3.1-flash-lite-preview"
+}

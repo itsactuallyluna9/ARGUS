@@ -1,0 +1,8 @@
+{
+    "accuracy": 100,
+    "completeness": 95,
+    "reasoning": "The summary is highly accurate and correctly identifies the key facts of the event. It is nearly complete, missing only the specific detail that the 1932 tie was technically a rule-based anomaly rather than a 'true' tie, though this is a minor omission.",
+    "model": "deepseek-r1:14b",
+    "thinking": false,
+    "evalModel": "gemini-3.1-flash-lite-preview"
+}

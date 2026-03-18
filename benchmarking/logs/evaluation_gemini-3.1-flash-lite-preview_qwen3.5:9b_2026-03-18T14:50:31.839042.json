@@ -1,0 +1,8 @@
+{
+    "accuracy": 100,
+    "completeness": 95,
+    "reasoning": "The summary is highly accurate, correctly capturing the core tension of President Trump's contradictory statements regarding US involvement in the Strait of Hormuz. The key points are well-supported by the text. It misses only minor contextual details regarding the specific diplomatic reactions from individual countries like the UK, but the summary is exceptionally complete given the breadth of the original article.",
+    "model": "qwen3.5:9b",
+    "thinking": false,
+    "evalModel": "gemini-3.1-flash-lite-preview"
+}

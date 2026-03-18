@@ -1,0 +1,8 @@
+{
+    "accuracy": 100,
+    "completeness": 100,
+    "reasoning": "The summary and key points are highly accurate and align perfectly with the provided article. It captures all essential details, including the core claim, the denial from representatives, the context of when the statements were made, and the specific names involved, while also noting the refusal to name the alleged individual.",
+    "model": "qwen3.5:9b",
+    "thinking": false,
+    "evalModel": "gemini-3.1-flash-lite-preview"
+}

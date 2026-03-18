@@ -1,0 +1,8 @@
+{
+    "accuracy": 95,
+    "completeness": 90,
+    "reasoning": "The summary is highly accurate and captures the core essence of the article, including the consumer frustration, the market drivers, and the corporate strategy. It is very complete, covering the specific case study of Brad Reese, the broader economic context regarding cocoa prices and climate change, and the regulatory landscape. The only minor points of improvement are that it could explicitly mention that Hershey defended the integrity of their classic peanut butter cups in response to the criticism, and it mentions Mr. Goodbar 'cookies' instead of 'bars'.",
+    "model": "qwen3.5:9b",
+    "thinking": false,
+    "evalModel": "gemini-3.1-flash-lite-preview"
+}

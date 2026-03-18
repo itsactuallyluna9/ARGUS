@@ -1,0 +1,8 @@
+{
+    "accuracy": 100,
+    "completeness": 95,
+    "reasoning": "The summary is highly accurate in its reporting of the quotes and the context surrounding the Oscar tribute. It is nearly complete, missing only minor context regarding the specific nature of the 98th Academy Awards ceremony details, though it captures all essential information regarding the interaction between Fonda and Streisand.",
+    "model": "nemotron-3-nano:4b",
+    "thinking": false,
+    "evalModel": "gemini-3.1-flash-lite-preview"
+}

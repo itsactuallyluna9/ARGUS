@@ -1,0 +1,8 @@
+{
+    "accuracy": 100,
+    "completeness": 100,
+    "reasoning": "The summary and the provided key points are perfectly aligned with the source text. Every piece of information provided is factually accurate, and the summary covers all critical aspects of the article, including the specific event, the historical context of previous ties, the nuances of the 1932 rule change, and the reactions of the winners.",
+    "model": "qwen3.5:27b",
+    "thinking": false,
+    "evalModel": "gemini-3.1-flash-lite-preview"
+}

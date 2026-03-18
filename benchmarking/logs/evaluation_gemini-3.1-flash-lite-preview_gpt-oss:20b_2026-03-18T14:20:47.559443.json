@@ -1,0 +1,8 @@
+{
+    "accuracy": 100,
+    "completeness": 100,
+    "reasoning": "The summary and the provided key points are highly accurate and reflect the information presented in the original text. The summary is also exceptionally complete, covering the meteorological reasons for the weather swings, the regional forecasts for both the East and West, and the broader context provided by the article, including the mention of anthropogenic climate change.",
+    "model": "gpt-oss:20b",
+    "thinking": false,
+    "evalModel": "gemini-3.1-flash-lite-preview"
+}

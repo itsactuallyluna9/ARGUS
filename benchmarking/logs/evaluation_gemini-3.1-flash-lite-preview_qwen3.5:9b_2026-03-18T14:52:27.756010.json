@@ -1,0 +1,8 @@
+{
+    "accuracy": 100,
+    "completeness": 100,
+    "reasoning": "The summary is highly accurate, correctly reflecting all details provided in the source text, including specific list changes and medical recommendations. It is also comprehensive, capturing both the travel advisory updates and the broader context regarding polio symptoms and medical prevention, leaving out no significant information from the article.",
+    "model": "qwen3.5:9b",
+    "thinking": false,
+    "evalModel": "gemini-3.1-flash-lite-preview"
+}

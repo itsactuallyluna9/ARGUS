@@ -1,0 +1,8 @@
+{
+    "accuracy": 100,
+    "completeness": 95,
+    "reasoning": "The summary is highly accurate, correctly synthesizing the scientific and social dimensions of the vervet monkey situation in Dania Beach. It captures the nuanced conflict between conservationist policies and local public sentiment. It is very complete, though it omits the specific backstory regarding how the monkeys originally escaped in 1947, which is a minor detail compared to the main themes of the article.",
+    "model": "qwen3.5:27b",
+    "thinking": false,
+    "evalModel": "gemini-3.1-flash-lite-preview"
+}

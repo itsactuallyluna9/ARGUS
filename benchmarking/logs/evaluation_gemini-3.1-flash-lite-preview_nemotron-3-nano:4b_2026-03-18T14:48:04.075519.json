@@ -1,0 +1,8 @@
+{
+    "accuracy": 85,
+    "completeness": 80,
+    "reasoning": "The summary is generally accurate, but it contains a significant factual error in the opening sentence by mislabeling the species as 'Vermilion-green macaques'. They are actually 'Chlorocebus sabaeus' (green monkeys/vervets), not macaques. Additionally, in the key takeaways, it refers to a 'Canine sanctuary' instead of a monkey/vervet sanctuary. Otherwise, it captures the core arguments and the status of the colony well.",
+    "model": "nemotron-3-nano:4b",
+    "thinking": false,
+    "evalModel": "gemini-3.1-flash-lite-preview"
+}

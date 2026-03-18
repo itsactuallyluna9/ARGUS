@@ -1,0 +1,8 @@
+{
+    "accuracy": 100,
+    "completeness": 95,
+    "reasoning": "The summary is highly accurate and captures the core tension between Trump's claims and the denials from former presidents. It includes all essential factual elements. The completeness score is slightly reduced only because the summary omits the specific detail that Trump explicitly ruled out George W. Bush when asked, which provides additional context to the narrative.",
+    "model": "nemotron-3-nano:4b",
+    "thinking": false,
+    "evalModel": "gemini-3.1-flash-lite-preview"
+}

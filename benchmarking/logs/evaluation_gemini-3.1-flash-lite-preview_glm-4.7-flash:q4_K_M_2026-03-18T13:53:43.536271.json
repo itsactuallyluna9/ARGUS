@@ -1,0 +1,8 @@
+{
+    "accuracy": 100,
+    "completeness": 95,
+    "reasoning": "The summary accurately reflects the key events and contradictory statements reported in the article. It effectively captures the tension between Trump's call for help and his suggestion that the US should not be involved. It is highly complete, covering the specific nations involved, the backlash from families and international leaders, and the threats made toward NATO and China. It only misses minor contextual details, such as the specific mention of Tech Sgt Tyler Simmons, which is not essential for a high-level summary.",
+    "model": "glm-4.7-flash:q4_K_M",
+    "thinking": false,
+    "evalModel": "gemini-3.1-flash-lite-preview"
+}

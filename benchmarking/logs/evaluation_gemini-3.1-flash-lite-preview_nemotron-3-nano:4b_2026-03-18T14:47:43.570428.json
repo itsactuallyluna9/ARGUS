@@ -1,0 +1,8 @@
+{
+    "accuracy": 100,
+    "completeness": 95,
+    "reasoning": "The summary is highly accurate in its reporting of the event and the historical context provided in the article. It captures all key facts regarding the tie, the winners, the presenters, and the historical significance. The only minor omission is that it does not explicitly mention the nuance regarding the 1932 'tie' versus other true ties, though this is a minor detail not essential for a high-level summary.",
+    "model": "nemotron-3-nano:4b",
+    "thinking": false,
+    "evalModel": "gemini-3.1-flash-lite-preview"
+}

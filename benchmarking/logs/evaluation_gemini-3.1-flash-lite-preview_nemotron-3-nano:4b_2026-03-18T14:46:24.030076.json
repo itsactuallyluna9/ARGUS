@@ -1,0 +1,8 @@
+{
+    "accuracy": 75,
+    "completeness": 85,
+    "reasoning": "The summary contains a significant factual error by repeatedly referring to the vervet monkeys as 'red monkeys,' which contradicts the article's identification of them as 'Chlorocebus sabaeus' (green monkeys). Additionally, it inaccurately states the location as 'Dania Beach Wildlife Conservation area' instead of the airport/park-and-fly area mentioned in the text. However, it captures the core themes of the human-wildlife conflict, the scientific debate regarding their invasive status, and the community's perspective on these animals quite well.",
+    "model": "nemotron-3-nano:4b",
+    "thinking": false,
+    "evalModel": "gemini-3.1-flash-lite-preview"
+}
