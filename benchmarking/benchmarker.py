@@ -89,7 +89,7 @@ class Evaluator:
     prompt: str
 
     @retry(wait=wait_exponential(1, 60))
-    def evaluate(self, article_text: str, summary: str, summary_model: str):
+    def evaluate(self, article_text: str, summary: str, summary_model: str, think: bool = False):
         # use gemini
         with genai.Client(api_key=os.environ.get("GEMINI_API_KEY")) as client:
             response = client.models.generate_content(
@@ -109,6 +109,7 @@ class Evaluator:
                 'completeness': response_text['completeness'],
                 'reasoning': response_text['reasoning'],
                 'model': summary_model,
+                'thinking': think,
                 'evalModel': self.model
             }, f, indent = 4)
         return response
@@ -160,7 +161,11 @@ def benchmark_article(article_file: Path):
             continue
 
         evaluator = Evaluator(model="gemini-3.1-flash-lite-preview", prompt=evaluator_prompt)
-        evaluator.evaluate(article_text, summary, model)
+        if summary_response.thinking:
+            think=True
+        else:
+            think=False
+        evaluator.evaluate(article_text, summary, model, think=think)
         sleep(5) # give a little break between articles
 
 def benchmark_articles():
