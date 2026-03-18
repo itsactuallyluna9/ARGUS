@@ -6,11 +6,12 @@ from argus.scraper import get_page
 class FactCheck:
 
 
-    def __init__(self, url: str, article_collection: chromadb.Collection, summarizer_model: str = "gpt-oss:20b"):
+    def __init__(self, url: str, article_collection: chromadb.Collection, summarizer_model: str = "gpt-oss:20b", think: bool = True):
 
         self.url = url
         self.article_collection = article_collection
         self.model = summarizer_model
+        self.think = think
 
         self.article_text = 'Empty for now!'
         self.summary = 'Empty for now!'
@@ -52,7 +53,7 @@ class FactCheck:
     def summarize_article(self, article_text: str) -> tuple[str, str, list]:
 
         #returns json with index sentence, key points, summary, bias rating
-        response = summarize_article(article_text, self.model)
+        response = summarize_article(article_text, model=self.model, think=self.think)
 
         description = response['description']
         summary = response['articleSummary']
