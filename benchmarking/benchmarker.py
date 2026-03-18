@@ -38,28 +38,20 @@ load_dotenv()
 @dataclass
 class Summarizer:
     model: str
+    think: bool
     prompt: str
 
-    @retry(wait=wait_exponential(1, 60))
+    #@retry(wait=wait_exponential(1, 60))
     def evaluate(self, article_text: str, keep_alive=0):
+
         ollama.pull(self.model)
         
-        try:
-            response = ollama.generate(
-                model=self.model,
-                prompt=f"{self.prompt}\nArticle text: {article_text}",
-                think=True,
-                keep_alive=keep_alive
-            )
-
-        #if model doesn't support thinking, fall back to normal response
-        except:
-            response = ollama.generate(
-                model=self.model,
-                prompt=f"{self.prompt}\nArticle text: {article_text}",
-                think=False,
-                keep_alive=keep_alive
-            )
+        response = ollama.generate(
+            model=self.model,
+            prompt=f"{self.prompt}\nArticle text: {article_text}",
+            think=self.think,
+            keep_alive=keep_alive
+        )
 
         # we'll finish by unloading the model from memory
         # just in case :3
@@ -88,7 +80,7 @@ class Evaluator:
     model: str
     prompt: str
 
-    @retry(wait=wait_exponential(1, 60))
+    #@retry(wait=wait_exponential(1, 60))
     def evaluate(self, article_text: str, summary: str, summary_model: str, think: bool = False):
         # use gemini
         with genai.Client(api_key=os.environ.get("GEMINI_API_KEY")) as client:
@@ -146,13 +138,22 @@ A few sentences justification for the values you chose for accuracy and complete
 Output your answer in the provided json schema.
 '''
 
-summarizer_models = ["glm-4.7-flash:q4_K_M", "deepseek-r1:14b", "gemma3:4b", "gemma3:12b", "gpt-oss:20b"]
+summarizer_models = [("glm-4.7-flash:q4_K_M", False), 
+                     ("deepseek-r1:14b", False), 
+                     ("gemma3:4b", False), 
+                     ("gemma3:12b", False), 
+                     ("gpt-oss:20b", False), 
+                     ("gpt-oss:20b", True), 
+                     ("nemotron-3-nano:4b", False), 
+                     ("nemotron-3-nano:4b", True),
+                     ("qwen3.5:9b", False),
+                     ("qwen3.5:27b", False)]
 
 def benchmark_article(article_file: Path):
     article_text = article_file.read_text()
 
-    for model in track(summarizer_models, description="Benchmarking summarization models..."):
-        summarizer = Summarizer(model=model, prompt=summarizer_prompt)
+    for model, think in track(summarizer_models, description="Benchmarking summarization models..."):
+        summarizer = Summarizer(model=model, prompt=summarizer_prompt, think=think)
         summary_response = summarizer.evaluate(article_text)
         summary = summary_response.response
 
@@ -172,10 +173,10 @@ def benchmark_articles():
     for article_file in Path(".").glob("article*.md"):
         benchmark_article(article_file)
 
-def benchmark_model(model_name: str):
-    summarizer = Summarizer(model=model_name, prompt=summarizer_prompt)
+def benchmark_model(model_name: str, think: bool):
+    summarizer = Summarizer(model=model_name, prompt=summarizer_prompt, think=think)
 
-    for article_file in track(list(Path(".").glob("article*.md")), description=f"Benchmarking {model_name}"):
+    for article_file in track(list(Path(".").glob("article*.md")), description=f"Benchmarking {model_name}, think={think}..."):
         article_text = article_file.read_text()
         summary_response = summarizer.evaluate(article_text, keep_alive=60*5)
         summary = summary_response.response
@@ -191,16 +192,16 @@ def benchmark_model(model_name: str):
             print("-skipping evaluation!-")
 
 def benchmark_models():
-    for model in track(summarizer_models, description="Benchmarking summarization models..."):
-        benchmark_model(model)
-        unload_model(model)
+    for model, think in track(summarizer_models, description="Benchmarking summarization models..."):
+        benchmark_model(model, think)
+        unload_model(model, think)
 
-def unload_model(model_name: str):
-    ollama.generate(model_name, keep_alive=0)
+def unload_model(model_name: str, think: bool):
+    ollama.generate(model_name, think=think, keep_alive=0)
     sleep(10)
 
 def main():
-    for _ in track(range(1), description="Running benchmarks..."):
+    for _ in track(range(5), description="Running benchmarks..."):
         benchmark_models()
 
 if __name__ == "__main__":
