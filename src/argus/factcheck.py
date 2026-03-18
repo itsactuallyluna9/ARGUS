@@ -1,3 +1,5 @@
+from typing import Any
+
 import chromadb
 from datetime import datetime
 from argus.summarizearticle import summarize_article
@@ -24,7 +26,26 @@ class FactCheck:
         self.completeness_score = 0
         self.explanation = 'Empty for now!'
 
+        self.finished = False
+
         self.main()
+
+    
+    def to_dict(self) -> dict[str, Any]:
+        
+        return {
+            "url": self.url,
+            "article_text": self.article_text,
+            "summary": self.summary,
+            "bias_rating": self.bias_rating,
+            "key_points": self.key_points,
+            "related_summaries": self.related_summaries,
+            "evidence_summaries": self.evidence_summaries,
+            "accuracy_score": self.accuracy_score,
+            "completeness_score": self.completeness_score,
+            "explanation": self.explanation,
+            "finished": self.finished
+         }
     
 
     def main(self):
@@ -46,6 +67,8 @@ class FactCheck:
 
         # evidence + article summary + related article summaries + bias rating |> fact check model -> accuracy, completeness scores + explanation
         self.accuracy_score, self.completeness_score, self.explanation = self.fact_check(self.summary, self.bias_rating, self.related_summaries, self.evidence_summaries)
+
+        self.finished = True
 
         print(f"Fact check results for {self.url}:\nAccuracy: {self.accuracy_score}\nCompleteness: {self.completeness_score}\nExplanation: {self.explanation}")    
 

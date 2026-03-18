@@ -1,9 +1,11 @@
 from pathlib import Path
 
-from flask import Flask, jsonify, send_from_directory
+from flask import Flask, jsonify, request, send_from_directory
 from flask_cors import CORS
 
 import chromadb
+
+from argus.factcheck import FactCheck
 
 PROJECT_ROOT = Path(__file__).resolve().parents[2]
 FRONTEND_DIST = PROJECT_ROOT / "frontend" / "dist"
@@ -11,9 +13,11 @@ FRONTEND_DIST = PROJECT_ROOT / "frontend" / "dist"
 app = Flask(__name__, static_folder=str(FRONTEND_DIST), static_url_path="/")
 CORS(app, resources={r"/api/*": {"origins": "*"}})
 
-# chromaclient = chromadb.HttpClient(host="localhost", port=8000)
+chromaclient = chromadb.HttpClient(host="localhost", port=8000)
 
-# articles = chromaclient.get_or_create_collection(name="articles")
+articles = chromaclient.get_or_create_collection(name="articles")
+
+active_fact_checks = []
 
 @app.get("/api/hello")
 def api_hello():
@@ -21,6 +25,28 @@ def api_hello():
     print(result)
     doc = result["documents"][1][0]
     return jsonify({"message": doc})
+
+
+@app.post("/api/create")
+def api_create():
+
+    data = request.get_json()
+    url = data.get("url")
+
+    found = False
+    check = None
+
+    for fact_check in active_fact_checks:
+        if fact_check.url == url:
+            found = True
+            check = fact_check
+            break
+
+    if not found: 
+        check = FactCheck(url, articles)
+        active_fact_checks.append(check)
+    
+    return jsonify(check.to_dict()), 202
 
 
 @app.get("/", defaults={"path": ""})
@@ -42,6 +68,7 @@ def serve_frontend(path: str):
             "api": "/api/hello",
         }
     )
+
 
 def main() -> None:
     app.run(host="0.0.0.0", port=5000, debug=True)
