@@ -1,0 +1,8 @@
+{
+    "accuracy": 100,
+    "completeness": 95,
+    "reasoning": "The summary is highly accurate and captures the core narrative of Brad Reese's complaint and the broader economic context of the cocoa industry. It correctly identifies the factors behind the reformulation, such as market volatility and climate change. The completeness is high, though it could have briefly mentioned the specific distinction between US and European labeling regulations to provide even more depth on why some products are demoted from 'chocolate' status.",
+    "model": "glm-4.7-flash:q4_K_M",
+    "thinking": false,
+    "evalModel": "gemini-3.1-flash-lite-preview"
+}
