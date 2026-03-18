@@ -19,6 +19,10 @@ def get_page_chrome(url: str) -> str:
         page.goto(url)
         html = page.content()
         browser.close()
+
+    if not is_probably_readerable(html):
+        raise NotImplementedError("scraper - page isn't readerable (even with fallback).")
+    
     markdown = trafilatura.extract(html, output_format='markdown')
     return markdown
 
