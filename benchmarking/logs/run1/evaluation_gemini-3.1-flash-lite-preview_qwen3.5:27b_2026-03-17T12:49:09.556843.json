@@ -1,0 +1,7 @@
+{
+    "accuracy": 85,
+    "completeness": 80,
+    "reasoning": "The summary is accurate regarding the central tension between public sentiment and scientific definitions of invasive species. However, it contains a few factual inaccuracies: the text mentions the colony has around 41 individuals, not 15-17 (which was the number of escapees in 1947), and it incorrectly references the 'Endangered Species Act' as part of the legal discussion, which is not mentioned in the text. It misses some of the historical context, such as the specific origin of the monkeys from a biomedical research-cum-zoo, which is a significant part of the article's narrative.",
+    "model": "qwen3.5:27b",
+    "evalModel": "gemini-3.1-flash-lite-preview"
+}

@@ -1,0 +1,7 @@
+{
+    "accuracy": 100,
+    "completeness": 95,
+    "reasoning": "The summary is highly accurate and correctly identifies the central premise of the article. It captures the key interactions and sentiments described. It is very complete, though it misses the specific detail that Redford's death occurred in September of the previous year (the summary says 2025, while the text specifies September last year relative to the 2026 date, which is technically accurate to the article's timeline). The summary provides an excellent overview of both the Oscars event and the personal tributes.",
+    "model": "gemma3:12b",
+    "evalModel": "gemini-3.1-flash-lite-preview"
+}

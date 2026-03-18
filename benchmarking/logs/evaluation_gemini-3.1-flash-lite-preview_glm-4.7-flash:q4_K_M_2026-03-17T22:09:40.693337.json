@@ -1,0 +1,7 @@
+{
+    "accuracy": 100,
+    "completeness": 100,
+    "reasoning": "The summary is highly accurate and captures all the essential details of the article, including the specific changes to the CDC travel list, the medical context regarding the virus, and the current state of other travel advisories. It correctly identifies the core recommendations for travelers and accurately reflects the tone and content of the source material.",
+    "model": "glm-4.7-flash:q4_K_M",
+    "evalModel": "gemini-3.1-flash-lite-preview"
+}

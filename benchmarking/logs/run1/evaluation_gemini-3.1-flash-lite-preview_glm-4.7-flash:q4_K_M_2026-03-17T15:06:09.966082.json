@@ -1,0 +1,7 @@
+{
+    "accuracy": 100,
+    "completeness": 95,
+    "reasoning": "The summary is highly accurate and captures all the core narrative elements. The only minor discrepancy is a typo in the points section regarding the year of Redford's death, which the article cites as September of the previous year (2025) while the summary notes 2025, which is correct; however, the prompt includes a minor date discrepancy regarding the article timestamp, but the summary reflects the facts of the text well.",
+    "model": "glm-4.7-flash:q4_K_M",
+    "evalModel": "gemini-3.1-flash-lite-preview"
+}

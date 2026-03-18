@@ -1,0 +1,7 @@
+{
+    "accuracy": 100,
+    "completeness": 95,
+    "reasoning": "The summary accurately captures the core narrative of the article, including the specific consumer grievance, the economic drivers behind industry trends, and the regulatory distinctions. It is highly accurate and covers almost all key factual claims provided. The only minor nuance omitted is the specific mention of the Hershey Company's defensive statements regarding their core products, but otherwise, it is a comprehensive and well-structured overview.",
+    "model": "glm-4.7-flash:q4_K_M",
+    "evalModel": "gemini-3.1-flash-lite-preview"
+}

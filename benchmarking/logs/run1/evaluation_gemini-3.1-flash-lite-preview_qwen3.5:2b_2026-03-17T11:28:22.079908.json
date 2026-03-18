@@ -1,0 +1,7 @@
+{
+    "accuracy": 80,
+    "completeness": 85,
+    "reasoning": "The summary accurately captures the core conflict between consumer expectations and corporate reformulation. However, it contains a factual error: it attributes the defense of cocoa volatility to the 'Hershey's CEO' rather than the article's text which specifies the company's senior director of strategic sourcing. Additionally, it slightly misrepresents the expert testimony, as the expert discusses profit maximization as a goal, but does not explicitly frame ethical sourcing as a 'cover' for this profit seeking.",
+    "model": "qwen3.5:2b",
+    "evalModel": "gemini-3.1-flash-lite-preview"
+}

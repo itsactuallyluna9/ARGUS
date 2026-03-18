@@ -1,0 +1,7 @@
+{
+    "accuracy": 100,
+    "completeness": 100,
+    "reasoning": "The summary and points provided are highly accurate and represent the original article perfectly. All major aspects of the Ageless Linux project, including its nature as a protest tool, its technical implementation, and its future roadmap, are covered comprehensively without missing any significant details.",
+    "model": "gpt-oss:20b",
+    "evalModel": "gemini-3.1-flash-lite-preview"
+}

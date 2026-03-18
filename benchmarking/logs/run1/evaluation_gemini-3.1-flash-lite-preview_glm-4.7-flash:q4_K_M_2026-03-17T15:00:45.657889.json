@@ -1,0 +1,7 @@
+{
+    "accuracy": 100,
+    "completeness": 100,
+    "reasoning": "The summary provides a precise and comprehensive overview of the article, capturing all key factual claims, the project's technical nature, and its overarching goal of protesting legislative overreach. It accurately reflects the project's current state and its future roadmap, and the bias analysis is fair and balanced.",
+    "model": "glm-4.7-flash:q4_K_M",
+    "evalModel": "gemini-3.1-flash-lite-preview"
+}

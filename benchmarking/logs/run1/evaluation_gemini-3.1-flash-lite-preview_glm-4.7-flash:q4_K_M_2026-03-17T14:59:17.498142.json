@@ -1,0 +1,7 @@
+{
+    "accuracy": 95,
+    "completeness": 90,
+    "reasoning": "The summary is highly accurate and captures the core tension between scientific classification and public sentiment. It correctly identifies the species origin, the local advocacy, and the ecological debate. The score is slightly less than 100 because it misses a few minor nuances, such as the specific historical account of the 1947 escape from the research center, which is a major part of the article's narrative regarding how the colony was established.",
+    "model": "glm-4.7-flash:q4_K_M",
+    "evalModel": "gemini-3.1-flash-lite-preview"
+}

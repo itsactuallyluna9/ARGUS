@@ -1,0 +1,7 @@
+{
+    "accuracy": 100,
+    "completeness": 100,
+    "reasoning": "The summary is highly accurate and captures all essential details of the article, including the methodology, the specific species mentioned (though the summary correctly keeps the focus on the genus level), and the scientific conclusions reached. It is complete, covering the comparison to modern birds, the experimental setup, and the specific temperature findings.",
+    "model": "qwen3.5:27b",
+    "evalModel": "gemini-3.1-flash-lite-preview"
+}

@@ -1,0 +1,7 @@
+{
+    "accuracy": 100,
+    "completeness": 95,
+    "reasoning": "The summary accurately reflects the core content of the article, including the meteorological reasons for weather volatility and the regional differences between the East and West. It is highly complete, capturing the specific risks associated with the heat in the West and the factors influencing the jet stream. It omits some of the specific locations mentioned (like Phoenix or Las Vegas), but this is acceptable for a concise summary.",
+    "model": "deepseek-r1:14b",
+    "evalModel": "gemini-3.1-flash-lite-preview"
+}

@@ -1,0 +1,7 @@
+{
+    "accuracy": 100,
+    "completeness": 95,
+    "reasoning": "The summary is highly accurate and captures all the core factual claims presented in the article. It effectively synthesizes the contradiction in Trump's foreign policy rhetoric, the specific reactions of international allies, and the implications for his diplomatic schedule. The only minor omission is the specific mention of the 13 U.S. service members killed in the conflict, which provides context for the public backlash, but this does not significantly detract from the overall quality of the summary.",
+    "model": "glm-4.7-flash:q4_K_M",
+    "evalModel": "gemini-3.1-flash-lite-preview"
+}

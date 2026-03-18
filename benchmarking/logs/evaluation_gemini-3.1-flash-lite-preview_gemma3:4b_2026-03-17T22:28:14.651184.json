@@ -1,0 +1,7 @@
+{
+    "accuracy": 100,
+    "completeness": 95,
+    "reasoning": "The summary is highly accurate and captures all the core technical and philosophical objectives of the Ageless Linux project. It effectively explains the project's protest nature and its reliance on Debian. It is nearly complete, missing only minor details such as the specific timeline mention of the third quarter of 2026 and the mention of BitTorrent distribution, but these omissions do not detract from the overall quality of the summary.",
+    "model": "gemma3:4b",
+    "evalModel": "gemini-3.1-flash-lite-preview"
+}

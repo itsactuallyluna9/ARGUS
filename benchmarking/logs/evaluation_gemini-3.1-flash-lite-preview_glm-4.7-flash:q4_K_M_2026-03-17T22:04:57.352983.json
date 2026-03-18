@@ -1,0 +1,7 @@
+{
+    "accuracy": 100,
+    "completeness": 95,
+    "reasoning": "The summary accurately reflects the core message and technical details of the article. It captures the project's purpose as a protest, the mechanics of how it functions as a modification of Debian, and the future goals of the project. It is highly complete, though it omits the specific detail that the project's roadmap items are expected in the 'third quarter' of 2026 rather than just '2026', but this does not significantly impact the overall understanding of the project.",
+    "model": "glm-4.7-flash:q4_K_M",
+    "evalModel": "gemini-3.1-flash-lite-preview"
+}

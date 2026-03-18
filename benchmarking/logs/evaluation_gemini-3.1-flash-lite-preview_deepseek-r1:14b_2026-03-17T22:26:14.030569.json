@@ -1,0 +1,7 @@
+{
+    "accuracy": 100,
+    "completeness": 90,
+    "reasoning": "The summary is highly accurate and captures the core theme of the article regarding the reformulation of chocolate products due to cocoa market volatility. It correctly identifies the primary drivers and the consumer reaction. It is slightly less than 100% complete as it omits specific mention of the incident involving Brad Reese, the grandson of the original inventor, which serves as the narrative hook and catalyst for the article's discussion.",
+    "model": "deepseek-r1:14b",
+    "evalModel": "gemini-3.1-flash-lite-preview"
+}

@@ -1,0 +1,7 @@
+{
+    "accuracy": 100,
+    "completeness": 100,
+    "reasoning": "The summary and the extracted points are entirely consistent with the provided article. All technical details, legal motivations, and the project's roadmap are represented accurately and comprehensively.",
+    "model": "qwen3.5:27b",
+    "evalModel": "gemini-3.1-flash-lite-preview"
+}

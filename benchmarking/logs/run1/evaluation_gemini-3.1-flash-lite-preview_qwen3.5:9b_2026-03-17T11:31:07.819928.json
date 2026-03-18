@@ -1,0 +1,7 @@
+{
+    "accuracy": 100,
+    "completeness": 100,
+    "reasoning": "The summary is highly accurate and comprehensive, capturing the central event of the 2026 Oscar tie, the historical context, and the reactions from presenters and winners. It correctly identifies all key details without introducing errors or omissions.",
+    "model": "qwen3.5:9b",
+    "evalModel": "gemini-3.1-flash-lite-preview"
+}

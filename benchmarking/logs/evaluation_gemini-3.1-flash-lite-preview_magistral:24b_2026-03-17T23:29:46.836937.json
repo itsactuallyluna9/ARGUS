@@ -1,0 +1,7 @@
+{
+    "accuracy": 100,
+    "completeness": 95,
+    "reasoning": "The summary accurately reflects the core narrative of the article, including Trump's claim and the denials from former presidents. It includes all essential factual points. It missed only minor contextual details, such as the specific locations where Trump made these claims (Kennedy Center and Oval Office) and the mention of his inauguration as the last time all presidents were together, but these are secondary to the main topic.",
+    "model": "magistral:24b",
+    "evalModel": "gemini-3.1-flash-lite-preview"
+}

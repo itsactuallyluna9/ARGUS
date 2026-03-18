@@ -1,0 +1,7 @@
+{
+    "accuracy": 95,
+    "completeness": 90,
+    "reasoning": "The summary accurately captures the core contradiction in President Trump's remarks and provides a correct overview of the reactions from international leaders and the public. It misses minor specific details, such as the mention of Australia and Japan's explicit refusals alongside France, but covers the essential factual claims and the context of the war effectively.",
+    "model": "nemotron-3-nano:4b",
+    "evalModel": "gemini-3.1-flash-lite-preview"
+}
