@@ -3,5 +3,6 @@
     "completeness": 90,
     "reasoning": "The summary and points are highly accurate, correctly identifying the core conflict regarding cocoa substitution and the reasons behind it. It captures the role of Brad Reese and the analysis from Alexis Villacis well. It is very complete, though it could have briefly mentioned Hershey's formal defense that their standard Peanut Butter Cups remain unchanged to add more balance, but overall it captures the essence and critical facts of the article perfectly.",
     "model": "nemotron-3-nano:4b",
-    "evalModel": "gemini-3.1-flash-lite-preview"
+    "evalModel": "gemini-3.1-flash-lite-preview",
+    "thinking": true
 }

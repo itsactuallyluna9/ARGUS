@@ -3,5 +3,6 @@
     "completeness": 95,
     "reasoning": "The summary is highly accurate in its portrayal of the events and Fonda's comments. It is nearly complete, missing only the minor detail that Streisand's tribute speech specifically mentioned Redford's 'intellectual cowboy' persona, which the summary attributes to Fonda's general perspective rather than explicitly linking to Streisand's speech.",
     "model": "gemma3:4b",
-    "evalModel": "gemini-3.1-flash-lite-preview"
+    "evalModel": "gemini-3.1-flash-lite-preview",
+    "thinking": false
 }

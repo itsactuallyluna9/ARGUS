@@ -3,5 +3,6 @@
     "completeness": 95,
     "reasoning": "The summary is highly accurate and captures the core scientific findings of the article without error. It is nearly complete, though it could have been improved by explicitly mentioning the specific study species (Heyuannia huangi) and the context that this differs from the thermoregulatory contact incubation used by modern birds, which is a key technical detail in the text.",
     "model": "gemma3:4b",
-    "evalModel": "gemini-3.1-flash-lite-preview"
+    "evalModel": "gemini-3.1-flash-lite-preview",
+    "thinking": false
 }

@@ -3,5 +3,6 @@
     "completeness": 90,
     "reasoning": "The summary is highly accurate and captures the core narrative and factual details well. It misses minor context regarding the complex supply chain issues like labor practices or the mention of the Nestl\u00e9-owned Choco Crossies as a point of comparison for the industry's direction, but overall it provides a very thorough overview of the provided text.",
     "model": "gpt-oss:20b",
-    "evalModel": "gemini-3.1-flash-lite-preview"
+    "evalModel": "gemini-3.1-flash-lite-preview",
+    "thinking": false
 }

@@ -3,5 +3,6 @@
     "completeness": 95,
     "reasoning": "The summary is highly accurate and captures all the core factual claims presented in the article. It provides a clear explanation of the meteorological reasons behind the weather patterns in both the East and West. The completeness is high, only missing specific mentioned locations like Phoenix, Las Vegas, and Sacramento, which are minor in the context of the overall summary.",
     "model": "deepseek-r1:14b",
-    "evalModel": "gemini-3.1-flash-lite-preview"
+    "evalModel": "gemini-3.1-flash-lite-preview",
+    "thinking": true
 }

@@ -3,5 +3,6 @@
     "completeness": 100,
     "reasoning": "The summary and the provided key points accurately reflect all the core facts presented in the article, including the specific countries added/removed, the CDC travel advisory level, vaccination recommendations, and disease context. It is complete and leaves out no essential information.",
     "model": "qwen3.5:27b",
-    "evalModel": "gemini-3.1-flash-lite-preview"
+    "evalModel": "gemini-3.1-flash-lite-preview",
+    "thinking": true
 }

@@ -3,5 +3,6 @@
     "completeness": 95,
     "reasoning": "The summary is highly accurate, correctly relaying the central conflict between Trump's claims and the denials from the representatives of the former presidents. It includes all essential factual points. It could be slightly more complete by noting that Trump explicitly denied it was George W. Bush when asked, but the summary otherwise captures the core narrative and supporting context perfectly.",
     "model": "glm-4.7-flash:q4_K_M",
-    "evalModel": "gemini-3.1-flash-lite-preview"
+    "evalModel": "gemini-3.1-flash-lite-preview",
+    "thinking": false
 }

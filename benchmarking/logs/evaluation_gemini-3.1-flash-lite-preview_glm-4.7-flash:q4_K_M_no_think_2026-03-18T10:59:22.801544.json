@@ -3,5 +3,6 @@
     "completeness": 95,
     "reasoning": "The summary is highly accurate, correctly capturing the core events, the President's contradictory statements, and the reactions from allies and families of service members. It is nearly complete, missing only minor contextual details like the specific death toll or specific reactions from individual critics like the MeidasTouch editor, which do not significantly impact the overall understanding of the article.",
     "model": "glm-4.7-flash:q4_K_M",
-    "evalModel": "gemini-3.1-flash-lite-preview"
+    "evalModel": "gemini-3.1-flash-lite-preview",
+    "thinking": false
 }

@@ -3,5 +3,6 @@
     "completeness": 95,
     "reasoning": "The summary is highly accurate and captures the technical and legal motivations behind Ageless Linux perfectly. It covers all major points, including the specific legislation cited, the nature of the protest, and future roadmap items. It is nearly complete, missing only minor details such as the distinction that the project specifically notes the potential for BitTorrent seeders to be misclassified under these laws, though this is briefly mentioned in the summary text.",
     "model": "gemma3:12b",
-    "evalModel": "gemini-3.1-flash-lite-preview"
+    "evalModel": "gemini-3.1-flash-lite-preview",
+    "thinking": false
 }

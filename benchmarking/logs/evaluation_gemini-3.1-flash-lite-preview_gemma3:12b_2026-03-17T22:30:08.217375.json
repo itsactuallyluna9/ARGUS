@@ -3,5 +3,6 @@
     "completeness": 95,
     "reasoning": "The summary is highly accurate, correctly reflecting the nuances of the article, including the scientific debate over invasive species classifications and the specific origins of the Dania Beach colony. It is nearly complete, covering all major themes, narratives, and expert opinions. It only narrowly misses a few minor anecdotal details, such as the specific historical figure (Leila Roosevelt Denis) mentioned in the origin story, but these omissions do not affect the overall quality or understanding of the piece.",
     "model": "gemma3:12b",
-    "evalModel": "gemini-3.1-flash-lite-preview"
+    "evalModel": "gemini-3.1-flash-lite-preview",
+    "thinking": false
 }

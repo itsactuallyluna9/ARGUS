@@ -3,5 +3,6 @@
     "completeness": 95,
     "reasoning": "The summary is highly accurate and captures the core themes of the article well. It is very complete, though it omits a few minor details such as the specific genetic confirmation that the monkeys were of West African origin (Chlorocebus sabaeus) rather than the previously thought East African hybrids, and the role of the sanctuary in medical care for the monkeys.",
     "model": "deepseek-r1:14b",
-    "evalModel": "gemini-3.1-flash-lite-preview"
+    "evalModel": "gemini-3.1-flash-lite-preview",
+    "thinking": false
 }

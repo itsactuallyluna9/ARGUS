@@ -3,5 +3,6 @@
     "completeness": 90,
     "reasoning": "The summary is highly accurate in its portrayal of the main events and quotes. There is a minor factual discrepancy in the points: point 3 attributes the 'intellectual cowboy' quote to Fonda, when the article explicitly attributes that quote to Streisand. Otherwise, the summary captures the key details well, though it misses the specific detail of Redford's minor uncredited role in Tall Story, which is a minor omission.",
     "model": "glm-4.7-flash:q4_K_M",
-    "evalModel": "gemini-3.1-flash-lite-preview"
+    "evalModel": "gemini-3.1-flash-lite-preview",
+    "thinking": true
 }

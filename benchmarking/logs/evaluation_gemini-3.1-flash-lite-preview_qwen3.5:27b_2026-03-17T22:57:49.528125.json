@@ -3,5 +3,6 @@
     "completeness": 100,
     "reasoning": "The summary and points provided are highly accurate and align perfectly with the source text. It covers all the primary functional aspects of the project, the underlying motivation for the protest, the technical implementation, and the project's future roadmap. The bias assessment is also well-founded based on the framing of the original article.",
     "model": "qwen3.5:27b",
-    "evalModel": "gemini-3.1-flash-lite-preview"
+    "evalModel": "gemini-3.1-flash-lite-preview",
+    "thinking": true
 }

@@ -3,5 +3,6 @@
     "completeness": 95,
     "reasoning": "The summary is highly accurate and captures all essential details regarding Jane Fonda's comments and the context of the tribute. It is nearly complete, though point 4 in the list attributes Streisand's spoken tribute points to Fonda. While minor, this is a slight misattribution of the source material provided in the article.",
     "model": "gpt-oss:20b",
-    "evalModel": "gemini-3.1-flash-lite-preview"
+    "evalModel": "gemini-3.1-flash-lite-preview",
+    "thinking": false
 }

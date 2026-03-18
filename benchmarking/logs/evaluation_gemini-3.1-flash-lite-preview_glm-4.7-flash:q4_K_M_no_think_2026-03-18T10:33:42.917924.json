@@ -3,5 +3,6 @@
     "completeness": 90,
     "reasoning": "The summary is highly accurate and captures the main themes of the article effectively. It correctly identifies the origins, the population dynamics, the debate over their classification, and the human sentiment. It slightly misses the nuance of the specific origin story involving the biomedical research facility/zoo connection and the distinction between the scientist's specific species classification (Chlorocebus sabaeus) vs the summary's usage of Chlorocebus aethiops, but these are minor technicalities that do not detract from the overall quality of the summary.",
     "model": "glm-4.7-flash:q4_K_M",
-    "evalModel": "gemini-3.1-flash-lite-preview"
+    "evalModel": "gemini-3.1-flash-lite-preview",
+    "thinking": false
 }

@@ -3,5 +3,6 @@
     "completeness": 100,
     "reasoning": "The summary and the key points provided are highly accurate and align perfectly with the content of the article. It captures all essential details, including the specific claim, the refusal to name the predecessor, the denials from the representatives of all four living former presidents, and the relevant contextual information about Trump's past comments on his predecessors.",
     "model": "gemma3:12b",
-    "evalModel": "gemini-3.1-flash-lite-preview"
+    "evalModel": "gemini-3.1-flash-lite-preview",
+    "thinking": false
 }

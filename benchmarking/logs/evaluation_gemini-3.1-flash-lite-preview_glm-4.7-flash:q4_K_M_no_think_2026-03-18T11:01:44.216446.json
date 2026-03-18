@@ -3,5 +3,6 @@
     "completeness": 95,
     "reasoning": "The summary is highly accurate and captures the core of the article perfectly. The completeness is excellent, covering the main event, the reasoning behind Fonda's remarks, and the context of the social media tributes. It omits some minor details like the specific list of movies or the mention of Redford's age, but these are not critical to the main narrative.",
     "model": "glm-4.7-flash:q4_K_M",
-    "evalModel": "gemini-3.1-flash-lite-preview"
+    "evalModel": "gemini-3.1-flash-lite-preview",
+    "thinking": false
 }

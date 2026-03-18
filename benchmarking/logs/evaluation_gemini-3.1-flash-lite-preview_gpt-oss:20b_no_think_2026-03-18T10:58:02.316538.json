@@ -3,5 +3,6 @@
     "completeness": 95,
     "reasoning": "The summary is highly accurate and captures all the core facts presented in the article. It maintains neutrality and correctly identifies the regional differences in weather patterns. It is very complete, though it misses the specific detail about the potential for earliest-on-record 100-degree temperatures in the Desert Southwest, which was a minor nuance in the original text.",
     "model": "gpt-oss:20b",
-    "evalModel": "gemini-3.1-flash-lite-preview"
+    "evalModel": "gemini-3.1-flash-lite-preview",
+    "thinking": false
 }

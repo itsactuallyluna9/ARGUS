@@ -3,5 +3,6 @@
     "completeness": 90,
     "reasoning": "The summary is highly accurate and captures the core of the article well. I deducted a small amount from the accuracy score because the summary mentions 'Reuters' reporting' as a source of information, which is not referenced in the provided text. The completeness is strong, covering the catalyst (Brad Reese), the economic drivers (cocoa prices/climate), and the industry response (reformulation/labeling), only missing minor details like the specific mentions of other cocoa-producing regions (Ecuador/Indonesia) or the mention of specific ethical sourcing brands like Tony's Chocolonely.",
     "model": "gpt-oss:20b",
-    "evalModel": "gemini-3.1-flash-lite-preview"
+    "evalModel": "gemini-3.1-flash-lite-preview",
+    "thinking": true
 }

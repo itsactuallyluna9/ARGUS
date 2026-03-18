@@ -3,5 +3,6 @@
     "completeness": 95,
     "reasoning": "The summary is highly accurate and captures all the core factual claims, including the specific reasoning behind cocoa substitution and the role of industry experts. It is nearly complete, missing only minor details such as the specific mention of alternative innovations like the German product 'ChoViva' or the specific mention of how UK regulations differ from US regulations, though these omissions do not detract from the main narrative.",
     "model": "gemma3:12b",
-    "evalModel": "gemini-3.1-flash-lite-preview"
+    "evalModel": "gemini-3.1-flash-lite-preview",
+    "thinking": false
 }

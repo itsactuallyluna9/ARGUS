@@ -3,5 +3,6 @@
     "completeness": 95,
     "reasoning": "The summary accurately captures the core conflict regarding Trump's contradictory statements, the pressure on allies, and the specific repercussions mentioned in the text. It is highly accurate to the source material. It is nearly complete, missing only minor details such as the specific mention of the 13 service members killed, though it captures the essence of the backlash effectively.",
     "model": "gemma3:12b",
-    "evalModel": "gemini-3.1-flash-lite-preview"
+    "evalModel": "gemini-3.1-flash-lite-preview",
+    "thinking": false
 }

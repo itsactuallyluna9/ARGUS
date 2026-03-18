@@ -3,5 +3,6 @@
     "completeness": 95,
     "reasoning": "The summary is highly accurate, effectively synthesizing the meteorological explanations and regional forecasts provided in the article. It captures all critical information, including the causes of the Eastern storm tracks, the Western heat dome, and the potential implications of climate change. The completeness is nearly perfect, with only minor details regarding specific minor regional precipitation patterns being omitted, which does not detract from the overall quality.",
     "model": "qwen3.5:27b",
-    "evalModel": "gemini-3.1-flash-lite-preview"
+    "evalModel": "gemini-3.1-flash-lite-preview",
+    "thinking": true
 }

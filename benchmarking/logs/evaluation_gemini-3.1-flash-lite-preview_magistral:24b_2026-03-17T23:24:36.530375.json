@@ -3,5 +3,6 @@
     "completeness": 95,
     "reasoning": "The summary is highly accurate, correctly capturing the core conflict regarding Trump's contradictory statements on the Strait of Hormuz. It is very complete, covering the key factual claims, the backlash from families and international leaders, and the context of the oil supply disruption. A slightly higher score could have been achieved by explicitly mentioning the specific mention of Operation Epic Fury or the potential delay of the meeting with Xi Jinping, but these are minor omissions given the strong overall coverage.",
     "model": "magistral:24b",
-    "evalModel": "gemini-3.1-flash-lite-preview"
+    "evalModel": "gemini-3.1-flash-lite-preview",
+    "thinking": true
 }

@@ -3,5 +3,6 @@
     "completeness": 95,
     "reasoning": "The summary is highly accurate in reflecting the main events and Trump's contradictory messaging. It is very complete regarding the international response and the domestic backlash. The only slight inaccuracy is in the final point of the summary, which claims Trump accused China of causing the conflict, whereas the article states he mentioned potentially delaying a summit with Xi Jinping to see if China would help, without explicitly blaming them for causing the war itself.",
     "model": "qwen3.5:27b",
-    "evalModel": "gemini-3.1-flash-lite-preview"
+    "evalModel": "gemini-3.1-flash-lite-preview",
+    "thinking": true
 }

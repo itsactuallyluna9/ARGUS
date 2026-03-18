@@ -3,5 +3,6 @@
     "completeness": 95,
     "reasoning": "The summary accurately reflects the key events and arguments presented in the article. It captures the essence of Trump's contradictory stance, the international response, and the human cost of the conflict. The only minor detail omitted is the specific mention of the refueling tanker crash involving the airmen, though the broader context of service member deaths is included.",
     "model": "gemma3:12b",
-    "evalModel": "gemini-3.1-flash-lite-preview"
+    "evalModel": "gemini-3.1-flash-lite-preview",
+    "thinking": false
 }

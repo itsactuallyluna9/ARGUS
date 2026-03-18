@@ -3,5 +3,6 @@
     "completeness": 95,
     "reasoning": "The summary is highly accurate and captures the core tension in Trump's messaging and the resulting geopolitical backlash. It is nearly complete, missing only the specific detail regarding the threat to delay a summit with Xi Jinping, which is a minor detail compared to the broader narrative of the article.",
     "model": "deepseek-r1:14b",
-    "evalModel": "gemini-3.1-flash-lite-preview"
+    "evalModel": "gemini-3.1-flash-lite-preview",
+    "thinking": true
 }

@@ -3,5 +3,6 @@
     "completeness": 95,
     "reasoning": "The summary is highly accurate and captures the core objectives and technical nature of the project perfectly. It is nearly complete, missing only the specific mention of the Milk-V Duo hardware device as a testing platform, which is a minor detail compared to the broader regulatory focus.",
     "model": "gemma3:12b",
-    "evalModel": "gemini-3.1-flash-lite-preview"
+    "evalModel": "gemini-3.1-flash-lite-preview",
+    "thinking": false
 }

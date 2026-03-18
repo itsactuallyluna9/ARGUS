@@ -3,5 +3,6 @@
     "completeness": 95,
     "reasoning": "The summary accurately captures the core arguments and facts provided in the article, including the causes for cocoa price volatility and corporate responses. It is highly complete, covering both the business motivations and the consumer backlash. The only minor omission is the specific mention of government regulations regarding the definition of chocolate, which provides additional context to the reformulation strategies mentioned.",
     "model": "deepseek-r1:14b",
-    "evalModel": "gemini-3.1-flash-lite-preview"
+    "evalModel": "gemini-3.1-flash-lite-preview",
+    "thinking": false
 }

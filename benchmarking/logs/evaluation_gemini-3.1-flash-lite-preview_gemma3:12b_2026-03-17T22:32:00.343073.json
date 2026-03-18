@@ -3,5 +3,6 @@
     "completeness": 95,
     "reasoning": "The summary is highly accurate, correctly synthesizing the causes of weather volatility in the East and the heat wave in the West as described in the source text. It captures all major factual points, including the meteorological explanations and the mention of climate change research. It is nearly complete, missing only minor specific details like the naming of specific cities (e.g., Phoenix, Las Vegas) which are not strictly necessary for a high-level summary.",
     "model": "gemma3:12b",
-    "evalModel": "gemini-3.1-flash-lite-preview"
+    "evalModel": "gemini-3.1-flash-lite-preview",
+    "thinking": false
 }

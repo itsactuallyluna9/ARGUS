@@ -3,5 +3,6 @@
     "completeness": 95,
     "reasoning": "The summary is highly accurate and correctly identifies the main event and its historical significance. It is nearly complete, missing only minor details such as Conan O'Brien's joke about ruining Oscar pools, which is a tangential detail rather than a core factual requirement. The key points are well-aligned with the provided text.",
     "model": "deepseek-r1:14b",
-    "evalModel": "gemini-3.1-flash-lite-preview"
+    "evalModel": "gemini-3.1-flash-lite-preview",
+    "thinking": false
 }

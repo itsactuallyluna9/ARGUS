@@ -3,5 +3,6 @@
     "completeness": 95,
     "reasoning": "The summary is highly accurate and correctly identifies the core purpose and technical nature of the Ageless Linux project. It captures all major factual claims, including the protest intent, technical basis, and future roadmaps. The completeness score is slightly less than 100 only because it omits minor details like the specific mention of California's Digital Age Assurance Act as a primary legislative catalyst, though this does not detract from the overall quality of the summary.",
     "model": "gemma3:4b",
-    "evalModel": "gemini-3.1-flash-lite-preview"
+    "evalModel": "gemini-3.1-flash-lite-preview",
+    "thinking": false
 }

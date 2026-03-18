@@ -3,5 +3,6 @@
     "completeness": 95,
     "reasoning": "The summary is highly accurate, correctly reflecting the information provided in the article and its tone. It is nearly complete, covering the primary meteorological causes and regional forecasts effectively; it omits only minor details like the specific cities mentioned in the West, but this does not significantly impact the overall quality of the summary.",
     "model": "gemma3:12b",
-    "evalModel": "gemini-3.1-flash-lite-preview"
+    "evalModel": "gemini-3.1-flash-lite-preview",
+    "thinking": false
 }

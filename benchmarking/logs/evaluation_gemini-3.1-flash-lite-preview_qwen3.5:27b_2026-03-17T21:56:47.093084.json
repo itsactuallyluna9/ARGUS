@@ -3,5 +3,6 @@
     "completeness": 100,
     "reasoning": "The summary is highly accurate and captures all the essential details of the original article. It covers the causes of weather volatility, regional forecasts for both the East and West, and the scientific context provided in the text. Every point is supported by the article, and no information is omitted or misrepresented.",
     "model": "qwen3.5:27b",
-    "evalModel": "gemini-3.1-flash-lite-preview"
+    "evalModel": "gemini-3.1-flash-lite-preview",
+    "thinking": true
 }

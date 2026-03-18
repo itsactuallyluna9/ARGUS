@@ -3,5 +3,6 @@
     "completeness": 95,
     "reasoning": "The summary is highly accurate, correctly identifying the films and the historical context of the event. It is nearly complete, covering the key event, historical comparisons, and participant reactions. It omits the 2013 sound editing tie as the most recent previous tie (it mentions the 1995 one), but this is a minor omission in an otherwise comprehensive summary.",
     "model": "gemma3:4b",
-    "evalModel": "gemini-3.1-flash-lite-preview"
+    "evalModel": "gemini-3.1-flash-lite-preview",
+    "thinking": false
 }

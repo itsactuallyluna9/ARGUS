@@ -3,5 +3,6 @@
     "completeness": 90,
     "reasoning": "The summary provides a comprehensive overview of the article, covering the history, the scientific debate, and the community's perspective. However, it contains several significant factual inaccuracies regarding the origin of the monkeys. The article states the monkeys escaped a biomedical research center in 1947, whereas the summary incorrectly claims they were part of a 1958 circus act and a 1960s facility. Additionally, it misidentifies the biologist Mart\u00edn Nu\u00f1ez as 'Ana Nu\u00f1ez'.",
     "model": "gpt-oss:20b",
-    "evalModel": "gemini-3.1-flash-lite-preview"
+    "evalModel": "gemini-3.1-flash-lite-preview",
+    "thinking": true
 }

@@ -3,5 +3,6 @@
     "completeness": 95,
     "reasoning": "The summary is highly accurate and correctly identifies the central thesis and scientific methodology of the study. It covers all essential details, including the species name, the model construction, the role of environmental factors like sunlight, and the contrast with modern bird incubation. It is only slightly less than perfect in completeness because it omits the specific species name (Heyuannia huangi) in the summary text, though this is a minor detail in the context of the overall findings.",
     "model": "gemma3:12b",
-    "evalModel": "gemini-3.1-flash-lite-preview"
+    "evalModel": "gemini-3.1-flash-lite-preview",
+    "thinking": false
 }

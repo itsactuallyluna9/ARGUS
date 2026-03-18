@@ -3,5 +3,6 @@
     "completeness": 95,
     "reasoning": "The summary is highly accurate and captures all the key scientific and meteorologic explanations provided in the article. It is nearly complete, missing only minor specific details such as the mention of wildfire risks and potential water supply concerns in the West, which are secondary to the primary focus on temperature fluctuations.",
     "model": "gemma3:4b",
-    "evalModel": "gemini-3.1-flash-lite-preview"
+    "evalModel": "gemini-3.1-flash-lite-preview",
+    "thinking": false
 }

@@ -3,5 +3,6 @@
     "completeness": 90,
     "reasoning": "The summary is highly accurate and captures the core tension between conservationists and invasive species experts well. It correctly identifies the monkeys' origins, the community's positive perception, and the scientific debate. It is slightly less than 100% complete as it omits specific historical details like the 1947 escape from the biomedical research facility and the specific scientific research methodology used (DNA fecal analysis), but it covers all major thematic points sufficiently for a general summary.",
     "model": "deepseek-r1:14b",
-    "evalModel": "gemini-3.1-flash-lite-preview"
+    "evalModel": "gemini-3.1-flash-lite-preview",
+    "thinking": false
 }

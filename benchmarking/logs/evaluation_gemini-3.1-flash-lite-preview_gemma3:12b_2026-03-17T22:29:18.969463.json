@@ -3,5 +3,6 @@
     "completeness": 95,
     "reasoning": "The summary is highly accurate and captures the core details of the event, the key historical context, and the reactions of the parties involved. It is nearly complete; it omits the 1950 and 1987 ties mentioned in the full list provided in the article, but the summary correctly identifies the primary event and provides a sufficient overview of the historical context mentioned.",
     "model": "gemma3:12b",
-    "evalModel": "gemini-3.1-flash-lite-preview"
+    "evalModel": "gemini-3.1-flash-lite-preview",
+    "thinking": false
 }

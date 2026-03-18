@@ -3,5 +3,6 @@
     "completeness": 95,
     "reasoning": "The summary is highly accurate and correctly reflects the article's core information regarding the CDC's polio travel advisory updates and vaccine recommendations. It is very complete, covering the specific countries added and removed, the nature of the virus, and the additional advisories mentioned, though it omits the specific details about the recommended dosage schedule for unvaccinated adults, which is a minor detail in the context of the overall article.",
     "model": "deepseek-r1:14b",
-    "evalModel": "gemini-3.1-flash-lite-preview"
+    "evalModel": "gemini-3.1-flash-lite-preview",
+    "thinking": false
 }

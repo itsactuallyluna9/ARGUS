@@ -3,5 +3,6 @@
     "completeness": 100,
     "reasoning": "The summary and the included key points are highly accurate, strictly reflecting the information provided in the article. It is also complete, covering the specific changes to the travel list, the vaccination recommendations for children and adults, the nature of the virus, and the broader context of the CDC's advisory system.",
     "model": "gpt-oss:20b",
-    "evalModel": "gemini-3.1-flash-lite-preview"
+    "evalModel": "gemini-3.1-flash-lite-preview",
+    "thinking": false
 }

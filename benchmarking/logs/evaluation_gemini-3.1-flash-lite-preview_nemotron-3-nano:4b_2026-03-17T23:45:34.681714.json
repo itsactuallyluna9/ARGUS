@@ -3,5 +3,6 @@
     "completeness": 90,
     "reasoning": "The summary is highly accurate in its representation of the article's core arguments and facts. It effectively synthesizes the meteorology behind the weather swings and the specific regional forecasts. It is missing some minor details regarding the specific temperature drop magnitudes (40-50 degrees) mentioned in the text and the nuance that the heat in the West is expected to persist through the end of the month, but it captures all major themes, including the scientific link to climate change.",
     "model": "nemotron-3-nano:4b",
-    "evalModel": "gemini-3.1-flash-lite-preview"
+    "evalModel": "gemini-3.1-flash-lite-preview",
+    "thinking": true
 }

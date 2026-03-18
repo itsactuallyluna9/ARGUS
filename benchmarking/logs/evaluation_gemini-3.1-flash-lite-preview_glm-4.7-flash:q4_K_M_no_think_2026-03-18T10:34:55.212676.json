@@ -3,5 +3,6 @@
     "completeness": 100,
     "reasoning": "The summary and key points accurately reflect all the factual claims and details provided in the source article. It covers the specific countries added and removed, the CDC's recommendations for vaccination, the medical context regarding the virus, and the status of other travel advisories without omitting important information.",
     "model": "glm-4.7-flash:q4_K_M",
-    "evalModel": "gemini-3.1-flash-lite-preview"
+    "evalModel": "gemini-3.1-flash-lite-preview",
+    "thinking": false
 }

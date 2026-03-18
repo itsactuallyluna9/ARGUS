@@ -3,5 +3,6 @@
     "completeness": 95,
     "reasoning": "The summary is highly accurate and captures the core narrative of the article perfectly. It covers all essential factual points, including the specific role of Brad Reese, the economic drivers behind cocoa reformulations, and the regulatory differences. It is missing only minor details such as the specific mentioned lab-grown brand 'ChoViva' or the specific mentions of other competitors like Toblerone and Nestl\u00e9, but these omissions do not detract from the overall completeness of the summary.",
     "model": "glm-4.7-flash:q4_K_M",
-    "evalModel": "gemini-3.1-flash-lite-preview"
+    "evalModel": "gemini-3.1-flash-lite-preview",
+    "thinking": true
 }

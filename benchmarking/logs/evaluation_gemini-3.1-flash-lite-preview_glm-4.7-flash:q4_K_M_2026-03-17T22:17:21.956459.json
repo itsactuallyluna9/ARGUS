@@ -3,5 +3,6 @@
     "completeness": 95,
     "reasoning": "The summary is highly accurate and correctly reflects the findings of the study mentioned in the article. It captures all key factual claims, including the methodology, the specific species, and the conclusion regarding incubation strategies. It is nearly perfectly complete, missing only minor details such as the specific temperatures mentioned in the article, which do not significantly impact the overall summary.",
     "model": "glm-4.7-flash:q4_K_M",
-    "evalModel": "gemini-3.1-flash-lite-preview"
+    "evalModel": "gemini-3.1-flash-lite-preview",
+    "thinking": true
 }

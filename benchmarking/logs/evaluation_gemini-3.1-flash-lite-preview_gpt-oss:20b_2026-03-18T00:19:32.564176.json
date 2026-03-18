@@ -3,5 +3,6 @@
     "completeness": 95,
     "reasoning": "The summary is highly accurate and captures all the critical factual claims regarding the reasons for reformulation, the market conditions for cocoa, and the specific consumer-led critique. It effectively synthesizes complex economic context with the anecdotal narrative. The completeness score is 95 rather than 100 simply because it omits the mention of the recent 2025 cocoa price drop and the broader supply chain complexities mentioned at the end of the article, which provide a more nuanced view of why prices remain high despite market stabilization.",
     "model": "gpt-oss:20b",
-    "evalModel": "gemini-3.1-flash-lite-preview"
+    "evalModel": "gemini-3.1-flash-lite-preview",
+    "thinking": true
 }

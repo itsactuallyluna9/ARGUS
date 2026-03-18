@@ -3,5 +3,6 @@
     "completeness": 95,
     "reasoning": "The summary is highly accurate and correctly reflects the article's core narrative. It captures the contradiction between Trump's claims and the denials from the former presidents' camps. It is nearly complete, missing only the minor detail that Trump explicitly ruled out George W. Bush as the individual he was referring to during a press inquiry.",
     "model": "gemma3:4b",
-    "evalModel": "gemini-3.1-flash-lite-preview"
+    "evalModel": "gemini-3.1-flash-lite-preview",
+    "thinking": false
 }

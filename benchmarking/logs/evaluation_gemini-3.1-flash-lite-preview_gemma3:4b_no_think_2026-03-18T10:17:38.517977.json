@@ -3,5 +3,6 @@
     "completeness": 95,
     "reasoning": "The summary is highly accurate and captures the core purpose and technical nature of the project well. It is very complete, though it omits a minor specific detail mentioned in the article regarding the planned use of the Milk-V Duo single-board computer as a specific testing device, which is a relatively small point compared to the overall mission.",
     "model": "gemma3:4b",
-    "evalModel": "gemini-3.1-flash-lite-preview"
+    "evalModel": "gemini-3.1-flash-lite-preview",
+    "thinking": false
 }

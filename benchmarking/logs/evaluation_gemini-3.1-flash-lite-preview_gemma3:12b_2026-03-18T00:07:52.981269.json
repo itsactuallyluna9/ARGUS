@@ -3,5 +3,6 @@
     "completeness": 100,
     "reasoning": "The summary is highly accurate and captures all the essential details of the article, including the specific changes to the CDC travel list, the vaccination recommendations for children and adults, and the medical context provided by the article. It effectively synthesizes both the current travel advisory information and the background details regarding the nature of the virus and other existing CDC alerts.",
     "model": "gemma3:12b",
-    "evalModel": "gemini-3.1-flash-lite-preview"
+    "evalModel": "gemini-3.1-flash-lite-preview",
+    "thinking": false
 }

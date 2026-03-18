@@ -3,5 +3,6 @@
     "completeness": 100,
     "reasoning": "The summary and the included points are factually accurate, capturing the technical nature of the project and its protest-driven goals. It thoroughly covers all key details provided in the article, including the motivation, technical implementation, and future roadmap, without omitting any significant information.",
     "model": "qwen3.5:27b",
-    "evalModel": "gemini-3.1-flash-lite-preview"
+    "evalModel": "gemini-3.1-flash-lite-preview",
+    "thinking": true
 }

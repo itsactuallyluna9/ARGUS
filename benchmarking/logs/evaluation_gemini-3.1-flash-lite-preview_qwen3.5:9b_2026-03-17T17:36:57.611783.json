@@ -3,5 +3,6 @@
     "completeness": 60,
     "reasoning": "The summary contains several significant factual errors. It incorrectly states that Trump hosted four living former presidents at the Kennedy Center, whereas the text only notes they were together at the 2025 inauguration. It also incorrectly labels JD Vance as 'President-elect,' while the text identifies him as Vice President. Furthermore, the points provided claim the discussion included the Epstein case and Clinton's character, which, while mentioned in the article as separate context, were not part of the alleged conversation about Iran.",
     "model": "qwen3.5:9b",
-    "evalModel": "gemini-3.1-flash-lite-preview"
+    "evalModel": "gemini-3.1-flash-lite-preview",
+    "thinking": true
 }

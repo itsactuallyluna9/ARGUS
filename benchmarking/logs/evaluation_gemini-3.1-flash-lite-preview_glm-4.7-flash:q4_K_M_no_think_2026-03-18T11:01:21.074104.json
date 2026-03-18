@@ -3,5 +3,6 @@
     "completeness": 95,
     "reasoning": "The summary is highly accurate and correctly reflects the article's content regarding the CDC's polio advisory updates and recommendations. It is nearly complete, capturing all essential details including the specific countries added/removed, the basis for the advisory, and vaccination recommendations. It only narrowly misses the additional context provided about other non-polio travel advisories, which is minor in the context of the primary topic.",
     "model": "glm-4.7-flash:q4_K_M",
-    "evalModel": "gemini-3.1-flash-lite-preview"
+    "evalModel": "gemini-3.1-flash-lite-preview",
+    "thinking": false
 }

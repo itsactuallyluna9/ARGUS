@@ -3,5 +3,6 @@
     "completeness": 100,
     "reasoning": "The summary provides a highly accurate and comprehensive reflection of the source text. It correctly captures the specific country changes, the CDC's recommendations for vaccination, the medical context regarding the virus, and the current status of travel advisory levels, capturing all key factual points without distortion.",
     "model": "gemma3:12b",
-    "evalModel": "gemini-3.1-flash-lite-preview"
+    "evalModel": "gemini-3.1-flash-lite-preview",
+    "thinking": false
 }

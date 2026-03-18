@@ -3,5 +3,6 @@
     "completeness": 95,
     "reasoning": "The summary is highly accurate and captures the core tension in the article regarding Trump's conflicting statements. It includes all major factual points and the reaction from international allies and the public. It is near-complete, missing only minor details such as the specific mentions of Trump's threats toward NATO's future or the potential delay of his meeting with Xi Jinping, which are secondary to the main narrative about the Strait of Hormuz.",
     "model": "deepseek-r1:14b",
-    "evalModel": "gemini-3.1-flash-lite-preview"
+    "evalModel": "gemini-3.1-flash-lite-preview",
+    "thinking": false
 }

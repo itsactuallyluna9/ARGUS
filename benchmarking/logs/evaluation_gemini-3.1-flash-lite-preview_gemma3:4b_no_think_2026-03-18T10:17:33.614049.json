@@ -3,5 +3,6 @@
     "completeness": 90,
     "reasoning": "The summary is highly accurate and captures the core nuance of the debate presented in the article. It effectively contrasts the scientific perspective on non-native species with the emotional/social value residents place on the monkeys. It misses minor details, such as the specific origin story involving Leila Roosevelt Denis and the biomedical research center, but this does not detract from the main argument of the article.",
     "model": "gemma3:4b",
-    "evalModel": "gemini-3.1-flash-lite-preview"
+    "evalModel": "gemini-3.1-flash-lite-preview",
+    "thinking": false
 }

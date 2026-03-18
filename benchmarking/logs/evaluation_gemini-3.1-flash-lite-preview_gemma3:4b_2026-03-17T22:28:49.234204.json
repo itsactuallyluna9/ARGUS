@@ -3,5 +3,6 @@
     "completeness": 90,
     "reasoning": "The summary is highly accurate and captures the core meteorological explanations provided in the article. It correctly identifies the role of air mass interaction, the jet stream, and the contrasting weather patterns between the East and West. It is very complete, though it omits some of the specific minor details like the mention of specific cities (e.g., Phoenix, Las Vegas) or the expected temperature drop ranges (15-25 degrees), which are minor in the context of a general summary.",
     "model": "gemma3:4b",
-    "evalModel": "gemini-3.1-flash-lite-preview"
+    "evalModel": "gemini-3.1-flash-lite-preview",
+    "thinking": false
 }

@@ -3,5 +3,6 @@
     "completeness": 95,
     "reasoning": "The summary is highly accurate and correctly identifies the core details of the 2026 Oscar tie. It is very complete, covering the specific winners, the presenters, the historical context, and the reactions of the filmmakers. The only minor exclusion is the specific mention of the '3-vote rule' governing the 1932 tie, though this is a relatively minor historical detail that does not affect the overall quality of the summary.",
     "model": "qwen3.5:27b",
-    "evalModel": "gemini-3.1-flash-lite-preview"
+    "evalModel": "gemini-3.1-flash-lite-preview",
+    "thinking": true
 }

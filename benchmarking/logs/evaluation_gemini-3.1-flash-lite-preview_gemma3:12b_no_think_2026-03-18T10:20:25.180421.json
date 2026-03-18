@@ -3,5 +3,6 @@
     "completeness": 100,
     "reasoning": "The summary provides a highly accurate and comprehensive overview of the article. It correctly identifies the purpose of the project, the technical details of the implementation, the specific legal concerns driving the protest, and the future roadmap, including the specific plans for 2026.",
     "model": "gemma3:12b",
-    "evalModel": "gemini-3.1-flash-lite-preview"
+    "evalModel": "gemini-3.1-flash-lite-preview",
+    "thinking": false
 }

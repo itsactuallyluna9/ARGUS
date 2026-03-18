@@ -3,5 +3,6 @@
     "completeness": 95,
     "reasoning": "The summary is highly accurate and captures the core purpose and technical nature of the project. It covers all major points, including the motivation, technical implementation, and future roadmap. It omits only minor details such as the specific mention of California\u2019s Digital Age Assurance Act and the plan to use BitTorrent for distribution, which does not significantly detract from the overall completeness of the summary.",
     "model": "deepseek-r1:14b",
-    "evalModel": "gemini-3.1-flash-lite-preview"
+    "evalModel": "gemini-3.1-flash-lite-preview",
+    "thinking": false
 }

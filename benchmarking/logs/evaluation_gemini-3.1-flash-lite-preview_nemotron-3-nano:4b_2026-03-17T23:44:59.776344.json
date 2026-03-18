@@ -3,5 +3,6 @@
     "completeness": 100,
     "reasoning": "The summary is highly accurate, correctly reflecting the CDC travel advisory updates, the rationale behind them, and the recommended health precautions. It is also complete, covering the specific countries added and removed, the nature of the Level 2 advisory, the symptoms of polio, and the context of other ongoing health notices mentioned in the article.",
     "model": "nemotron-3-nano:4b",
-    "evalModel": "gemini-3.1-flash-lite-preview"
+    "evalModel": "gemini-3.1-flash-lite-preview",
+    "thinking": true
 }

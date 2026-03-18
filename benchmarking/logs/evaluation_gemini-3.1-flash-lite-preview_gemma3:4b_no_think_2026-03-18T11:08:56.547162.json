@@ -3,5 +3,6 @@
     "completeness": 95,
     "reasoning": "The summary is highly accurate, correctly identifying the films, participants, and historical context of the event. It is very complete, covering the main event, the reactions, and providing a helpful breakdown of historical ties. It misses only minor details like specific quotes from the filmmakers, but these do not detract from the overall quality of the summary.",
     "model": "gemma3:4b",
-    "evalModel": "gemini-3.1-flash-lite-preview"
+    "evalModel": "gemini-3.1-flash-lite-preview",
+    "thinking": false
 }

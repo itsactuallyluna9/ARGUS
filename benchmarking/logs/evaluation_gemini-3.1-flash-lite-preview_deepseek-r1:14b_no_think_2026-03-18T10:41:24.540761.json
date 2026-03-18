@@ -3,5 +3,6 @@
     "completeness": 100,
     "reasoning": "The summary and the provided key points are perfectly aligned with the article's content. All major findings, including the specific nest architecture of Heyuannia huangi, the limitations of thermoregulatory contact incubation for these dinosaurs, and the experimental results regarding sunlight-assisted incubation, are captured accurately and comprehensively.",
     "model": "deepseek-r1:14b",
-    "evalModel": "gemini-3.1-flash-lite-preview"
+    "evalModel": "gemini-3.1-flash-lite-preview",
+    "thinking": false
 }

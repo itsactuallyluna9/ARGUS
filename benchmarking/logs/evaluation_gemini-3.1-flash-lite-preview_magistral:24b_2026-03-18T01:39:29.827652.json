@@ -3,5 +3,6 @@
     "completeness": 95,
     "reasoning": "The summary is highly accurate and correctly identifies all major points, including the specific changes to the list, the advisory level, and the CDC's recommendations. It captures the essence of the polio information and the scope of other CDC advisories. The completeness score is slightly less than perfect only because it omitted the specific booster shot recommendations for adults, which were a notable detail in the original text.",
     "model": "magistral:24b",
-    "evalModel": "gemini-3.1-flash-lite-preview"
+    "evalModel": "gemini-3.1-flash-lite-preview",
+    "thinking": true
 }

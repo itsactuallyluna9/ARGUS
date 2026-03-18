@@ -3,5 +3,6 @@
     "completeness": 90,
     "reasoning": "The summary is highly accurate and captures the core tension in Trump's contradictory statements regarding the Strait of Hormuz. It effectively highlights the backlash from the public, military families, and international allies. The completeness is strong, though it could have briefly mentioned the specific context of the ongoing three-week war in Iran to provide slightly more background on the conflict described in the article.",
     "model": "gemma3:4b",
-    "evalModel": "gemini-3.1-flash-lite-preview"
+    "evalModel": "gemini-3.1-flash-lite-preview",
+    "thinking": false
 }

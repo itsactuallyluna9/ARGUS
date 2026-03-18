@@ -3,5 +3,6 @@
     "completeness": 85,
     "reasoning": "The summary is highly accurate in its representation of the article's core narrative and the scientific nuances regarding the vervet monkeys. It correctly captures the conflict between public sentiment and the 'invasive' designation. However, it misses a few important details: it omits the specific historical origin of the monkeys (the 1947 escape from a biomedical/zoo facility) and does not mention the specific threats they face, such as electrocution and car accidents, which are significant parts of the article's discussion on why they need protection.",
     "model": "magistral:24b",
-    "evalModel": "gemini-3.1-flash-lite-preview"
+    "evalModel": "gemini-3.1-flash-lite-preview",
+    "thinking": true
 }

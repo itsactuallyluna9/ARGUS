@@ -3,5 +3,6 @@
     "completeness": 95,
     "reasoning": "The summary is highly accurate and correctly identifies the central tension between Trump's claims and the denials from former presidents. It captures all key factual points, including the specific names of the ex-presidents involved and the context of Trump's comments. It is nearly perfect in completeness, missing only minor details such as the specific forum (Kennedy Center meeting) and the fact that the White House did not respond to requests for comment.",
     "model": "deepseek-r1:14b",
-    "evalModel": "gemini-3.1-flash-lite-preview"
+    "evalModel": "gemini-3.1-flash-lite-preview",
+    "thinking": false
 }

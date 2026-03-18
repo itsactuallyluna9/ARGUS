@@ -3,5 +3,6 @@
     "completeness": 95,
     "reasoning": "The summary is highly accurate and captures all the key factual claims from the article. It is nearly complete, missing only the specific detail about the 1932 'tie' involving Fredric March and Wallace Beery being a technicality rather than a true tie, though this is a minor nuance in the context of the summary.",
     "model": "glm-4.7-flash:q4_K_M",
-    "evalModel": "gemini-3.1-flash-lite-preview"
+    "evalModel": "gemini-3.1-flash-lite-preview",
+    "thinking": false
 }

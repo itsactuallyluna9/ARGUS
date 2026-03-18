@@ -3,5 +3,6 @@
     "completeness": 90,
     "reasoning": "The summary is highly accurate and captures the core meteorological explanations provided in the article. It is nearly complete, missing only the specific short-term forecast details for the East Coast (e.g., the impending temperature drop and snowfall) and the long-range outlook for April, though these omissions do not detract from the overall understanding of the weather phenomenon described.",
     "model": "qwen3.5:2b",
-    "evalModel": "gemini-3.1-flash-lite-preview"
+    "evalModel": "gemini-3.1-flash-lite-preview",
+    "thinking": true
 }

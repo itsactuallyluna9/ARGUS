@@ -3,5 +3,6 @@
     "completeness": 100,
     "reasoning": "The summary is highly accurate and captures all essential details of the article, including the specific quotes and context regarding the Oscars tribute. It covers the factual claims about the actors' respective histories with Redford, the nature of the Oscars tribute, and the background of their public responses to his passing, leaving no important information out.",
     "model": "deepseek-r1:14b",
-    "evalModel": "gemini-3.1-flash-lite-preview"
+    "evalModel": "gemini-3.1-flash-lite-preview",
+    "thinking": false
 }

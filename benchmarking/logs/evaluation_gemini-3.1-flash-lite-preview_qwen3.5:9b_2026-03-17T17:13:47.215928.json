@@ -3,5 +3,6 @@
     "completeness": 100,
     "reasoning": "The summary and the included key points are highly accurate and align perfectly with the source article's scientific findings. The summary covers all essential details, including the research methodology, the species studied, the biological implications of the egg arrangement, and the role of solar heat, leaving out no significant information.",
     "model": "qwen3.5:9b",
-    "evalModel": "gemini-3.1-flash-lite-preview"
+    "evalModel": "gemini-3.1-flash-lite-preview",
+    "thinking": true
 }

@@ -3,5 +3,6 @@
     "completeness": 95,
     "reasoning": "The summary is highly accurate, correctly identifying the project's purpose, technical implementation, and goals. It captures the key facts, including specific hardware examples and legislative context. It is nearly complete, missing only the specific mention of the third quarter of 2026 for the planned releases, but otherwise provides an excellent overview of the article.",
     "model": "nemotron-3-nano:4b",
-    "evalModel": "gemini-3.1-flash-lite-preview"
+    "evalModel": "gemini-3.1-flash-lite-preview",
+    "thinking": true
 }

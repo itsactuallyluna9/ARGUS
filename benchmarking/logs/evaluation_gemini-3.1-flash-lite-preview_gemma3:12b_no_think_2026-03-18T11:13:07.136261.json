@@ -3,5 +3,6 @@
     "completeness": 90,
     "reasoning": "The summary is mostly accurate, but it incorrectly attributes the 'intellectual cowboy' quote to Jane Fonda in the points section, when the article clearly states that Barbra Streisand said this during her speech. The summary captures the essence of the event and the sentiments of the actresses well.",
     "model": "gemma3:12b",
-    "evalModel": "gemini-3.1-flash-lite-preview"
+    "evalModel": "gemini-3.1-flash-lite-preview",
+    "thinking": false
 }

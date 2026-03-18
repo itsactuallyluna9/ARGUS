@@ -3,5 +3,6 @@
     "completeness": 90,
     "reasoning": "The summary is highly accurate and correctly identifies the core details of the CDC's travel advisory update, including the newly added countries and vaccination recommendations. It is slightly incomplete as it omits that the update also involved removing four specific countries (Finland, Ghana, Spain, and Zimbabwe) from the list, and it does not mention the broader context of other ongoing CDC travel advisories mentioned at the end of the article.",
     "model": "gemma3:4b",
-    "evalModel": "gemini-3.1-flash-lite-preview"
+    "evalModel": "gemini-3.1-flash-lite-preview",
+    "thinking": false
 }
