@@ -1,0 +1,7 @@
+{
+    "accuracy": 100,
+    "completeness": 95,
+    "reasoning": "The summary is highly accurate and captures all the core facts of the event, including the participants, the historical rarity, and the reactions of those involved. It misses only minor peripheral details, such as the specific trivia about the 1932 'tie' not being a true mathematical tie, but this does not detract from the overall quality of the summary.",
+    "model": "deepseek-r1:14b",
+    "evalModel": "gemini-3.1-flash-lite-preview"
+}

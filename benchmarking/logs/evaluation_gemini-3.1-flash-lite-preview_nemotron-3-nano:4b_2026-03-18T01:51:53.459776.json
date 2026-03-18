@@ -1,0 +1,7 @@
+{
+    "accuracy": 95,
+    "completeness": 90,
+    "reasoning": "The summary accurately captures the main points of the article, including the meteorological explanations for weather in both the Eastern and Western U.S. It is highly accurate regarding the cited forecasts and expert opinions. It is slightly less than 100% complete as it misstates the duration of the heat pattern in the West (saying 'late April' instead of 'late in the month' as written in the article) and could have briefly mentioned the scientific research regarding the jet stream mentioned in the text.",
+    "model": "nemotron-3-nano:4b",
+    "evalModel": "gemini-3.1-flash-lite-preview"
+}

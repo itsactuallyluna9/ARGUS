@@ -1,0 +1,7 @@
+{
+    "accuracy": 100,
+    "completeness": 90,
+    "reasoning": "The summary is highly accurate, correctly identifying the additions of Laos and Namibia and the CDC's clinical recommendations. It is mostly complete, though it misses the detail that several countries (Finland, Ghana, Spain, and Zimbabwe) were removed from the list, which provides important context regarding the dynamic nature of the advisory.",
+    "model": "qwen3.5:2b",
+    "evalModel": "gemini-3.1-flash-lite-preview"
+}

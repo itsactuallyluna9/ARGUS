@@ -1,0 +1,7 @@
+{
+    "accuracy": 100,
+    "completeness": 95,
+    "reasoning": "The summary is highly accurate and correctly identifies the core findings of the study. It is nearly complete, covering the methodology, the species studied, the environmental factors, and the contrast with modern bird behavior. It omits minor background details like the specific construction materials of the model nest (foam, wood, cotton), but this does not detract from the essential understanding of the article.",
+    "model": "gemma3:4b",
+    "evalModel": "gemini-3.1-flash-lite-preview"
+}

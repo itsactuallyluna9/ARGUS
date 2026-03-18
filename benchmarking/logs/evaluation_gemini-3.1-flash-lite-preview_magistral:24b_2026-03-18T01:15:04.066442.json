@@ -1,0 +1,7 @@
+{
+    "accuracy": 100,
+    "completeness": 95,
+    "reasoning": "The summary is highly accurate, correctly reflecting the article's core explanations for both the Eastern and Western weather patterns. It captures all major factual claims, including the atmospheric mechanics behind the shifts and the long-range outlook. It is nearly complete, missing only the specific mention of potential wildfire risks and water supply concerns associated with the Western heat dome, but otherwise covers all key points effectively.",
+    "model": "magistral:24b",
+    "evalModel": "gemini-3.1-flash-lite-preview"
+}

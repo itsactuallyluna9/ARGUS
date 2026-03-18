@@ -1,0 +1,7 @@
+{
+    "accuracy": 100,
+    "completeness": 100,
+    "reasoning": "The summary provides a highly accurate and comprehensive reflection of the original article. It covers all major points, including the seasonal nature of the weather, the meteorological mechanics behind the temperature shifts, the specific impacts on different US regions, and the potential long-term climate implications mentioned by the source.",
+    "model": "gpt-oss:20b",
+    "evalModel": "gemini-3.1-flash-lite-preview"
+}

@@ -1,0 +1,7 @@
+{
+    "accuracy": 95,
+    "completeness": 90,
+    "reasoning": "The summary is highly accurate and captures the core tension between conservationists and invasive species researchers regarding the Dania Beach vervet monkeys. It correctly identifies the key figures, the historical origin of the colony, and the societal vs. ecological arguments. It is slightly less than 100% complete as it omits specific details regarding the monkeys' origins being linked to a 1947 escape from a biomedical research center run by the Roosevelt family, which was a significant portion of the article. Despite this minor omission, the summary is an excellent synthesis of the provided text.",
+    "model": "qwen3.5:2b",
+    "evalModel": "gemini-3.1-flash-lite-preview"
+}

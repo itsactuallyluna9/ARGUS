@@ -1,0 +1,7 @@
+{
+    "accuracy": 100,
+    "completeness": 95,
+    "reasoning": "The summary is highly accurate and correctly identifies the central conflict between Trump's claims and the denials from the representatives of former presidents. It captures all essential factual components, including the specific context of the Iran conflict and the timing of the last meeting of all living presidents. It is very nearly complete, missing only the minor detail regarding Trump's specific denial that it was George W. Bush.",
+    "model": "glm-4.7-flash:q4_K_M",
+    "evalModel": "gemini-3.1-flash-lite-preview"
+}

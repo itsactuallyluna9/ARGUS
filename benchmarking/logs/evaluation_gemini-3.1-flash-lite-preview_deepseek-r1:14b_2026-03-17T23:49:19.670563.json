@@ -1,0 +1,7 @@
+{
+    "accuracy": 95,
+    "completeness": 90,
+    "reasoning": "The summary is highly accurate in its portrayal of Fonda's playful remarks and the context of the Oscars tribute. It captures the essential factual details regarding the number of films Fonda and Streisand made with Redford. It receives a slight deduction for completeness because the summary incorrectly states Redford died in 2022, whereas the article text specifies he died in September of the previous year (2025) at age 89.",
+    "model": "deepseek-r1:14b",
+    "evalModel": "gemini-3.1-flash-lite-preview"
+}

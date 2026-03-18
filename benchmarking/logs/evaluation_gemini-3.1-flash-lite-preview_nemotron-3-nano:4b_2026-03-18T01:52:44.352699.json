@@ -1,0 +1,7 @@
+{
+    "accuracy": 95,
+    "completeness": 90,
+    "reasoning": "The summary is highly accurate in its reporting of the CDC's updated travel advisory, the countries affected, and the vaccination recommendations. It captures the essential points regarding the nature of the virus and the purpose of the advisory. It is nearly complete, though it misses the specific detail of the recommended timing for the three-dose series for unvaccinated adults, which was included in the article.",
+    "model": "nemotron-3-nano:4b",
+    "evalModel": "gemini-3.1-flash-lite-preview"
+}

@@ -1,0 +1,7 @@
+{
+    "accuracy": 90,
+    "completeness": 90,
+    "reasoning": "The summary accurately captures the central playful conflict between Fonda and Streisand. It is highly complete regarding the factual details of the films and the nature of the Oscars tribute. It contains one minor inaccuracy: the final point claims both Fonda and Streisand called him an 'intellectual cowboy,' but the text indicates only Streisand used that specific phrase in her tribute speech.",
+    "model": "nemotron-3-nano:4b",
+    "evalModel": "gemini-3.1-flash-lite-preview"
+}

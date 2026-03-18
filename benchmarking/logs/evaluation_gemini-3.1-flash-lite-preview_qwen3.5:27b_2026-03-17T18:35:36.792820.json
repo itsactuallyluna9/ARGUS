@@ -1,0 +1,7 @@
+{
+    "accuracy": 100,
+    "completeness": 100,
+    "reasoning": "The summary and the included key points are perfectly aligned with the original article. It accurately captures the methodology, the scientific hypothesis, the experimental findings regarding temperature distribution, and the conclusions regarding parental care. All technical details, such as the materials used for the model and the specific temperature ranges, are consistent with the source text.",
+    "model": "qwen3.5:27b",
+    "evalModel": "gemini-3.1-flash-lite-preview"
+}

@@ -1,0 +1,7 @@
+{
+    "accuracy": 95,
+    "completeness": 90,
+    "reasoning": "The summary is highly accurate and captures the core tension between consumer expectations and corporate cost-cutting measures. It correctly identifies the primary figures and the underlying economic factors. It is slightly missing a detail regarding the fact that the individual's name is Brad Reese, not Brian Reese, and it could have briefly mentioned that not all products are reformulated (e.g., standard peanut butter cups are still made with milk chocolate), which the article notes as part of Hershey's defense.",
+    "model": "nemotron-3-nano:4b",
+    "evalModel": "gemini-3.1-flash-lite-preview"
+}

@@ -1,0 +1,7 @@
+{
+    "accuracy": 100,
+    "completeness": 95,
+    "reasoning": "The summary is highly accurate and adheres closely to the provided article's claims. It captures the essence of the president's contradictory statements, the backlash from the public and families of service members, and the international response. It is nearly complete, missing only minor details such as the specific mention of Luxembourg's deputy prime minister's comment about 'blackmail', which is a minor detail compared to the broader coverage provided.",
+    "model": "qwen3.5:9b",
+    "evalModel": "gemini-3.1-flash-lite-preview"
+}

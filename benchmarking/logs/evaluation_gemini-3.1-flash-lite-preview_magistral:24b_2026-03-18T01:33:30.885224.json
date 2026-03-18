@@ -1,0 +1,7 @@
+{
+    "accuracy": 100,
+    "completeness": 95,
+    "reasoning": "The summary is highly accurate and captures all the core factual elements of the article. It is nearly complete, missing only the specific detail that Fonda noted she had been 'always in love' with Redford, though this is a minor omission relative to the primary focus on the tribute controversy.",
+    "model": "magistral:24b",
+    "evalModel": "gemini-3.1-flash-lite-preview"
+}

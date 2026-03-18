@@ -1,0 +1,7 @@
+{
+    "accuracy": 95,
+    "completeness": 90,
+    "reasoning": "The summary accurately captures the main points of the article and the nature of the interaction between Fonda and Streisand. It is highly accurate regarding the factual claims, although it slightly simplifies Redford's legacy by attributing the defense of freedom of the press as a point Fonda noted, whereas the article attributes that specific quote to Streisand's speech. The completeness is high, covering the event, the actors involved, and the background relationship, missing only the specific details of the filmography mentioned in the text.",
+    "model": "qwen3.5:2b",
+    "evalModel": "gemini-3.1-flash-lite-preview"
+}

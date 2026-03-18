@@ -1,0 +1,7 @@
+{
+    "accuracy": 100,
+    "completeness": 95,
+    "reasoning": "The summary accurately captures the core arguments and factual findings of the article, including the specific reasons for the cocoa shortage and the corporate response. It is highly complete, covering the economic, regulatory, and consumer-focused aspects of the issue. The only minor detail missing is the specific mention of alternative lab-grown developments like 'ChoViva,' but this does not detract from the overall quality of the summary.",
+    "model": "deepseek-r1:14b",
+    "evalModel": "gemini-3.1-flash-lite-preview"
+}

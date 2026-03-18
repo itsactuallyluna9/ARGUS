@@ -1,0 +1,7 @@
+{
+    "accuracy": 100,
+    "completeness": 95,
+    "reasoning": "The summary is highly accurate, correctly synthesizing the meteorological explanations provided in the article. It captures the key regional differences and the scientific context regarding the jet stream and climate change. It is nearly complete, missing only minor details such as the specific locations mentioned for heat records or the forecast through early April, which are not critical for a general summary.",
+    "model": "gemma3:4b",
+    "evalModel": "gemini-3.1-flash-lite-preview"
+}

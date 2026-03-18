@@ -1,0 +1,7 @@
+{
+    "accuracy": 100,
+    "completeness": 95,
+    "reasoning": "The summary accurately captures the core contradiction in President Trump's statements and correctly identifies the international pushback and specific threats he made. It covers all major factual claims, including the backlash from affected families and the diplomatic tensions. The completeness is high, though it could have briefly mentioned the specific context of the 13 US service members mentioned in the article to further underscore the human cost associated with the backlash.",
+    "model": "gemma3:12b",
+    "evalModel": "gemini-3.1-flash-lite-preview"
+}

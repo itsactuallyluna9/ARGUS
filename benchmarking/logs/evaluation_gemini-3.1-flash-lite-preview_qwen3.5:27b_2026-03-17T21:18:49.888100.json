@@ -1,0 +1,7 @@
+{
+    "accuracy": 100,
+    "completeness": 100,
+    "reasoning": "The summary accurately captures the essence of Jane Fonda's playful comments and provides a comprehensive overview of the context, including the collaborative history of the actors and the events of the Oscars. All key points are correctly identified and represented without factual error.",
+    "model": "qwen3.5:27b",
+    "evalModel": "gemini-3.1-flash-lite-preview"
+}

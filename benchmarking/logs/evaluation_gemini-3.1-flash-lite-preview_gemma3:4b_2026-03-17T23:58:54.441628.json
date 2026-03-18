@@ -1,0 +1,7 @@
+{
+    "accuracy": 85,
+    "completeness": 90,
+    "reasoning": "The summary is highly accurate in representing the core themes and conflict of the article. It captures the tension between conservationists and invasive species researchers well. However, it contains a minor factual error in section IV: it states the monkeys raid 'raccoon eggs,' while the text actually mentions they were being tested for raiding bird nests and the study found they did not do so, while raccoons were the actual raiders. Otherwise, it is a comprehensive overview of the narrative.",
+    "model": "gemma3:4b",
+    "evalModel": "gemini-3.1-flash-lite-preview"
+}

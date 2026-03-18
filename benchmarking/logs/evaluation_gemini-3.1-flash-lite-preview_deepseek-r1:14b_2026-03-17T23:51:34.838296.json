@@ -1,0 +1,7 @@
+{
+    "accuracy": 95,
+    "completeness": 90,
+    "reasoning": "The summary is highly accurate and captures the core tension between scientific concerns about non-native species and the human emotional connection to the Dania Beach vervet population. It correctly identifies the history of the colony, the researchers involved, and the ecological debate. It slightly misses the specific origin story (the biomedical research facility escape), which is a significant detail in the article, but otherwise, it provides a comprehensive overview of the situation.",
+    "model": "deepseek-r1:14b",
+    "evalModel": "gemini-3.1-flash-lite-preview"
+}

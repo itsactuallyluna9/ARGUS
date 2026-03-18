@@ -1,0 +1,7 @@
+{
+    "accuracy": 95,
+    "completeness": 90,
+    "reasoning": "The summary accurately reflects the main points of the article and the denials provided by the living former presidents. It is highly accurate regarding the claims made by Trump and the subsequent refutations. It is very complete, though it could have more explicitly noted that the White House did not respond to the specific inquiry regarding the contradiction between Trump's claim and the denials from the former presidents' representatives, rather than just stating they did not comment.",
+    "model": "nemotron-3-nano:4b",
+    "evalModel": "gemini-3.1-flash-lite-preview"
+}

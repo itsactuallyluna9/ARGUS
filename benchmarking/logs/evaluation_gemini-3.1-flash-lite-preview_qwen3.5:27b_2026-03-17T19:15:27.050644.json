@@ -1,0 +1,7 @@
+{
+    "accuracy": 95,
+    "completeness": 80,
+    "reasoning": "The summary is highly accurate in reflecting the sentiments and facts presented in the article regarding ingredient substitution. It is mostly complete but misses the significant context regarding why companies are doing this\u2014specifically the global cocoa market volatility caused by climate change in West Africa, which the article cites as a primary driver alongside corporate profit motives. Including that nuance would have provided a more balanced view of the industry's situation.",
+    "model": "qwen3.5:27b",
+    "evalModel": "gemini-3.1-flash-lite-preview"
+}

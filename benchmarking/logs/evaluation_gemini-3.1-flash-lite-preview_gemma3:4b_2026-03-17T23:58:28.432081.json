@@ -1,0 +1,7 @@
+{
+    "accuracy": 100,
+    "completeness": 90,
+    "reasoning": "The summary accurately captures the core controversy, the conflicting statements made by the President, and the reactions of various stakeholders. It is highly accurate regarding the provided text. The completeness score is slightly lower as it omits the specific mentions of the international diplomatic reactions, such as the refusals from Australia, Japan, and France, and the specific mention of the potential delay in the summit with Xi Jinping, which provide important context to the scale of the backlash.",
+    "model": "gemma3:4b",
+    "evalModel": "gemini-3.1-flash-lite-preview"
+}

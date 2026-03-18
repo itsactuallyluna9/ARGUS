@@ -1,0 +1,7 @@
+{
+    "accuracy": 100,
+    "completeness": 95,
+    "reasoning": "The summary is highly accurate and captures the core essence of the article, including the specific contradictions in Trump's messaging and the reactions from various stakeholders. It covers the geopolitical situation, the domestic criticism, and the refusal of allies to intervene. The completeness score is slightly docked only because it omits the specific detail that Trump's comments were made while returning from his Mar-a-Lago resort, although this is a minor contextual detail compared to the main political developments.",
+    "model": "glm-4.7-flash:q4_K_M",
+    "evalModel": "gemini-3.1-flash-lite-preview"
+}

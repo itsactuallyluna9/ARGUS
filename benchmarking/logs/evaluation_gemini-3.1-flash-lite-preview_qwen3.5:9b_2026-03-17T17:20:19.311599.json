@@ -1,0 +1,7 @@
+{
+    "accuracy": 100,
+    "completeness": 95,
+    "reasoning": "The summary is highly accurate and captures the main points of the article faithfully. It is very complete, though it could have briefly mentioned the specific concern regarding early snowmelt and long-term water supply issues in the West to reach 100% completeness.",
+    "model": "qwen3.5:9b",
+    "evalModel": "gemini-3.1-flash-lite-preview"
+}

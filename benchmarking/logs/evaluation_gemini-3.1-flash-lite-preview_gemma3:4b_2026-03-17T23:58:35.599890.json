@@ -1,0 +1,7 @@
+{
+    "accuracy": 100,
+    "completeness": 95,
+    "reasoning": "The summary is highly accurate and correctly identifies the key facts of the event. It is nearly complete, missing only the specific mention of the 1995 tie as the most recent previous instance in that specific category, but it captures the overall significance and historical context well.",
+    "model": "gemma3:4b",
+    "evalModel": "gemini-3.1-flash-lite-preview"
+}

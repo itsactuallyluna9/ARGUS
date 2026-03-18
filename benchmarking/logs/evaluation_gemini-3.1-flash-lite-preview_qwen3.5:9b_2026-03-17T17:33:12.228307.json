@@ -1,0 +1,7 @@
+{
+    "accuracy": 100,
+    "completeness": 95,
+    "reasoning": "The summary is highly accurate and adheres strictly to the information provided in the source text. It captures the essential details of the CDC's travel advisory updates, vaccination recommendations, and the nature of the virus. The completeness score is slightly less than 100 only because it omits specific details about polio symptoms, which were mentioned in the article, although this does not detract from the summary's core focus on the travel advisory.",
+    "model": "qwen3.5:9b",
+    "evalModel": "gemini-3.1-flash-lite-preview"
+}

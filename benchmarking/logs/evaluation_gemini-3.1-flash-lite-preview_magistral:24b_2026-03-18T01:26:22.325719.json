@@ -1,0 +1,7 @@
+{
+    "accuracy": 100,
+    "completeness": 95,
+    "reasoning": "The summary is highly accurate and correctly identifies the key event, the participants, and the historical context provided in the article. It is nearly complete, missing only the specific detail about the 1932 'tie' involving Fredric March and Wallace Beery, which the article clarifies was not a technical tie due to voting rules. Otherwise, it covers all significant points.",
+    "model": "magistral:24b",
+    "evalModel": "gemini-3.1-flash-lite-preview"
+}

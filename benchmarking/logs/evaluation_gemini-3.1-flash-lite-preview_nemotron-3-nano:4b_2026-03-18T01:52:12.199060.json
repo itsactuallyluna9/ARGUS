@@ -1,0 +1,7 @@
+{
+    "accuracy": 95,
+    "completeness": 90,
+    "reasoning": "The summary is highly accurate and captures the main event and key participants correctly. There is a slight misinterpretation regarding the Conan O'Brien quote; the summary says he joked that the tie 'reduced Oscar-voting possibilities by 22 million,' whereas the text states he joked it 'ruined 22 million Oscar pools.' Additionally, while very comprehensive, it omits the specific detail that there have been other ties in categories like sound editing (2013) and documentary (1950, 1987), focusing instead on a smaller subset of previous ties.",
+    "model": "nemotron-3-nano:4b",
+    "evalModel": "gemini-3.1-flash-lite-preview"
+}

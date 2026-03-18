@@ -1,0 +1,7 @@
+{
+    "accuracy": 100,
+    "completeness": 100,
+    "reasoning": "The summary and factual claims provided are perfectly aligned with the source article. It captures all key technical details regarding the project's implementation, its stated purpose, the regulatory concerns it addresses, and the future roadmap, while correctly identifying the author's framing of the subject.",
+    "model": "gpt-oss:20b",
+    "evalModel": "gemini-3.1-flash-lite-preview"
+}
