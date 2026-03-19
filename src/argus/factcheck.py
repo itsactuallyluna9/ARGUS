@@ -178,7 +178,7 @@ class FactCheck:
 
 
 if __name__ == "__main__":
-
+    pass
     # # chroma_client = chromadb.Client()
     # chroma_client = chromadb.HttpClient(host="localhost", port=8000)
     # article_collection = chroma_client.get_or_create_collection(name="articles")
