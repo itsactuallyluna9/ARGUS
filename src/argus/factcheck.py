@@ -2,6 +2,7 @@ from typing import Any
 
 import chromadb
 from datetime import datetime
+from tenacity import retry, stop_after_attempt
 
 from flask import jsonify
 from argus.summarizearticle import summarize_article
@@ -82,11 +83,10 @@ class FactCheck:
         self.summary, self.bias_rating, self.key_points = self.summarize_article(self.article_text)
 
         urls = find_related_article_urls(self.summary)
-        related_summaries = []
 
         for url in urls:
             curr_summary, _, _ = self.summarize_article(get_page(url))
-            related_summaries.append(curr_summary)
+            self.related_summaries.append((curr_summary, url))
 
         return jsonify({
             "summary": self.summary,
@@ -95,7 +95,8 @@ class FactCheck:
             "related_summaries": self.related_summaries
         })
 
-        
+
+    @retry(stop = stop_after_attempt(3))
     def summarize_article(self, article_text: str) -> tuple[str, str, list]:
 
         #returns json with index sentence, key points, summary, bias rating
