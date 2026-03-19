@@ -80,7 +80,13 @@ class FactCheck:
 
         self.article_text = get_page(self.url)
         self.summary, self.bias_rating, self.key_points = self.summarize_article(self.article_text)
-        self.related_summaries = self.find_related_articles(self.summary)
+
+        urls = find_related_article_urls(self.summary)
+        related_summaries = []
+
+        for url in urls:
+            curr_summary, _, _ = self.summarize_article(get_page(url))
+            related_summaries.append(curr_summary)
 
         return jsonify({
             "summary": self.summary,
