@@ -34,7 +34,7 @@ def api_create():
     url = data.get("url")
 
     found = False
-    check = None
+    check: FactCheck = None # type: ignore
 
     for fact_check in active_fact_checks:
         if fact_check.url == url:

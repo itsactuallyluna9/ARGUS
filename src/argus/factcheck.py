@@ -85,10 +85,17 @@ class FactCheck:
         self.article_text = get_page(self.url)
         self.summary, self.bias_rating, self.key_points = self.summarize_article(self.article_text)
 
+        print(f"Summary for {self.url}:\n{self.summary}\n\nBias rating: {self.bias_rating}\n\nKey points:\n{self.key_points}")
+
         urls = find_related_article_urls(self.summary)
+
+        print(f"Related article URLs for {self.url}:\n{urls}")
 
         for url in urls:
             curr_summary, _, _ = self.summarize_article(get_page(url))
+
+            print(f"Related article summary for {url}:\n{curr_summary}")
+
             self.related_summaries.append((curr_summary, url))
 
         return jsonify({
@@ -137,38 +144,44 @@ class FactCheck:
         summaries = []
 
         for url in urls:
-            if not self.article_collection.get(ids=[url]):
-                curr_summary, _, _ = self.summarize_article(get_page(url))
-                summaries.append((curr_summary, url))
+            if len(self.article_collection.get(ids=[url])["ids"]) == 0:
+                self.summarize_article(get_page(url))
 
-        related_from_db = self.article_collection.query(query_texts=[summary], n_results=7)
+        related = self.article_collection.query(query_texts=[summary], n_results=5)
 
-        print(related_from_db)
-
-        for i in range(len(related_from_db['ids'])):
-            summaries.append((related_from_db['documents'][i], related_from_db['ids'][i])) # type: ignore
+        for i in range(len(related['ids'])):
+            summaries.append((related['documents'][i], related['ids'][i])) # type: ignore
 
         return summaries
     
     
-    def find_evidence(self, key_points: list[str]) -> list[tuple[str, str]]:
-        # returns list of tuples of (evidence summary, evidence url)
+    def find_evidence(self, key_points: list[str]) -> list[list[tuple[str, str]]]:
+        # returns list of lists of tuples of (evidence summary, evidence url)
+
         evidence_urls = find_evidence_urls(key_points)
         evidence = []
 
-        for urls in evidence_urls:
-            for url in urls:
+        for i in range(len(key_points)):
 
-                print(f"Summarizing evidence source: {url}")
+            point_evidence = []
 
-                curr_summary, _, _ = self.summarize_article(get_page(url))
-                evidence.append((curr_summary, url))
+            for url in evidence_urls[i]:
+
+                if len(self.article_collection.get(ids=[url])["ids"]) == 0:
+                    self.summarize_article(get_page(url))
+
+            related = self.article_collection.query(query_texts=[key_points[i]], n_results=3)
+
+            for j in range(len(related['ids'])):
+                point_evidence.append((related['documents'][j], related['ids'][j])) # type: ignore
+
+            evidence.append(point_evidence)
 
         return evidence
     
 
     #PLACEHOLDER IMPLEMENTATION
-    def fact_check(self, summary: str, bias_rating: str, related_summaries: list[tuple[str, str]], evidence_summaries: list[tuple[str, str]]) -> dict[str, Any]:
+    def fact_check(self, summary: str, bias_rating: str, related_summaries: list[tuple[str, str]], evidence_summaries: list[list[tuple[str, str]]]) -> dict[str, Any]:
         # Placeholder for actual implementation
         self.accuracy_score = 80
         self.completeness_score = 70
@@ -178,9 +191,9 @@ class FactCheck:
 
 
 if __name__ == "__main__":
-    pass
-    # # chroma_client = chromadb.Client()
-    # chroma_client = chromadb.HttpClient(host="localhost", port=8000)
-    # article_collection = chroma_client.get_or_create_collection(name="articles")
+
+    chroma_client = chromadb.HttpClient(host="localhost", port=8000)
+    article_collection = chroma_client.get_or_create_collection(name="articles")
+    print(article_collection.get(ids=["peepee"]))
 
     #f = FactCheck("https://www.nbcnews.com/politics/donald-trump/pearl-harbor-joke-iran-operation-meeting-japan-prime-minister-war-rcna264325?utm_source=firefox-newtab-en-us", article_collection)
