@@ -3,6 +3,7 @@ import Home from '@/pages/Home'
 import About from '@/pages/About'
 import NotFound from '@/pages/NotFound'
 import DetailsView from '@/pages/Details'
+import Debug from './pages/Debug'
 
 function App() {
   return (
@@ -17,7 +18,7 @@ function App() {
         <Route path="/details/:id" element={<DetailsView />} />
         <Route path="/about" element={<About />} />
         <Route path="/sandbox" element={<></>} />
-        <Route path="/debug" element={<></>} />
+        <Route path="/debug" element={<Debug />} />
         <Route path="*" element={<NotFound />} />
       </Routes>
     </>
