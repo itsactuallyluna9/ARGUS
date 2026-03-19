@@ -48,6 +48,16 @@ def api_create():
     
     return jsonify(check.to_dict()), 202
 
+@app.post("/api/demo")
+def api_demo():
+
+    data = request.get_json()
+    url = data.get("url")
+
+    check = FactCheck(url, articles)
+
+    return check.related_article_summaries(), 202
+
 
 @app.get("/", defaults={"path": ""})
 @app.get("/<path:path>")

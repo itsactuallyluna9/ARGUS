@@ -11,6 +11,7 @@ def get_page(url: str) -> str:
 
     markdown = trafilatura.extract(resp.text, output_format='markdown')
     return markdown
+    
 
 def get_page_chrome(url: str) -> str:
     with sync_playwright() as p:
