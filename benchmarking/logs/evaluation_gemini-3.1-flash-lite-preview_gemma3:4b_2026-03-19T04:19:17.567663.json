@@ -1,0 +1,8 @@
+{
+    "accuracy": 100,
+    "completeness": 95,
+    "reasoning": "The summary accurately captures the core conflict between Trump's claims and the denials from former presidents' aides. It identifies the key details, including Trump's refusal to name the individual and the context of his remarks. While it does not include every minor detail mentioned in the article, such as the specific location of the meetings (Kennedy Center board meeting) or the precise date of the inauguration reference, it covers all essential factual claims effectively.",
+    "model": "gemma3:4b",
+    "thinking": false,
+    "evalModel": "gemini-3.1-flash-lite-preview"
+}

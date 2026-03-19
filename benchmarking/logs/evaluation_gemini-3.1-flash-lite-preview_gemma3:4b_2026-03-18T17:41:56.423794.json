@@ -1,0 +1,8 @@
+{
+    "accuracy": 100,
+    "completeness": 95,
+    "reasoning": "The summary accurately reflects the core message and details of the article. It captures the tension between economic pressures and product quality, as well as the specific examples and expert commentary provided in the text. It is extremely comprehensive, though it slightly de-emphasizes the specific detail regarding the regulatory differences between US and European 'chocolate' labeling, which is a minor point in the broader context.",
+    "model": "gemma3:4b",
+    "thinking": false,
+    "evalModel": "gemini-3.1-flash-lite-preview"
+}

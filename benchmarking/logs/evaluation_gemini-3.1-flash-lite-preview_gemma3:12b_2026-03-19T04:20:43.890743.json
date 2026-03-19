@@ -1,0 +1,8 @@
+{
+    "accuracy": 100,
+    "completeness": 95,
+    "reasoning": "The summary is highly accurate and captures the core tension in the reporting, specifically the contradiction between Trump's call for help and his suggestion that the U.S. shouldn't be involved. It effectively covers all major factual points provided in the article. It is nearly complete, missing only minor context regarding the specific deaths of service members mentioned, which is a minor detail compared to the main political focus of the summary.",
+    "model": "gemma3:12b",
+    "thinking": false,
+    "evalModel": "gemini-3.1-flash-lite-preview"
+}

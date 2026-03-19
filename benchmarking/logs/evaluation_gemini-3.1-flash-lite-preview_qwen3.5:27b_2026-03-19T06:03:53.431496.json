@@ -1,0 +1,8 @@
+{
+    "accuracy": 100,
+    "completeness": 95,
+    "reasoning": "The summary is highly accurate and captures the core arguments of both the scientific community and the local advocates. It effectively synthesizes the nuanced conflict between ecological classification and social perception. The only minor omission is the specific detail regarding the monkeys' origin story (the 1947 escape from a zoo/biomedical research center), which is a key part of the article's narrative context, but the summary otherwise covers all major factual claims.",
+    "model": "qwen3.5:27b",
+    "thinking": false,
+    "evalModel": "gemini-3.1-flash-lite-preview"
+}

@@ -1,0 +1,8 @@
+{
+    "accuracy": 90,
+    "completeness": 85,
+    "reasoning": "The summary is highly accurate in representing the core themes and facts of the article regarding the Dania Beach vervet monkeys. It correctly identifies the tension between ecological science and public affection for the colony. It is slightly incomplete as it omits specific historical details like the origin story involving the biomedical research center and the specific population model predicting extinction within the next century, which are significant parts of the article's narrative.",
+    "model": "deepseek-r1:14b",
+    "thinking": false,
+    "evalModel": "gemini-3.1-flash-lite-preview"
+}

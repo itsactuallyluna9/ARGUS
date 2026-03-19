@@ -1,0 +1,8 @@
+{
+    "accuracy": 100,
+    "completeness": 100,
+    "reasoning": "The summary and key points are highly accurate and align perfectly with the source article. It captures all the essential details regarding the study's hypothesis, the methodology involving the life-sized model, and the key findings concerning the role of sunlight in regulating incubation temperatures.",
+    "model": "qwen3.5:9b",
+    "thinking": false,
+    "evalModel": "gemini-3.1-flash-lite-preview"
+}

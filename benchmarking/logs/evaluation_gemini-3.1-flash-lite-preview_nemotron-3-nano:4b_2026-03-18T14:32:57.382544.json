@@ -1,0 +1,8 @@
+{
+    "accuracy": 70,
+    "completeness": 75,
+    "reasoning": "The summary accurately captures the sentiment of the community and the findings of the researcher regarding the monkeys' stable population. However, it misrepresents the official stance of the Florida Fish and Wildlife Conservation Commission, which explicitly considers them an invasive species, whereas the summary claims they are not under removal pressure and implies they have avoided this designation. Furthermore, the summary misinterprets the population projection; the article states the monkeys are likely to go extinct within the century, while the summary suggests a 'modest chance of persistence.'",
+    "model": "nemotron-3-nano:4b",
+    "thinking": false,
+    "evalModel": "gemini-3.1-flash-lite-preview"
+}

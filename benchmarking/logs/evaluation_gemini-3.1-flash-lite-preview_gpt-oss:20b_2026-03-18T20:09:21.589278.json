@@ -1,0 +1,8 @@
+{
+    "accuracy": 100,
+    "completeness": 100,
+    "reasoning": "The summary and the included key points are highly accurate, strictly adhering to the findings and details provided in the article. It covers the methodology, the specific species Heyuannia huangi, the physical limitations of the nest layout, and the conclusions regarding solar heat incubation, leaving no significant information out.",
+    "model": "gpt-oss:20b",
+    "thinking": false,
+    "evalModel": "gemini-3.1-flash-lite-preview"
+}

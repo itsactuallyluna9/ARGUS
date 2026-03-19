@@ -1,0 +1,8 @@
+{
+    "accuracy": 100,
+    "completeness": 100,
+    "reasoning": "The summary is highly accurate and captures all the critical scientific details of the original text, including the methodology used by the researchers, the specific species studied, and the core findings regarding thermoregulation. It successfully synthesizes the key points without omitting any essential context.",
+    "model": "glm-4.7-flash:q4_K_M",
+    "thinking": false,
+    "evalModel": "gemini-3.1-flash-lite-preview"
+}

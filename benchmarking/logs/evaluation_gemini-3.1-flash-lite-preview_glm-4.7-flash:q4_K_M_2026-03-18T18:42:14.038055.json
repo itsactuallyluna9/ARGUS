@@ -1,0 +1,8 @@
+{
+    "accuracy": 100,
+    "completeness": 95,
+    "reasoning": "The summary is highly accurate and captures the core narrative, including the personal anecdote, the economic factors, and the industry response. It is very complete, though it could have briefly mentioned the emergence of lab-grown alternatives like 'ChoViva' or the specific mention of consumer power/alternative brands like Tony's Chocolonely to be absolutely exhaustive. However, it covers all primary points effectively.",
+    "model": "glm-4.7-flash:q4_K_M",
+    "thinking": false,
+    "evalModel": "gemini-3.1-flash-lite-preview"
+}

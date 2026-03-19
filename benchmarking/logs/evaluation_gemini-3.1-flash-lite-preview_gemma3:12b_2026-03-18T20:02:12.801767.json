@@ -1,0 +1,8 @@
+{
+    "accuracy": 100,
+    "completeness": 95,
+    "reasoning": "The summary is highly accurate, correctly reflecting the meteorological explanations and regional contrasts provided in the text. It is very complete, covering the causes for the fluctuations in the East, the heat dome in the West, and the role of the jet stream. It misses minor details like the specific mentions of Phoenix, Las Vegas, and California as locations for record heat, but captures all essential information.",
+    "model": "gemma3:12b",
+    "thinking": false,
+    "evalModel": "gemini-3.1-flash-lite-preview"
+}

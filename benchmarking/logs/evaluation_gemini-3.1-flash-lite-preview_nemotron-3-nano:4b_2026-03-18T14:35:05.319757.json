@@ -1,0 +1,8 @@
+{
+    "accuracy": 95,
+    "completeness": 90,
+    "reasoning": "The summary is highly accurate in its reporting of the core event and factual claims. There is a minor inaccuracy in the attribution of the 'intellectual cowboy' quote: the article attributes that phrase to Streisand in her tribute speech, whereas the summary points suggest it was Fonda's description. The summary is quite complete, covering the context of the Oscars, the film histories, and the social media responses.",
+    "model": "nemotron-3-nano:4b",
+    "thinking": false,
+    "evalModel": "gemini-3.1-flash-lite-preview"
+}

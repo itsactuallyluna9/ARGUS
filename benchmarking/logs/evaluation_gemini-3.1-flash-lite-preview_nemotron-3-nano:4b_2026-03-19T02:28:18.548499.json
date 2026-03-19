@@ -1,0 +1,8 @@
+{
+    "accuracy": 100,
+    "completeness": 95,
+    "reasoning": "The summary is highly accurate in its reporting of the core conflict between Trump's claims and the denials from former presidents. It covers all major factual claims provided in the article. The completeness is slightly reduced only because the summary omits the specific detail that Trump explicitly denied it was George W. Bush when asked, which adds a layer of specific exclusion to the context of who the mystery president might be.",
+    "model": "nemotron-3-nano:4b",
+    "thinking": false,
+    "evalModel": "gemini-3.1-flash-lite-preview"
+}

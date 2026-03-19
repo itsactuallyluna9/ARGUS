@@ -1,0 +1,8 @@
+{
+    "accuracy": 100,
+    "completeness": 95,
+    "reasoning": "The summary is highly accurate and captures the core technical and philosophical goals of the project. It covers all major points, including the nature of the software, the legislative motivation, and future roadmap items. It only slightly misses the detail regarding the specific planned timeline of Q3 2026, but otherwise provides a comprehensive overview.",
+    "model": "deepseek-r1:14b",
+    "thinking": false,
+    "evalModel": "gemini-3.1-flash-lite-preview"
+}

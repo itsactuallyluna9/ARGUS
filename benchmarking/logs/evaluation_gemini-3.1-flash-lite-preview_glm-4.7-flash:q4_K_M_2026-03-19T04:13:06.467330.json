@@ -1,0 +1,8 @@
+{
+    "accuracy": 100,
+    "completeness": 100,
+    "reasoning": "The summary and key points are highly accurate and align perfectly with the information provided in the original text. It successfully covers all major details, including the research methodology, the specific dinosaur species, the contrast with modern bird nesting habits, and the scientific conclusion regarding the role of solar heat.",
+    "model": "glm-4.7-flash:q4_K_M",
+    "thinking": false,
+    "evalModel": "gemini-3.1-flash-lite-preview"
+}

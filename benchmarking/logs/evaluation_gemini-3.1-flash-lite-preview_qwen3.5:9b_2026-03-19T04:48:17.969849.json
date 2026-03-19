@@ -1,0 +1,8 @@
+{
+    "accuracy": 100,
+    "completeness": 95,
+    "reasoning": "The summary is highly accurate and correctly identifies the key updates, recommendations, and context provided in the article. It captures all critical information regarding the CDC's polio advisory changes, vaccine protocols, and the nature of the virus. It is nearly perfect in completeness, omitting only minor secondary details about other, non-polio travel advisories mentioned at the end of the article which are not central to the primary topic.",
+    "model": "qwen3.5:9b",
+    "thinking": false,
+    "evalModel": "gemini-3.1-flash-lite-preview"
+}

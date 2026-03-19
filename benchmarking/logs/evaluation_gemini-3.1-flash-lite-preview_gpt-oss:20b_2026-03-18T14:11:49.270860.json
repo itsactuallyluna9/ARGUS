@@ -1,0 +1,8 @@
+{
+    "accuracy": 60,
+    "completeness": 50,
+    "reasoning": "The summary introduces significant inaccuracies by citing legal acts like the 'American Bison Act (2018)' and 'Florida Wildlife Act' in the context of prohibiting the shooting of these specific monkeys, which are not mentioned in the source text and appear to be hallucinations. While the summary captures the general sentiment of the community and the scientific uncertainty mentioned in the article, it fails to mention the primary source of the monkeys (the biomedical research facility/zoo escape) and the specific researcher Missy Williams, which were central to the article's narrative.",
+    "model": "gpt-oss:20b",
+    "thinking": false,
+    "evalModel": "gemini-3.1-flash-lite-preview"
+}

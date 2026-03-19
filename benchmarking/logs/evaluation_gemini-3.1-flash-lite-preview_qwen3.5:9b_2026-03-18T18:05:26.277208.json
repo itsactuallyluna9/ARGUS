@@ -1,0 +1,8 @@
+{
+    "accuracy": 100,
+    "completeness": 95,
+    "reasoning": "The summary is highly accurate, correctly identifying the core contradiction in President Trump's statements and the subsequent public and international backlash. It covers all major factual points provided in the article. It is slightly less than 100% complete only because it omits minor details like the specific locations mentioned (e.g., Mar-a-Lago, Washington) and the specific role of Luxembourg's deputy prime minister, which are peripheral to the main narrative.",
+    "model": "qwen3.5:9b",
+    "thinking": false,
+    "evalModel": "gemini-3.1-flash-lite-preview"
+}

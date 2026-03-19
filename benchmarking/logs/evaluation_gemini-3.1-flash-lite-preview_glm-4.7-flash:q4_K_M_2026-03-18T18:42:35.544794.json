@@ -1,0 +1,8 @@
+{
+    "accuracy": 100,
+    "completeness": 95,
+    "reasoning": "The summary is highly accurate, correctly synthesizing the experimental methodology and the study's conclusions regarding the use of solar heat. It is nearly complete, missing only the specific mention of the dinosaur's approximate weight and size, though this is minor context that does not impact the core scientific findings summarized.",
+    "model": "glm-4.7-flash:q4_K_M",
+    "thinking": false,
+    "evalModel": "gemini-3.1-flash-lite-preview"
+}

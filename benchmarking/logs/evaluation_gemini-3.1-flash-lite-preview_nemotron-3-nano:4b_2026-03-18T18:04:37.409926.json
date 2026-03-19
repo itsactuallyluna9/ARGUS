@@ -1,0 +1,8 @@
+{
+    "accuracy": 100,
+    "completeness": 95,
+    "reasoning": "The summary is highly accurate, correctly relaying the study's methodology and findings without misrepresentation. It is very complete, covering the specific species, experimental setup, and thermal findings; the only minor omission is the specific mention of why the adult could not use TCI (thermoregulatory contact incubation) due to the ring-shaped nest, though the summary implies this by mentioning the wide-ring structure.",
+    "model": "nemotron-3-nano:4b",
+    "thinking": false,
+    "evalModel": "gemini-3.1-flash-lite-preview"
+}

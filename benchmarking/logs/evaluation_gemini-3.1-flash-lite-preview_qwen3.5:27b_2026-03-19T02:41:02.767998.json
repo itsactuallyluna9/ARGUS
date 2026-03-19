@@ -1,0 +1,8 @@
+{
+    "accuracy": 100,
+    "completeness": 95,
+    "reasoning": "The summary is highly accurate and captures the core arguments and facts presented in the article. It provides a comprehensive overview of the ecological debate, the community's perspective, and the status of the monkey colony. It omits some specific historical anecdotes, such as the exact details of the 1947 escape from the biomedical facility or the specific names of some monkeys (like Spock and Betty), but these omissions do not detract from the overall quality or understanding of the summary.",
+    "model": "qwen3.5:27b",
+    "thinking": false,
+    "evalModel": "gemini-3.1-flash-lite-preview"
+}

@@ -1,0 +1,8 @@
+{
+    "accuracy": 100,
+    "completeness": 100,
+    "reasoning": "The summary is highly accurate and captures all essential factual details from the article, including the specific research methodology, the species involved, and the implications of the findings. It covers the core scientific argument\u2014that oviraptors used a hybrid of body heat and sunlight\u2014completely and precisely.",
+    "model": "gpt-oss:20b",
+    "thinking": false,
+    "evalModel": "gemini-3.1-flash-lite-preview"
+}

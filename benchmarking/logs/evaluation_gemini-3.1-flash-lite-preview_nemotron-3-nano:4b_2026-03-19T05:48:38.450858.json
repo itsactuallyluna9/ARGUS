@@ -1,0 +1,8 @@
+{
+    "accuracy": 100,
+    "completeness": 95,
+    "reasoning": "The summary is highly accurate and correctly interprets the purpose and technical nature of the Ageless Linux project. It covers all the primary facts and key claims made in the original text. The only minor nuance is that while the summary accurately reflects the project's roadmap, it could have explicitly mentioned that the project acts more as a legal protest tool rather than a functional OS distribution, though this is alluded to throughout the text.",
+    "model": "nemotron-3-nano:4b",
+    "thinking": false,
+    "evalModel": "gemini-3.1-flash-lite-preview"
+}

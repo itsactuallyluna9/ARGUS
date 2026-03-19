@@ -1,0 +1,8 @@
+{
+    "accuracy": 100,
+    "completeness": 95,
+    "reasoning": "The summary is highly accurate, capturing the main points and tone of the article with precision. It successfully conveys the contradiction in Trump's foreign policy statements and the resulting international and domestic backlash. It is nearly complete, missing only minor details like the specific mention of Luxembourg's deputy prime minister's comment or the president's specific desire for China's involvement, but these do not detract from the overall quality of the summary.",
+    "model": "qwen3.5:27b",
+    "thinking": false,
+    "evalModel": "gemini-3.1-flash-lite-preview"
+}

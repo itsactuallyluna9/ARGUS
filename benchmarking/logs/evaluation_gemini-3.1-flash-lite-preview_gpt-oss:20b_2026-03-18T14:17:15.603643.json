@@ -1,0 +1,8 @@
+{
+    "accuracy": 100,
+    "completeness": 95,
+    "reasoning": "The summary is highly accurate and correctly synthesizes the information presented in the article. It captures all major aspects of the weather patterns, the meteorological explanations, and the regional forecasts. It is nearly complete, missing only minor details such as the specific note on potential wildfire risk and water supply concerns associated with the heat dome, which are less critical than the primary climate impacts mentioned.",
+    "model": "gpt-oss:20b",
+    "thinking": false,
+    "evalModel": "gemini-3.1-flash-lite-preview"
+}

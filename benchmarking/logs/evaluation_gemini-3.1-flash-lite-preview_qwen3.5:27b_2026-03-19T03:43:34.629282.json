@@ -1,0 +1,8 @@
+{
+    "accuracy": 100,
+    "completeness": 100,
+    "reasoning": "The summary and the key factual points accurately capture the essence, contradictions, and specific details of the article. It encompasses all major aspects, including the specific comments made by Trump, the reactions from international allies, and the internal criticism regarding the loss of US service members.",
+    "model": "qwen3.5:27b",
+    "thinking": false,
+    "evalModel": "gemini-3.1-flash-lite-preview"
+}

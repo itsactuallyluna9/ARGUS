@@ -1,0 +1,8 @@
+{
+    "accuracy": 100,
+    "completeness": 95,
+    "reasoning": "The summary is highly accurate and correctly reflects the article's tone and content. It is extremely complete, covering the main event, the reasoning behind Fonda's remarks, and the context of the actors' history with Redford. The only minor detail omitted is the specific mention of Redford's age at death and the year of his passing, but this does not detract from the core message of the summary.",
+    "model": "deepseek-r1:14b",
+    "thinking": false,
+    "evalModel": "gemini-3.1-flash-lite-preview"
+}

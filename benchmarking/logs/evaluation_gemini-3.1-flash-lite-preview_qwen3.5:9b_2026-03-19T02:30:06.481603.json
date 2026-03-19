@@ -1,0 +1,8 @@
+{
+    "accuracy": 100,
+    "completeness": 95,
+    "reasoning": "The summary is highly accurate and captures the nuance of the conflict between scientific definitions of invasive species and the local emotional attachment to the monkey colony. It correctly identifies the key figures, the historical origin of the colony, and the current population trends. The completeness score is slightly less than 100 only because it omits the specific details about the 1939 biomedical research center founded by Leila Roosevelt Denis, which explains how the monkeys originally escaped into the mangroves, but otherwise covers all major thematic points of the article.",
+    "model": "qwen3.5:9b",
+    "thinking": false,
+    "evalModel": "gemini-3.1-flash-lite-preview"
+}

@@ -1,0 +1,8 @@
+{
+    "accuracy": 100,
+    "completeness": 95,
+    "reasoning": "The summary accurately reflects the key points and findings of the article. It captures the distinction between the volatile weather in the East and the persistent heat in the West. It is highly complete, though it could have briefly mentioned the specific impacts of the western heat dome, such as wildfire risks or accelerated snowmelt, to be perfectly comprehensive.",
+    "model": "deepseek-r1:14b",
+    "thinking": false,
+    "evalModel": "gemini-3.1-flash-lite-preview"
+}

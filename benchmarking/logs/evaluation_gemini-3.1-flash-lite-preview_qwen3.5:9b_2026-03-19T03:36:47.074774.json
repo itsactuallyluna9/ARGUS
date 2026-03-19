@@ -1,0 +1,8 @@
+{
+    "accuracy": 100,
+    "completeness": 100,
+    "reasoning": "The summary and points provided are highly accurate and completely capture all essential factual details from the article. The summary correctly identifies the conflict between Trump's statement and the denials from the four living former presidents, includes the context of Trump's broader rhetoric, and correctly identifies the secondary news event mentioned in the text.",
+    "model": "qwen3.5:9b",
+    "thinking": false,
+    "evalModel": "gemini-3.1-flash-lite-preview"
+}

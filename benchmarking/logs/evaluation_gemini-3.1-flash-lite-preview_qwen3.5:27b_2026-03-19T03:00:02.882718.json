@@ -1,0 +1,8 @@
+{
+    "accuracy": 100,
+    "completeness": 95,
+    "reasoning": "The summary is highly accurate and faithfully represents the claims made in the source text. It correctly identifies the causes of the weather patterns, the regional differences, and the short-term forecasts. It is nearly complete, missing only minor details such as the specific locations mentioned for the heat records in California, but these omissions do not impact the overall understanding of the article.",
+    "model": "qwen3.5:27b",
+    "thinking": false,
+    "evalModel": "gemini-3.1-flash-lite-preview"
+}

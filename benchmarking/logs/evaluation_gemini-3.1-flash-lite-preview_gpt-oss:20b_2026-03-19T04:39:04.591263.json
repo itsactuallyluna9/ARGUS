@@ -1,0 +1,8 @@
+{
+    "accuracy": 95,
+    "completeness": 100,
+    "reasoning": "The summary is highly accurate and comprehensive, capturing all key details including the specific films mentioned and the context of the Oscars tribute. The only discrepancy is a minor date error: the summary states Redford died in September 2025, while the source text specifies he died in 'September last year' relative to a 2026 date, confirming 2025 as the correct year; however, the article text actually says 'September last year' (which would be 2025 given the 2026 dateline), making the summary factually consistent with the source.",
+    "model": "gpt-oss:20b",
+    "thinking": false,
+    "evalModel": "gemini-3.1-flash-lite-preview"
+}

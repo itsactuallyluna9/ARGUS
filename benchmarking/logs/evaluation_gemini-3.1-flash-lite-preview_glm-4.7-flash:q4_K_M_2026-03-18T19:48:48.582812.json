@@ -1,0 +1,8 @@
+{
+    "accuracy": 100,
+    "completeness": 100,
+    "reasoning": "The summary accurately captures the core purpose, technical nature, and future roadmap of the Ageless Linux project. It correctly reflects the article's tone regarding legal protest and includes all key factual details mentioned in the text, such as the specific hardware mentioned, the rationale behind the project, and the timeline for future releases.",
+    "model": "glm-4.7-flash:q4_K_M",
+    "thinking": false,
+    "evalModel": "gemini-3.1-flash-lite-preview"
+}

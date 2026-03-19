@@ -1,0 +1,8 @@
+{
+    "accuracy": 90,
+    "completeness": 95,
+    "reasoning": "The summary accurately captures the essence of the article and the playful nature of Fonda's comments. There is a minor inaccuracy in the points list, which states the actors co-starred in five films, while the article text notes they collaborated on four films (with one uncredited appearance mentioned separately), and the points claim they posted tributes in September 2025 when the article text says he died in September of the previous year (2025 based on the 2026 dateline). Otherwise, it is highly comprehensive and captures all key details.",
+    "model": "qwen3.5:9b",
+    "thinking": false,
+    "evalModel": "gemini-3.1-flash-lite-preview"
+}

@@ -1,0 +1,8 @@
+{
+    "accuracy": 100,
+    "completeness": 95,
+    "reasoning": "The summary is highly accurate, correctly synthesizing the meteorological explanation for the weather patterns and the regional differences between the East and West. It is very complete, though it omits the brief mention of anthropogenic climate change's potential influence on the jet stream, which was a minor secondary detail in the original text.",
+    "model": "nemotron-3-nano:4b",
+    "thinking": false,
+    "evalModel": "gemini-3.1-flash-lite-preview"
+}

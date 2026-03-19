@@ -1,0 +1,8 @@
+{
+    "accuracy": 100,
+    "completeness": 95,
+    "reasoning": "The summary is highly accurate and adheres strictly to the facts presented in the article. It covers all the main points, including the specific contradictions in Trump's messaging, the diplomatic pushback from allies, the reaction from families of service members, and the threats made toward NATO and China. It is nearly complete, missing only minor details such as the specific mentions of Luxembourg's position or the identity of the specific family member quoted, but these omissions do not detract from the overall quality or understanding of the summary.",
+    "model": "gpt-oss:20b",
+    "thinking": false,
+    "evalModel": "gemini-3.1-flash-lite-preview"
+}

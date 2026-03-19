@@ -1,0 +1,8 @@
+{
+    "accuracy": 95,
+    "completeness": 90,
+    "reasoning": "The summary is highly accurate in its representation of the article's core narrative, themes, and arguments. It effectively captures the tension between conservationists and invasive species policy. However, it is slightly less complete as it omits specific details such as the origin of the monkeys being linked to a biomedical facility/zoo and the mention of the specific species identification (Chlorocebus sabaeus/green monkey), which were significant facts provided in the text.",
+    "model": "gemma3:4b",
+    "thinking": false,
+    "evalModel": "gemini-3.1-flash-lite-preview"
+}

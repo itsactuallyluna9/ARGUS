@@ -1,0 +1,8 @@
+{
+    "accuracy": 70,
+    "completeness": 85,
+    "reasoning": "The summary contains several significant factual inaccuracies. It incorrectly names the genus 'Dattahondae' (the article states 'Chlorocebus'), misidentifies the location of the sanctuary as 'Wrightsville Beach' (it is in Dania Beach), and incorrectly states the US Fish and Wildlife Service hasn't classified them as invasive (the article cites the Florida Fish and Wildlife Conservation Commission, not the federal agency). Additionally, it misattributes a quote/opinion to 'Simberloff, University of Houston' when the article credits Nu\u00f1ez as the researcher from the University of Houston and Simberloff as being from the University of Tennessee. While it captures the general themes and sentiments of the article well, these specific factual errors lower the accuracy score.",
+    "model": "nemotron-3-nano:4b",
+    "thinking": false,
+    "evalModel": "gemini-3.1-flash-lite-preview"
+}

@@ -1,0 +1,8 @@
+{
+    "accuracy": 100,
+    "completeness": 100,
+    "reasoning": "The summary and points provided are highly accurate and align perfectly with the source text. It covers all the essential aspects of the study, including the methodology, the specific dinosaur species involved, the unique nesting arrangement, and the primary conclusion regarding the use of solar heat. No important details were omitted.",
+    "model": "nemotron-3-nano:4b",
+    "thinking": false,
+    "evalModel": "gemini-3.1-flash-lite-preview"
+}

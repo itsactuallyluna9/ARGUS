@@ -1,0 +1,8 @@
+{
+    "accuracy": 100,
+    "completeness": 100,
+    "reasoning": "The summary accurately captures the core conflict between Trump's claim and the denials from the former presidents' camps. It includes all essential details, such as the settings of the claims, the refusal to name the individual, and the context of Trump's relationships with his predecessors.",
+    "model": "glm-4.7-flash:q4_K_M",
+    "thinking": false,
+    "evalModel": "gemini-3.1-flash-lite-preview"
+}

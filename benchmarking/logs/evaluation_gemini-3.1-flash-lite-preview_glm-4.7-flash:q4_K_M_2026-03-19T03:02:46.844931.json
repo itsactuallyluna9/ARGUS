@@ -1,0 +1,8 @@
+{
+    "accuracy": 100,
+    "completeness": 95,
+    "reasoning": "The summary accurately captures the core conflict between Trump's claims and the denials of his predecessors' representatives. It includes all essential factual points. It misses only minor contextual details, such as the specific list of former presidents being excluded one by one or the exact nature of the Kennedy Center meeting, but these omissions do not impact the overall understanding of the central news story.",
+    "model": "glm-4.7-flash:q4_K_M",
+    "thinking": false,
+    "evalModel": "gemini-3.1-flash-lite-preview"
+}

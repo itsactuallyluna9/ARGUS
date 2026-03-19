@@ -1,0 +1,8 @@
+{
+    "accuracy": 100,
+    "completeness": 95,
+    "reasoning": "The summary is highly accurate, correctly capturing the nuances of the scientific debate and the local community's perspective. It effectively synthesizes the key arguments and context provided in the article. It is nearly complete, omitting only minor historical details like the specific origins of the monkeys in the biomedical trade (the zookeeper incident/Leila Roosevelt Denis), though this does not detract from the main purpose of the summary.",
+    "model": "qwen3.5:27b",
+    "thinking": false,
+    "evalModel": "gemini-3.1-flash-lite-preview"
+}

@@ -1,0 +1,8 @@
+{
+    "accuracy": 100,
+    "completeness": 95,
+    "reasoning": "The summary is highly accurate, correctly reflecting the President's contradictory statements and the subsequent backlash. It captures all the primary factual claims regarding the geopolitical tension and the reaction of both international allies and the families of service members. It is nearly complete, missing only minor details such as the specific threats made to NATO regarding the future of the alliance or the delay of the summit with China, though these are secondary to the main focus of the article.",
+    "model": "qwen3.5:9b",
+    "thinking": false,
+    "evalModel": "gemini-3.1-flash-lite-preview"
+}

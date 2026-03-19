@@ -1,0 +1,8 @@
+{
+    "accuracy": 100,
+    "completeness": 90,
+    "reasoning": "The summary is highly accurate and captures the core essence of the article. It misses a minor detail regarding the specific narrative of Brad Reese, who is a descendant of the company founder, which adds significant context to the article's perspective, but overall, it provides a very comprehensive and well-structured overview.",
+    "model": "deepseek-r1:14b",
+    "thinking": false,
+    "evalModel": "gemini-3.1-flash-lite-preview"
+}

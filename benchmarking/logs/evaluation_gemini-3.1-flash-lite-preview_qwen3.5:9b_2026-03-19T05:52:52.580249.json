@@ -1,0 +1,8 @@
+{
+    "accuracy": 100,
+    "completeness": 100,
+    "reasoning": "The summary and the provided key points are highly accurate and align perfectly with the factual claims presented in the article. Every significant detail, including the specific quotes from Trump and the uniform denials from the representatives of the four living former presidents, is captured clearly and comprehensively.",
+    "model": "qwen3.5:9b",
+    "thinking": false,
+    "evalModel": "gemini-3.1-flash-lite-preview"
+}

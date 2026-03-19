@@ -1,0 +1,8 @@
+{
+    "accuracy": 100,
+    "completeness": 95,
+    "reasoning": "The summary is highly accurate, correctly identifying the core themes, the role of Brad Reese, and the economic drivers behind the ingredient changes. It captures both the corporate strategies and the consumer perspective well. It is nearly complete, missing only minor peripheral details like the mention of lab-grown alternatives like 'ChoViva' or the specific mention of changing global cocoa sourcing (Ecuador/Indonesia), but it covers all essential aspects of the provided text.",
+    "model": "qwen3.5:9b",
+    "thinking": false,
+    "evalModel": "gemini-3.1-flash-lite-preview"
+}

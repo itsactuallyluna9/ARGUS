@@ -1,0 +1,8 @@
+{
+    "accuracy": 100,
+    "completeness": 95,
+    "reasoning": "The summary is highly accurate, correctly identifying the core conflict between Trump's claims and the denials from former presidents. It includes all essential factual points. The only minor omission is the specific context of where Trump made the remarks (at the Kennedy Center board meeting and the Oval Office) and the mention of Vice President JD Vance's task force announcement, though these are secondary to the main narrative.",
+    "model": "gemma3:12b",
+    "thinking": false,
+    "evalModel": "gemini-3.1-flash-lite-preview"
+}

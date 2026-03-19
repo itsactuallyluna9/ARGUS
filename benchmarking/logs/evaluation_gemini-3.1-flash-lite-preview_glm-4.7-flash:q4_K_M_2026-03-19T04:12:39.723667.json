@@ -1,0 +1,8 @@
+{
+    "accuracy": 95,
+    "completeness": 90,
+    "reasoning": "The summary accurately reflects the core article details, including the specific case of Brad Reese and the industry-wide challenges of cocoa market volatility. It captures the distinction between US and European labeling regulations and the economic motivations for reformulation. It is highly complete, though it could have briefly mentioned that Hershey's officially clarified that their standard Peanut Butter Cups remain unchanged to provide a slightly more balanced view of the company's response.",
+    "model": "glm-4.7-flash:q4_K_M",
+    "thinking": false,
+    "evalModel": "gemini-3.1-flash-lite-preview"
+}

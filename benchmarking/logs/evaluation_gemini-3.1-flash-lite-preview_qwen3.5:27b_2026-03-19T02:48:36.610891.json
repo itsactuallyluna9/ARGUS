@@ -1,0 +1,8 @@
+{
+    "accuracy": 100,
+    "completeness": 100,
+    "reasoning": "The summary and the provided key points are perfectly accurate, capturing the details of the article without error. The summary is comprehensive, covering the core news of the CDC advisory, the specific changes to the country list, the recommended health actions, and the broader context provided in the text.",
+    "model": "qwen3.5:27b",
+    "thinking": false,
+    "evalModel": "gemini-3.1-flash-lite-preview"
+}

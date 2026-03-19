@@ -1,0 +1,8 @@
+{
+    "accuracy": 100,
+    "completeness": 95,
+    "reasoning": "The summary is highly accurate in its reporting of the event and context. It is very complete, covering the key participants, the historical context of ties, and the reactions of the winners. It only misses minor details like the specific joke made by the host, Conan O'Brien, regarding Oscar pools, which is not essential for a high-level summary.",
+    "model": "deepseek-r1:14b",
+    "thinking": false,
+    "evalModel": "gemini-3.1-flash-lite-preview"
+}

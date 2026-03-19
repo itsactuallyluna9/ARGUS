@@ -1,0 +1,8 @@
+{
+    "accuracy": 100,
+    "completeness": 100,
+    "reasoning": "The summary and the included key points are highly accurate and align perfectly with the source text. It covers all essential aspects of the study, including the methodology, the specific species Heyuannia huangi, the environmental factors (sunlight), and the contrast with modern bird incubation methods.",
+    "model": "qwen3.5:9b",
+    "thinking": false,
+    "evalModel": "gemini-3.1-flash-lite-preview"
+}

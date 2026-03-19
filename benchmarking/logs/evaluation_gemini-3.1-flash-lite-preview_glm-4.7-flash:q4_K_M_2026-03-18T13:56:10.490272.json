@@ -1,0 +1,8 @@
+{
+    "accuracy": 100,
+    "completeness": 95,
+    "reasoning": "The summary accurately captures the core narrative, the reasoning behind the industry changes, and the specific case study involving Brad Reese. It provides a very strong synthesis of the article's claims and industry context. It is only slightly less than perfect because it does not explicitly mention the industry's struggle with labor practices or the specific mention of alternative innovations like 'ChoViva' mentioned in the text, though it covers all essential points of the article's primary focus.",
+    "model": "glm-4.7-flash:q4_K_M",
+    "thinking": false,
+    "evalModel": "gemini-3.1-flash-lite-preview"
+}

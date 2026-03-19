@@ -1,0 +1,8 @@
+{
+    "accuracy": 100,
+    "completeness": 100,
+    "reasoning": "The summary and the included key points are highly accurate, strictly adhering to the information provided in the original text. It successfully captures the methodology, the primary findings, and the significance of the research regarding dinosaur incubation strategies without omitting any critical details.",
+    "model": "gpt-oss:20b",
+    "thinking": false,
+    "evalModel": "gemini-3.1-flash-lite-preview"
+}

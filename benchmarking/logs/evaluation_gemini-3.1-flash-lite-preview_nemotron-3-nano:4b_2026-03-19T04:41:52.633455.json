@@ -1,0 +1,8 @@
+{
+    "accuracy": 85,
+    "completeness": 80,
+    "reasoning": "The summary captures the core themes of the article accurately, specifically the tension between the ecological classification of the monkeys as nonnative versus their cultural status as beloved residents. However, there are minor accuracy issues, such as the misspelling of the 'green monkey' as 'moneypot monkey' and a slight overstatement of the population growth percentage in the summary compared to the article's text. It is complete enough to convey the article's main argument, although it omits some of the specific historical context regarding the biomedical research center's origins, which adds depth to the monkeys' presence in the area.",
+    "model": "nemotron-3-nano:4b",
+    "thinking": false,
+    "evalModel": "gemini-3.1-flash-lite-preview"
+}

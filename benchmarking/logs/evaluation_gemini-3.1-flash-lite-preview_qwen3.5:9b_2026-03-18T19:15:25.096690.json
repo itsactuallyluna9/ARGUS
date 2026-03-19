@@ -1,0 +1,8 @@
+{
+    "accuracy": 100,
+    "completeness": 100,
+    "reasoning": "The summary and the included key points are highly accurate, precisely reflecting the facts presented in the article regarding the CDC's polio travel advisory, vaccine recommendations, and the nature of the virus. The summary is comprehensive, covering all essential details including the specific countries added or removed, the vaccine protocols, the nature of the Level 2 advisory, and the broader context of other existing travel notifications.",
+    "model": "qwen3.5:9b",
+    "thinking": false,
+    "evalModel": "gemini-3.1-flash-lite-preview"
+}

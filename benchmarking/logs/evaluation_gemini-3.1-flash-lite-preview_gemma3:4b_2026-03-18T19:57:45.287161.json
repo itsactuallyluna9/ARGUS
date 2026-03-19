@@ -1,0 +1,8 @@
+{
+    "accuracy": 100,
+    "completeness": 95,
+    "reasoning": "The summary is highly accurate, correctly synthesizing the causes and regional impacts of the weather patterns described in the article. It captures all major factual claims, including the seasonal nature of the swings, the atmospheric mechanics (jet stream/storm tracks), and the regional forecasts. The only minor omission is the specific mention of expected consequences in the West, such as accelerated snowmelt, but the overall summary remains comprehensive.",
+    "model": "gemma3:4b",
+    "thinking": false,
+    "evalModel": "gemini-3.1-flash-lite-preview"
+}

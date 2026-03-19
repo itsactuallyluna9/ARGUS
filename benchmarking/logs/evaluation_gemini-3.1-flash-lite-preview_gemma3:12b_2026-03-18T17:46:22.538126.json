@@ -1,0 +1,8 @@
+{
+    "accuracy": 100,
+    "completeness": 95,
+    "reasoning": "The summary and the key points are highly accurate and reflect the original text perfectly. The completeness is high, though it could be slightly improved by specifically naming the species, Heyuannia huangi, which was mentioned in the article, to provide more specific detail.",
+    "model": "gemma3:12b",
+    "thinking": false,
+    "evalModel": "gemini-3.1-flash-lite-preview"
+}

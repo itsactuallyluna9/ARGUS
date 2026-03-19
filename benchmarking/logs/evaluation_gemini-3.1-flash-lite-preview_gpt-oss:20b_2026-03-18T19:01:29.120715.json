@@ -1,0 +1,8 @@
+{
+    "accuracy": 100,
+    "completeness": 95,
+    "reasoning": "The summary is highly accurate, correctly identifying the key events, the source of the market volatility, and the specific motivations of the parties involved. It is nearly complete, capturing the core conflict, the economic context, and the regulatory landscape described in the article. It misses only minor details, such as the specific mentioned lab-grown brand 'Choco Crossies' and the mention of ethical concerns like child labor, though these are secondary to the primary focus of the piece.",
+    "model": "gpt-oss:20b",
+    "thinking": false,
+    "evalModel": "gemini-3.1-flash-lite-preview"
+}

@@ -1,0 +1,8 @@
+{
+    "accuracy": 100,
+    "completeness": 100,
+    "reasoning": "The summary is highly accurate and captures all essential details from the article, including the specific countries added and removed, vaccination recommendations for different groups, clinical information about polio, and the context of the CDC's broader travel advisory system. Every key point provided matches the original text perfectly.",
+    "model": "gpt-oss:20b",
+    "thinking": false,
+    "evalModel": "gemini-3.1-flash-lite-preview"
+}

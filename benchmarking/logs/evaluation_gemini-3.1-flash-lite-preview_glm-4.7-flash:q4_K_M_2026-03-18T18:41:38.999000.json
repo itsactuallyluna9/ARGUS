@@ -1,0 +1,8 @@
+{
+    "accuracy": 100,
+    "completeness": 95,
+    "reasoning": "The summary is highly accurate and captures the core of the article effectively. It misses the specific detail about the total number of films Fonda and Redford made (the article mentions four films plus an uncredited appearance, whereas the summary focuses on the four), but this is a minor omission that does not affect the overall quality or accuracy.",
+    "model": "glm-4.7-flash:q4_K_M",
+    "thinking": false,
+    "evalModel": "gemini-3.1-flash-lite-preview"
+}

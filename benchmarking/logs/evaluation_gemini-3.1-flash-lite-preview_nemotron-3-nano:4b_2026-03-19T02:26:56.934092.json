@@ -1,0 +1,8 @@
+{
+    "accuracy": 80,
+    "completeness": 85,
+    "reasoning": "The summary and points correctly capture the core advisory and health information. However, the first point in the list claims the CDC added 15 countries to the list, which contradicts the article's statement that the advisory includes more than two dozen countries and specifically mentions only two additions (Laos and Namibia) and four removals. Additionally, the points mistakenly attribute information to the FDA, while the article only cites Harvard Medical School.",
+    "model": "nemotron-3-nano:4b",
+    "thinking": false,
+    "evalModel": "gemini-3.1-flash-lite-preview"
+}

@@ -1,0 +1,8 @@
+{
+    "accuracy": 100,
+    "completeness": 100,
+    "reasoning": "The summary accurately captures the core conflict between President Trump's statements and the denials issued by the representatives of the living former presidents. It includes all essential context, such as the setting of the claims, the political background mentioned in the text, and the specific details regarding which former presidents were explicitly excluded or discussed by Trump.",
+    "model": "qwen3.5:27b",
+    "thinking": false,
+    "evalModel": "gemini-3.1-flash-lite-preview"
+}

@@ -1,0 +1,8 @@
+{
+    "accuracy": 95,
+    "completeness": 80,
+    "reasoning": "The summary is highly accurate in reflecting the core arguments presented in the article. However, it is missing significant context such as the monkeys' origin (escapees from a 1940s biomedical facility), the fact that their population is currently in decline and predicted to go extinct within the next century, and the specific details regarding their status with the Florida Fish and Wildlife Conservation Commission.",
+    "model": "nemotron-3-nano:4b",
+    "thinking": false,
+    "evalModel": "gemini-3.1-flash-lite-preview"
+}

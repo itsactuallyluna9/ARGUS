@@ -1,0 +1,8 @@
+{
+    "accuracy": 100,
+    "completeness": 95,
+    "reasoning": "The summary is highly accurate and captures all the central factual claims, including the motivations for ingredient changes and the market context. It is very complete, though it could have briefly touched upon the fact that Reese's original Peanut Butter Cups remain unchanged in composition to provide a slightly more balanced view of Hershey's specific product strategy.",
+    "model": "gemma3:12b",
+    "thinking": false,
+    "evalModel": "gemini-3.1-flash-lite-preview"
+}

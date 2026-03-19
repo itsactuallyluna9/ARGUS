@@ -1,0 +1,8 @@
+{
+    "accuracy": 100,
+    "completeness": 95,
+    "reasoning": "The summary is highly accurate and captures all essential details of the article. It effectively covers the primary news hook and the context regarding the actresses' history with Redford. The completeness score is slightly reduced only because the summary mentions the year of Redford's death as 2025 based on the article's text, which states he died 'in September last year' given the 2026 dateline, but it remains a very comprehensive overview.",
+    "model": "gemma3:12b",
+    "thinking": false,
+    "evalModel": "gemini-3.1-flash-lite-preview"
+}

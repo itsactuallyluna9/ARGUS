@@ -1,0 +1,8 @@
+{
+    "accuracy": 100,
+    "completeness": 100,
+    "reasoning": "The summary and the extracted key points are entirely accurate to the source material provided. It successfully captures all major aspects of the article, including the specific policy contradiction, the international diplomatic pushback, the human impact regarding the loss of service members, and the strategic threats issued by the President.",
+    "model": "qwen3.5:27b",
+    "thinking": false,
+    "evalModel": "gemini-3.1-flash-lite-preview"
+}
