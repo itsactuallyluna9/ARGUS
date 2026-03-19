@@ -1,0 +1,8 @@
+{
+    "accuracy": 100,
+    "completeness": 95,
+    "reasoning": "The summary is highly accurate and captures the core tension in Trump's messaging and the resulting geopolitical fallout. It effectively synthesizes the conflicting demands for allied support against his own dismissive comments regarding US involvement. The completeness is excellent, though it could be marginally improved by noting that the conflict mentioned involves a specific 'three-week war,' which provides important temporal context for the reader.",
+    "model": "qwen3.5:27b",
+    "thinking": false,
+    "evalModel": "gemini-3.1-flash-lite-preview"
+}

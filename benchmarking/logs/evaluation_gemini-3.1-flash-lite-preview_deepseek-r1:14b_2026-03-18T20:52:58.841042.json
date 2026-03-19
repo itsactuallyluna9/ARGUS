@@ -1,0 +1,8 @@
+{
+    "accuracy": 100,
+    "completeness": 95,
+    "reasoning": "The summary is highly accurate, correctly identifying the films and the historical context of the tie. It is very complete, covering the key event, the presenter, the reaction of the filmmakers, and historical precedents. It misses only minor details like Conan O'Brien's joke, but captures all essential information presented in the article.",
+    "model": "deepseek-r1:14b",
+    "thinking": false,
+    "evalModel": "gemini-3.1-flash-lite-preview"
+}

@@ -1,0 +1,8 @@
+{
+    "accuracy": 100,
+    "completeness": 100,
+    "reasoning": "The summary and the included key points are highly accurate, capturing the tone and substance of the article perfectly. It includes all essential factual details, such as the specific films shared, the context of the tribute, and the background of both actresses' relationships with the late actor, leaving no important information out.",
+    "model": "qwen3.5:27b",
+    "thinking": false,
+    "evalModel": "gemini-3.1-flash-lite-preview"
+}

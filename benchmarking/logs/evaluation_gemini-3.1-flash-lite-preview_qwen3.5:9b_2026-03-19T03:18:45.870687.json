@@ -1,0 +1,8 @@
+{
+    "accuracy": 100,
+    "completeness": 100,
+    "reasoning": "The summary accurately captures the core conflict of the article, detailing Trump's unsubstantiated claim and the subsequent denials from the former presidents' representatives. It includes all essential factual points and provides necessary context regarding the timing and circumstances of the statements.",
+    "model": "qwen3.5:9b",
+    "thinking": false,
+    "evalModel": "gemini-3.1-flash-lite-preview"
+}

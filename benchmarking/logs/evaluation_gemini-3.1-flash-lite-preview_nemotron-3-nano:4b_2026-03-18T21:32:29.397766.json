@@ -1,0 +1,8 @@
+{
+    "accuracy": 90,
+    "completeness": 95,
+    "reasoning": "The summary is highly accurate and comprehensive, capturing the project's goals, technical nature, and the specific legislation in question. It correctly identifies the protest nature of the project. A small deduction was made because the summary mentions a 'physical sticker with a milk-vine emblem' in the key points list, which is not mentioned in the provided source article text.",
+    "model": "nemotron-3-nano:4b",
+    "thinking": false,
+    "evalModel": "gemini-3.1-flash-lite-preview"
+}

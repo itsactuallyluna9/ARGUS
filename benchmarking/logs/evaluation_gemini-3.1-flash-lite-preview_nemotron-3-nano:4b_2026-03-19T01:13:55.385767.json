@@ -1,0 +1,8 @@
+{
+    "accuracy": 95,
+    "completeness": 90,
+    "reasoning": "The summary and points are highly accurate and align well with the article's narrative. It captures the essence of the contradictory messaging, the international reactions, and the domestic backlash regarding the casualties. It is nearly complete, though it could have specifically noted that Australia, France, and Japan have already publicly rejected sending warships, which adds further context to the diplomatic standoff described.",
+    "model": "nemotron-3-nano:4b",
+    "thinking": false,
+    "evalModel": "gemini-3.1-flash-lite-preview"
+}

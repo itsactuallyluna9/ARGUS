@@ -1,0 +1,8 @@
+{
+    "accuracy": 100,
+    "completeness": 100,
+    "reasoning": "The summary and the key points are completely accurate and reflect the information in the article without errors. It covers all essential aspects of the report, including the specific changes to the travel advisory list, the underlying criteria for these advisories, the CDC's vaccination recommendations, and the medical context regarding the disease.",
+    "model": "qwen3.5:27b",
+    "thinking": false,
+    "evalModel": "gemini-3.1-flash-lite-preview"
+}

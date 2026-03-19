@@ -1,0 +1,8 @@
+{
+    "accuracy": 100,
+    "completeness": 95,
+    "reasoning": "The summary accurately captures the core purpose, technical nature, and future goals of the Ageless Linux project. It correctly identifies the motivation behind the protest and the specific legislation mentioned in the text. The summary is highly complete, though it misses minor details such as the specific timeline (Q3 2026) for future releases and the specific function of the Milk-V Duo device as a testing platform for minor usage, but these omissions do not significantly impact the overall understanding of the article.",
+    "model": "gemma3:12b",
+    "thinking": false,
+    "evalModel": "gemini-3.1-flash-lite-preview"
+}

@@ -1,0 +1,8 @@
+{
+    "accuracy": 100,
+    "completeness": 95,
+    "reasoning": "The summary is highly accurate and correctly captures all the essential factual claims presented in the article. It provides a balanced account of Trump's assertions and the subsequent denials from the former presidents' representatives. It is nearly complete, missing only minor details such as the specific timeframe of the Iran conflict mentioned in the article, but it comprehensively covers the main narrative and the task force announcement.",
+    "model": "gpt-oss:20b",
+    "thinking": false,
+    "evalModel": "gemini-3.1-flash-lite-preview"
+}

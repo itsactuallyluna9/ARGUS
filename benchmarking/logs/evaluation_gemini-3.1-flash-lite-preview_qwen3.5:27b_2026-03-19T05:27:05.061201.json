@@ -1,0 +1,8 @@
+{
+    "accuracy": 100,
+    "completeness": 95,
+    "reasoning": "The summary is highly accurate, correctly synthesizing the meteorological explanations provided in the article. It captures all major points, including the contrast between the East and West, the atmospheric causes, and the specific forecasts. It slightly omits the mention of the specific record-breaking heat in Sacramento and San Jose, but this does not detract from the overall completeness of the summary.",
+    "model": "qwen3.5:27b",
+    "thinking": false,
+    "evalModel": "gemini-3.1-flash-lite-preview"
+}

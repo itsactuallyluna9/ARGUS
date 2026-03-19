@@ -1,0 +1,8 @@
+{
+    "accuracy": 100,
+    "completeness": 95,
+    "reasoning": "The summary is highly accurate and captures all the core technical and legal details of the article. It effectively synthesizes the project's goals, methods, and roadmap. It is nearly complete, though the final point in the provided key claims list is empty, which does not detract from the summary's overall effectiveness.",
+    "model": "gpt-oss:20b",
+    "thinking": false,
+    "evalModel": "gemini-3.1-flash-lite-preview"
+}

@@ -1,0 +1,8 @@
+{
+    "accuracy": 85,
+    "completeness": 90,
+    "reasoning": "The summary is generally accurate and comprehensive, capturing the essence of the event and the sentiments of both actresses. However, there is a significant factual error in the provided 'points' section: it incorrectly states that Fonda and Streisand co-starred in four movies together, when in fact it was Fonda and Redford who starred in those four films. Additionally, the summary implies Fonda hosted a virtual segment of the party, whereas the article states she was interviewed by Entertainment Tonight at the physical party.",
+    "model": "nemotron-3-nano:4b",
+    "thinking": false,
+    "evalModel": "gemini-3.1-flash-lite-preview"
+}

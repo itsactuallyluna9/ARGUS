@@ -1,0 +1,8 @@
+{
+    "accuracy": 95,
+    "completeness": 90,
+    "reasoning": "The summary is highly accurate in its reporting of Fonda's comments and the context of the Oscar tribute. It includes all essential factual points. The only slight inaccuracy is in the third point of the summary, which attributes the 'intellectual cowboy' quote to Fonda, whereas the article clarifies that Barbra Streisand was the one who used that specific phrase during her speech.",
+    "model": "qwen3.5:9b",
+    "thinking": false,
+    "evalModel": "gemini-3.1-flash-lite-preview"
+}

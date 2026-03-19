@@ -1,0 +1,8 @@
+{
+    "accuracy": 100,
+    "completeness": 95,
+    "reasoning": "The summary is highly accurate and captures the core narrative of the article perfectly. It is very complete, covering the economic drivers, consumer reaction, and regulatory context. It only loses a minor fraction on completeness because it omits the specific mention of the future outlook regarding whether lower cocoa prices will actually lead to cheaper consumer prices, which the article discusses in the final paragraphs.",
+    "model": "gemma3:4b",
+    "thinking": false,
+    "evalModel": "gemini-3.1-flash-lite-preview"
+}

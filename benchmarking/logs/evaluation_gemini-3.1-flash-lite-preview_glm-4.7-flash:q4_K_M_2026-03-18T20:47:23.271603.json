@@ -1,0 +1,8 @@
+{
+    "accuracy": 85,
+    "completeness": 90,
+    "reasoning": "The summary is highly accurate in representing the core narrative and scientific debate presented in the article. However, it contains a significant factual error regarding the origin of the monkeys: it states they were in Silver Springs before moving to Broward, while the article clearly attributes their presence to an escape from a biomedical/zoo facility in Dania Beach itself in 1947. Furthermore, the summary attributes the monkey colony size to 41 but misses a few nuanced details, such as the specific origin story of the 'green monkey' DNA confirmation, though it captures the essence of the scientific and community viewpoints well.",
+    "model": "glm-4.7-flash:q4_K_M",
+    "thinking": false,
+    "evalModel": "gemini-3.1-flash-lite-preview"
+}

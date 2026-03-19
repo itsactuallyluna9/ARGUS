@@ -1,0 +1,8 @@
+{
+    "accuracy": 95,
+    "completeness": 95,
+    "reasoning": "The summary is highly accurate and comprehensive, capturing the core causes (climate-driven supply shortages, market volatility), the specific corporate practices (reformulation, shrinkflation), and the consumer reaction (exemplified by Brad Reese) detailed in the article. It successfully incorporates the provided key factual claims and contextualizes the economic and regulatory landscape. A minor point is that the text identifies the chocolate-alternative 'ChoViva' as a Nestl\u00e9-owned innovation, whereas the summary implies it is a general industry move, but this does not detract significantly from the overall quality.",
+    "model": "qwen3.5:27b",
+    "thinking": false,
+    "evalModel": "gemini-3.1-flash-lite-preview"
+}

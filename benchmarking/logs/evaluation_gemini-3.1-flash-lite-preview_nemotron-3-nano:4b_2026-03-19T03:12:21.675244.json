@@ -1,0 +1,8 @@
+{
+    "accuracy": 70,
+    "completeness": 80,
+    "reasoning": "The summary provides a good overview of the article's central themes and narrative, capturing the debate between scientists and local residents. However, it contains several factual inaccuracies. It incorrectly attributes quotes to the wrong individuals (e.g., attributing a statement about invasive species to 'Luis' Nu\u00f1ez, when his name is Mart\u00edn Nu\u00f1ez, and misattributing a quote about protecting monkeys to Eugen Bold). Additionally, it inaccurately states the monkeys arrived in the 'gut of a traveler' instead of the established historical fact of the 1947 escape from a research center. While it covers most key points, these attribution and factual errors significantly lower the accuracy score.",
+    "model": "nemotron-3-nano:4b",
+    "thinking": false,
+    "evalModel": "gemini-3.1-flash-lite-preview"
+}

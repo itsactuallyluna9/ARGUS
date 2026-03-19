@@ -1,0 +1,8 @@
+{
+    "accuracy": 100,
+    "completeness": 95,
+    "reasoning": "The summary accurately captures the core arguments and facts presented in the article. It covers the economic reasons for cocoa reduction, the consumer backlash led by Brad Reese, and the industry-wide trend of reformulation. It misses the specific mention of the 'chocolate-flavored coating' vs. 'milk chocolate' legal distinction regarding labeling nuances in the US, but otherwise provides a comprehensive overview of the situation.",
+    "model": "gemma3:4b",
+    "thinking": false,
+    "evalModel": "gemini-3.1-flash-lite-preview"
+}

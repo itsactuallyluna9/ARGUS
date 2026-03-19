@@ -1,0 +1,8 @@
+{
+    "accuracy": 100,
+    "completeness": 95,
+    "reasoning": "The summary and points are highly accurate and align perfectly with the source text. It captures the essence of the president's contradictory statements and the subsequent backlash. It is nearly complete, missing only minor details like the specific context of the refueling tanker crash, but it comprehensively covers the major political and diplomatic fallout mentioned in the article.",
+    "model": "deepseek-r1:14b",
+    "thinking": false,
+    "evalModel": "gemini-3.1-flash-lite-preview"
+}

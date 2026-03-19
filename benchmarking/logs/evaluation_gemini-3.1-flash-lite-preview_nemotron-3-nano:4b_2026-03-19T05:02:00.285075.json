@@ -1,0 +1,8 @@
+{
+    "accuracy": 100,
+    "completeness": 95,
+    "reasoning": "The summary is highly accurate, correctly capturing the contradictory nature of Trump's statements and the surrounding context of the conflict and the backlash. It is nearly complete, covering the key quotes, the geopolitical pressure on allies, and the specific impact on military families. The only minor omission is the specific mention of the failed international response (e.g., Australia, France, and Japan refusing to send warships), though the broader point of allied hesitation is addressed.",
+    "model": "nemotron-3-nano:4b",
+    "thinking": false,
+    "evalModel": "gemini-3.1-flash-lite-preview"
+}

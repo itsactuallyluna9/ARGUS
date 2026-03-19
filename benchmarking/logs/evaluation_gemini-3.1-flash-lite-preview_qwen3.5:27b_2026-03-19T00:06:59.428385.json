@@ -1,0 +1,8 @@
+{
+    "accuracy": 100,
+    "completeness": 95,
+    "reasoning": "The summary is highly accurate and reflects the nuanced perspectives presented in the article. It captures the scientific and social dimensions of the debate well. It is almost completely comprehensive, missing only minor historical details like the specific origin story of the 1947 escape (only alluded to in the context of the sanctuary) or the mention of the Florida Fish and Wildlife Conservation Commission's specific stance, though the broader 'Pro-Removal' position is well-represented.",
+    "model": "qwen3.5:27b",
+    "thinking": false,
+    "evalModel": "gemini-3.1-flash-lite-preview"
+}

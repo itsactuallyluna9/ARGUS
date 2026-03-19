@@ -1,0 +1,8 @@
+{
+    "accuracy": 100,
+    "completeness": 95,
+    "reasoning": "The summary is highly accurate and captures the core tension between Trump's statement and the denials from his predecessors' representatives. It provides a clear overview of the facts and context. The completeness score is slightly shy of perfect only because it omitted the specific detail that Trump explicitly ruled out George W. Bush in a follow-up question, which serves as a minor piece of narrowing evidence within the text.",
+    "model": "glm-4.7-flash:q4_K_M",
+    "thinking": false,
+    "evalModel": "gemini-3.1-flash-lite-preview"
+}

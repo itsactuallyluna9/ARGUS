@@ -1,0 +1,8 @@
+{
+    "accuracy": 100,
+    "completeness": 100,
+    "reasoning": "The summary and key points accurately reflect the article's core narrative, correctly capturing Trump's specific claims and the subsequent rebuttals from the former presidents' representatives. It covers all essential details, including the context of the statements, the refusal to identify the individual, and the lack of response from the White House.",
+    "model": "glm-4.7-flash:q4_K_M",
+    "thinking": false,
+    "evalModel": "gemini-3.1-flash-lite-preview"
+}

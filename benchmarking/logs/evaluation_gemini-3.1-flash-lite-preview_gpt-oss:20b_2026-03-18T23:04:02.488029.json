@@ -1,0 +1,8 @@
+{
+    "accuracy": 100,
+    "completeness": 100,
+    "reasoning": "The summary and the points provided capture all essential information from the article with perfect accuracy. It covers the specific countries added and removed, the nature of the Level 2 advisory, the vaccination recommendations for adults and children, the medical background of polio, and the broader context of other existing CDC travel notices.",
+    "model": "gpt-oss:20b",
+    "thinking": false,
+    "evalModel": "gemini-3.1-flash-lite-preview"
+}

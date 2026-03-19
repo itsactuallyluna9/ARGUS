@@ -1,0 +1,8 @@
+{
+    "accuracy": 85,
+    "completeness": 70,
+    "reasoning": "The summary accurately captures the narrative, tone, and central conflict described in the article regarding the Dania Beach vervet monkeys. However, it is missing important factual details, such as the monkeys' origin story (the biomedical facility escape), the specific efforts of researcher Missy Williams to study them, and the distinction between the formal scientific classification of 'invasive' versus the residents' perception of them.",
+    "model": "nemotron-3-nano:4b",
+    "thinking": false,
+    "evalModel": "gemini-3.1-flash-lite-preview"
+}

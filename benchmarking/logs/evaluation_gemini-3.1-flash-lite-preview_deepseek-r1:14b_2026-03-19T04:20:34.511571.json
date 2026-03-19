@@ -1,0 +1,8 @@
+{
+    "accuracy": 100,
+    "completeness": 95,
+    "reasoning": "The summary is highly accurate, correctly identifying the core meteorological causes for the weather shifts and the distinct patterns affecting the East versus the West. It is nearly complete, missing only minor specific details like the mention of individual cities in the Southwest and the specific forecast for upcoming mid-week clippers in the East, which are not critical to understanding the article's main narrative.",
+    "model": "deepseek-r1:14b",
+    "thinking": false,
+    "evalModel": "gemini-3.1-flash-lite-preview"
+}

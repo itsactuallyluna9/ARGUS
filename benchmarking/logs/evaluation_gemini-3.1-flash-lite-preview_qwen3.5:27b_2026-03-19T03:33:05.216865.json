@@ -1,0 +1,8 @@
+{
+    "accuracy": 100,
+    "completeness": 95,
+    "reasoning": "The summary is highly accurate and captures all the core meteorological explanations provided in the article. It is nearly complete, missing only minor details such as the specific mention of snow occurring in New York and Pennsylvania following the mentioned temperature drops, but this does not detract from the overall quality of the summary.",
+    "model": "qwen3.5:27b",
+    "thinking": false,
+    "evalModel": "gemini-3.1-flash-lite-preview"
+}

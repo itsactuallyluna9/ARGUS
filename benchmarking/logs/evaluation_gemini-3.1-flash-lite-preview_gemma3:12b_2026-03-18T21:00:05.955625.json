@@ -1,0 +1,8 @@
+{
+    "accuracy": 100,
+    "completeness": 95,
+    "reasoning": "The summary is highly accurate, correctly synthesizing the meteorological explanations provided in the text. It captures the main points regarding the weather patterns in both the Eastern and Western United States. It is nearly complete, missing only the minor detail regarding the potential long-term impacts of the Western heat dome on water supply and wildfire risks, though this omission does not significantly detract from the overall quality of the summary.",
+    "model": "gemma3:12b",
+    "thinking": false,
+    "evalModel": "gemini-3.1-flash-lite-preview"
+}

@@ -1,0 +1,8 @@
+{
+    "accuracy": 100,
+    "completeness": 95,
+    "reasoning": "The summary is highly accurate, correctly synthesizing the meteorological explanations, regional forecasts, and the distinction between Eastern and Western weather patterns. It captures the essence of the report, though it omits the mention of long-term water supply concerns being impacted by the current accelerated snowmelt in the West, which is a minor detail in the context of the overall article.",
+    "model": "gpt-oss:20b",
+    "thinking": false,
+    "evalModel": "gemini-3.1-flash-lite-preview"
+}

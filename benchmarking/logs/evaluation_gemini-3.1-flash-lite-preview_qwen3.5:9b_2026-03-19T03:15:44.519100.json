@@ -1,0 +1,8 @@
+{
+    "accuracy": 100,
+    "completeness": 95,
+    "reasoning": "The summary is highly accurate, correctly identifying the core conflict regarding cocoa reformulation and the economic factors involved. It is very complete, covering the specific incident involving Brad Reese, the economic analysis provided by Alexis Villacis, the impact of climate change on the cocoa supply, and the differing regulatory environments. It misses only minor details, such as the mention of alternative 'chocolate alternatives' like ChoViva, but this does not detract from the overall quality of the summary.",
+    "model": "qwen3.5:9b",
+    "thinking": false,
+    "evalModel": "gemini-3.1-flash-lite-preview"
+}

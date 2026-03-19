@@ -1,0 +1,8 @@
+{
+    "accuracy": 95,
+    "completeness": 90,
+    "reasoning": "The summary is highly accurate in reflecting the article's core content, including Trump's contradictory statements and the diplomatic tensions. It is very complete, covering the key points like the oil production argument, alliance pressure, the criticism from families, and the threat to the China summit. It slightly omits the broader geopolitical context of the specific countries refusing help (like Australia, France, Japan, and Luxembourg) but captures the overall narrative effectively.",
+    "model": "gemma3:4b",
+    "thinking": false,
+    "evalModel": "gemini-3.1-flash-lite-preview"
+}

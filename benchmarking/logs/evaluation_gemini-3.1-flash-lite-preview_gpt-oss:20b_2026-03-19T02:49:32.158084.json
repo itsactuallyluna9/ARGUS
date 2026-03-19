@@ -1,0 +1,8 @@
+{
+    "accuracy": 100,
+    "completeness": 95,
+    "reasoning": "The summary is highly accurate and correctly reflects the tone and content of the article. It captures all key factual claims, including the number of films Fonda and Streisand made with Redford and the context of their tributes. The only minor point of omission is the specific mention of Redford's 'intellectual cowboy' quote being attributed to Streisand in the summary, whereas the article attributes that specific phrasing to her speech. Otherwise, it is an excellent and comprehensive summary.",
+    "model": "gpt-oss:20b",
+    "thinking": false,
+    "evalModel": "gemini-3.1-flash-lite-preview"
+}

@@ -1,0 +1,8 @@
+{
+    "accuracy": 95,
+    "completeness": 95,
+    "reasoning": "The summary and key points are highly accurate and capture the essence of the article effectively. It covers all major plot points, including Trump's contradictory statements, the reaction from families and allies, and the specific geopolitical consequences mentioned. It misses minor details such as the specific location of the crash or the full list of countries Trump hoped would help, but these do not detract from the overall completeness of the report.",
+    "model": "gpt-oss:20b",
+    "thinking": false,
+    "evalModel": "gemini-3.1-flash-lite-preview"
+}

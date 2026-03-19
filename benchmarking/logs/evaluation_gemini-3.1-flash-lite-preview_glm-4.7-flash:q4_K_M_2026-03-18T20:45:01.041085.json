@@ -1,0 +1,8 @@
+{
+    "accuracy": 100,
+    "completeness": 95,
+    "reasoning": "The summary is highly accurate and correctly identifies the key contradictions and political backlash detailed in the article. It captures the essential points regarding the president's conflicting statements on the necessity of the Strait of Hormuz operation and the reactions of international allies. It is nearly complete, omitting only minor supporting details, such as the specific mention of the fallen US service members, which does not impact the core message of the reporting.",
+    "model": "glm-4.7-flash:q4_K_M",
+    "thinking": false,
+    "evalModel": "gemini-3.1-flash-lite-preview"
+}

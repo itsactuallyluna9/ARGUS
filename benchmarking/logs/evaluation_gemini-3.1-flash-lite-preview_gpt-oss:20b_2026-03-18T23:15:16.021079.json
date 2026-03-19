@@ -1,0 +1,8 @@
+{
+    "accuracy": 100,
+    "completeness": 100,
+    "reasoning": "The summary and points are completely accurate to the provided text. All key details, including the specific films, the nature of the remarks, the context of the tribute, and the background of the actresses' relationship with Redford, are included accurately.",
+    "model": "gpt-oss:20b",
+    "thinking": false,
+    "evalModel": "gemini-3.1-flash-lite-preview"
+}

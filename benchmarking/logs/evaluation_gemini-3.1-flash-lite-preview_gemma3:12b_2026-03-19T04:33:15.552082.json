@@ -1,0 +1,8 @@
+{
+    "accuracy": 100,
+    "completeness": 100,
+    "reasoning": "The summary and factual points are entirely accurate, capturing the technical, legal, and roadmap details of the project exactly as described in the source text. The summary is highly complete, including all relevant project goals, technical methods, specific legal concerns mentioned, and future development plans.",
+    "model": "gemma3:12b",
+    "thinking": false,
+    "evalModel": "gemini-3.1-flash-lite-preview"
+}

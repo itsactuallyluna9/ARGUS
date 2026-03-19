@@ -1,0 +1,8 @@
+{
+    "accuracy": 100,
+    "completeness": 95,
+    "reasoning": "The summary is highly accurate, correctly capturing the core conflict and the specific details regarding the international pushback and Trump's threats. It is very complete, though it omits the specific detail about the death of the 13 US service members, which was highlighted as a significant part of the backlash in the article.",
+    "model": "gemma3:12b",
+    "thinking": false,
+    "evalModel": "gemini-3.1-flash-lite-preview"
+}

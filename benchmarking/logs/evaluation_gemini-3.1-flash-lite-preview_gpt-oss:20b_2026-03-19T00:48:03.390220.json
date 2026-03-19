@@ -1,0 +1,8 @@
+{
+    "accuracy": 100,
+    "completeness": 95,
+    "reasoning": "The summary is highly accurate, correctly identifying all key factual claims, the central conflict, and the economic context. It is very complete, though it could have briefly mentioned that the Hershey company noted some of the Reese family descendants did not share Brad's criticism to provide an even more balanced perspective on the internal company response.",
+    "model": "gpt-oss:20b",
+    "thinking": false,
+    "evalModel": "gemini-3.1-flash-lite-preview"
+}

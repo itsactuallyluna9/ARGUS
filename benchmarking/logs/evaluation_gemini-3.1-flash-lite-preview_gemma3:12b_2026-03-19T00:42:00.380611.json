@@ -1,0 +1,8 @@
+{
+    "accuracy": 100,
+    "completeness": 95,
+    "reasoning": "The summary is highly accurate and captures all essential details of the article. It provides a comprehensive overview of the event, the conflict mentioned, and the background context regarding Redford's career and passing. The only minor omission is a specific mention of the 'Vanity Fair' party context for Fonda's quote, but the summary is otherwise excellent.",
+    "model": "gemma3:12b",
+    "thinking": false,
+    "evalModel": "gemini-3.1-flash-lite-preview"
+}

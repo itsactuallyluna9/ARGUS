@@ -1,0 +1,8 @@
+{
+    "accuracy": 100,
+    "completeness": 95,
+    "reasoning": "The summary is highly accurate, correctly capturing the tone and content of Jane Fonda's remarks and the context of the article. It is nearly complete, covering the main event, the reasoning behind the conflict, and the relevant factual background of their relationship; it only minorly omits the specific detail of Fonda's own personal public tribute posted on Instagram following his death, though it does mention her emotional reaction to his passing.",
+    "model": "gemma3:4b",
+    "thinking": false,
+    "evalModel": "gemini-3.1-flash-lite-preview"
+}

@@ -1,0 +1,8 @@
+{
+    "accuracy": 85,
+    "completeness": 80,
+    "reasoning": "The summary accurately captures the main conflict regarding Trump's contradictory statements on the Strait of Hormuz and his demands on allies. It misses a few nuanced details, such as the specific list of countries refusing to participate and the fact that the summary incorrectly mentions the speech was made 'from his Mar-a-Lago retreat' when the article states it was a gaggle with reporters on Air Force One. Overall, it captures the core factual claims well.",
+    "model": "nemotron-3-nano:4b",
+    "thinking": false,
+    "evalModel": "gemini-3.1-flash-lite-preview"
+}

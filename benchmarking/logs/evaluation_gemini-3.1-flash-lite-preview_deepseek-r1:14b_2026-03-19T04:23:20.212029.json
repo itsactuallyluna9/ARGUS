@@ -1,0 +1,8 @@
+{
+    "accuracy": 100,
+    "completeness": 95,
+    "reasoning": "The summary is highly accurate and captures the core sentiment and key facts of the article. It provides a comprehensive overview of the event, the contrast between Fonda's and Streisand's history with Redford, and the emotional context of the tributes. The only minor detail omitted is the mention of Redford's uncredited role in Fonda's 1960 film, but this does not detract from the overall quality of the summary.",
+    "model": "deepseek-r1:14b",
+    "thinking": false,
+    "evalModel": "gemini-3.1-flash-lite-preview"
+}

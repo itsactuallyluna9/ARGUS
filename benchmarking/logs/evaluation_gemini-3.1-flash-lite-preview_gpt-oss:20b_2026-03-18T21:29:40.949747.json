@@ -1,0 +1,8 @@
+{
+    "accuracy": 100,
+    "completeness": 95,
+    "reasoning": "The summary is highly accurate and captures all the essential factual details of the article, including the specific claims, the denials from former presidents' camps, and the secondary details regarding the White House's lack of comment and the unrelated task force announcement. It is almost entirely complete, with only a minor omission regarding the specific timeline of when these presidents were last in the same room as Trump, which is not critical to the core story.",
+    "model": "gpt-oss:20b",
+    "thinking": false,
+    "evalModel": "gemini-3.1-flash-lite-preview"
+}

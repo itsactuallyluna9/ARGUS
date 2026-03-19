@@ -1,0 +1,8 @@
+{
+    "accuracy": 95,
+    "completeness": 85,
+    "reasoning": "The summary is highly accurate in representing the central conflict and the positions of both researchers and residents. It captures the nuance of the debate between viewing the monkeys as an invasive risk versus a local cultural icon. However, it is slightly incomplete because it omits the historical backstory of how the monkeys arrived in Florida, specifically the 1947 escape from a biomedical/zoo facility, which is a major part of the article's narrative arc.",
+    "model": "deepseek-r1:14b",
+    "thinking": false,
+    "evalModel": "gemini-3.1-flash-lite-preview"
+}

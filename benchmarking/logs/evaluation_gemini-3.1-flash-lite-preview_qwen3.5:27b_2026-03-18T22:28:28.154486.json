@@ -1,0 +1,8 @@
+{
+    "accuracy": 100,
+    "completeness": 100,
+    "reasoning": "The summary provides a highly accurate and comprehensive overview of the article. It captures all key technical details regarding the Debian-based script, the specific goals of protesting age-verification legislation, the mentioned timeline for future releases, and the symbolic use of BitTorrent and single-board computers. The information is consistent with the source text and addresses all provided factual claims.",
+    "model": "qwen3.5:27b",
+    "thinking": false,
+    "evalModel": "gemini-3.1-flash-lite-preview"
+}

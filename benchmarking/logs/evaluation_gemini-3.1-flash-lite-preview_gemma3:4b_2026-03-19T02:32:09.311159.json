@@ -1,0 +1,8 @@
+{
+    "accuracy": 100,
+    "completeness": 95,
+    "reasoning": "The summary is highly accurate, correctly identifying the core issue of cocoa replacement due to market volatility and the specific examples provided in the text. It captures the perspectives of both the consumer, Brad Reese, and the industry expert, Alexis Villacis. It is almost completely comprehensive, missing only minor details such as the mention of specific international competitors like Choco Crossies, but it covers all essential aspects of the article effectively.",
+    "model": "gemma3:4b",
+    "thinking": false,
+    "evalModel": "gemini-3.1-flash-lite-preview"
+}

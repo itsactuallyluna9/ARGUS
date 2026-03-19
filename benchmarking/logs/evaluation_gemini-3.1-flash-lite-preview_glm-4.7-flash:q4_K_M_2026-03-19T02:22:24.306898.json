@@ -1,0 +1,8 @@
+{
+    "accuracy": 90,
+    "completeness": 95,
+    "reasoning": "The summary is highly accurate in its presentation of facts. However, it contains one slight error in the summary text where it states the list is of countries 'to avoid'; the article actually specifies this is a Level 2 advisory, which only recommends 'enhanced precautions' rather than travel avoidance. Aside from this minor mischaracterization of the advisory level's implication, the summary covers all critical details, including additions, removals, vaccination recommendations, and medical context.",
+    "model": "glm-4.7-flash:q4_K_M",
+    "thinking": false,
+    "evalModel": "gemini-3.1-flash-lite-preview"
+}

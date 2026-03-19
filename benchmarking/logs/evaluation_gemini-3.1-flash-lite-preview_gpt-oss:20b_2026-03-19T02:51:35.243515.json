@@ -1,0 +1,8 @@
+{
+    "accuracy": 60,
+    "completeness": 85,
+    "reasoning": "The summary provides a good overview of the article's themes and main arguments, but it contains a major factual error in the 'Origins' row of the table. It claims the monkeys escaped in 2015 due to a 2013 storm, whereas the article clearly states the founding population originated from a 1947 escape from a biomedical research facility. While the breadth of the summary covers the essential points well, this significant chronological inaccuracy regarding the colony's history negatively impacts the accuracy score.",
+    "model": "gpt-oss:20b",
+    "thinking": false,
+    "evalModel": "gemini-3.1-flash-lite-preview"
+}

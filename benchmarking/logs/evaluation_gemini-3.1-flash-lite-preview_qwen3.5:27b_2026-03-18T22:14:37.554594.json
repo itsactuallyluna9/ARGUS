@@ -1,0 +1,8 @@
+{
+    "accuracy": 100,
+    "completeness": 95,
+    "reasoning": "The summary is highly accurate and captures the core tension between scientific perspectives on invasive species and local community sentiment. It correctly identifies the history, the specific challenges the monkeys face, and the positions of key figures like Missy Williams and the various scientists mentioned. It is very complete, though it could have briefly mentioned the specific origin of the colony\u2014their escape from a 1940s biomedical facility\u2014to provide slightly more context on how they arrived in Florida, but this is a minor omission in an otherwise excellent synthesis.",
+    "model": "qwen3.5:27b",
+    "thinking": false,
+    "evalModel": "gemini-3.1-flash-lite-preview"
+}

@@ -1,0 +1,8 @@
+{
+    "accuracy": 100,
+    "completeness": 95,
+    "reasoning": "The summary is highly accurate and captures all the primary factual elements of the event. It is nearly complete, missing only the specific mention of the 1950 and 1987 ties listed in the article's appendix, which are minor details given the focus on the 2026 event.",
+    "model": "glm-4.7-flash:q4_K_M",
+    "thinking": false,
+    "evalModel": "gemini-3.1-flash-lite-preview"
+}

@@ -1,0 +1,8 @@
+{
+    "accuracy": 100,
+    "completeness": 100,
+    "reasoning": "The summary and the provided key points are highly accurate and align perfectly with the source text. It covers all essential aspects of the study, including the methodology, the specific species studied, the environmental findings, and the conclusion regarding the unique incubation strategy used by oviraptors.",
+    "model": "qwen3.5:27b",
+    "thinking": false,
+    "evalModel": "gemini-3.1-flash-lite-preview"
+}

@@ -1,0 +1,8 @@
+{
+    "accuracy": 90,
+    "completeness": 85,
+    "reasoning": "The summary is highly accurate and captures the core tension between scientific classification and community sentiment. However, there is a minor factual error where the summary attributes a quote/opinion to 'Missy Nu\u00f1ez', conflating two different individuals mentioned in the text: researcher Missy Williams and biologist Mart\u00edn Nu\u00f1ez. Additionally, while it covers the main themes well, it misses some specific details such as the exact origins of the monkeys (the biomedical research center linked to the Roosevelt family) and the specific findings regarding the monkeys' DNA proving they are Chlorocebus sabaeus.",
+    "model": "gemma3:4b",
+    "thinking": false,
+    "evalModel": "gemini-3.1-flash-lite-preview"
+}

@@ -1,0 +1,8 @@
+{
+    "accuracy": 95,
+    "completeness": 90,
+    "reasoning": "The summary is highly accurate and captures the core tension between corporate cost-cutting via reformulation and consumer disappointment. It effectively synthesizes the market factors and regulatory context. It omits some of the secondary nuances, such as Hershey's specific rebuttal and the fact that some original products (like standard PB cups) remain unchanged, but it covers all major factual pillars.",
+    "model": "nemotron-3-nano:4b",
+    "thinking": false,
+    "evalModel": "gemini-3.1-flash-lite-preview"
+}

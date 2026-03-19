@@ -1,0 +1,8 @@
+{
+    "accuracy": 100,
+    "completeness": 100,
+    "reasoning": "The summary and factual claims provided are entirely consistent with the original article. All key details, including the project's purpose, the specific technological approach, the legal concerns, and the future roadmap, are accurately captured and thoroughly represented.",
+    "model": "gpt-oss:20b",
+    "thinking": false,
+    "evalModel": "gemini-3.1-flash-lite-preview"
+}

@@ -1,0 +1,8 @@
+{
+    "accuracy": 100,
+    "completeness": 95,
+    "reasoning": "The summary and points are highly accurate, correctly reflecting the article's core narrative and the conflicting statements from Trump and the aides of former presidents. The completeness is high, though it could have briefly mentioned that the last time all five presidents were in the same room was at the inauguration, which provides context to the lack of recent interaction.",
+    "model": "deepseek-r1:14b",
+    "thinking": false,
+    "evalModel": "gemini-3.1-flash-lite-preview"
+}

@@ -1,0 +1,8 @@
+{
+    "accuracy": 100,
+    "completeness": 95,
+    "reasoning": "The summary is highly accurate and captures all the core factual elements of the article correctly. It scores very high on completeness by covering the key event, the presenter, the reaction, and the historical context. It is only missing minor details, such as the specific quote from Conan O'Brien or the nuance regarding the 1932 'tie,' but these omissions do not detract from the overall quality of the summary.",
+    "model": "deepseek-r1:14b",
+    "thinking": false,
+    "evalModel": "gemini-3.1-flash-lite-preview"
+}

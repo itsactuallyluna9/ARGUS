@@ -1,0 +1,8 @@
+{
+    "accuracy": 100,
+    "completeness": 100,
+    "reasoning": "The summary and points provided are highly accurate and align perfectly with the source text. It covers all the essential details including the specific context of the interview, the comparisons made by Fonda regarding the number of films, the details of the tributes, and the biographical facts mentioned.",
+    "model": "qwen3.5:27b",
+    "thinking": false,
+    "evalModel": "gemini-3.1-flash-lite-preview"
+}

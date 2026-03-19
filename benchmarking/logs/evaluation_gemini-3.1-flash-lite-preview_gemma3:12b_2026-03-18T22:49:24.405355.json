@@ -1,0 +1,8 @@
+{
+    "accuracy": 95,
+    "completeness": 90,
+    "reasoning": "The summary is highly accurate and captures the main themes, narrative structure, and scientific nuances of the article well. It is very complete in its overview of the themes and arguments; however, it omits the specific detail regarding the origin of the monkeys being linked to a biomedical research organization owned by Leila Roosevelt Denis, which was a significant discovery mentioned in the text.",
+    "model": "gemma3:12b",
+    "thinking": false,
+    "evalModel": "gemini-3.1-flash-lite-preview"
+}

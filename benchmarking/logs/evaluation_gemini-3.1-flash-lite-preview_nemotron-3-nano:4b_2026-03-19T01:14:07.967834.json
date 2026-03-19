@@ -1,0 +1,8 @@
+{
+    "accuracy": 95,
+    "completeness": 90,
+    "reasoning": "The summary is highly accurate in its portrayal of the article's core events, including the playful rivalry between Fonda and Streisand. It captures the essential points well. It is docked slightly for completeness as it misses the specific detail that Redford died at the age of 89, though this is a minor omission.",
+    "model": "nemotron-3-nano:4b",
+    "thinking": false,
+    "evalModel": "gemini-3.1-flash-lite-preview"
+}

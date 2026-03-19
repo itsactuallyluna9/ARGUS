@@ -1,0 +1,8 @@
+{
+    "accuracy": 100,
+    "completeness": 100,
+    "reasoning": "The summary and the provided key points are perfectly accurate to the original text, correctly identifying the species, the experimental methodology, the findings regarding temperature gradients, and the conclusion about hybrid incubation strategies. The summary is highly complete, covering all essential scientific details, the context of the study, and the specific data points mentioned in the article.",
+    "model": "gpt-oss:20b",
+    "thinking": false,
+    "evalModel": "gemini-3.1-flash-lite-preview"
+}

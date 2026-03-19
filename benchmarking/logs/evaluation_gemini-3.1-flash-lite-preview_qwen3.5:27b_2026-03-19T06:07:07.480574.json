@@ -1,0 +1,8 @@
+{
+    "accuracy": 100,
+    "completeness": 100,
+    "reasoning": "The summary is highly accurate, correctly identifying the project's purpose, its technical implementation, and the specific motivations behind the protest. It captures all key factual points from the article, including the timeline for future developments, the role of specific hardware, and the legal challenges addressed by the initiative.",
+    "model": "qwen3.5:27b",
+    "thinking": false,
+    "evalModel": "gemini-3.1-flash-lite-preview"
+}

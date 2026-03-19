@@ -1,0 +1,8 @@
+{
+    "accuracy": 100,
+    "completeness": 95,
+    "reasoning": "The summary is highly accurate, correctly reflecting all key facts from the original article regarding the CDC's polio travel advisory updates, vaccination recommendations, and medical context. It is very complete, though it could have briefly mentioned that the CDC currently has no active Level 3 or 4 travel notifications to provide the full context of the agency's broader advisory landscape mentioned in the final paragraph.",
+    "model": "qwen3.5:9b",
+    "thinking": false,
+    "evalModel": "gemini-3.1-flash-lite-preview"
+}

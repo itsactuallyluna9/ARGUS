@@ -1,0 +1,8 @@
+{
+    "accuracy": 100,
+    "completeness": 95,
+    "reasoning": "The summary is highly accurate and captures the core narrative of the article perfectly. It touches upon the economic, regulatory, and ethical aspects mentioned in the text. It is extremely complete, though it could have briefly mentioned that recent market data shows a slight decline in cocoa prices at the end of 2025 to offer a more forward-looking perspective on the market volatility discussed.",
+    "model": "deepseek-r1:14b",
+    "thinking": false,
+    "evalModel": "gemini-3.1-flash-lite-preview"
+}

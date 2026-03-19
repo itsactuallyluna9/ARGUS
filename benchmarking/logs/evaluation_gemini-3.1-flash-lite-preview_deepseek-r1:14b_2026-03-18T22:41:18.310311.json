@@ -1,0 +1,8 @@
+{
+    "accuracy": 100,
+    "completeness": 95,
+    "reasoning": "The summary is highly accurate and captures all the core events and sentiments expressed in the article. It is extremely complete, though it contains a minor discrepancy regarding the year of Redford's death compared to the article text (the article says he died in September 'last year' relative to a 2026 event, implying 2025, while the summary mentions 2023). Aside from this slight date inconsistency, the content is excellent.",
+    "model": "deepseek-r1:14b",
+    "thinking": false,
+    "evalModel": "gemini-3.1-flash-lite-preview"
+}

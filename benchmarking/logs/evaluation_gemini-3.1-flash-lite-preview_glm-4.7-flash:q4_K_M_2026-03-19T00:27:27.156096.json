@@ -1,0 +1,8 @@
+{
+    "accuracy": 85,
+    "completeness": 80,
+    "reasoning": "The summary is accurate in its representation of the key issues, community sentiment, and the scientific debate regarding the monkeys' status. However, it contains two notable inaccuracies: it incorrectly identifies the species as Chlorocebus aethiops (the text states they are Chlorocebus sabaeus) and incorrectly states they were discovered in the mid-1990s (the text indicates they have been there for nearly 80 years, with a 1995 study being the first literature review). It is also missing details regarding the specific origin story involving the biomedical research zoo founded by Leila Roosevelt Denis.",
+    "model": "glm-4.7-flash:q4_K_M",
+    "thinking": false,
+    "evalModel": "gemini-3.1-flash-lite-preview"
+}

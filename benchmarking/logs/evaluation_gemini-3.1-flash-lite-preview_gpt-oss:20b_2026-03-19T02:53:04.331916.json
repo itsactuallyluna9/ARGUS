@@ -1,0 +1,8 @@
+{
+    "accuracy": 100,
+    "completeness": 100,
+    "reasoning": "The summary is highly accurate and captures all essential details from the article, including the specific countries added and removed from the list, the recommended vaccine schedules, and the nature of the virus. It is comprehensive, covering both the direct news of the travel advisory and the supplementary health context provided by the article.",
+    "model": "gpt-oss:20b",
+    "thinking": false,
+    "evalModel": "gemini-3.1-flash-lite-preview"
+}

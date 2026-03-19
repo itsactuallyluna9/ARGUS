@@ -1,0 +1,8 @@
+{
+    "accuracy": 100,
+    "completeness": 95,
+    "reasoning": "The summary and points provided are highly accurate and align perfectly with the source text. The summary is very complete, covering the methodology, the distinction from modern birds, and the scientific conclusion. It only slightly lacks mention of the specific species studied (Heyuannia huangi), but otherwise captures the essence and core details of the article thoroughly.",
+    "model": "deepseek-r1:14b",
+    "thinking": false,
+    "evalModel": "gemini-3.1-flash-lite-preview"
+}

@@ -1,0 +1,8 @@
+{
+    "accuracy": 100,
+    "completeness": 95,
+    "reasoning": "The summary accurately captures the meteorological causes of the weather patterns and correctly identifies the split in conditions between the East and West. The points are factually sound and align perfectly with the article text. It is nearly complete, missing only minor details regarding specific cities mentioned for the heat records and the long-range outlook into April, but these omissions do not detract from the core message of the article.",
+    "model": "gemma3:4b",
+    "thinking": false,
+    "evalModel": "gemini-3.1-flash-lite-preview"
+}

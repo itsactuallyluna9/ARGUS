@@ -1,0 +1,8 @@
+{
+    "accuracy": 75,
+    "completeness": 80,
+    "reasoning": "The summary accurately captures the central tension between conservation and invasive species policy regarding the Dania Beach vervets. However, it contains significant factual errors regarding scientific claims, such as incorrectly labeling the American Black Vulture as an introduced species from Asia and inventing/misattributing specific dietary and research findings that contradict the original text. While it covers the main themes well, these inaccuracies undermine the precision of the content.",
+    "model": "gpt-oss:20b",
+    "thinking": false,
+    "evalModel": "gemini-3.1-flash-lite-preview"
+}

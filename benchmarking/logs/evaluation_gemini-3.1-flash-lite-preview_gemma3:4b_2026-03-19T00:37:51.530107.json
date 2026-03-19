@@ -1,0 +1,8 @@
+{
+    "accuracy": 100,
+    "completeness": 95,
+    "reasoning": "The summary is highly accurate and captures the core narrative of the article perfectly. It effectively balances the economic context provided by the expert with the personal narrative of Brad Reese. It misses minor details such as the mention of lab-grown alternatives like ChoViva and the specific mention of other brands beyond Hershey, but it covers the primary points, regulatory context, and industry trends comprehensively.",
+    "model": "gemma3:4b",
+    "thinking": false,
+    "evalModel": "gemini-3.1-flash-lite-preview"
+}

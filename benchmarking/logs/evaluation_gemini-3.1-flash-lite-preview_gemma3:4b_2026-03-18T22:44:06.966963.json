@@ -1,0 +1,8 @@
+{
+    "accuracy": 100,
+    "completeness": 95,
+    "reasoning": "The summary is highly accurate, correctly identifying the economic factors (cocoa volatility) and the specific examples mentioned in the article. It is nearly complete, missing only minor details such as the specific mentions of other global brands like Nestl\u00e9/Choco Crossies or the long-term industry outlook regarding future supply regions like Ecuador and Indonesia, which does not significantly detract from the core message.",
+    "model": "gemma3:4b",
+    "thinking": false,
+    "evalModel": "gemini-3.1-flash-lite-preview"
+}

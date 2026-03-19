@@ -1,0 +1,8 @@
+{
+    "accuracy": 100,
+    "completeness": 95,
+    "reasoning": "The summary accurately captures the core controversy and the primary details of the article. It misses a minor detail regarding the specific context of the 'Operation Epic Fury' mentioned in the text, but otherwise perfectly synthesizes the article's factual claims, the backlash from families and international leaders, and Trump's threats regarding the China summit.",
+    "model": "nemotron-3-nano:4b",
+    "thinking": false,
+    "evalModel": "gemini-3.1-flash-lite-preview"
+}

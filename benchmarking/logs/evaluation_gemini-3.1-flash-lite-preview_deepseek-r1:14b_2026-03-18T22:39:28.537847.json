@@ -1,0 +1,8 @@
+{
+    "accuracy": 100,
+    "completeness": 100,
+    "reasoning": "The summary and key points provided are highly accurate and align perfectly with the source text. Every significant claim, including the specific quotes, the reactions from international leaders, the mention of military casualties, and the specific diplomatic pressures applied by Trump, is captured accurately and comprehensively.",
+    "model": "deepseek-r1:14b",
+    "thinking": false,
+    "evalModel": "gemini-3.1-flash-lite-preview"
+}

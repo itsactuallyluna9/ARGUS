@@ -1,0 +1,8 @@
+{
+    "accuracy": 95,
+    "completeness": 90,
+    "reasoning": "The summary is highly accurate and captures the core details of the event, the history of Oscar ties, and the reactions of the winners. It accurately identifies the 2026 event as the seventh tie in history. It loses a minor amount of completeness by implying the 1995 tie was the 'first' instance of a live-action short tie since the 2013 sound editing tie, which is slightly confusing phrasing, and it omits the specific detail that the 1932 tie was technically an anomaly due to rule differences.",
+    "model": "nemotron-3-nano:4b",
+    "thinking": false,
+    "evalModel": "gemini-3.1-flash-lite-preview"
+}

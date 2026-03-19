@@ -1,0 +1,8 @@
+{
+    "accuracy": 100,
+    "completeness": 95,
+    "reasoning": "The summary is highly accurate and correctly attributes the quotes and details from the text. It captures the main conflict and the specific sentiments expressed by both Fonda and Streisand. The only minor point of confusion is in the third point, which attributes the 'intellectual cowboy' quote to Fonda, while the article clearly states it was Barbra Streisand who used that description in her speech.",
+    "model": "glm-4.7-flash:q4_K_M",
+    "thinking": false,
+    "evalModel": "gemini-3.1-flash-lite-preview"
+}

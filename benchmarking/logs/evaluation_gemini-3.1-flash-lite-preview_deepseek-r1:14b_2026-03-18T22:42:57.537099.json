@@ -1,0 +1,8 @@
+{
+    "accuracy": 100,
+    "completeness": 95,
+    "reasoning": "The summary accurately reflects the key events and claims reported in the article, including Trump's assertion and the subsequent denials from former presidents' representatives. It captures the essence of the situation perfectly. The score is not 100 on completeness only because it omits minor details like the specific context of the Kennedy Center meeting or the specific nature of the fraud task force, though these are tangential to the main story.",
+    "model": "deepseek-r1:14b",
+    "thinking": false,
+    "evalModel": "gemini-3.1-flash-lite-preview"
+}

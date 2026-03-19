@@ -1,0 +1,8 @@
+{
+    "accuracy": 100,
+    "completeness": 95,
+    "reasoning": "The summary is highly accurate, correctly identifying the films, participants, and historical context of the event. It is nearly complete; while it omits a few minor historical examples (like the 1987 or 1950 ties) and the specific detail about the 2013 tie, these are minor details compared to the core focus of the article. The inclusion of the primary claims and the nuance regarding the 1932 rules provides excellent coverage.",
+    "model": "gemma3:12b",
+    "thinking": false,
+    "evalModel": "gemini-3.1-flash-lite-preview"
+}

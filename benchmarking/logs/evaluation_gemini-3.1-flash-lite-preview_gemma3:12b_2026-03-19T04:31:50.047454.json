@@ -1,0 +1,8 @@
+{
+    "accuracy": 100,
+    "completeness": 95,
+    "reasoning": "The summary is highly accurate, correctly capturing the core conflict between the scientific definition of invasive species and the local community's affection for the monkeys. It covers all the major narrative beats, including the history of the colony, the ecological debate, and the role of Missy Williams. It is only slightly less than perfect on completeness because it omits specific, compelling details like the 1947 escape from the zoo that established the population and the specific origin of the DNA research confirming they are West African green monkeys.",
+    "model": "gemma3:12b",
+    "thinking": false,
+    "evalModel": "gemini-3.1-flash-lite-preview"
+}

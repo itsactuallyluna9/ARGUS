@@ -1,0 +1,8 @@
+{
+    "accuracy": 100,
+    "completeness": 100,
+    "reasoning": "The summary is highly accurate and comprehensive, capturing all key points of the article including the atmospheric mechanics behind the weather shifts, specific regional forecasts for the East and West, and the broader context of seasonal transitions and climate research. It correctly attributes information to the experts mentioned in the text.",
+    "model": "gpt-oss:20b",
+    "thinking": false,
+    "evalModel": "gemini-3.1-flash-lite-preview"
+}

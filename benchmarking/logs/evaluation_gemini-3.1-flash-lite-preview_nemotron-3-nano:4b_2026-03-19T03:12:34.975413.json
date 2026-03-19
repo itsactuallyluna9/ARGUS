@@ -1,0 +1,8 @@
+{
+    "accuracy": 85,
+    "completeness": 90,
+    "reasoning": "The summary accurately captures the central conflict regarding Trump's alleged conversation with a former president and the subsequent denial by all four living predecessors. It includes relevant context, such as the Iran conflict and the fraud task force announcement. However, the 'biasSummary' section provided in the input is factually questionable and appears to misinterpret the article's tone; the article is a standard piece of political reporting, and claiming it has a 'conservative-leaning editorial stance' by 'presenting Trump's claims in the most favorable light' contradicts the article's factual reporting on the contradictions of his claims.",
+    "model": "nemotron-3-nano:4b",
+    "thinking": false,
+    "evalModel": "gemini-3.1-flash-lite-preview"
+}

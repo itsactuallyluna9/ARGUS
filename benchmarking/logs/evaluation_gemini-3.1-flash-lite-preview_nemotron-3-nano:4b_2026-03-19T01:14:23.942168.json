@@ -1,0 +1,8 @@
+{
+    "accuracy": 90,
+    "completeness": 90,
+    "reasoning": "The summary is highly accurate and captures the main points of the article well. However, it contains one factual error in the key points list: it claims the list is updated every 3.5 months, a detail that does not appear in the source text. Otherwise, it effectively summarizes the travel advisory changes, health recommendations, and disease context.",
+    "model": "nemotron-3-nano:4b",
+    "thinking": false,
+    "evalModel": "gemini-3.1-flash-lite-preview"
+}

@@ -1,0 +1,8 @@
+{
+    "accuracy": 90,
+    "completeness": 95,
+    "reasoning": "The summary is highly accurate and does an excellent job of synthesizing the article's core arguments into a professional policy brief format. It captures the tension between conservationists and invasive species policy effectively. A slight deduction in accuracy is noted because some specific dates and researcher names in the summary's references/text appear to be extrapolated or slightly altered from the source text to fit the 'Policy Brief' structure, though they do not change the factual narrative. The completeness is high, covering all major themes including the monkeys' origins, local community support, the scientific debate over 'invasive' vs 'non-native', and the management challenges.",
+    "model": "gpt-oss:20b",
+    "thinking": false,
+    "evalModel": "gemini-3.1-flash-lite-preview"
+}

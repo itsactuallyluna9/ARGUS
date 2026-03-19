@@ -1,0 +1,8 @@
+{
+    "accuracy": 100,
+    "completeness": 90,
+    "reasoning": "The summary provides an accurate overview of the situation regarding the Dania Beach vervet monkeys, the competing perspectives of researchers and locals, and the historical context of their arrival. It is highly accurate regarding the core narrative. It is slightly less than 100% complete only because it omits some of the broader, secondary scientific context provided in the article about the global history of invasive species and specific examples like the American chestnut blight, focusing instead on the primary subject of the vervet monkeys.",
+    "model": "gpt-oss:20b",
+    "thinking": false,
+    "evalModel": "gemini-3.1-flash-lite-preview"
+}

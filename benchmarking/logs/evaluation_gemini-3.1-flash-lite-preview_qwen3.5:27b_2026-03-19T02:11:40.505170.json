@@ -1,0 +1,8 @@
+{
+    "accuracy": 100,
+    "completeness": 100,
+    "reasoning": "The summary is highly accurate and captures all the essential details provided in the article, including the specific claims made by President Trump and the subsequent denials by the representatives of the former presidents. It also covers the context of the claims, the timeline, and the surrounding political atmosphere, providing a comprehensive and balanced overview.",
+    "model": "qwen3.5:27b",
+    "thinking": false,
+    "evalModel": "gemini-3.1-flash-lite-preview"
+}

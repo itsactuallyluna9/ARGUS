@@ -1,0 +1,8 @@
+{
+    "accuracy": 100,
+    "completeness": 95,
+    "reasoning": "The summary is highly accurate and captures the core tension between Trump's claims and the denials from former presidents. The completeness is excellent, though it slightly misinterprets the article's context regarding the Epstein reference; the article mentions Trump's sympathy for Clinton regarding a congressional deposition, whereas the summary suggests the sympathy is related to Clinton's friendship with Epstein.",
+    "model": "deepseek-r1:14b",
+    "thinking": false,
+    "evalModel": "gemini-3.1-flash-lite-preview"
+}

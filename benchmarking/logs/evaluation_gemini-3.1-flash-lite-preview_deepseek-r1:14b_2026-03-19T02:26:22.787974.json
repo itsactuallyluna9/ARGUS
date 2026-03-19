@@ -1,0 +1,8 @@
+{
+    "accuracy": 100,
+    "completeness": 95,
+    "reasoning": "The summary is highly accurate and captures the core essence of the article effectively. It correctly identifies the meteorological causes, regional differences, and the connection to climate research. It is nearly complete, missing only minor specific details such as the mention of potential wildfire risks and water supply concerns in the West, which are secondary to the main focus of weather patterns.",
+    "model": "deepseek-r1:14b",
+    "thinking": false,
+    "evalModel": "gemini-3.1-flash-lite-preview"
+}

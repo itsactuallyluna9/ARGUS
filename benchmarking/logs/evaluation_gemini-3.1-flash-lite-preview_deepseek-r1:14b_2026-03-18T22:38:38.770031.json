@@ -1,0 +1,8 @@
+{
+    "accuracy": 100,
+    "completeness": 95,
+    "reasoning": "The summary accurately reflects the core content of the article and captures the primary scientific explanations provided by meteorologists. It is highly complete, covering the specific regional differences between the East and West, as well as the underlying meteorological causes like the jet stream and air mass interactions. The only minor omission is that it does not explicitly list the specific cities mentioned (e.g., Phoenix, Las Vegas) as potential record-breakers, but it successfully captures the broader impact and forecast.",
+    "model": "deepseek-r1:14b",
+    "thinking": false,
+    "evalModel": "gemini-3.1-flash-lite-preview"
+}

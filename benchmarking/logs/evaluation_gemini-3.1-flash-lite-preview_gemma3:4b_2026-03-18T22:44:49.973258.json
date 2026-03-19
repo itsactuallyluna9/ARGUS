@@ -1,0 +1,8 @@
+{
+    "accuracy": 100,
+    "completeness": 95,
+    "reasoning": "The summary is highly accurate, correctly capturing the core conflict, the scientific perspectives, and the nuances of the situation in Dania Beach. It is very complete, covering the key themes, evidence, and arguments presented in the article. It misses only minor secondary details, such as the specific history of the monkey escape from the biomedical center/zoo, but otherwise provides a comprehensive overview of the article's narrative and message.",
+    "model": "gemma3:4b",
+    "thinking": false,
+    "evalModel": "gemini-3.1-flash-lite-preview"
+}

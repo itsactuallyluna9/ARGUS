@@ -1,0 +1,8 @@
+{
+    "accuracy": 100,
+    "completeness": 100,
+    "reasoning": "The summary is highly accurate and comprehensive, capturing all key points from the article including the specific collaborations, the context of the Oscars, and the essence of the remarks made by both Jane Fonda and Barbra Streisand. It maintains the tone of the original report while effectively synthesizing the provided information.",
+    "model": "qwen3.5:27b",
+    "thinking": false,
+    "evalModel": "gemini-3.1-flash-lite-preview"
+}

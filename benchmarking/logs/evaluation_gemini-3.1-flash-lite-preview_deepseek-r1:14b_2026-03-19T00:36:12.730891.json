@@ -1,0 +1,8 @@
+{
+    "accuracy": 100,
+    "completeness": 100,
+    "reasoning": "The summary accurately captures the core information regarding the CDC's polio travel advisory, including the specific countries added and removed and the vaccination recommendations. It is complete, covering the categorization of the warning, the risks of the disease, and the broader context of other CDC travel advisories mentioned in the article.",
+    "model": "deepseek-r1:14b",
+    "thinking": false,
+    "evalModel": "gemini-3.1-flash-lite-preview"
+}

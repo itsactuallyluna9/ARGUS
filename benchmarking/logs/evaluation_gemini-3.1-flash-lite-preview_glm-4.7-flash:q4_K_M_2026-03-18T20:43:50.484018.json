@@ -1,0 +1,8 @@
+{
+    "accuracy": 100,
+    "completeness": 95,
+    "reasoning": "The summary is highly accurate, correctly reflecting both the consumer perspective provided by Brad Reese and the economic context provided by experts like Alexis Villacis. It is extremely complete, covering the specific product issue, the macroeconomic drivers, the industry response (reformulation/shrinkflation), and the regulatory landscape. The only minor omission is the mention of potential labor and supply chain shifts (e.g., Ecuador and Indonesia) and the specific detail that Hershey's responded with two distinct statements, though this does not significantly detract from the overall quality.",
+    "model": "glm-4.7-flash:q4_K_M",
+    "thinking": false,
+    "evalModel": "gemini-3.1-flash-lite-preview"
+}

@@ -1,0 +1,8 @@
+{
+    "accuracy": 100,
+    "completeness": 100,
+    "reasoning": "The summary provides a highly accurate and comprehensive reflection of the source text. It correctly captures the meteorological explanations for the East/West divide in weather, includes specific details regarding the forecast and affected regions, and accurately identifies the role of the jet stream and climate change mentioned in the article.",
+    "model": "gpt-oss:20b",
+    "thinking": false,
+    "evalModel": "gemini-3.1-flash-lite-preview"
+}

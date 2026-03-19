@@ -1,0 +1,8 @@
+{
+    "accuracy": 100,
+    "completeness": 95,
+    "reasoning": "The summary and the key points are highly accurate, strictly adhering to the information provided in the article. It captures the essence of Trump's contradictory statements and the subsequent backlash. It is extremely complete, covering the diplomatic tensions, specific quotes, and the reactions from allied nations and military families. The only minor omission is that it does not explicitly detail the specific number of U.S. service members killed (13), though this does not detract significantly from the overall quality of the summary.",
+    "model": "nemotron-3-nano:4b",
+    "thinking": false,
+    "evalModel": "gemini-3.1-flash-lite-preview"
+}

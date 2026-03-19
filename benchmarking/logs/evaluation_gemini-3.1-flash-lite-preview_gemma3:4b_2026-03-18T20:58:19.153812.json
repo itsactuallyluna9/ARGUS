@@ -1,0 +1,8 @@
+{
+    "accuracy": 100,
+    "completeness": 95,
+    "reasoning": "The summary is highly accurate in its reporting of the core conflict between Trump's claims and the denials from the representatives of former presidents. It captures all essential factual points, including the context of the statements and the specific individuals involved. The completeness score is slightly less than 100 only because it excludes minor peripheral details, such as the specific events where the comments were made (the Kennedy Center and the Oval Office task force announcement), though these omissions do not affect the integrity of the summary.",
+    "model": "gemma3:4b",
+    "thinking": false,
+    "evalModel": "gemini-3.1-flash-lite-preview"
+}

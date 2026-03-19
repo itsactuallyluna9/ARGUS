@@ -1,0 +1,8 @@
+{
+    "accuracy": 100,
+    "completeness": 100,
+    "reasoning": "The summary and the provided key points accurately capture all primary facts from the article, including the specific changes to the CDC travel list, the vaccination recommendations for adults and children, and the context surrounding polio symptoms and treatment. The information is presented neutrally and fully aligns with the source text.",
+    "model": "nemotron-3-nano:4b",
+    "thinking": false,
+    "evalModel": "gemini-3.1-flash-lite-preview"
+}

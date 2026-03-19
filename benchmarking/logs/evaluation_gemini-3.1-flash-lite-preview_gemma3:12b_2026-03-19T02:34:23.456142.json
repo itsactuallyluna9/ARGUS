@@ -1,0 +1,8 @@
+{
+    "accuracy": 100,
+    "completeness": 95,
+    "reasoning": "The summary accurately captures the core issue of cocoa replacement in mass-market chocolate, citing the correct motivations and key figures involved. It is highly accurate regarding the content of the article. It is extremely complete, covering the economic, environmental, regulatory, and consumer-sentiment aspects mentioned in the text, leaving out only minor details such as specific brand names like 'Choco Crossies' or 'Feastables,' which are not essential for a high-level summary.",
+    "model": "gemma3:12b",
+    "thinking": false,
+    "evalModel": "gemini-3.1-flash-lite-preview"
+}

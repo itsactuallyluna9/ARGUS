@@ -1,0 +1,8 @@
+{
+    "accuracy": 85,
+    "completeness": 70,
+    "reasoning": "The summary accurately captures the core tension presented in the article regarding the Dania Beach vervet monkeys and the debate between invasive species management and community attachment. However, it is less of a summary of the article's narrative and more of a prescriptive policy playbook based on the article's themes. It misses significant details from the text, such as the specific history of how the monkeys arrived (the 1947 escape from a research/zoo center), the role of researcher Missy Williams, and the nuances of the scientific controversy that were central to the article's reporting.",
+    "model": "nemotron-3-nano:4b",
+    "thinking": false,
+    "evalModel": "gemini-3.1-flash-lite-preview"
+}

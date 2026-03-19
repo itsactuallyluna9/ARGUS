@@ -1,0 +1,8 @@
+{
+    "accuracy": 90,
+    "completeness": 95,
+    "reasoning": "The summary is highly accurate in its reporting of the event and quotes. There is a minor factual discrepancy in the points section regarding the film collaborations; it lists two films that Fonda and Redford starred in, but does not specify that these were only two of four, although the summary text itself correctly mentions four films. Overall, the content is comprehensive and correctly captures the tone and details of the article.",
+    "model": "nemotron-3-nano:4b",
+    "thinking": false,
+    "evalModel": "gemini-3.1-flash-lite-preview"
+}
