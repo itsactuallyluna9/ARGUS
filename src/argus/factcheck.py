@@ -8,7 +8,7 @@ from argus.scraper import get_page
 class FactCheck:
 
 
-    def __init__(self, url: str, article_collection: chromadb.Collection, summarizer_model: str = "gpt-oss:20b", think: bool = True):
+    def __init__(self, url: str, article_collection: chromadb.Collection, summarizer_model: str = "gemma3:12b", think: bool = False):
 
         self.url = url
         self.article_collection = article_collection
@@ -137,12 +137,12 @@ class FactCheck:
     
 
     #PLACEHOLDER IMPLEMENTATION
-    def fact_check(self, summary: str, bias_rating: str, related_summaries: list[tuple[str, str]], evidence_summaries: list[tuple[str, str]]) -> tuple[int, int, str]:
+    def fact_check(self, summary: str, bias_rating: str, related_summaries: list[tuple[str, str]], evidence_summaries: list[tuple[str, str]]) -> dict:
         # Placeholder for actual implementation
-        accuracy_score = 80
-        completeness_score = 70
-        explanation = "The summary is mostly accurate but misses some key points. The bias rating is fair given the content of the article. The related articles and evidence support most of the claims made in the summary."
-        return accuracy_score, completeness_score, explanation
+        self.accuracy_score = 80
+        self.completeness_score = 70
+        self.explanation = "The summary is mostly accurate but misses some key points. The bias rating is fair given the content of the article. The related articles and evidence support most of the claims made in the summary."
+        return self.to_dict()
     
 if __name__ == "__main__":
 

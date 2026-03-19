@@ -18,7 +18,7 @@ JSON schema: {
 '''
 
 
-def summarize_article(article_text: str, model: str = "gpt-oss:20b", think: bool = True, prompt: str = default_prompt, keep_alive=360): 
+def summarize_article(article_text: str, model: str = "gemma3:12b", think: bool = False, prompt: str = default_prompt, keep_alive=360): 
 
     
     r = ollama.generate(model=model, prompt=f"{prompt}\nArticle text: {article_text}", think=think, keep_alive=keep_alive).response
