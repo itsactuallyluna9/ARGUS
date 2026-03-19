@@ -9,6 +9,8 @@ from argus.summarizearticle import summarize_article
 from argus.scraper import get_page
 from argus.findsources import find_related_article_urls, find_evidence_urls
 
+
+
 class FactCheck:
 
 
@@ -32,7 +34,7 @@ class FactCheck:
 
         self.finished = False
 
-        #self.main()
+        self.main()
 
     
     def to_dict(self) -> dict[str, Any]:
@@ -59,18 +61,19 @@ class FactCheck:
 
         # raw article text |> summarizer |> -> summary, key points |> chromadb (if not present)
         self.summary, self.bias_rating, self.key_points = self.summarize_article(self.article_text)
-
         print(f"Summary for {self.url}:\n{self.summary}\n\nBias rating: {self.bias_rating}\n\nKey points:\n{self.key_points}")
 
         # summary |> search web for related articles |> summarizer |> chromadb
         # summary |> find related articles in chromadb -> related article summaries
         self.related_summaries = self.find_related_articles(self.summary)
+        print(f"Related summaries for {self.url}:\n{self.related_summaries}")
 
         # key claims |> search web for evidence -> evidence
         self.evidence_summaries = self.find_evidence(self.key_points)
+        print(f"Evidence summaries for {self.url}:\n{self.evidence_summaries}")
 
         # evidence + article summary + related article summaries + bias rating |> fact check model -> accuracy, completeness scores + explanation
-        self.accuracy_score, self.completeness_score, self.explanation = self.fact_check(self.summary, self.bias_rating, self.related_summaries, self.evidence_summaries)
+        self.fact_check(self.summary, self.bias_rating, self.related_summaries, self.evidence_summaries)
 
         self.finished = True
 
@@ -138,8 +141,12 @@ class FactCheck:
                 curr_summary, _, _ = self.summarize_article(get_page(url))
                 summaries.append((curr_summary, url))
 
-        for result in self.article_collection.query(query_texts=[summary], n_results=7)['documents'][0]:
-            summaries.append((result, self.article_collection.get(ids=[result])['metadatas'][0]['url']))
+        related_from_db = self.article_collection.query(query_texts=[summary], n_results=7)
+
+        print(related_from_db)
+
+        for i in range(len(related_from_db['ids'])):
+            summaries.append((related_from_db['documents'][i], related_from_db['ids'][i]))
 
         return summaries
     
@@ -168,7 +175,8 @@ class FactCheck:
     
 if __name__ == "__main__":
 
-    chroma_client = chromadb.Client()
+    # chroma_client = chromadb.Client()
+    chroma_client = chromadb.HttpClient(host="localhost", port=8000)
     article_collection = chroma_client.get_or_create_collection(name="articles")
 
     f = FactCheck("https://www.freecodecamp.org/news/python-datetime-now-how-to-get-todays-date-and-time/", article_collection)
