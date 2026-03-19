@@ -93,7 +93,7 @@ class Evaluator:
                 }
             )
 
-        response_text = json.loads(response.text)
+        response_text = json.loads(response.text) #type: ignore
 
         with open(f"logs/evaluation_{self.model}_{summary_model}_{datetime.now().isoformat()}.json", "w") as f:
             json.dump({
