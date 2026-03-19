@@ -2,8 +2,11 @@ from typing import Any
 
 import chromadb
 from datetime import datetime
+
+from flask import jsonify
 from argus.summarizearticle import summarize_article
 from argus.scraper import get_page
+from argus.findsources import find_related_article_urls, find_evidence_urls
 
 class FactCheck:
 
@@ -28,7 +31,7 @@ class FactCheck:
 
         self.finished = False
 
-        self.main()
+        #self.main()
 
     
     def to_dict(self) -> dict[str, Any]:
@@ -72,6 +75,20 @@ class FactCheck:
 
         print(f"Fact check results for {self.url}:\nAccuracy: {self.accuracy_score}\nCompleteness: {self.completeness_score}\nExplanation: {self.explanation}")    
 
+    
+    def related_article_summaries(self):
+
+        self.article_text = get_page(self.url)
+        self.summary, self.bias_rating, self.key_points = self.summarize_article(self.article_text)
+        self.related_summaries = self.find_related_articles(self.summary)
+
+        return jsonify({
+            "summary": self.summary,
+            "bias_rating": self.bias_rating,
+            "key_points": self.key_points,
+            "related_summaries": self.related_summaries
+        })
+
         
     def summarize_article(self, article_text: str) -> tuple[str, str, list]:
 
@@ -103,16 +120,10 @@ class FactCheck:
         return summary, bias_rating, key_points
     
     
-    #PLACEHOLDER IMPLEMENTATION
-    def urls_from_summary(self, summary: str) -> list[str]:
-        # Placeholder for actual implementation
-        return ["https://related.article1.com", "https://related.article2.com"]
-    
-    
     def find_related_articles(self, summary: str) -> list[tuple[str, str]]:
         # returns list of tuples of (related article summary, related article url)
         
-        urls = self.urls_from_summary(summary)
+        urls = find_related_article_urls(summary)
         summaries = []
 
         for url in urls:
@@ -120,7 +131,7 @@ class FactCheck:
                 curr_summary, _, _ = self.summarize_article(get_page(url))
                 summaries.append((curr_summary, url))
 
-        for result in self.article_collection.query(query_texts=[summary], n_results=5)['documents'][0]:
+        for result in self.article_collection.query(query_texts=[summary], n_results=7)['documents'][0]:
             summaries.append((result, self.article_collection.get(ids=[result])['metadatas'][0]['url']))
 
         return summaries
@@ -129,15 +140,19 @@ class FactCheck:
     #PLACEHOLDER IMPLEMENTATION
     def find_evidence(self, key_points: list[str]) -> list[tuple[str, str]]:
         # returns list of tuples of (evidence summary, evidence url)
+        evidence_urls = find_evidence_urls(key_points)
         evidence = []
-        for point in key_points:
-            #placeholder for actual implementation
-            evidence.append((f"Evidence summary for key point: {point}", f"https://evidence.url/for/{point}"))
+
+        for urls in evidence_urls:
+            for url in urls:
+                curr_summary, _, _ = self.summarize_article(get_page(url))
+                evidence.append((curr_summary, url))
+
         return evidence
     
 
     #PLACEHOLDER IMPLEMENTATION
-    def fact_check(self, summary: str, bias_rating: str, related_summaries: list[tuple[str, str]], evidence_summaries: list[tuple[str, str]]) -> dict:
+    def fact_check(self, summary: str, bias_rating: str, related_summaries: list[tuple[str, str]], evidence_summaries: list[tuple[str, str]]) -> dict[str, Any]:
         # Placeholder for actual implementation
         self.accuracy_score = 80
         self.completeness_score = 70
