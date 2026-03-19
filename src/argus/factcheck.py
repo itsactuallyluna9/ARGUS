@@ -105,10 +105,10 @@ class FactCheck:
         #returns json with index sentence, key points, summary, bias rating
         response = summarize_article(article_text, model=self.model, think=self.think)
 
-        description = response['description']
-        summary = response['articleSummary']
-        key_points = response['points']
-        bias_rating = response['biasSummary']
+        description = response['description'] # type: ignore
+        summary = response['articleSummary'] # type: ignore
+        key_points = response['points'] # type: ignore
+        bias_rating = response['biasSummary'] # type: ignore
 
         try:
             self.article_collection.add(
@@ -127,7 +127,7 @@ class FactCheck:
         except:
             pass
         
-        return summary, bias_rating, key_points
+        return summary, bias_rating, key_points # type: ignore
     
     
     def find_related_articles(self, summary: str) -> list[tuple[str, str]]:
@@ -146,12 +146,11 @@ class FactCheck:
         print(related_from_db)
 
         for i in range(len(related_from_db['ids'])):
-            summaries.append((related_from_db['documents'][i], related_from_db['ids'][i]))
+            summaries.append((related_from_db['documents'][i], related_from_db['ids'][i])) # type: ignore
 
         return summaries
     
     
-    #PLACEHOLDER IMPLEMENTATION
     def find_evidence(self, key_points: list[str]) -> list[tuple[str, str]]:
         # returns list of tuples of (evidence summary, evidence url)
         evidence_urls = find_evidence_urls(key_points)
@@ -159,6 +158,9 @@ class FactCheck:
 
         for urls in evidence_urls:
             for url in urls:
+
+                print(f"Summarizing evidence source: {url}")
+
                 curr_summary, _, _ = self.summarize_article(get_page(url))
                 evidence.append((curr_summary, url))
 
@@ -173,10 +175,12 @@ class FactCheck:
         self.explanation = "The summary is mostly accurate but misses some key points. The bias rating is fair given the content of the article. The related articles and evidence support most of the claims made in the summary."
         return self.to_dict()
     
+
+
 if __name__ == "__main__":
 
     # chroma_client = chromadb.Client()
     chroma_client = chromadb.HttpClient(host="localhost", port=8000)
     article_collection = chroma_client.get_or_create_collection(name="articles")
 
-    f = FactCheck("https://www.freecodecamp.org/news/python-datetime-now-how-to-get-todays-date-and-time/", article_collection)
+    f = FactCheck("https://www.nbcnews.com/politics/donald-trump/pearl-harbor-joke-iran-operation-meeting-japan-prime-minister-war-rcna264325?utm_source=firefox-newtab-en-us", article_collection)

@@ -6,7 +6,7 @@ from tenacity import retry, retry_if_exception_type, stop_after_attempt
 
 
 related_sources_prompt = '''
-You are a tool designed to write internet search queries to find articles related to a given article summary. You will be given a summary of an article and your task is to return a list of 5 search queries that could be used to find related articles on a search engine. The search queries should be designed to find articles that cover the same topic as the original article, but may have different perspectives or additional information.
+You are a tool designed to write internet search queries to find articles devoted to the same subject as a given article summary. You will be given a summary of an article and your task is to return a list of 5 search queries that could be used to find articles on the same topic on a search engine. The search queries should be designed to find articles that cover the same topic as the original article, but may have different perspectives or additional information.
 Return these queries in a json array. Do not include any explanatory text, only return the json array.
 '''
 
