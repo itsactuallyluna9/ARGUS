@@ -4,13 +4,18 @@ from trafilatura.readability_lxml import is_probably_readerable
 from playwright.sync_api import sync_playwright
 
 def get_page(url: str) -> str:
-    resp = requests.get(url)
+    try:
+        resp = requests.get(url)
 
-    if not is_probably_readerable(resp.text):
-         return get_page_chrome(url)
+        if not is_probably_readerable(resp.text):
+            return get_page_chrome(url)
 
-    markdown = trafilatura.extract(resp.text, output_format='markdown')
-    return markdown
+        markdown = trafilatura.extract(resp.text, output_format='markdown')
+        return markdown
+    
+    except Exception as e:
+        print(f"Error fetching page with requests: {e}. Returning default message.")
+        return "Unable to fetch article content. This may be due to the website's structure or anti-scraping measures."
     
 
 def get_page_chrome(url: str) -> str:
