@@ -1,0 +1,8 @@
+{
+    "accuracy": 100,
+    "completeness": 95,
+    "reasoning": "The summary is highly accurate and correctly captures all the primary meteorological explanations provided in the article. It is nearly complete, missing only the minor detail regarding the impact of the Western heat dome on wildfire risks and long-term water supply concerns, which does not detract from the overall quality of the summary.",
+    "model": "glm-4.7-flash:q4_K_M",
+    "thinking": false,
+    "evalModel": "gemini-3.1-flash-lite-preview"
+}

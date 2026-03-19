@@ -1,0 +1,8 @@
+{
+    "accuracy": 100,
+    "completeness": 95,
+    "reasoning": "The summary is highly accurate and captures all the core scientific findings of the article. It provides a clear explanation of why the researchers conducted the experiment and their subsequent conclusions. It only misses minor contextual details, such as the specific species name Heyuannia huangi, which does not detract from the overall understanding of the text.",
+    "model": "deepseek-r1:14b",
+    "thinking": false,
+    "evalModel": "gemini-3.1-flash-lite-preview"
+}

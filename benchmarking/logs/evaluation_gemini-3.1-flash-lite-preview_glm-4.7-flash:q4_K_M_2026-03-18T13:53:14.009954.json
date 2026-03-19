@@ -1,0 +1,8 @@
+{
+    "accuracy": 100,
+    "completeness": 95,
+    "reasoning": "The summary accurately captures the main points of the article, including the contradictory nature of President Trump's comments and the resulting international and domestic backlash. It correctly identifies the key countries involved and the specific justifications for the criticism. The completeness is high, though it could have briefly mentioned the tragic context of the US service member casualties to provide more depth regarding the criticism cited in the article.",
+    "model": "glm-4.7-flash:q4_K_M",
+    "thinking": false,
+    "evalModel": "gemini-3.1-flash-lite-preview"
+}

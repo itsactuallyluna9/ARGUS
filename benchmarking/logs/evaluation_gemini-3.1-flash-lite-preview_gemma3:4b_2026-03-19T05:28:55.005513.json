@@ -1,0 +1,8 @@
+{
+    "accuracy": 100,
+    "completeness": 95,
+    "reasoning": "The summary is highly accurate and correctly identifies the primary causes and regional differences mentioned in the text. It is very complete, covering the meteorological reasoning, regional forecasts, and climate change context. It slightly misses the specific mention of long-range outlooks for early April, but otherwise captures the core information effectively.",
+    "model": "gemma3:4b",
+    "thinking": false,
+    "evalModel": "gemini-3.1-flash-lite-preview"
+}

@@ -1,0 +1,8 @@
+{
+    "accuracy": 100,
+    "completeness": 100,
+    "reasoning": "The summary and the extracted points are highly accurate and completely capture all essential information provided in the original article. It correctly identifies the purpose of the advisory, the specific changes made to the list, the medical context surrounding polio, and the current state of other CDC advisories.",
+    "model": "qwen3.5:27b",
+    "thinking": false,
+    "evalModel": "gemini-3.1-flash-lite-preview"
+}

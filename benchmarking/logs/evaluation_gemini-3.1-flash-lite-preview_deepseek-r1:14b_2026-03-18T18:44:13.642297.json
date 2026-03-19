@@ -1,0 +1,8 @@
+{
+    "accuracy": 100,
+    "completeness": 95,
+    "reasoning": "The summary is highly accurate and captures the core tension in the article between the President's contradictory statements and the subsequent backlash. It covers the key factual claims well, including the specific countries mentioned as declining support and the frustration of the military families. It is nearly complete, missing only minor details such as the specific mention of the potential delay in the summit with Xi Jinping, which is a minor point compared to the main themes of the article.",
+    "model": "deepseek-r1:14b",
+    "thinking": false,
+    "evalModel": "gemini-3.1-flash-lite-preview"
+}

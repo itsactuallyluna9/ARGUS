@@ -1,0 +1,8 @@
+{
+    "accuracy": 100,
+    "completeness": 95,
+    "reasoning": "The summary is highly accurate and captures all the core factual claims of the article, including the specific statements made by Trump and the subsequent denials from the former presidents' aides. It is very complete, covering the main event, the specific denials, and the secondary announcement regarding the fraud task force, though it could have briefly mentioned that Trump explicitly ruled out George W. Bush to capture that minor detail.",
+    "model": "gpt-oss:20b",
+    "thinking": false,
+    "evalModel": "gemini-3.1-flash-lite-preview"
+}

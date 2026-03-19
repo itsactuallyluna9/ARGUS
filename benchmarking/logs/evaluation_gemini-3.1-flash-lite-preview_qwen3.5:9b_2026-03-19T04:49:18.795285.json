@@ -1,0 +1,8 @@
+{
+    "accuracy": 100,
+    "completeness": 100,
+    "reasoning": "The summary and key points are highly accurate to the article, correctly identifying the species (Heyuannia huangi), the experimental method, and the core scientific conclusion regarding the balance of solar and parental heat. It is comprehensive, covering the structural limitations of the nests that necessitated this strategy and the specific results of the temperature testing.",
+    "model": "qwen3.5:9b",
+    "thinking": false,
+    "evalModel": "gemini-3.1-flash-lite-preview"
+}

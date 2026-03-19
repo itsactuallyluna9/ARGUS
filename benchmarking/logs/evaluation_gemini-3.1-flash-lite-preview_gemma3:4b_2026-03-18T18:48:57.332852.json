@@ -1,0 +1,8 @@
+{
+    "accuracy": 100,
+    "completeness": 95,
+    "reasoning": "The summary is highly accurate and captures the core information of the article perfectly. It is almost completely comprehensive, though it omits the minor detail that the list also had several countries removed (Finland, Ghana, Spain, and Zimbabwe) during the same update.",
+    "model": "gemma3:4b",
+    "thinking": false,
+    "evalModel": "gemini-3.1-flash-lite-preview"
+}

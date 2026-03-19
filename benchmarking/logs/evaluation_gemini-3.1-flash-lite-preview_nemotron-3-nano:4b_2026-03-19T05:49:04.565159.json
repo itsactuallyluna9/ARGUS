@@ -1,0 +1,8 @@
+{
+    "accuracy": 90,
+    "completeness": 95,
+    "reasoning": "The summary is highly accurate in its representation of the article's core events and sentiments. It contains a minor factual error stating Redford died in September 2022, whereas the article text explicitly states he died in September 2025 (implied by the 2026 dateline). Otherwise, it captures the essential details, quotes, and the collaborative history between the actors effectively.",
+    "model": "nemotron-3-nano:4b",
+    "thinking": false,
+    "evalModel": "gemini-3.1-flash-lite-preview"
+}

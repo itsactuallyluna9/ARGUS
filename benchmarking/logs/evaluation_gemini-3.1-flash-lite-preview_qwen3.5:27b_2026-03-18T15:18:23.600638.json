@@ -1,0 +1,8 @@
+{
+    "accuracy": 100,
+    "completeness": 100,
+    "reasoning": "The summary is highly accurate, faithfully reflecting the claims made by President Trump and the subsequent denials by the representatives of the former presidents. It includes all key factual points, such as the context of the statements, the specific names of the living former presidents, and the lack of recent interaction, while maintaining an objective tone that mirrors the original report.",
+    "model": "qwen3.5:27b",
+    "thinking": false,
+    "evalModel": "gemini-3.1-flash-lite-preview"
+}

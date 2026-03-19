@@ -1,0 +1,8 @@
+{
+    "accuracy": 100,
+    "completeness": 100,
+    "reasoning": "The summary is highly accurate and captures all essential factual details from the article, including the specific species studied, the methodology behind the physical model, and the core scientific findings regarding solar-aided incubation. It thoroughly addresses all key claims and provides a precise account of the researchers' conclusions.",
+    "model": "qwen3.5:27b",
+    "thinking": false,
+    "evalModel": "gemini-3.1-flash-lite-preview"
+}

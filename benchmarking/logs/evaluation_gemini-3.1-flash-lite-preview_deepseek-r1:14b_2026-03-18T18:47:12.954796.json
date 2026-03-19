@@ -1,0 +1,8 @@
+{
+    "accuracy": 100,
+    "completeness": 95,
+    "reasoning": "The summary is highly accurate and captures the core conflict between cocoa market volatility and consumer disappointment over reformulated candy. It correctly identifies the role of Brad Reese and the economic context provided by Alexis Villacis. The completeness is excellent, though it could be slightly improved by explicitly mentioning that the specific 'Unwrapped Mini Hearts' product was the catalyst for the controversy, rather than a broad claim that all new Hershey products have <2% cocoa.",
+    "model": "deepseek-r1:14b",
+    "thinking": false,
+    "evalModel": "gemini-3.1-flash-lite-preview"
+}

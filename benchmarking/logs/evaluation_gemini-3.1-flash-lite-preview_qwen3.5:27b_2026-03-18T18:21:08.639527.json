@@ -1,0 +1,8 @@
+{
+    "accuracy": 100,
+    "completeness": 100,
+    "reasoning": "The summary provides a highly accurate and comprehensive overview of the article, covering all key technical, legal, and roadmap-related details. The extracted points accurately represent the core objectives and methodology of the Ageless Linux project as described in the source text.",
+    "model": "qwen3.5:27b",
+    "thinking": false,
+    "evalModel": "gemini-3.1-flash-lite-preview"
+}

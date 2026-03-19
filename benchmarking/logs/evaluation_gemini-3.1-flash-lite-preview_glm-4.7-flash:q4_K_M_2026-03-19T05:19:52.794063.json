@@ -1,0 +1,8 @@
+{
+    "accuracy": 95,
+    "completeness": 90,
+    "reasoning": "The summary is highly accurate in its presentation of the scientific and community perspectives. There is a minor inaccuracy regarding the source of the monkeys: the article mentions a biomedical research center run by a cousin of Teddy Roosevelt as the source of the escape, while the summary attributes it to a 'circus owner'. Otherwise, it captures the core tension between conservation science and local sentiment well.",
+    "model": "glm-4.7-flash:q4_K_M",
+    "thinking": false,
+    "evalModel": "gemini-3.1-flash-lite-preview"
+}

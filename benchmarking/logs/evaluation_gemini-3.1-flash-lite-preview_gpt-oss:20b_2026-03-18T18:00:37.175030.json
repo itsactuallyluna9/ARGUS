@@ -1,0 +1,8 @@
+{
+    "accuracy": 100,
+    "completeness": 95,
+    "reasoning": "The summary is highly accurate, correctly identifying the core conflict and the economic context surrounding cocoa market volatility and corporate reformulation strategies. It includes all essential factual claims. It is missing only minor details, such as the mention of specific competitors like Nestl\u00e9's Choco Crossies or the mention of the shift in global cocoa production towards Ecuador and Indonesia, but these are secondary to the main narrative.",
+    "model": "gpt-oss:20b",
+    "thinking": false,
+    "evalModel": "gemini-3.1-flash-lite-preview"
+}

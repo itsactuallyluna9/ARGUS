@@ -1,0 +1,8 @@
+{
+    "accuracy": 100,
+    "completeness": 95,
+    "reasoning": "The summary accurately reflects the core findings of the article and the scientific methodology used. It captures the essential difference between oviraptor incubation and the TCI method seen in modern birds. The only minor detail omitted is the specific species mentioned in the study, Heyuannia huangi, but this does not detract from the overall completeness of the summary.",
+    "model": "gemma3:4b",
+    "thinking": false,
+    "evalModel": "gemini-3.1-flash-lite-preview"
+}

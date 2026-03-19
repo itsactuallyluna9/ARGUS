@@ -1,0 +1,8 @@
+{
+    "accuracy": 100,
+    "completeness": 95,
+    "reasoning": "The summary accurately captures the core controversy and the contradictory nature of President Trump's statements regarding the Strait of Hormuz. It effectively identifies the key factual claims. The completeness is high, though it could have briefly mentioned the specific countries that have already explicitly refused to send warships (e.g., Australia, France, Japan) to provide a more comprehensive picture of the diplomatic landscape described in the article.",
+    "model": "gemma3:4b",
+    "thinking": false,
+    "evalModel": "gemini-3.1-flash-lite-preview"
+}

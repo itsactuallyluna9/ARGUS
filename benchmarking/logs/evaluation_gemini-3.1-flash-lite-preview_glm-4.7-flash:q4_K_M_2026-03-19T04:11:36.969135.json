@@ -1,0 +1,8 @@
+{
+    "accuracy": 100,
+    "completeness": 100,
+    "reasoning": "The summary and the included key points are highly accurate, correctly identifying the additions and removals from the CDC polio travel advisory list. It captures all significant details provided in the article, including the vaccine guidance, the reasoning behind the list, and the broader context of current travel alert levels.",
+    "model": "glm-4.7-flash:q4_K_M",
+    "thinking": false,
+    "evalModel": "gemini-3.1-flash-lite-preview"
+}

@@ -1,0 +1,8 @@
+{
+    "accuracy": 100,
+    "completeness": 100,
+    "reasoning": "The summary and points provided are highly accurate and align perfectly with the factual details reported in the article. Every key claim made by the President and the subsequent denials by the former presidents' representatives are included, covering the full scope of the report.",
+    "model": "gemma3:12b",
+    "thinking": false,
+    "evalModel": "gemini-3.1-flash-lite-preview"
+}

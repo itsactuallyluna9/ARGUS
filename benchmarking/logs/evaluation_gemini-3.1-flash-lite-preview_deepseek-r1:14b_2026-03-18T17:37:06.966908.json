@@ -1,0 +1,8 @@
+{
+    "accuracy": 100,
+    "completeness": 95,
+    "reasoning": "The summary accurately captures the core contradiction in President Trump's statements and the subsequent political backlash. It covers the primary factual claims regarding the Strait of Hormuz, the resistance from allies, and the public criticism. It is highly complete, missing only minor details such as the specific mention of the Financial Times interview or the potential delay of the China summit, which do not detract from the overall clarity and accuracy of the summary.",
+    "model": "deepseek-r1:14b",
+    "thinking": false,
+    "evalModel": "gemini-3.1-flash-lite-preview"
+}

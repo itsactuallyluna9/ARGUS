@@ -1,0 +1,8 @@
+{
+    "accuracy": 100,
+    "completeness": 95,
+    "reasoning": "The summary is highly accurate, correctly relaying the travel advisory updates, vaccine recommendations, and background on polio as described in the source text. It is extremely comprehensive, capturing the specific countries added and removed, the reasoning for the advisory, and the status of other global health alerts mentioned in the article. It misses minor details regarding specific symptom lists, but this does not detract from the core informational value of the summary.",
+    "model": "gemma3:12b",
+    "thinking": false,
+    "evalModel": "gemini-3.1-flash-lite-preview"
+}

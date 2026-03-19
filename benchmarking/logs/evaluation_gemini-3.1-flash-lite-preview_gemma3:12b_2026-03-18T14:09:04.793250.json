@@ -1,0 +1,8 @@
+{
+    "accuracy": 100,
+    "completeness": 95,
+    "reasoning": "The summary is highly accurate, correctly synthesizing the meteorological explanations and regional weather patterns presented in the article. It covers all major points, including the reasons for the East's temperature swings, the heat dome in the West, and the seasonal outlook. It misses only minor specific details, such as the specific mention of potential wildfire risks and water supply concerns, but these are negligible omissions for a high-level summary.",
+    "model": "gemma3:12b",
+    "thinking": false,
+    "evalModel": "gemini-3.1-flash-lite-preview"
+}

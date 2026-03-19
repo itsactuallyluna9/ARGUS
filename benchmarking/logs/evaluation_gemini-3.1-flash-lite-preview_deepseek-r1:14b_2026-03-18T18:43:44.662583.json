@@ -1,0 +1,8 @@
+{
+    "accuracy": 100,
+    "completeness": 95,
+    "reasoning": "The summary accurately captures the core event and provides correct context regarding the historical significance and previous occurrences of ties. It is highly accurate and covers all primary aspects of the report. It missed only minor details like the specific quotes from host Conan O'Brien or the nuance regarding the 1932 'tie' technically being a difference in vote count, but these are not essential for a complete summary.",
+    "model": "deepseek-r1:14b",
+    "thinking": false,
+    "evalModel": "gemini-3.1-flash-lite-preview"
+}

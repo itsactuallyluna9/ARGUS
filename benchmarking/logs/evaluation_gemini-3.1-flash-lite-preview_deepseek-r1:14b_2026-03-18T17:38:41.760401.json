@@ -1,0 +1,8 @@
+{
+    "accuracy": 100,
+    "completeness": 95,
+    "reasoning": "The summary is highly accurate and captures the core tension between Trump's claims and the denials from the former presidents' camps. It covers all essential factual points. The completeness score is slightly less than 100 only because it excludes the specific detail that Trump explicitly ruled out George W. Bush when asked by a reporter, which adds further nuance to the credibility discussion.",
+    "model": "deepseek-r1:14b",
+    "thinking": false,
+    "evalModel": "gemini-3.1-flash-lite-preview"
+}

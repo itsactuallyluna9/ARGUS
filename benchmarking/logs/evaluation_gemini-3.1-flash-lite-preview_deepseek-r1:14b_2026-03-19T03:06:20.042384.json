@@ -1,0 +1,8 @@
+{
+    "accuracy": 100,
+    "completeness": 95,
+    "reasoning": "The summary is highly accurate and captures the core tension in Trump's contradictory statements regarding the Strait of Hormuz. It identifies the key players, the specific arguments made by the President, and the backlash from both allies and military families. It is nearly complete, missing only the specific detail that the US/Israel war is in its third week, though this does not significantly detract from the overall understanding of the article.",
+    "model": "deepseek-r1:14b",
+    "thinking": false,
+    "evalModel": "gemini-3.1-flash-lite-preview"
+}

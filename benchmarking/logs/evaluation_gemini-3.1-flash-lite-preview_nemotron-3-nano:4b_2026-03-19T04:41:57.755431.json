@@ -1,0 +1,8 @@
+{
+    "accuracy": 95,
+    "completeness": 95,
+    "reasoning": "The summary accurately captures the core technical and legal motivations behind the Ageless Linux project. The points are well-aligned with the text, correctly identifying the project's intent to highlight regulatory overreach. It is highly complete, though it misses a minor detail about the project's timeline (the article notes Q3 2026, which the summary reflects accurately, but the original text mentions some roadmap items broadly as 'later this year' alongside the Q3 2026 date, which might cause slight confusion). Overall, it provides an excellent synthesis of the provided information.",
+    "model": "nemotron-3-nano:4b",
+    "thinking": false,
+    "evalModel": "gemini-3.1-flash-lite-preview"
+}

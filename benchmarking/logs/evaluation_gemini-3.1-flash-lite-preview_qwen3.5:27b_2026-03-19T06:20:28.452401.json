@@ -1,0 +1,8 @@
+{
+    "accuracy": 100,
+    "completeness": 100,
+    "reasoning": "The summary and the provided key points are highly accurate, precisely reflecting the findings and experimental methodology described in the article. The completeness is excellent, covering the specific species involved, the physical limitations of the nest structure, the experimental setup, the temperature data results, and the scientific conclusion regarding evolutionary adaptation.",
+    "model": "qwen3.5:27b",
+    "thinking": false,
+    "evalModel": "gemini-3.1-flash-lite-preview"
+}

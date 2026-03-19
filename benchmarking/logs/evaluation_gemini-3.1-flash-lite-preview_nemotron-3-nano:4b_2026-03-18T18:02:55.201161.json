@@ -1,0 +1,8 @@
+{
+    "accuracy": 100,
+    "completeness": 95,
+    "reasoning": "The summary is highly accurate and captures all the central themes of the article, including the specific case of Brad Reese, the economic factors like cocoa volatility, and the shift in industry practices. It is very complete, though it omits minor details like the mention of the German brand 'Choco Crossies' and the specific mention of the US threshold (15%) for labeling, which were relatively secondary to the main narrative.",
+    "model": "nemotron-3-nano:4b",
+    "thinking": false,
+    "evalModel": "gemini-3.1-flash-lite-preview"
+}

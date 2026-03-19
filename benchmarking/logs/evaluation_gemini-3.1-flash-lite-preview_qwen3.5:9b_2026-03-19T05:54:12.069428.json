@@ -1,0 +1,8 @@
+{
+    "accuracy": 100,
+    "completeness": 95,
+    "reasoning": "The summary is highly accurate, correctly synthesizing the meteorologists' explanations for both the Eastern storm tracks and the Western heat dome. It is very complete, covering the seasonal context, the role of the jet stream, and specific regional impacts. It only narrowly misses being 100% complete by omitting the specific mention of long-term forecasts predicting a cool/wet pattern in the East through early April, though this is a minor detail in the context of the overall article.",
+    "model": "qwen3.5:9b",
+    "thinking": false,
+    "evalModel": "gemini-3.1-flash-lite-preview"
+}

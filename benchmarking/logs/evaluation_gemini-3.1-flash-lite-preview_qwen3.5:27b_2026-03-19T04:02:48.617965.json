@@ -1,0 +1,8 @@
+{
+    "accuracy": 100,
+    "completeness": 95,
+    "reasoning": "The summary is highly accurate and captures the core factual claims and the nuance of the article. It provides a comprehensive overview of the economic, environmental, and regulatory factors involved. The only minor omission is a deeper exploration of the specific consumer behavior advice provided near the end (such as reading labels to distinguish 'milk chocolate' from 'chocolate candy'), but the summary successfully synthesizes the most important information provided in the text.",
+    "model": "qwen3.5:27b",
+    "thinking": false,
+    "evalModel": "gemini-3.1-flash-lite-preview"
+}

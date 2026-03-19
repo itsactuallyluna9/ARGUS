@@ -1,0 +1,8 @@
+{
+    "accuracy": 100,
+    "completeness": 95,
+    "reasoning": "The summary is highly accurate and captures the nuance of the conflict between scientific definitions of invasive species and the community's emotional attachment to the vervets. It correctly cites key statistics, expert opinions, and the history of the colony. The only minor omission is the specific details regarding the origin of the colony (the 1947 escape from the research/zoo center), which provides important context for why they are in Florida, though this does not detract from the overall quality of the summary.",
+    "model": "qwen3.5:27b",
+    "thinking": false,
+    "evalModel": "gemini-3.1-flash-lite-preview"
+}

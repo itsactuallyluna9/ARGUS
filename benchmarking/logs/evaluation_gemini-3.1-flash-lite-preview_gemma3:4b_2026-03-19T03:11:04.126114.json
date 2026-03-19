@@ -1,0 +1,8 @@
+{
+    "accuracy": 100,
+    "completeness": 95,
+    "reasoning": "The summary is highly accurate and captures all the core factual claims of the article correctly. It is nearly complete, though it omits the minor detail that the update also involved removing four countries (Finland, Ghana, Spain, and Zimbabwe) from the advisory list.",
+    "model": "gemma3:4b",
+    "thinking": false,
+    "evalModel": "gemini-3.1-flash-lite-preview"
+}

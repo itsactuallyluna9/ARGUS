@@ -1,0 +1,8 @@
+{
+    "accuracy": 100,
+    "completeness": 95,
+    "reasoning": "The summary is highly accurate and captures the core of the article effectively. It correctly identifies the contradictory nature of Trump's statements, the backlash from international allies, and the specific strategic shifts mentioned. It is nearly complete, missing only the minor detail regarding the specific context of the military losses mentioned (the refueling tanker crash) to provide full situational depth, but it covers all major political and diplomatic points.",
+    "model": "gemma3:4b",
+    "thinking": false,
+    "evalModel": "gemini-3.1-flash-lite-preview"
+}

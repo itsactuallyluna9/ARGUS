@@ -1,0 +1,8 @@
+{
+    "accuracy": 100,
+    "completeness": 95,
+    "reasoning": "The summary is highly accurate, correctly identifying all key figures, events, and historical context provided in the article. It is nearly complete, capturing the main event, the specific films involved, and the historical background of Oscar ties. It could have been slightly improved by explicitly listing the other documented ties mentioned in the text (such as the 1950 and 1987 examples) to ensure full coverage of the provided list, but it captures the essence perfectly.",
+    "model": "gemma3:12b",
+    "thinking": false,
+    "evalModel": "gemini-3.1-flash-lite-preview"
+}

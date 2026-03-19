@@ -1,0 +1,8 @@
+{
+    "accuracy": 100,
+    "completeness": 90,
+    "reasoning": "The summary is highly accurate and correctly identifies the core purpose and technical nature of the Ageless Linux project. It is nearly complete, though it misses a few minor details such as the specific mention of California's Digital Age Assurance Act as a catalyst and the mention of the Milk-V Duo hardware device as part of the project's strategy.",
+    "model": "deepseek-r1:14b",
+    "thinking": false,
+    "evalModel": "gemini-3.1-flash-lite-preview"
+}

@@ -1,0 +1,8 @@
+{
+    "accuracy": 100,
+    "completeness": 100,
+    "reasoning": "The summary and the included key points are highly accurate and completely represent the original article. It covers the methodology, the species involved, the specific physical challenge of the nest layout, and the experimental results regarding sunlight as a heat source without omitting any core information or introducing errors.",
+    "model": "qwen3.5:27b",
+    "thinking": false,
+    "evalModel": "gemini-3.1-flash-lite-preview"
+}

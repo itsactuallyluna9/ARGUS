@@ -1,0 +1,8 @@
+{
+    "accuracy": 100,
+    "completeness": 95,
+    "reasoning": "The summary is highly accurate, correctly identifying the films, the presenter, and the historical context provided in the article. It is extremely complete, covering the key event, the historical significance, and reactions from the participants. It misses only minor details like the specific 1950 and 1987 tie instances mentioned in the final list, but these are not essential for a high-quality summary.",
+    "model": "gemma3:12b",
+    "thinking": false,
+    "evalModel": "gemini-3.1-flash-lite-preview"
+}

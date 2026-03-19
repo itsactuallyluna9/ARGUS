@@ -1,0 +1,8 @@
+{
+    "accuracy": 100,
+    "completeness": 100,
+    "reasoning": "The summary and the included key points are entirely accurate to the source text. All provided details, from the historical context to the specific names of the films and participants, are captured correctly. The summary is complete, covering the main event, historical significance, reactions from the winners and hosts, and relevant background information without omitting any crucial facts.",
+    "model": "qwen3.5:27b",
+    "thinking": false,
+    "evalModel": "gemini-3.1-flash-lite-preview"
+}

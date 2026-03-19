@@ -1,0 +1,8 @@
+{
+    "accuracy": 100,
+    "completeness": 95,
+    "reasoning": "The summary accurately captures the core conflict between Trump's claims and the denials from his predecessors' representatives. It includes all essential factual points. It misses only minor details, such as the context of the Kennedy Center event and the specific mention of JD Vance's task force announcement, which are secondary to the article's main narrative.",
+    "model": "gemma3:12b",
+    "thinking": false,
+    "evalModel": "gemini-3.1-flash-lite-preview"
+}

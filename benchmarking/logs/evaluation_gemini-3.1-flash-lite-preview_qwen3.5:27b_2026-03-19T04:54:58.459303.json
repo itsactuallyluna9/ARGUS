@@ -1,0 +1,8 @@
+{
+    "accuracy": 100,
+    "completeness": 100,
+    "reasoning": "The summary and the points provided capture all essential facts from the article with precision, including the specific comments made by the President, the reactions from international allies, and the human cost of the conflict. The description of the article's bias is also accurate and insightful, correctly identifying the narrative framing used in the original text.",
+    "model": "qwen3.5:27b",
+    "thinking": false,
+    "evalModel": "gemini-3.1-flash-lite-preview"
+}

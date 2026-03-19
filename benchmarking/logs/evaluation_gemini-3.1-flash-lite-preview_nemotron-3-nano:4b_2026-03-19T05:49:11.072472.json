@@ -1,0 +1,8 @@
+{
+    "accuracy": 95,
+    "completeness": 95,
+    "reasoning": "The summary accurately captures the main points of the article, including the role of cocoa market volatility and the specific case of Brad Reese. The reasoning for the scores is that the summary misses only minor details, such as the mention of alternative innovations like lab-grown chocolate alternatives. One minor correction is that the economist is named Alexis Villacis, whereas the summary mentions Victor Villacis, but otherwise, the information is precise and comprehensive.",
+    "model": "nemotron-3-nano:4b",
+    "thinking": false,
+    "evalModel": "gemini-3.1-flash-lite-preview"
+}

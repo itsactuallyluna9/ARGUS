@@ -1,0 +1,8 @@
+{
+    "accuracy": 100,
+    "completeness": 95,
+    "reasoning": "The summary and the key points are highly accurate, strictly adhering to the information presented in the article. The completeness is excellent, covering the main event, the backlash, specific examples of international responses, and the impact on families. It only narrowly misses being 100% complete by omitting a few minor details, such as the mention of Luxembourg's specific response, but this does not detract from the overall quality.",
+    "model": "qwen3.5:9b",
+    "thinking": false,
+    "evalModel": "gemini-3.1-flash-lite-preview"
+}

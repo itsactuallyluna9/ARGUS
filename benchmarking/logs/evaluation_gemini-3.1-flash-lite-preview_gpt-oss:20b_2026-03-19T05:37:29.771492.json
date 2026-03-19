@@ -1,0 +1,8 @@
+{
+    "accuracy": 100,
+    "completeness": 100,
+    "reasoning": "The summary and the included key points are highly accurate, reflecting the details provided in the source article without distortion. It is also exceptionally complete, capturing the specific changes to the advisory list, the vaccination recommendations for children and adults, the nature of the virus, and the broader context of the CDC's travel advisory system.",
+    "model": "gpt-oss:20b",
+    "thinking": false,
+    "evalModel": "gemini-3.1-flash-lite-preview"
+}

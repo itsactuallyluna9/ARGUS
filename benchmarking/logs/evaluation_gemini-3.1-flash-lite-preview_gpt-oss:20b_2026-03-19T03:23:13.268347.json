@@ -1,0 +1,8 @@
+{
+    "accuracy": 100,
+    "completeness": 95,
+    "reasoning": "The summary is highly accurate, correctly synthesizing the core narrative of the article regarding ingredient changes and market forces. It captures the specific examples, expert analysis, and the regulatory context mentioned in the text. It is extremely complete, though it could have slightly emphasized the concluding section regarding the future supply challenges (such as labor issues and shifting geography) more prominently, but this is a minor omission in an otherwise comprehensive summary.",
+    "model": "gpt-oss:20b",
+    "thinking": false,
+    "evalModel": "gemini-3.1-flash-lite-preview"
+}

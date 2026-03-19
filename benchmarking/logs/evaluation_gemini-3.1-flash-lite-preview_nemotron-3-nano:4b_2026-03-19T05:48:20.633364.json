@@ -1,0 +1,8 @@
+{
+    "accuracy": 95,
+    "completeness": 90,
+    "reasoning": "The summary is highly accurate and captures the core events and factual details presented in the article. It provides a good overview of the 2026 Oscar tie, the historical context of previous ties, and the reactions of the winners. It is missing some minor details, such as the specific quip by Conan O'Brien regarding 'ruining Oscar pools' or the specific mention of the 1950 documentary tie in the final list, but these are minor omissions that do not impact the overall clarity or factual integrity of the summary.",
+    "model": "nemotron-3-nano:4b",
+    "thinking": false,
+    "evalModel": "gemini-3.1-flash-lite-preview"
+}

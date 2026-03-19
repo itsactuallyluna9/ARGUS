@@ -1,0 +1,8 @@
+{
+    "accuracy": 90,
+    "completeness": 95,
+    "reasoning": "The summary is highly accurate and comprehensive, capturing the nuances of the debate, the history of the monkeys, and the differing perspectives of researchers and locals. However, it contains a minor inaccuracy regarding the monkeys' origins; the summary suggests they came from a combination of sources, while the article explicitly concludes they were escaped monkeys from a biomedical research/zoo facility founded by Leila Roosevelt Denis.",
+    "model": "gemma3:12b",
+    "thinking": false,
+    "evalModel": "gemini-3.1-flash-lite-preview"
+}

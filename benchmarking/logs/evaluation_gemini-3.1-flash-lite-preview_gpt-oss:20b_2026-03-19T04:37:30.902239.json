@@ -1,0 +1,8 @@
+{
+    "accuracy": 100,
+    "completeness": 95,
+    "reasoning": "The summary is highly accurate, correctly relaying Trump's claims and the subsequent rebuttals from the representatives of the former presidents. It covers the primary events and context effectively. It is nearly complete, missing only minor details such as the specific timeframe of the Iran conflict mentioned (over two weeks) and the note about when the presidents were last together (at the inauguration), but these omissions do not detract from the core narrative.",
+    "model": "gpt-oss:20b",
+    "thinking": false,
+    "evalModel": "gemini-3.1-flash-lite-preview"
+}

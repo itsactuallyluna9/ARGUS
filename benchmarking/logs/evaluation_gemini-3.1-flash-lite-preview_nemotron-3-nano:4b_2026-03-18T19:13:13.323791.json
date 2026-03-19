@@ -1,0 +1,8 @@
+{
+    "accuracy": 100,
+    "completeness": 95,
+    "reasoning": "The summary and supporting points are highly accurate, correctly reflecting the experiment and its findings regarding Heyuannia huangi. The information is complete in terms of the scientific methodology and results, though it could have briefly mentioned the specific species name to reach 100% completeness.",
+    "model": "nemotron-3-nano:4b",
+    "thinking": false,
+    "evalModel": "gemini-3.1-flash-lite-preview"
+}

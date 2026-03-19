@@ -1,0 +1,8 @@
+{
+    "accuracy": 100,
+    "completeness": 95,
+    "reasoning": "The summary is highly accurate and correctly identifies the key event and details. It is very complete, covering the winners, the reactions, the historical context, and the presenters. It only narrowly misses a perfect completeness score because it omitted the specific detail that the 1932 tie was technically an anomaly due to outdated voting rules, which was an interesting piece of context provided in the article.",
+    "model": "glm-4.7-flash:q4_K_M",
+    "thinking": false,
+    "evalModel": "gemini-3.1-flash-lite-preview"
+}

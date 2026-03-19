@@ -1,0 +1,8 @@
+{
+    "accuracy": 100,
+    "completeness": 95,
+    "reasoning": "The summary accurately captures the main points of the article and correctly attributes the claims regarding Trump's conflicting statements and the international response. It is highly complete, covering the specific countries involved, the casualty figures, and the diplomatic tension surrounding the conflict. The only minor point for completeness is that it omits the mention of the cousin of a fallen service member which provided a specific emotional context to the criticism, but this does not detract from the overall integrity of the summary.",
+    "model": "gpt-oss:20b",
+    "thinking": false,
+    "evalModel": "gemini-3.1-flash-lite-preview"
+}

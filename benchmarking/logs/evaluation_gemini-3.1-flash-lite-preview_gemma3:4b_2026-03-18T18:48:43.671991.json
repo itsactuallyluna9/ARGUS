@@ -1,0 +1,8 @@
+{
+    "accuracy": 90,
+    "completeness": 85,
+    "reasoning": "The summary accurately captures the core narrative, thematic arguments, and scientific perspectives presented in the article. However, it contains a minor factual inaccuracy regarding the origin date of the monkeys (summarized as the 1960s, while the text specifies 1947). Additionally, it misses some specific details, such as the direct role of Missy Williams' research and the sanctuary in shaping the current understanding and management of the colony.",
+    "model": "gemma3:4b",
+    "thinking": false,
+    "evalModel": "gemini-3.1-flash-lite-preview"
+}

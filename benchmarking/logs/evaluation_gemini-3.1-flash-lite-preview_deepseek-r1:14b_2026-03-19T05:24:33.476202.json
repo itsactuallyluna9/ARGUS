@@ -1,0 +1,8 @@
+{
+    "accuracy": 95,
+    "completeness": 85,
+    "reasoning": "The summary accurately reflects the core arguments and the scientific perspective presented in the article regarding the Dania Beach vervet monkeys. It correctly identifies the nuance between 'nonnative' and 'invasive' species and the role of public perception. However, it is slightly incomplete as it omits specific, interesting details from the article, such as the fascinating origin story of the colony escaping a biomedical research center in 1947 and the specific ongoing health risks (like electrocution) that these monkeys face.",
+    "model": "deepseek-r1:14b",
+    "thinking": false,
+    "evalModel": "gemini-3.1-flash-lite-preview"
+}

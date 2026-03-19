@@ -1,0 +1,8 @@
+{
+    "accuracy": 100,
+    "completeness": 95,
+    "reasoning": "The summary is highly accurate and correctly identifies the core findings and the methodology used in the research. It successfully synthesizes the key points, including the specific anatomical challenges of the oviraptor egg layout and the role of sunlight in thermal regulation. It is nearly complete, missing only the specific mention of the dinosaur species name (Heyuannia huangi) and the location of the study (Taiwan), though these are minor omissions given the summary's effectiveness.",
+    "model": "nemotron-3-nano:4b",
+    "thinking": false,
+    "evalModel": "gemini-3.1-flash-lite-preview"
+}

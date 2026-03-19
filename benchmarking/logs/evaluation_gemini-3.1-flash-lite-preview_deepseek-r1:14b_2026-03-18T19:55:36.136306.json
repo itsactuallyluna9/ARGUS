@@ -1,0 +1,8 @@
+{
+    "accuracy": 100,
+    "completeness": 95,
+    "reasoning": "The summary is highly accurate and captures all the core factual claims of the article, including the specific motivation for ingredient replacement, the role of climate change, and the consumer backlash from Brad Reese. It is very complete, though it could have briefly mentioned the nuances regarding the different regulations in the US versus the UK/EU to provide a slightly more comprehensive picture of the global industry landscape.",
+    "model": "deepseek-r1:14b",
+    "thinking": false,
+    "evalModel": "gemini-3.1-flash-lite-preview"
+}

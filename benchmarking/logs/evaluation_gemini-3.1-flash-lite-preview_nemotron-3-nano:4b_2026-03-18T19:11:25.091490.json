@@ -1,0 +1,8 @@
+{
+    "accuracy": 65,
+    "completeness": 80,
+    "reasoning": "The accuracy is negatively impacted by the first key point, which incorrectly states that Fonda was at the Oscars In Memoriam segment to honor Redford; in reality, she was at the Vanity Fair party and was not part of the telecast. The summary provides a good overview of the core sentiment, though it could be improved by clarifying that Fonda's critique was playful rather than genuine criticism.",
+    "model": "nemotron-3-nano:4b",
+    "thinking": false,
+    "evalModel": "gemini-3.1-flash-lite-preview"
+}

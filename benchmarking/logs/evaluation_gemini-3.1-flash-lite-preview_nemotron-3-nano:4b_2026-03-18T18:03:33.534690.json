@@ -1,0 +1,8 @@
+{
+    "accuracy": 90,
+    "completeness": 95,
+    "reasoning": "The summary is highly accurate in reflecting the article's core content, including Trump's contradictory statements and the subsequent backlash. It captures the main diplomatic tensions described. There is one minor factual error in the points section: it mentions 13 service members were 'injured,' whereas the article specifies they were 'killed.' Otherwise, the coverage of the article's details is comprehensive.",
+    "model": "nemotron-3-nano:4b",
+    "thinking": false,
+    "evalModel": "gemini-3.1-flash-lite-preview"
+}

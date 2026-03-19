@@ -1,0 +1,8 @@
+{
+    "accuracy": 100,
+    "completeness": 95,
+    "reasoning": "The summary accurately captures the core conflict of the article, which involves President Trump's disputed claim regarding a conversation with a former president. The factual points are well-aligned with the source text. The summary is highly complete, though it could have briefly mentioned the context of Trump's broader Iran policy narrative to be fully comprehensive, but it hits all essential details.",
+    "model": "deepseek-r1:14b",
+    "thinking": false,
+    "evalModel": "gemini-3.1-flash-lite-preview"
+}

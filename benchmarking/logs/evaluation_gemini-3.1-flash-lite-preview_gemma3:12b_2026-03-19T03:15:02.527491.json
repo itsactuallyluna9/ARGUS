@@ -1,0 +1,8 @@
+{
+    "accuracy": 100,
+    "completeness": 95,
+    "reasoning": "The summary is highly accurate and captures all the central themes of the article. It effectively balances the consumer perspective (Brad Reese) with the broader economic context provided by the economist Alexis Villacis. The only minor omission is the specific mention of the US labeling threshold (15%) compared to the UK/EU regulations, but this does not detract from the overall quality or understanding of the piece.",
+    "model": "gemma3:12b",
+    "thinking": false,
+    "evalModel": "gemini-3.1-flash-lite-preview"
+}

@@ -1,0 +1,8 @@
+{
+    "accuracy": 100,
+    "completeness": 95,
+    "reasoning": "The summary is highly accurate and captures the core conflicts, scientific perspectives, and local sentiments presented in the article. It effectively synthesizes the nuanced debate between conservation biology and public affection. The completeness is excellent, though it omits the specific historical detail regarding the 1947 escape of 15 monkeys from the biomedical research center, which serves as the origin story for the colony.",
+    "model": "qwen3.5:27b",
+    "thinking": false,
+    "evalModel": "gemini-3.1-flash-lite-preview"
+}

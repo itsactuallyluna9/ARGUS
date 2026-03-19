@@ -1,0 +1,8 @@
+{
+    "accuracy": 95,
+    "completeness": 90,
+    "reasoning": "The summary is highly accurate, correctly reflecting the article's core tension between public sentiment and scientific caution regarding the vervet monkeys. It captures the key factual claims well. The summary is very complete, though it omits the specific backstory of the 1947 escape from the biomedical research center (Leila Roosevelt Denis's center), which provides crucial historical context for how the monkeys arrived in Florida.",
+    "model": "gpt-oss:20b",
+    "thinking": false,
+    "evalModel": "gemini-3.1-flash-lite-preview"
+}

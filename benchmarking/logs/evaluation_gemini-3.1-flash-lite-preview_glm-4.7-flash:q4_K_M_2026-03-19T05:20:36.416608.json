@@ -1,0 +1,8 @@
+{
+    "accuracy": 100,
+    "completeness": 95,
+    "reasoning": "The summary is highly accurate in its reporting of Trump's claims and the subsequent denials from the former presidents' camps. It captures the essential narrative arc of the article. It is slightly less than 100% complete only because it omits minor details like the specific context of the White House event (the task force announcement) and the fact that Trump and all predecessors were last together at his inauguration, though these are secondary to the primary claim of the article.",
+    "model": "glm-4.7-flash:q4_K_M",
+    "thinking": false,
+    "evalModel": "gemini-3.1-flash-lite-preview"
+}
