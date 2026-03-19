@@ -34,7 +34,7 @@ class FactCheck:
 
         self.finished = False
 
-        self.main()
+        #self.main()
 
     
     def to_dict(self) -> dict[str, Any]:
@@ -179,8 +179,8 @@ class FactCheck:
 
 if __name__ == "__main__":
 
-    # chroma_client = chromadb.Client()
-    chroma_client = chromadb.HttpClient(host="localhost", port=8000)
-    article_collection = chroma_client.get_or_create_collection(name="articles")
+    # # chroma_client = chromadb.Client()
+    # chroma_client = chromadb.HttpClient(host="localhost", port=8000)
+    # article_collection = chroma_client.get_or_create_collection(name="articles")
 
-    f = FactCheck("https://www.nbcnews.com/politics/donald-trump/pearl-harbor-joke-iran-operation-meeting-japan-prime-minister-war-rcna264325?utm_source=firefox-newtab-en-us", article_collection)
+    #f = FactCheck("https://www.nbcnews.com/politics/donald-trump/pearl-harbor-joke-iran-operation-meeting-japan-prime-minister-war-rcna264325?utm_source=firefox-newtab-en-us", article_collection)
