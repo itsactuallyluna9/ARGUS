@@ -55,8 +55,13 @@ dependencies = [
     { name = "numpy" },
     { name = "ollama" },
     { name = "pandas" },
+    { name = "pdf-oxide" },
     { name = "playwright" },
     { name = "playwright-stealth" },
+    { name = "pyexcel" },
+    { name = "pyexcel-ods3" },
+    { name = "pyexcel-xls" },
+    { name = "python-docx" },
     { name = "rich" },
     { name = "trafilatura" },
 ]
@@ -73,8 +78,13 @@ requires-dist = [
     { name = "numpy", specifier = ">=2.4.3" },
     { name = "ollama", specifier = ">=0.6.1" },
     { name = "pandas", specifier = ">=3.0.1" },
+    { name = "pdf-oxide", specifier = ">=0.3.17" },
     { name = "playwright", specifier = ">=1.58.0" },
     { name = "playwright-stealth", specifier = ">=2.0.2" },
+    { name = "pyexcel", specifier = ">=0.7.4" },
+    { name = "pyexcel-ods3", specifier = ">=0.6.1" },
+    { name = "pyexcel-xls", specifier = ">=0.7.1" },
+    { name = "python-docx", specifier = ">=1.2.0" },
     { name = "rich", specifier = ">=14.3.3" },
     { name = "trafilatura", specifier = ">=2.0.0" },
 ]
@@ -942,6 +952,15 @@ wheels = [
 ]
 
 [[package]]
+name = "lml"
+version = "0.2.0"
+source = { registry = "https://pypi.org/simple" }
+sdist = { url = "https://files.pythonhosted.org/packages/2e/33/8043c7050233e889df10365d32838b276fc51464cc70f9abbb97c92771d6/lml-0.2.0.tar.gz", hash = "sha256:8dd5afb4367a593d1cdb2144a05874cd9938f5266bebb0c9e1413200423c0d74", size = 41633, upload-time = "2025-03-16T11:56:44.381Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/c8/da/c649f3d09155660bcc5bf4f7fb59effae968e4ffd872cdd738f0b6932400/lml-0.2.0-py2.py3-none-any.whl", hash = "sha256:20c80728189e46e8d986f5d0cdf6d83c493471fc25b1c31a8cb3fa96e80b58f8", size = 10846, upload-time = "2025-03-16T11:56:42.709Z" },
+]
+
+[[package]]
 name = "lxml"
 version = "6.0.2"
 source = { registry = "https://pypi.org/simple" }
@@ -1451,6 +1470,17 @@ wheels = [
 ]
 
 [[package]]
+name = "pdf-oxide"
+version = "0.3.17"
+source = { registry = "https://pypi.org/simple" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/51/6d/41d1ad9292d7504531bc59d65ef565c991d2ef56aeb383aee2edf37b4676/pdf_oxide-0.3.17-cp38-abi3-macosx_10_12_x86_64.whl", hash = "sha256:475e14c691b304ac876486128b52b9eb23758f555051af75382855e94d5ecb25", size = 3198451, upload-time = "2026-03-09T03:10:25.81Z" },
+    { url = "https://files.pythonhosted.org/packages/74/95/bdf69a36167b0b93fdbc011f1744d36baeb2e51fdee734c7777bb712e22c/pdf_oxide-0.3.17-cp38-abi3-macosx_11_0_arm64.whl", hash = "sha256:d4c593343f3af7342ad5606f63520ef2cea0774bca1ef36a5f94e3605fd547b1", size = 3029608, upload-time = "2026-03-09T03:10:27.332Z" },
+    { url = "https://files.pythonhosted.org/packages/93/73/0ee4db94c4ee1743d92872bff4cbf7bde854e017f080cb5d74b6af1742ad/pdf_oxide-0.3.17-cp38-abi3-manylinux_2_34_x86_64.whl", hash = "sha256:980f5828490a6e387fd2e2903cc922df0fc50c04a96b5d62858668e3c579c773", size = 3282482, upload-time = "2026-03-09T03:10:29.308Z" },
+    { url = "https://files.pythonhosted.org/packages/cd/aa/04e7a21a214bceb22e79080972068680ade957059cb9fb6b40bdf292f2e8/pdf_oxide-0.3.17-cp38-abi3-win_amd64.whl", hash = "sha256:262f561243589c37228aa7068edef3bcb72121fb94463ec61b55218d71d3e5e2", size = 3302322, upload-time = "2026-03-09T03:10:30.905Z" },
+]
+
+[[package]]
 name = "playwright"
 version = "1.58.0"
 source = { registry = "https://pypi.org/simple" }
@@ -1753,6 +1783,72 @@ wheels = [
 ]
 
 [[package]]
+name = "pyexcel"
+version = "0.7.4"
+source = { registry = "https://pypi.org/simple" }
+dependencies = [
+    { name = "lml" },
+    { name = "pyexcel-io" },
+    { name = "texttable" },
+]
+sdist = { url = "https://files.pythonhosted.org/packages/4a/fb/eb9753797b8680a3a1c428df8a55d917bc7ddf9f875abcc5831464b287a4/pyexcel-0.7.4.tar.gz", hash = "sha256:cbbdc60532bbb2a22fe4303e824aaa386ecf6dc514d1f87d1ad03a1385fee4bd", size = 821474, upload-time = "2025-10-25T09:28:47.96Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/c3/0f/3ee16151da584e8c4f9528366cdf2ce9d2dc96f7180283c04d1b58aa8415/pyexcel-0.7.4-py2.py3-none-any.whl", hash = "sha256:4f287fe2cc81c1fb2c0cf7f2be018b98391229c3752fb35e7ea3d9713043f72d", size = 89352, upload-time = "2025-10-25T09:28:45.826Z" },
+]
+
+[[package]]
+name = "pyexcel-ezodf"
+version = "0.3.4"
+source = { registry = "https://pypi.org/simple" }
+dependencies = [
+    { name = "lxml" },
+]
+sdist = { url = "https://files.pythonhosted.org/packages/a6/8d/aba802912a3ffbaf6c3ae7f3208206f0811b72e48adff86edd0f933bb9d7/pyexcel-ezodf-0.3.4.tar.gz", hash = "sha256:972eeea9b0e4bab60dfc5cdcb7378cc7ba5e070a0b7282746c0182c5de011ff1", size = 138679, upload-time = "2017-10-23T17:29:13.894Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/5b/fd/4a1583b47a7527669f5c9d45c031c3b4ae35a4cd34b2113ed98b1b9f1bce/pyexcel_ezodf-0.3.4-py2.py3-none-any.whl", hash = "sha256:a74ac7636a015fff31d35c5350dc5ad347ba98ecb453de4dbcbb9a9168434e8c", size = 53861, upload-time = "2017-10-23T17:29:33.75Z" },
+]
+
+[[package]]
+name = "pyexcel-io"
+version = "0.6.7"
+source = { registry = "https://pypi.org/simple" }
+dependencies = [
+    { name = "lml" },
+]
+sdist = { url = "https://files.pythonhosted.org/packages/ea/0e/2d8c933d560d290113cc8e6a354260758cdd356308f6fd3be5be5898784b/pyexcel_io-0.6.7.tar.gz", hash = "sha256:2c33d8df505e21a13bed585ac6ab7d30ec826a9f156b758394af5d22359bddb9", size = 75856, upload-time = "2024-11-09T14:35:04.079Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/7d/95/44376fb9c5a8200167fc7beac640be3522f85c07297a810865c5ad3fe440/pyexcel_io-0.6.7-py2.py3-none-any.whl", hash = "sha256:add9f3c1489070ab0a3226bab7d23d4b84a364f5b44f3a14e2ce785ede88fcb3", size = 44476, upload-time = "2024-11-09T14:35:02.561Z" },
+]
+
+[[package]]
+name = "pyexcel-ods3"
+version = "0.6.1"
+source = { registry = "https://pypi.org/simple" }
+dependencies = [
+    { name = "lxml" },
+    { name = "pyexcel-ezodf" },
+    { name = "pyexcel-io" },
+]
+sdist = { url = "https://files.pythonhosted.org/packages/68/49/6fa598189a41f75f87b4fa964cdc185dade813d20c241266a790ad91bde5/pyexcel-ods3-0.6.1.tar.gz", hash = "sha256:53740fc9bc6e91e43cdc0ee4f557bb3b252d8493d34f2c11d26a93c53cfebc2e", size = 48374, upload-time = "2022-01-30T16:00:20.512Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/e2/e9/5b4e415f8afc0dcf6e238df02797e98f7ab92a587034c8c889a6c0d7ece8/pyexcel_ods3-0.6.1-py3-none-any.whl", hash = "sha256:ca61d139879349a5d4b0a241add6504474c59fa280d1804b76f56ee4ba30eb8b", size = 9847, upload-time = "2022-01-30T16:00:18.351Z" },
+]
+
+[[package]]
+name = "pyexcel-xls"
+version = "0.7.1"
+source = { registry = "https://pypi.org/simple" }
+dependencies = [
+    { name = "pyexcel-io" },
+    { name = "xlrd" },
+    { name = "xlwt" },
+]
+sdist = { url = "https://files.pythonhosted.org/packages/84/b0/48a7e56fcc0e9b2ef566999a4c65e3b7807a16b62bfe67d62c6ac7077c4e/pyexcel_xls-0.7.1.tar.gz", hash = "sha256:0e8c598dc840f9216507f1c16975c18b06e36df09acd79bda1a9de2f9cad0761", size = 53873, upload-time = "2025-03-08T14:27:48.823Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/af/41/80495879428132ba6b43c161def10e5a4dc787038d2f476f7547ecca9cc5/pyexcel_xls-0.7.1-py2.py3-none-any.whl", hash = "sha256:5fd1bc29a50ad7abf5e5d5b6b0dfa1f83e01a97dbb3e7a9dc8ef118d5b78b46a", size = 11653, upload-time = "2025-03-08T14:27:47Z" },
+]
+
+[[package]]
 name = "pygments"
 version = "2.19.2"
 source = { registry = "https://pypi.org/simple" }
@@ -1789,6 +1885,19 @@ dependencies = [
 sdist = { url = "https://files.pythonhosted.org/packages/66/c0/0c8b6ad9f17a802ee498c46e004a0eb49bc148f2fd230864601a86dcf6db/python-dateutil-2.9.0.post0.tar.gz", hash = "sha256:37dd54208da7e1cd875388217d5e00ebd4179249f90fb72437e91a35459a0ad3", size = 342432, upload-time = "2024-03-01T18:36:20.211Z" }
 wheels = [
     { url = "https://files.pythonhosted.org/packages/ec/57/56b9bcc3c9c6a792fcbaf139543cee77261f3651ca9da0c93f5c1221264b/python_dateutil-2.9.0.post0-py2.py3-none-any.whl", hash = "sha256:a8b2bc7bffae282281c8140a97d3aa9c14da0b136dfe83f850eea9a5f7470427", size = 229892, upload-time = "2024-03-01T18:36:18.57Z" },
+]
+
+[[package]]
+name = "python-docx"
+version = "1.2.0"
+source = { registry = "https://pypi.org/simple" }
+dependencies = [
+    { name = "lxml" },
+    { name = "typing-extensions" },
+]
+sdist = { url = "https://files.pythonhosted.org/packages/a9/f7/eddfe33871520adab45aaa1a71f0402a2252050c14c7e3009446c8f4701c/python_docx-1.2.0.tar.gz", hash = "sha256:7bc9d7b7d8a69c9c02ca09216118c86552704edc23bac179283f2e38f86220ce", size = 5723256, upload-time = "2025-06-16T20:46:27.921Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/d0/00/1e03a4989fa5795da308cd774f05b704ace555a70f9bf9d3be057b680bcf/python_docx-1.2.0-py3-none-any.whl", hash = "sha256:3fd478f3250fbbbfd3b94fe1e985955737c145627498896a8a6bf81f4baf66c7", size = 252987, upload-time = "2025-06-16T20:46:22.506Z" },
 ]
 
 [[package]]
@@ -2101,6 +2210,15 @@ source = { registry = "https://pypi.org/simple" }
 sdist = { url = "https://files.pythonhosted.org/packages/47/c6/ee486fd809e357697ee8a44d3d69222b344920433d3b6666ccd9b374630c/tenacity-9.1.4.tar.gz", hash = "sha256:adb31d4c263f2bd041081ab33b498309a57c77f9acf2db65aadf0898179cf93a", size = 49413, upload-time = "2026-02-07T10:45:33.841Z" }
 wheels = [
     { url = "https://files.pythonhosted.org/packages/d7/c1/eb8f9debc45d3b7918a32ab756658a0904732f75e555402972246b0b8e71/tenacity-9.1.4-py3-none-any.whl", hash = "sha256:6095a360c919085f28c6527de529e76a06ad89b23659fa881ae0649b867a9d55", size = 28926, upload-time = "2026-02-07T10:45:32.24Z" },
+]
+
+[[package]]
+name = "texttable"
+version = "1.7.0"
+source = { registry = "https://pypi.org/simple" }
+sdist = { url = "https://files.pythonhosted.org/packages/1c/dc/0aff23d6036a4d3bf4f1d8c8204c5c79c4437e25e0ae94ffe4bbb55ee3c2/texttable-1.7.0.tar.gz", hash = "sha256:2d2068fb55115807d3ac77a4ca68fa48803e84ebb0ee2340f858107a36522638", size = 12831, upload-time = "2023-10-03T09:48:12.272Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/24/99/4772b8e00a136f3e01236de33b0efda31ee7077203ba5967fcc76da94d65/texttable-1.7.0-py2.py3-none-any.whl", hash = "sha256:72227d592c82b3d7f672731ae73e4d1f88cd8e2ef5b075a7a7f01a23a3743917", size = 10768, upload-time = "2023-10-03T09:48:10.434Z" },
 ]
 
 [[package]]
@@ -2471,6 +2589,24 @@ wheels = [
     { url = "https://files.pythonhosted.org/packages/82/dd/e5176e4b241c9f528402cebb238a36785a628179d7d8b71091154b3e4c9e/wrapt-2.1.2-cp314-cp314t-win_amd64.whl", hash = "sha256:08ffa54146a7559f5b8df4b289b46d963a8e74ed16ba3687f99896101a3990c5", size = 63969, upload-time = "2026-03-06T02:54:39Z" },
     { url = "https://files.pythonhosted.org/packages/5c/99/79f17046cf67e4a95b9987ea129632ba8bcec0bc81f3fb3d19bdb0bd60cd/wrapt-2.1.2-cp314-cp314t-win_arm64.whl", hash = "sha256:72aaa9d0d8e4ed0e2e98019cea47a21f823c9dd4b43c7b77bba6679ffcca6a00", size = 60554, upload-time = "2026-03-06T02:53:14.132Z" },
     { url = "https://files.pythonhosted.org/packages/1a/c7/8528ac2dfa2c1e6708f647df7ae144ead13f0a31146f43c7264b4942bf12/wrapt-2.1.2-py3-none-any.whl", hash = "sha256:b8fd6fa2b2c4e7621808f8c62e8317f4aae56e59721ad933bac5239d913cf0e8", size = 43993, upload-time = "2026-03-06T02:53:12.905Z" },
+]
+
+[[package]]
+name = "xlrd"
+version = "2.0.2"
+source = { registry = "https://pypi.org/simple" }
+sdist = { url = "https://files.pythonhosted.org/packages/07/5a/377161c2d3538d1990d7af382c79f3b2372e880b65de21b01b1a2b78691e/xlrd-2.0.2.tar.gz", hash = "sha256:08b5e25de58f21ce71dc7db3b3b8106c1fa776f3024c54e45b45b374e89234c9", size = 100167, upload-time = "2025-06-14T08:46:39.039Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/1a/62/c8d562e7766786ba6587d09c5a8ba9f718ed3fa8af7f4553e8f91c36f302/xlrd-2.0.2-py2.py3-none-any.whl", hash = "sha256:ea762c3d29f4cca48d82df517b6d89fbce4db3107f9d78713e48cd321d5c9aa9", size = 96555, upload-time = "2025-06-14T08:46:37.766Z" },
+]
+
+[[package]]
+name = "xlwt"
+version = "1.3.0"
+source = { registry = "https://pypi.org/simple" }
+sdist = { url = "https://files.pythonhosted.org/packages/06/97/56a6f56ce44578a69343449aa5a0d98eefe04085d69da539f3034e2cd5c1/xlwt-1.3.0.tar.gz", hash = "sha256:c59912717a9b28f1a3c2a98fd60741014b06b043936dcecbc113eaaada156c88", size = 153929, upload-time = "2017-08-22T06:47:16.498Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/44/48/def306413b25c3d01753603b1a222a011b8621aed27cd7f89cbc27e6b0f4/xlwt-1.3.0-py2.py3-none-any.whl", hash = "sha256:a082260524678ba48a297d922cc385f58278b8aa68741596a87de01a9c628b2e", size = 99981, upload-time = "2017-08-22T06:47:15.281Z" },
 ]
 
 [[package]]
