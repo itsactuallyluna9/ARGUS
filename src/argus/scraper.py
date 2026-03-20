@@ -7,10 +7,11 @@ from playwright_stealth import Stealth
 def get_page(url: str) -> str:
     try:
         resp = requests.get(url)
+        content_type = resp.headers.get("Content-Type", "").lower().split(";")[0].strip()
 
-        if resp.headers.get("Content-Type", "").lower() not in ["text/html", "application/xhtml+xml"]:
+        if content_type not in ("text/html", "application/xhtml+xml"):
             # okay, this isn't an html page? let's try to figure out if it's a pdf or something else we can handle
-            match resp.headers.get("Content-Type", "").lower():
+            match content_type:
                 case "application/pdf":
                     # return extract_pdf(resp.content)
                     pass
