@@ -16,7 +16,7 @@ dev-flask:
     uv run flask --app argus:app run --host 0.0.0.0 --port 5000 --debug
 
 dev-node:
-    cd frontend && npm run dev
+    cd frontend && npm run dev -- --host
 
 lint:
     uv run ruff check
