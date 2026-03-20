@@ -3,11 +3,12 @@ import chromadb
 from datetime import datetime
 from tenacity import retry, stop_after_attempt
 from flask import jsonify
+import uuid
 
 from argus.summarizearticle import summarize_article
 from argus.scraper import get_page
-from argus.findsources import find_related_article_urls, find_evidence_urls
-from argus.evaluatequality import evaluate_article
+from argus.findsources import find_related_article_urls
+from argus.evaluatequality import evaluate_accuracy, evaluate_completeness
 
 
 
@@ -17,6 +18,8 @@ class FactCheck:
     def __init__(self, url: str, article_collection: chromadb.Collection, summarizer_model: str = "gemma3:12b", think: bool = False):
 
         self.url = url
+        self.id = uuid.uuid3(uuid.NAMESPACE_DNS, url).hex
+
         self.article_collection = article_collection
         self.model = summarizer_model
         self.think = think
@@ -26,84 +29,60 @@ class FactCheck:
         self.bias_rating = 'Empty for now!'
         self.key_points = []
         self.related_summaries = []
-        self.evidence_summaries = []
 
         self.accuracy_score = 0
         self.completeness_score = 0
-        self.explanation = 'Empty for now!'
+        self.accuracy_explanation = 'Empty for now!'
+        self.completeness_explanation = 'Empty for now!'
+        self.sources = []
 
         self.finished = False
 
-        #self.main()
+        self.main()
 
     
     def to_dict(self) -> dict[str, Any]:
         
         return {
             "url": self.url,
+            "id": self.id,
             "article_text": self.article_text,
             "summary": self.summary,
             "bias_rating": self.bias_rating,
             "key_points": self.key_points,
             "related_summaries": self.related_summaries,
-            "evidence_summaries": self.evidence_summaries,
             "accuracy_score": self.accuracy_score,
             "completeness_score": self.completeness_score,
-            "explanation": self.explanation,
+            "accuracy_explanation": self.accuracy_explanation,
+            "completeness_explanation": self.completeness_explanation,
+            "sources": self.sources,
             "finished": self.finished
          }
     
 
     def main(self):
         
+        print(f"Beginning fact check for {self.url}")
+
         # url |> scrape |> clean -> raw article text
         self.article_text = get_page(self.url)
 
         # raw article text |> summarizer |> -> summary, key points |> chromadb (if not present)
         self.summary, self.bias_rating, self.key_points = self.summarize_article(self.article_text)
-        print(f"Summary for {self.url}:\n{self.summary}\n\nBias rating: {self.bias_rating}\n\nKey points:\n{self.key_points}")
+        print(f"\n\n\nSummary for {self.url}:\n{self.summary}\nBias rating: {self.bias_rating}\nKey points: {self.key_points}\n\n\n")
 
         # summary |> search web for related articles |> summarizer |> chromadb
         # summary |> find related articles in chromadb -> related article summaries
         self.related_summaries = self.find_related_articles(self.summary)
-        print(f"Related summaries for {self.url}:\n{self.related_summaries}")
 
-        # key claims |> search web for evidence -> evidence
-        self.evidence_summaries = self.find_evidence(self.key_points)
-        print(f"Evidence summaries for {self.url}:\n{self.evidence_summaries}")
+        print("Related articles found, now researching article accuracy...")
 
         # evidence + article text + related article summaries + bias rating |> fact check model -> accuracy, completeness scores + explanation
-        self.fact_check(self.article_text, self.bias_rating, self.related_summaries, self.evidence_summaries)
+        self.fact_check(self.article_text, self.bias_rating, self.key_points, self.related_summaries)
 
         self.finished = True
 
-        print(f"Fact check results for {self.url}:\nAccuracy: {self.accuracy_score}\nCompleteness: {self.completeness_score}\nExplanation: {self.explanation}")    
-
-    
-    def related_article_summaries(self):
-
-        self.article_text = get_page(self.url)
-        self.summary, self.bias_rating, self.key_points = self.summarize_article(self.article_text)
-
-        print(f"Summary for {self.url}:\n{self.summary}\n\nBias rating: {self.bias_rating}\n\nKey points:\n{self.key_points}")
-
-        urls = find_related_article_urls(self.summary)
-
-        print(f"Related article URLs for {self.url}:\n{urls}")
-
-        for url in urls:
-            curr_summary, _, _ = self.summarize_article(get_page(url))
-
-            print(f"Related article summary for {url}:\n{curr_summary}")
-
-            self.related_summaries.append((curr_summary, url))
-
-        return jsonify({
-            "summary": self.summary,
-            "bias_rating": self.bias_rating,
-            "key_points": self.key_points,
-            "related_summaries": self.related_summaries
-        })
+        print(f"\n\n\nFact check results for {self.url}:\nAccuracy: {self.accuracy_score}\nExplanation: {self.accuracy_explanation}\nCompleteness: {self.completeness_score}\nExplanation: {self.completeness_explanation}\n\n\n")    
 
 
     @retry(stop = stop_after_attempt(3))
@@ -145,6 +124,9 @@ class FactCheck:
 
         for url in urls:
             if len(self.article_collection.get(ids=[url])["ids"]) == 0:
+
+                print(f"Related article {url} not found in database, summarizing and adding to database...")
+
                 self.summarize_article(get_page(url))
 
         related = self.article_collection.query(query_texts=[summary], n_results=5)
@@ -154,38 +136,24 @@ class FactCheck:
 
         return summaries
     
-    
-    def find_evidence(self, key_points: list[str]) -> list[list[tuple[str, str]]]:
-        # returns list of lists of tuples of (evidence summary, evidence url)
 
-        evidence_urls = find_evidence_urls(key_points)
-        evidence = []
+    def fact_check(self, article_text: str, bias_rating: str, key_points: list[str], related_summaries: list[tuple[str, str]]) -> dict[str, Any]:
 
-        for i in range(len(key_points)):
+        self.completeness_score, self.completeness_explanation = evaluate_completeness(
+            article_text = article_text,
+            bias_rating = bias_rating,
+            related_summaries = related_summaries
+        )
 
-            point_evidence = [f"Evidence for key point: {key_points[i]}"]
-
-            for url in evidence_urls[i]:
-
-                if len(self.article_collection.get(ids=[url])["ids"]) == 0:
-                    self.summarize_article(get_page(url))
-
-            related = self.article_collection.query(query_texts=[key_points[i]], n_results=3)
-
-            for j in range(len(related['ids'])):
-                point_evidence.append((related['documents'][j], related['ids'][j])) # type: ignore
-
-            evidence.append(point_evidence)
-
-        return evidence
-    
-
-    def fact_check(self, article_text: str, bias_rating: str, related_summaries: list[tuple[str, str]], evidence_summaries: list[list[tuple[str, str]]]) -> dict[str, Any]:
-
-        self.accuracy_score, self.completeness_score, self.explanation = evaluate_article(article_text, bias_rating, related_summaries, evidence_summaries)
+        self.accuracy_score, self.accuracy_explanation, self.sources = evaluate_accuracy(
+            article_text = article_text,
+            bias_rating = bias_rating,
+            related_summaries = related_summaries,
+            article_collection = self.article_collection
+        )
 
         return self.to_dict()
-    
+
 
 
 if __name__ == "__main__":
@@ -196,4 +164,3 @@ if __name__ == "__main__":
     url = input("Enter an article URL to fact check: ")
 
     f = FactCheck(url, article_collection)
-    f.main()
