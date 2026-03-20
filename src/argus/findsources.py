@@ -1,7 +1,7 @@
 from datetime import datetime
 import ollama
 import json
-from ddgs import DDGS
+from ddgs import DDGS, exceptions
 from tenacity import retry, retry_if_exception_type, stop_after_attempt
 
 
@@ -26,7 +26,7 @@ Return the URLs of the 2 most relevant sources in a json array. Do not include a
 '''
 
 
-@retry(retry=retry_if_exception_type(json.decoder.JSONDecodeError), stop=stop_after_attempt(3))
+@retry(retry=retry_if_exception_type((json.decoder.JSONDecodeError, exceptions.DDGSException, AttributeError)), stop=stop_after_attempt(3))
 def find_related_article_urls(summary: str) -> list[str]:
 
     search_terms = json.loads(ollama.generate(model="nemotron-3-nano:4b", think=True, prompt=f"{related_sources_prompt}\nCurrent date and time: {datetime.now().isoformat()}\nArticle summary: {summary}").response)
@@ -44,7 +44,7 @@ def find_related_article_urls(summary: str) -> list[str]:
     return useful_urls
 
 
-@retry(retry=retry_if_exception_type(json.decoder.JSONDecodeError), stop=stop_after_attempt(3))
+@retry(retry=retry_if_exception_type((json.decoder.JSONDecodeError, exceptions.DDGSException, AttributeError)), stop=stop_after_attempt(3))
 def find_evidence_urls(key_points: list[str]) -> list[list[str]]:
 
     evidence_urls = []
