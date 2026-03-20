@@ -38,7 +38,7 @@ function DetailsView() {
     lastIdRef.current = id
 
     async function fetchData() {
-      const apiBase = import.meta.env.VITE_API_URL || ''
+      // const apiBase = import.meta.env.VITE_API_URL || ''
       const response = await fetch(`
         /api/demo`, {
         method: "POST",
