@@ -1,13 +1,13 @@
 from typing import Any
-
 import chromadb
 from datetime import datetime
 from tenacity import retry, stop_after_attempt
-
 from flask import jsonify
+
 from argus.summarizearticle import summarize_article
 from argus.scraper import get_page
 from argus.findsources import find_related_article_urls, find_evidence_urls
+from argus.evaluatequality import evaluate_article
 
 
 
@@ -72,8 +72,8 @@ class FactCheck:
         self.evidence_summaries = self.find_evidence(self.key_points)
         print(f"Evidence summaries for {self.url}:\n{self.evidence_summaries}")
 
-        # evidence + article summary + related article summaries + bias rating |> fact check model -> accuracy, completeness scores + explanation
-        self.fact_check(self.summary, self.bias_rating, self.related_summaries, self.evidence_summaries)
+        # evidence + article text + related article summaries + bias rating |> fact check model -> accuracy, completeness scores + explanation
+        self.fact_check(self.article_text, self.bias_rating, self.related_summaries, self.evidence_summaries)
 
         self.finished = True
 
@@ -163,7 +163,7 @@ class FactCheck:
 
         for i in range(len(key_points)):
 
-            point_evidence = []
+            point_evidence = [f"Evidence for key point: {key_points[i]}"]
 
             for url in evidence_urls[i]:
 
@@ -180,12 +180,10 @@ class FactCheck:
         return evidence
     
 
-    #PLACEHOLDER IMPLEMENTATION
-    def fact_check(self, summary: str, bias_rating: str, related_summaries: list[tuple[str, str]], evidence_summaries: list[list[tuple[str, str]]]) -> dict[str, Any]:
-        # Placeholder for actual implementation
-        self.accuracy_score = 80
-        self.completeness_score = 70
-        self.explanation = "The summary is mostly accurate but misses some key points. The bias rating is fair given the content of the article. The related articles and evidence support most of the claims made in the summary."
+    def fact_check(self, article_text: str, bias_rating: str, related_summaries: list[tuple[str, str]], evidence_summaries: list[list[tuple[str, str]]]) -> dict[str, Any]:
+
+        self.accuracy_score, self.completeness_score, self.explanation = evaluate_article(article_text, bias_rating, related_summaries, evidence_summaries)
+
         return self.to_dict()
     
 
@@ -194,6 +192,8 @@ if __name__ == "__main__":
 
     chroma_client = chromadb.HttpClient(host="localhost", port=8000)
     article_collection = chroma_client.get_or_create_collection(name="articles")
-    print(article_collection.get(ids=["peepee"]))
 
-    #f = FactCheck("https://www.nbcnews.com/politics/donald-trump/pearl-harbor-joke-iran-operation-meeting-japan-prime-minister-war-rcna264325?utm_source=firefox-newtab-en-us", article_collection)
+    url = input("Enter an article URL to fact check: ")
+
+    f = FactCheck(url, article_collection)
+    f.main()

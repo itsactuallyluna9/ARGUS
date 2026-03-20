@@ -16,7 +16,7 @@ Return the URLs of the 3 most relevant articles in a json array. Do not include 
 '''
 
 evidence_point_prompt = '''
-You are a tool designed to find evidence for a given key point. You will be given a key point and your task is to return a list of 3 search queries that could be used to find evidence for the key point on a search engine. The search queries should be designed to find articles that provide supporting or contradicting evidence for the key point.
+You are a tool designed to find evidence for a given key point. You will be given a key point and your task is to return a list of 3 search queries that could be used to evaluate the factuality of the key point on a search engine. The search queries should be designed to find articles that provide supporting or contradicting evidence for the key point.
 Return these queries in a json array. Do not include any explanatory text, only return the json array.
 '''
 

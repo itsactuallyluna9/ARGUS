@@ -311,3 +311,4 @@ poetry.toml
 # LSP config files
 pyrightconfig.json
 
+src/argus/__pycache__/__init__.cpython-314.pyc
