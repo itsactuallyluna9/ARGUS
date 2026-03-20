@@ -25,6 +25,22 @@ You are a tool designed to select the most relevant sources from a list of searc
 Return the URLs of the 2 most relevant sources in a json array. Do not include any explanatory text, only return the json array.
 '''
 
+topic_sources_prompt = '''
+You are a tool designed to write search queries to find articles related to a specific topic. You will be given a topic and your task is to return a list of 3 search queries that could be used to find articles on that topic on a search engine. The search queries should be designed to find articles that cover the topic from different perspectives and provide a comprehensive view of the topic.
+Return these queries in a json array. Do not include any explanatory text, only return the json array.
+'''
+
+select_topic_sources_prompt = '''
+You are a tool designed to select the most relevant articles from a list of search results. You will be given a topic and a list of search results, where each search result includes the title, URL, and a description. Your task is to select the 5 most relevant articles from the search results that are related to the topic. Relevance should be determined based on how closely the content of the search result matches the topic and whether it provides valuable information about the topic.
+Return the titles and URLs of the 3 most relevant articles in a json array. Do not include any explanatory text, only return the json array.
+JSON schema for output: {
+    "articles": list[{
+        "title": str,
+        "url": str
+    }]
+}
+'''
+
 
 @retry(retry=retry_if_exception_type((json.decoder.JSONDecodeError, exceptions.DDGSException, AttributeError)), stop=stop_after_attempt(3))
 def find_related_article_urls(summary: str) -> list[str]:
@@ -42,6 +58,24 @@ def find_related_article_urls(summary: str) -> list[str]:
     useful_urls = json.loads(ollama.generate(model="nemotron-3-nano:4b", think=True, prompt=f"{select_related_sources_prompt}\nArticle summary: {summary}\nSearch results: {results}").response)
 
     return useful_urls
+
+
+@retry(retry=retry_if_exception_type((json.decoder.JSONDecodeError, exceptions.DDGSException, AttributeError)), stop=stop_after_attempt(3))
+def related_articles_from_topic(topic: str) -> list[tuple[str, str]]:
+
+    search_terms = json.loads(ollama.generate(model="nemotron-3-nano:4b", think=True, prompt=f"{topic_sources_prompt}\nCurrent date and time: {datetime.now().isoformat()}\nTopic: {topic}").response)
+    print(f"Search terms: {search_terms}")
+
+    results = []
+    for query in search_terms:
+        search_results = DDGS().text(query, max_results=5)
+
+        for result in search_results:
+            results.append(result)
+
+    articles = json.loads(ollama.generate(model="nemotron-3-nano:4b", think=True, prompt=f"{select_topic_sources_prompt}\nTopic: {topic}\nSearch results: {results}").response)
+
+    return articles
 
 
 @retry(retry=retry_if_exception_type((json.decoder.JSONDecodeError, exceptions.DDGSException, AttributeError)), stop=stop_after_attempt(3))
