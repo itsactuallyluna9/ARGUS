@@ -10,10 +10,13 @@ from tempfile import NamedTemporaryFile
 import pyexcel
 import docx
 
+
 def get_page(url: str) -> str:
     try:
         resp = requests.get(url)
-        content_type = resp.headers.get("Content-Type", "").lower().split(";")[0].strip()
+        content_type = (
+            resp.headers.get("Content-Type", "").lower().split(";")[0].strip()
+        )
 
         print(f"Fetched page with content type: {content_type}")
         print(f"Response status code: {resp.status_code} (OK: {resp.ok})")
@@ -24,39 +27,49 @@ def get_page(url: str) -> str:
                 case "application/pdf":
                     return extract_pdf(resp.content)
                 case "application/msword":
-                     pass # TODO: handle classic word docs
+                    pass  # TODO: handle classic word docs
                 case "application/vnd.openxmlformats-officedocument.wordprocessingml.document":
                     return extract_docx(resp.content)
-                case "text/csv" | "application/vnd.ms-excel" | "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" | "application/vnd.oasis.opendocument.spreadsheet":
+                case (
+                    "text/csv"
+                    | "application/vnd.ms-excel"
+                    | "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+                    | "application/vnd.oasis.opendocument.spreadsheet"
+                ):
                     return extract_sheet(resp.content, content_type)
-                case "application/vnd.ms-powerpoint" | "application/vnd.openxmlformats-officedocument.presentationml.presentation":
-                    pass # TODO: handle powerpoint presentations
+                case (
+                    "application/vnd.ms-powerpoint"
+                    | "application/vnd.openxmlformats-officedocument.presentationml.presentation"
+                ):
+                    pass  # TODO: handle powerpoint presentations
                 case "application/vnd.oasis.opendocument.text":
                     return extract_openword(resp.content)
                 case "application/vnd.oasis.opendocument.presentation":
-                    pass # TODO: handle open document presentation
+                    pass  # TODO: handle open document presentation
                 case "text/plain" | "text/markdown":
-                    return resp.text # fair enough
+                    return resp.text  # fair enough
                 case "text/rtf":
-                    pass # TODO: handle rtf
+                    pass  # TODO: handle rtf
                 case "application/json":
-                    return resp.text # sure, why notpass # TODO: handle word docs
+                    return resp.text  # sure, why notpass
                 # images?
                 case _:
-                     raise NotImplementedError(f"scraper - unsupported content type: {resp.headers.get('Content-Type', '')}")
+                    raise NotImplementedError(
+                        f"scraper - unsupported content type: {resp.headers.get('Content-Type', '')}"
+                    )
 
         if not resp.ok or not is_probably_readerable(resp.text):
             # try again with a headless browser?
             # either something's wrong, or the page is on to us
             return get_page_chrome(url)
 
-        markdown = trafilatura.extract(resp.text, output_format='markdown')
+        markdown = trafilatura.extract(resp.text, output_format="markdown")
         return markdown
-    
+
     except Exception as e:
         print(f"Error fetching page with requests: {e}. Returning default message.")
         return "Unable to fetch article content. This may be due to the website's structure or anti-scraping measures."
-    
+
 
 def get_page_chrome(url: str) -> str:
     # this should beat the "the simplest of bot detection methods."
@@ -72,12 +85,16 @@ def get_page_chrome(url: str) -> str:
                 print(e)
 
     if not is_probably_readerable(html):
-        raise NotImplementedError("scraper - page isn't readerable (even with fallback).")
-    
-    markdown = trafilatura.extract(html, output_format='markdown')
+        raise NotImplementedError(
+            "scraper - page isn't readerable (even with fallback)."
+        )
+
+    markdown = trafilatura.extract(html, output_format="markdown")
     return markdown
 
+
 # MARK: - Parsers
+
 
 def extract_pdf(content: bytes) -> str:
     with NamedTemporaryFile(suffix=".pdf") as tmpfile:
@@ -89,17 +106,20 @@ def extract_pdf(content: bytes) -> str:
             # cant count on everyone having nice pdfs :c
             return doc.to_markdown_all(detect_headings=True, embed_images=False)
 
+
 def extract_sheet(content: bytes, content_type: str) -> str:
     lookup = {
         "application/vnd.ms-excel": "xls",
         "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet": "xlsx",
         "application/vnd.oasis.opendocument.spreadsheet": "ods",
-        "text/csv": "csv"
+        "text/csv": "csv",
     }
     extension = lookup.get(content_type)
     if extension is None:
-        raise NotImplementedError(f"scraper - unsupported spreadsheet content type: {content_type} (how did we get here?)")
-    with NamedTemporaryFile(suffix=f".{extension}") as tmpfile:        
+        raise NotImplementedError(
+            f"scraper - unsupported spreadsheet content type: {content_type} (how did we get here?)"
+        )
+    with NamedTemporaryFile(suffix=f".{extension}") as tmpfile:
         tmpfile.write(content)
         tmpfile.flush()
         tmpfile.seek(0)
@@ -120,6 +140,7 @@ def extract_sheet(content: bytes, content_type: str) -> str:
             markdown += "\n\n"
         return markdown
 
+
 def extract_docx(content: bytes) -> str:
     with BytesIO(content) as tmpfile, StringIO() as output:
         doc = docx.Document(tmpfile)
@@ -134,12 +155,16 @@ def extract_docx(content: bytes) -> str:
                     wrapping += "**"
                 if run.italic or (paragraph.style and paragraph.style.font.italic):
                     wrapping += "*"
-                if run.underline or (paragraph.style and paragraph.style.font.underline):
+                if run.underline or (
+                    paragraph.style and paragraph.style.font.underline
+                ):
                     wrapping += "__"
                 output.write(f"{wrapping}{run.text}{wrapping}")
             output.write("\n\n")
         return output.getvalue()
 
+
 if __name__ == "__main__":
     from sys import argv
+
     print(get_page(argv[1]))

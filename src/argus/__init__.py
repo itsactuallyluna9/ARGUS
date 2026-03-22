@@ -19,6 +19,7 @@ articles = chromaclient.get_or_create_collection(name="articles")
 
 active_fact_checks = []
 
+
 @app.get("/api/hello")
 def api_hello():
     result = articles.query(query_texts=["potato", "example"], n_results=2)
@@ -29,12 +30,11 @@ def api_hello():
 
 @app.post("/api/create")
 def api_create():
-
     data = request.get_json()
     url = data.get("url")
 
     found = False
-    check: FactCheck = None # type: ignore
+    check: FactCheck = None  # type: ignore
 
     for fact_check in active_fact_checks:
         if fact_check.url == url:
@@ -42,15 +42,15 @@ def api_create():
             check = fact_check
             break
 
-    if not found: 
+    if not found:
         check = FactCheck(url, articles)
         active_fact_checks.append(check)
-    
+
     return jsonify(check.to_dict()), 202
+
 
 @app.post("/api/demo")
 def api_demo():
-
     data = request.get_json()
     url = data.get("url")
 
@@ -86,4 +86,4 @@ def main() -> None:
 
 if __name__ == "__main__":
     pass
-    #main()
+    # main()

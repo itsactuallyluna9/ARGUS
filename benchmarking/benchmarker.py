@@ -35,43 +35,47 @@ load_dotenv()
 # - summary
 # - evaluation of summary
 
+
 @dataclass
 class Summarizer:
     model: str
     think: bool
     prompt: str
 
-    #@retry(wait=wait_exponential(1, 60))
+    # @retry(wait=wait_exponential(1, 60))
     def evaluate(self, article_text: str, keep_alive=0):
-
         ollama.pull(self.model)
-        
+
         response = ollama.generate(
             model=self.model,
             prompt=f"{self.prompt}\nArticle text: {article_text}",
             think=self.think,
-            keep_alive=keep_alive
+            keep_alive=keep_alive,
         )
 
         # we'll finish by unloading the model from memory
         # just in case :3
 
         with open(f"logs/summary_{self.model}_{response.created_at}.json", "w") as f:
-            json.dump({
-                "model": response.model,
-                "created_at": response.created_at,
-                "total_duration": response.total_duration,
-                "load_duration": response.load_duration,
-                "prompt_eval_count": response.prompt_eval_count,
-                "prompt_eval_duration": response.prompt_eval_duration,
-                "eval_count": response.eval_count,
-                "eval_duration": response.eval_duration,
-                "prompt": self.prompt,
-                "article_text": article_text,
-                "response": response.response,
-                "thinking": response.thinking,
-                "node": node()
-            }, f, indent=4)
+            json.dump(
+                {
+                    "model": response.model,
+                    "created_at": response.created_at,
+                    "total_duration": response.total_duration,
+                    "load_duration": response.load_duration,
+                    "prompt_eval_count": response.prompt_eval_count,
+                    "prompt_eval_duration": response.prompt_eval_duration,
+                    "eval_count": response.eval_count,
+                    "eval_duration": response.eval_duration,
+                    "prompt": self.prompt,
+                    "article_text": article_text,
+                    "response": response.response,
+                    "thinking": response.thinking,
+                    "node": node(),
+                },
+                f,
+                indent=4,
+            )
         return response
 
 
@@ -80,8 +84,10 @@ class Evaluator:
     model: str
     prompt: str
 
-    #@retry(wait=wait_exponential(1, 60))
-    def evaluate(self, article_text: str, summary: str, summary_model: str, think: bool = False):
+    # @retry(wait=wait_exponential(1, 60))
+    def evaluate(
+        self, article_text: str, summary: str, summary_model: str, think: bool = False
+    ):
         # use gemini
         with genai.Client(api_key=os.environ.get("GEMINI_API_KEY")) as client:
             response = client.models.generate_content(
@@ -89,21 +95,28 @@ class Evaluator:
                 contents=f"{self.prompt}\nArticle: {article_text}\nSummary: {summary}\nEvaluate the summary.",
                 config={
                     "response_mime_type": "application/json",
-                    "response_json_schema": EvalOut.model_json_schema()
-                }
+                    "response_json_schema": EvalOut.model_json_schema(),
+                },
             )
 
-        response_text = json.loads(response.text) #type: ignore
+        response_text = json.loads(response.text)  # type: ignore
 
-        with open(f"logs/evaluation_{self.model}_{summary_model}_{datetime.now().isoformat()}.json", "w") as f:
-            json.dump({
-                'accuracy': response_text['accuracy'],
-                'completeness': response_text['completeness'],
-                'reasoning': response_text['reasoning'],
-                'model': summary_model,
-                'thinking': think,
-                'evalModel': self.model
-            }, f, indent = 4)
+        with open(
+            f"logs/evaluation_{self.model}_{summary_model}_{datetime.now().isoformat()}.json",
+            "w",
+        ) as f:
+            json.dump(
+                {
+                    "accuracy": response_text["accuracy"],
+                    "completeness": response_text["completeness"],
+                    "reasoning": response_text["reasoning"],
+                    "model": summary_model,
+                    "thinking": think,
+                    "evalModel": self.model,
+                },
+                f,
+                indent=4,
+            )
         return response
 
 
@@ -114,7 +127,7 @@ class EvalOut(BaseModel):
     reasoning: str
 
 
-summarizer_prompt = '''You are a tool designed to summarize articles. You will be given the full text of an article, and your task is to return 4 things:
+summarizer_prompt = """You are a tool designed to summarize articles. You will be given the full text of an article, and your task is to return 4 things:
 A 1 sentence description of the article for indexing purposes (“description”). This should completely describe the subject of the article without going into too much detail.
 A 2-3 paragraph summary of the article (“articleSummary”). You should aim to cover the content of the article as accurately and completely as possible without editorializing or overexplaining.
 A list of 2-3 key points in the article (“points”). These should focus on the factual claims made in the article. Do not comment on the accuracy of the points, only report the direct claims made by the article.
@@ -128,31 +141,36 @@ JSON schema: {
     "points": list[str],
     "biasSummary": str
 }
-'''
+"""
 
-evaluator_prompt = '''You are a tool designed to rate the accuracy and completeness of article summaries. In this prompt you will be given the full text of an article, a summary of the article, and a list of key factual claims from that article. Your task is to judge the completeness and accuracy of the article and return 3 values:
+evaluator_prompt = """You are a tool designed to rate the accuracy and completeness of article summaries. In this prompt you will be given the full text of an article, a summary of the article, and a list of key factual claims from that article. Your task is to judge the completeness and accuracy of the article and return 3 values:
 An accuracy score (“accuracy”) for the summary between 0 and 100 evaluating how accurate the summary and key points are to the original text of the article,
 A completeness score (“completeness”) for the summary between 0 and 100 evaluating how complete the summary and key points are and if they left out any important details,
 A few sentences justification for the values you chose for accuracy and completeness (“reasoning”).
 
 Output your answer in the provided json schema.
-'''
+"""
 
-summarizer_models = [("glm-4.7-flash:q4_K_M", False), 
-                     ("deepseek-r1:14b", False), 
-                     ("gemma3:4b", False), 
-                     ("gemma3:12b", False), 
-                     ("gpt-oss:20b", False), 
-                     ("gpt-oss:20b", True), 
-                     ("nemotron-3-nano:4b", False), 
-                     ("nemotron-3-nano:4b", True),
-                     ("qwen3.5:9b", False),
-                     ("qwen3.5:27b", False)]
+summarizer_models = [
+    ("glm-4.7-flash:q4_K_M", False),
+    ("deepseek-r1:14b", False),
+    ("gemma3:4b", False),
+    ("gemma3:12b", False),
+    ("gpt-oss:20b", False),
+    ("gpt-oss:20b", True),
+    ("nemotron-3-nano:4b", False),
+    ("nemotron-3-nano:4b", True),
+    ("qwen3.5:9b", False),
+    ("qwen3.5:27b", False),
+]
+
 
 def benchmark_article(article_file: Path):
     article_text = article_file.read_text()
 
-    for model, think in track(summarizer_models, description="Benchmarking summarization models..."):
+    for model, think in track(
+        summarizer_models, description="Benchmarking summarization models..."
+    ):
         summarizer = Summarizer(model=model, prompt=summarizer_prompt, think=think)
         summary_response = summarizer.evaluate(article_text)
         summary = summary_response.response
@@ -161,48 +179,63 @@ def benchmark_article(article_file: Path):
             print(f"[!] Model {model} did not return a summary.")
             continue
 
-        evaluator = Evaluator(model="gemini-3.1-flash-lite-preview", prompt=evaluator_prompt)
+        evaluator = Evaluator(
+            model="gemini-3.1-flash-lite-preview", prompt=evaluator_prompt
+        )
         if summary_response.thinking:
-            think=True
+            think = True
         else:
-            think=False
+            think = False
         evaluator.evaluate(article_text, summary, model, think=think)
-        sleep(5) # give a little break between articles
+        sleep(5)  # give a little break between articles
+
 
 def benchmark_articles():
     for article_file in Path(".").glob("article*.md"):
         benchmark_article(article_file)
 
+
 def benchmark_model(model_name: str, think: bool):
     summarizer = Summarizer(model=model_name, prompt=summarizer_prompt, think=think)
 
-    for article_file in track(list(Path(".").glob("article*.md")), description=f"Benchmarking {model_name}, think={think}..."):
+    for article_file in track(
+        list(Path(".").glob("article*.md")),
+        description=f"Benchmarking {model_name}, think={think}...",
+    ):
         article_text = article_file.read_text()
-        summary_response = summarizer.evaluate(article_text, keep_alive=60*5)
+        summary_response = summarizer.evaluate(article_text, keep_alive=60 * 5)
         summary = summary_response.response
 
         if summary is None:
             print(f"[!] Model {model_name} did not return a summary.")
             continue
 
-        evaluator = Evaluator(model="gemini-3.1-flash-lite-preview", prompt=evaluator_prompt)
+        evaluator = Evaluator(
+            model="gemini-3.1-flash-lite-preview", prompt=evaluator_prompt
+        )
         try:
             evaluator.evaluate(article_text, summary, model_name)
         except:
             print("-skipping evaluation!-")
 
+
 def benchmark_models():
-    for model, think in track(summarizer_models, description="Benchmarking summarization models..."):
+    for model, think in track(
+        summarizer_models, description="Benchmarking summarization models..."
+    ):
         benchmark_model(model, think)
         unload_model(model, think)
+
 
 def unload_model(model_name: str, think: bool):
     ollama.generate(model_name, think=think, keep_alive=0)
     sleep(10)
 
+
 def main():
     for _ in track(range(5), description="Running benchmarks..."):
         benchmark_models()
+
 
 if __name__ == "__main__":
     main()
