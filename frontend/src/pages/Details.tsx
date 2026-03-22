@@ -1,62 +1,80 @@
-import { useParams } from 'react-router-dom'
-import { Separator } from '@/components/ui/separator'
-import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card'
-import { Skeleton } from '@/components/ui/skeleton'
-import { Clock } from 'lucide-react'
-import { useEffect, useState, useRef } from 'react'
-import { Spinner } from '@/components/ui/spinner'
-import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip'
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table'
-import { useInterval } from 'usehooks-ts'
-import prettyMilliseconds from 'pretty-ms'
+import { useParams } from "react-router-dom";
+import { Separator } from "@/components/ui/separator";
+import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
+import { Skeleton } from "@/components/ui/skeleton";
+import { Clock } from "lucide-react";
+import { useEffect, useState, useRef } from "react";
+import { Spinner } from "@/components/ui/spinner";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table";
+import { useInterval } from "usehooks-ts";
+import prettyMilliseconds from "pretty-ms";
 
 interface DetailsResponse {
-  url:                      string;
-  id:                       string;
-  article_text:             string;
-  summary:                  string;
-  bias_rating:              string;
-  key_points:               string[];
-  related_summaries:        Summary[];
-  accuracy_score:           number;
-  completeness_score:       number;
-  accuracy_explanation:     string;
+  url: string;
+  id: string;
+  article_text: string;
+  summary: string;
+  bias_rating: string;
+  key_points: string[];
+  related_summaries: Summary[];
+  accuracy_score: number;
+  completeness_score: number;
+  accuracy_explanation: string;
   completeness_explanation: string;
-  sources:                  string[];
-  finished:                 boolean;
+  sources: string[];
+  finished: boolean;
 }
 
 interface Summary {
   summary: string;
-  url:     string;
+  url: string;
 }
 
 function DetailsView() {
-  const { id } = useParams()
-  const [analysisComplete, setAnalysisComplete] = useState(false)
-  const [_data, setData] = useState<DetailsResponse | null>(null)
+  const { id } = useParams();
+  const [analysisComplete, setAnalysisComplete] = useState(false);
+  const [_data, setData] = useState<DetailsResponse | null>(null);
 
   useInterval(async () => {
     if (!analysisComplete) {
-      const response = await fetch(`/api/get/${id}`)
-      const data = await response.json()
+      const response = await fetch(`/api/get/${id}`);
+      const data = await response.json();
       if (data.finished) {
-        setAnalysisComplete(true)
+        setAnalysisComplete(true);
       }
     }
-  }, 5000)
-  
+  }, 5000);
+
   return (
     <main className="p-4">
       <h1 className="font-semibold text-2xl">placeholder (title)</h1>
       <div className="flex items-center text-muted-foreground">
-        <img src="https://placehold.co/24" alt="The Guardian Logo" className="h-6 mr-2 rounded" />
+        <img
+          src="https://placehold.co/24"
+          alt="The Guardian Logo"
+          className="h-6 mr-2 rounded"
+        />
         <p className="italic text-lg">placeholder (site name)</p>
         <Separator orientation="vertical" className="mx-4" />
         <Tooltip>
           <TooltipTrigger className="flex items-center">
             <Clock className="mr-2" />
-            <p>Published {prettyMilliseconds(1000, { verbose: true, compact: true })} ago</p>
+            <p>
+              Published{" "}
+              {prettyMilliseconds(1000, { verbose: true, compact: true })} ago
+            </p>
           </TooltipTrigger>
           <TooltipContent>
             <p>March 11, 2026 11:00 AM EDT</p>
@@ -66,14 +84,18 @@ function DetailsView() {
         <Tooltip>
           <TooltipTrigger className="flex items-center">
             <Spinner className="mr-2" />
-            <p>Analysis {analysisComplete ? 'Complete' : 'In Progress...'}</p>
+            <p>Analysis {analysisComplete ? "Complete" : "In Progress..."}</p>
           </TooltipTrigger>
           <TooltipContent>
-            <p>{analysisComplete ? 'Analysis complete' : 'Analysis in progress...'}</p>
+            <p>
+              {analysisComplete
+                ? "Analysis complete"
+                : "Analysis in progress..."}
+            </p>
           </TooltipContent>
         </Tooltip>
       </div>
-      <Separator className='my-4' />
+      <Separator className="my-4" />
       <Card>
         <CardHeader>
           <CardTitle>Article Summary</CardTitle>
@@ -135,12 +157,20 @@ function DetailsView() {
               ) : (
                 <>
                   <TableRow>
-                    <TableCell><Skeleton className="h-4 w-full mb-2" /></TableCell>
-                    <TableCell><Skeleton className="h-4 w-full mb-2" /></TableCell>
+                    <TableCell>
+                      <Skeleton className="h-4 w-full mb-2" />
+                    </TableCell>
+                    <TableCell>
+                      <Skeleton className="h-4 w-full mb-2" />
+                    </TableCell>
                   </TableRow>
                   <TableRow>
-                    <TableCell><Skeleton className="h-4 w-full mb-2" /></TableCell>
-                    <TableCell><Skeleton className="h-4 w-full mb-2" /></TableCell>
+                    <TableCell>
+                      <Skeleton className="h-4 w-full mb-2" />
+                    </TableCell>
+                    <TableCell>
+                      <Skeleton className="h-4 w-full mb-2" />
+                    </TableCell>
                   </TableRow>
                 </>
               )}
@@ -159,7 +189,7 @@ function DetailsView() {
         </CardContent>
       </Card>
     </main>
-  )
+  );
 }
 
-export default DetailsView
+export default DetailsView;
