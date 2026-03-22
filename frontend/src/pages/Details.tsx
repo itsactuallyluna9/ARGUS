@@ -7,53 +7,44 @@ import { useEffect, useState, useRef } from 'react'
 import { Spinner } from '@/components/ui/spinner'
 import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip'
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table'
+import { useInterval } from 'usehooks-ts'
+import prettyMilliseconds from 'pretty-ms'
 
-interface DemoResponse {
-  bias_rating: string
-  key_points: string[]
-  related_summaries: Array<string[]>
-  summary: string
+interface DetailsResponse {
+  url:                      string;
+  id:                       string;
+  article_text:             string;
+  summary:                  string;
+  bias_rating:              string;
+  key_points:               string[];
+  related_summaries:        Summary[];
+  accuracy_score:           number;
+  completeness_score:       number;
+  accuracy_explanation:     string;
+  completeness_explanation: string;
+  sources:                  string[];
+  finished:                 boolean;
+}
+
+interface Summary {
+  summary: string;
+  url:     string;
 }
 
 function DetailsView() {
   const { id } = useParams()
   const [analysisComplete, setAnalysisComplete] = useState(false)
-  const [_data, setData] = useState<DemoResponse | null>(null)
-  const lastIdRef = useRef<string | undefined>(undefined)
+  const [_data, setData] = useState<DetailsResponse | null>(null)
 
-  //useInterval(async () => {
-  //  if (!analysisComplete) {
-  //    const response = await fetch(`/api/get/${id}`)
-  //    const data = await response.json()
-  //    if (data.complete) {
-  //      setAnalysisComplete(true)
-  //    }
-  //  }
-  //}, 5000)
-
-  // DEMO ONLY: load the blob, just hit /api/demo ONCE
-  useEffect(() => {
-    if (!id || lastIdRef.current === id) return
-
-    lastIdRef.current = id
-
-    async function fetchData() {
-      // const apiBase = import.meta.env.VITE_API_URL || ''
-      const response = await fetch(`
-        /api/demo`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json"
-        },
-        body: JSON.stringify({ url: atob(id as string) })
-      })
+  useInterval(async () => {
+    if (!analysisComplete) {
+      const response = await fetch(`/api/get/${id}`)
       const data = await response.json()
-      setData(data)
-      setAnalysisComplete(true)
+      if (data.finished) {
+        setAnalysisComplete(true)
+      }
     }
-    fetchData()
-  }, [id])
-  
+  }, 5000)
   
   return (
     <main className="p-4">
@@ -65,7 +56,7 @@ function DetailsView() {
         <Tooltip>
           <TooltipTrigger className="flex items-center">
             <Clock className="mr-2" />
-            <p>Published 1 day ago</p>
+            <p>Published {prettyMilliseconds(1000, { verbose: true, compact: true })} ago</p>
           </TooltipTrigger>
           <TooltipContent>
             <p>March 11, 2026 11:00 AM EDT</p>
