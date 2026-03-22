@@ -1,6 +1,11 @@
 benchmark:
     uv run benchmark
 
+lint:
+    uv run ruff format .
+    cd frontend && npx prettier -w .
+    uv run ruff check .
+
 dev:
     npx concurrently \
         --names "chroma,flask,node" \
@@ -17,6 +22,3 @@ dev-flask:
 
 dev-node:
     cd frontend && npm run dev -- --host
-
-lint:
-    uv run ruff check
