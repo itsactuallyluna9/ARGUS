@@ -42,3 +42,8 @@ class SummarizeArticleSchema(BaseModel):
     articleSummary: str
     points: list[str]
     biasSummary: str
+
+
+
+class URLCheckSchema(BaseModel):
+    isValid: bool
