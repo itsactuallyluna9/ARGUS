@@ -2,7 +2,7 @@ import { useParams } from "react-router-dom";
 import { Separator } from "@/components/ui/separator";
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
-import { Clock } from "lucide-react";
+import { Clock, Bot } from "lucide-react";
 import { useEffect, useState, useRef } from "react";
 import { Spinner } from "@/components/ui/spinner";
 import {
@@ -45,15 +45,24 @@ interface Summary {
 function DetailsView() {
   const { id } = useParams();
   const [analysisComplete, setAnalysisComplete] = useState(false);
-  const [_data, setData] = useState<DetailsResponse | null>(null);
+  const [data, setData] = useState<DetailsResponse | null>(null);
 
   useInterval(async () => {
     if (!analysisComplete) {
-      const response = await fetch(`/api/get/${id}`);
+      const response = await fetch(`/api/status`, {
+        body: JSON.stringify({
+          uuid: id
+        }),
+        headers: {
+          "Content-Type": "application/json"
+        },
+        method: "POST"
+      });
       const data = await response.json();
       if (data.finished) {
         setAnalysisComplete(true);
       }
+      setData(data)
     }
   }, 5000);
 
@@ -83,8 +92,18 @@ function DetailsView() {
         <Separator orientation="vertical" className="mx-4" />
         <Tooltip>
           <TooltipTrigger className="flex items-center">
-            <Spinner className="mr-2" />
-            <p>Analysis {analysisComplete ? "Complete" : "In Progress..."}</p>
+            {/* only show spinner when analysis is in progress */}
+            {analysisComplete ? (
+              <>
+                <Bot className="mr-2" />
+                <p>Analysis Complete</p>
+              </>
+            ) : (
+              <>
+                <Spinner className="mr-2" />
+                <p>Analysis In Progress...</p>
+              </>
+            )}
           </TooltipTrigger>
           <TooltipContent>
             <p>
@@ -101,8 +120,8 @@ function DetailsView() {
           <CardTitle>Article Summary</CardTitle>
         </CardHeader>
         <CardContent>
-          {_data ? (
-            <p>{_data.summary}</p>
+          {(data && data.summary !== "Empty for now!") ? (
+            <p>{data.summary}</p>
           ) : (
             <>
               <Skeleton className="h-4 w-full mb-2" />
@@ -119,9 +138,9 @@ function DetailsView() {
           <CardTitle>Key Points</CardTitle>
         </CardHeader>
         <CardContent>
-          {_data ? (
+          {(data && data.key_points) ? (
             <ul className="list-disc pl-5 space-y-1">
-              {_data.key_points.map((point, index) => (
+              {data.key_points.map((point, index) => (
                 <li key={index}>{point}</li>
               ))}
             </ul>
@@ -136,7 +155,7 @@ function DetailsView() {
       </Card>
       <Card>
         <CardHeader>
-          <CardTitle>Cross-References (placeholder)</CardTitle>
+          <CardTitle>Cross-References (bugged)</CardTitle>
         </CardHeader>
         <CardContent>
           <Table>
@@ -147,8 +166,8 @@ function DetailsView() {
               </TableRow>
             </TableHeader>
             <TableBody>
-              {_data ? (
-                _data.related_summaries.map((ref, index) => (
+              {(data && data.related_summaries) ? (
+                data.related_summaries.map((ref, index) => (
                   <TableRow key={index}>
                     <TableCell>{ref[0] || "Generation error :c"}</TableCell>
                     <TableCell>{ref[1]}</TableCell>
@@ -183,9 +202,37 @@ function DetailsView() {
           <CardTitle>Completeness Assessment</CardTitle>
         </CardHeader>
         <CardContent>
-          <Skeleton className="h-4 w-full mb-2" />
-          <Skeleton className="h-4 w-full mb-2" />
-          <Skeleton className="h-4 w-3/4 mb-2" />
+          {(data && data.completeness_score) ? (
+            <>
+              <p>Score: {data.completeness_score}/100</p>
+              <p>{data.completeness_explanation}</p>
+            </>
+          ) : (
+            <>
+              <Skeleton className="h-4 w-1/4 mb-2" />
+              <Skeleton className="h-4 w-full mb-2" />
+              <Skeleton className="h-4 w-full mb-2" />
+            </>
+          )}
+        </CardContent>
+      </Card>
+            <Card>
+        <CardHeader>
+          <CardTitle>Accuracy Assessment</CardTitle>
+        </CardHeader>
+        <CardContent>
+          {(data && data.accuracy_score) ? (
+            <>
+              <p>Score: {data.accuracy_score}/100</p>
+              <p>{data.accuracy_explanation}</p>
+            </>
+          ) : (
+            <>
+              <Skeleton className="h-4 w-1/4 mb-2" />
+              <Skeleton className="h-4 w-full mb-2" />
+              <Skeleton className="h-4 w-full mb-2" />
+            </>
+          )}
         </CardContent>
       </Card>
     </main>
