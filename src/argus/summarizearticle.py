@@ -1,6 +1,6 @@
 import ollama
-import json
-from tenacity import retry, retry_if_exception_type, stop_after_attempt
+
+from argus.fixjsonformatting import fix_json_formatting, SummarizeArticleSchema
 
 default_prompt = """
 You are a tool designed to summarize articles. You will be given the full text of an article, and your task is to return 4 things:
@@ -19,17 +19,6 @@ JSON schema: {
 }
 """
 
-reformat_prompt = """
-You are a tool designed to reformat the output of a summarization model. You will be given a string that is supposed to be in JSON format, but may have formatting issues such as extra backticks, missing or extra quotation marks, or other common formatting errors. Your task is to parse the string and return a properly formatted JSON object that matches the expected schema.
-JSON schema: {
-    "description": str,
-    "articleSummary": str,
-    "points": list[str],
-    "biasSummary": str
-}
-Return the properly formatted JSON object. Do not include any explanatory text, only return the JSON.
-"""
-
 
 def summarize_article(
     article_text: str,
@@ -45,22 +34,6 @@ def summarize_article(
         keep_alive=keep_alive,
     ).response
 
-    response = fix_json_formatting(r)
+    response = fix_json_formatting(r, SummarizeArticleSchema)  # type: ignore
 
     return response
-
-
-@retry(
-    retry=retry_if_exception_type(json.decoder.JSONDecodeError),
-    stop=stop_after_attempt(3),
-)
-def fix_json_formatting(s: str) -> str:
-    reformatted_response = json.loads(
-        ollama.generate(
-            model="nemotron-3-nano:4b",
-            think=True,
-            prompt=f"{reformat_prompt}\nString to reformat: {s}",
-        ).response
-    )
-
-    return reformatted_response

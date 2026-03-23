@@ -2,7 +2,6 @@ from typing import Any
 import chromadb
 from datetime import datetime
 from tenacity import retry, stop_after_attempt
-from flask import jsonify
 import uuid
 
 from argus.summarizearticle import summarize_article
@@ -11,7 +10,10 @@ from argus.findsources import find_related_article_urls
 from argus.evaluatequality import evaluate_accuracy, evaluate_completeness
 
 
+
 class FactCheck:
+
+
     def __init__(
         self,
         url: str,
@@ -42,6 +44,7 @@ class FactCheck:
 
         self.main()
 
+
     def to_dict(self) -> dict[str, Any]:
         return {
             "url": self.url,
@@ -58,6 +61,7 @@ class FactCheck:
             "sources": self.sources,
             "finished": self.finished,
         }
+    
 
     def main(self):
         print(f"Beginning fact check for {self.url}")
@@ -90,6 +94,7 @@ class FactCheck:
             f"\n\n\nFact check results for {self.url}:\nAccuracy: {self.accuracy_score}\nExplanation: {self.accuracy_explanation}\nCompleteness: {self.completeness_score}\nExplanation: {self.completeness_explanation}\n\n\n"
         )
 
+
     @retry(stop=stop_after_attempt(3))
     def summarize_article(self, article_text: str) -> tuple[str, str, list]:
         # returns json with index sentence, key points, summary, bias rating
@@ -121,6 +126,7 @@ class FactCheck:
 
         return summary, bias_rating, key_points  # type: ignore
 
+
     def find_related_articles(self, summary: str) -> list[tuple[str, str]]:
         # returns list of tuples of (related article summary, related article url)
 
@@ -141,6 +147,7 @@ class FactCheck:
             summaries.append((related["documents"][i], related["ids"][i]))  # type: ignore
 
         return summaries
+
 
     def fact_check(
         self,
@@ -165,6 +172,7 @@ class FactCheck:
         )
 
         return self.to_dict()
+
 
 
 if __name__ == "__main__":
