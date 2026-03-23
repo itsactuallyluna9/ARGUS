@@ -62,10 +62,10 @@ def api_status():
 
             return jsonify(fact_check.to_dict()), 202
 
-    past_check = past_checks.get(ids=[uuid])  # type: ignore
+    past_check = past_checks.get(ids=[uuid]) # type: ignore
 
     if past_check["ids"]:
-        return jsonify(past_checks.get(ids=[uuid])), 200
+        return jsonify(past_checks.get(ids=[uuid])["documents"][0]), 200 # type: ignore
 
     return jsonify({"message": f"No active fact check found for UUID {uuid}."}), 404
 
