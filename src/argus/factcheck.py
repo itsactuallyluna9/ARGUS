@@ -1,8 +1,12 @@
+import json
 from typing import Any
+from urllib import response
 import chromadb
 from datetime import datetime
+import ollama
 from tenacity import retry, stop_after_attempt
 import uuid
+from threading import Thread
 
 from argus.summarizearticle import summarize_article
 from argus.scraper import get_page
@@ -21,6 +25,7 @@ class FactCheck:
         summarizer_model: str = "gemma3:12b",
         think: bool = False,
     ):
+        
         self.url = url
         self.id = uuid.uuid3(uuid.NAMESPACE_DNS, url).hex
 
@@ -42,7 +47,10 @@ class FactCheck:
 
         self.finished = False
 
-        self.main()
+        self.thread = Thread(target=self.main)
+        self.thread.start()
+
+        print(f"Initialized fact check for {self.url} with ID {self.id}")
 
 
     def to_dict(self) -> dict[str, Any]:
@@ -85,7 +93,7 @@ class FactCheck:
 
         # evidence + article text + related article summaries + bias rating |> fact check model -> accuracy, completeness scores + explanation
         self.fact_check(
-            self.article_text, self.bias_rating, self.key_points, self.related_summaries
+            self.article_text, self.bias_rating, self.related_summaries
         )
 
         self.finished = True
@@ -153,9 +161,9 @@ class FactCheck:
         self,
         article_text: str,
         bias_rating: str,
-        key_points: list[str],
         related_summaries: list[tuple[str, str]],
     ) -> dict[str, Any]:
+        
         self.completeness_score, self.completeness_explanation = evaluate_completeness(
             article_text=article_text,
             bias_rating=bias_rating,
@@ -175,10 +183,30 @@ class FactCheck:
 
 
 
+def check_url(url: str) -> bool:
+    # check if url is valid and can be scraped
+    try:
+        text = get_page(url)
+
+        print(text)
+
+        response = ollama.generate(
+            model = "nemotron-3-nano:4b",
+            prompt = f"You are a tool that verifies if text scraped from a URL is a valid page or if it is blocked. You will be given the text output of a web scraper, and your task is to decide if the text was successfully scraped or if there was an error. Return \"True\" if it is a valid page, \"False\" if it's a cookies message or some other error.\n\nScraper output from page {url}: {text}"
+        )
+
+        return bool(str(response.response))
+    
+    except:
+        return False
+
+
+
 if __name__ == "__main__":
-    chroma_client = chromadb.HttpClient(host="localhost", port=8000)
-    article_collection = chroma_client.get_or_create_collection(name="articles")
+    
+    chromadb_client = chromadb.HttpClient(host="localhost", port=8000)
+    url = "https://www.nature.com/news/2005/050617/full/050617-10.html"
+    
+    check = FactCheck(url, chromadb_client.get_or_create_collection(name="articles"))
 
-    url = input("Enter an article URL to fact check: ")
-
-    f = FactCheck(url, article_collection)
+    check.thread.join()

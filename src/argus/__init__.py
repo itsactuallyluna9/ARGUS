@@ -5,7 +5,7 @@ from flask_cors import CORS
 
 import chromadb
 
-from argus.factcheck import FactCheck
+from argus.factcheck import FactCheck, check_url
 
 PROJECT_ROOT = Path(__file__).resolve().parents[2]
 FRONTEND_DIST = PROJECT_ROOT / "frontend" / "dist"
@@ -20,18 +20,13 @@ articles = chromaclient.get_or_create_collection(name="articles")
 active_fact_checks = []
 
 
-@app.get("/api/hello")
-def api_hello():
-    result = articles.query(query_texts=["potato", "example"], n_results=2)
-    print(result)
-    doc = result["documents"][1][0]
-    return jsonify({"message": doc})
-
-
 @app.post("/api/create")
 def api_create():
     data = request.get_json()
     url = data.get("url")
+
+    if not check_url(url):
+        return jsonify({"message": f"URL {url} is not valid or cannot be scraped."}), 400
 
     found = False
     check: FactCheck = None  # type: ignore
@@ -49,14 +44,23 @@ def api_create():
     return jsonify(check.to_dict()), 202
 
 
-@app.post("/api/demo")
-def api_demo():
+@app.post("/api/status")
+def api_status():    
+
     data = request.get_json()
-    url = data.get("url")
+    uuid = data.get("uuid")
 
-    check = FactCheck(url, articles)
+    for fact_check in active_fact_checks:
 
-    return check.related_article_summaries(), 202
+        if fact_check.id == uuid:
+
+            if fact_check.finished:
+
+                active_fact_checks.remove(fact_check)
+                
+            return jsonify(fact_check.to_dict()), 202
+
+    return jsonify({"message": f"No active fact check found for UUID {uuid}."}), 404
 
 
 @app.get("/", defaults={"path": ""})
