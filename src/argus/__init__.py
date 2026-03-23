@@ -16,6 +16,7 @@ CORS(app, resources={r"/api/*": {"origins": "*"}})
 chromaclient = chromadb.HttpClient(host="localhost", port=8000)
 
 articles = chromaclient.get_or_create_collection(name="articles")
+past_checks = chromaclient.get_or_create_collection(name="fact_checks")
 
 active_fact_checks = []
 
@@ -57,8 +58,14 @@ def api_status():
             if fact_check.finished:
 
                 active_fact_checks.remove(fact_check)
-                
+                past_checks.add(ids=[fact_check.id], documents=[str(fact_check.to_dict())])  # type: ignore
+
             return jsonify(fact_check.to_dict()), 202
+
+    past_check = past_checks.get(ids=[uuid])  # type: ignore
+
+    if past_check["ids"]:
+        return jsonify(past_checks.get(ids=[uuid])), 200
 
     return jsonify({"message": f"No active fact check found for UUID {uuid}."}), 404
 
