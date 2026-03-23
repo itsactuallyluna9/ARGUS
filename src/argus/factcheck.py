@@ -8,6 +8,7 @@ from tenacity import retry, stop_after_attempt
 import uuid
 from threading import Thread
 
+from argus.fixjsonformatting import URLCheckSchema
 from argus.summarizearticle import summarize_article
 from argus.scraper import get_page
 from argus.findsources import find_related_article_urls
@@ -188,14 +189,13 @@ def check_url(url: str) -> bool:
     try:
         text = get_page(url)
 
-        print(text)
-
         response = ollama.generate(
             model = "nemotron-3-nano:4b",
-            prompt = f"You are a tool that verifies if text scraped from a URL is a valid page or if it is blocked. You will be given the text output of a web scraper, and your task is to decide if the text was successfully scraped or if there was an error. Return \"True\" if it is a valid page, \"False\" if it's a cookies message or some other error.\n\nScraper output from page {url}: {text}"
+            prompt = f"You are a tool that verifies if text scraped from a URL is a valid page or if it is blocked. You will be given the text output of a web scraper, and your task is to decide if the text was successfully scraped or if there was an error. Return \"True\" if it is a valid page, \"False\" if it's a cookies message or some other error.\n\nScraper output from page {url}: {text}",
+            format = URLCheckSchema.model_json_schema()
         )
 
-        return bool(str(response.response))
+        return json.loads(response.response)["isValid"]  # type: ignore
     
     except:
         return False
@@ -204,9 +204,11 @@ def check_url(url: str) -> bool:
 
 if __name__ == "__main__":
     
-    chromadb_client = chromadb.HttpClient(host="localhost", port=8000)
-    url = "https://www.nature.com/news/2005/050617/full/050617-10.html"
+    # chromadb_client = chromadb.HttpClient(host="localhost", port=8000)
+    # url = "https://www.nature.com/news/2005/050617/full/050617-10.html"
     
-    check = FactCheck(url, chromadb_client.get_or_create_collection(name="articles"))
+    # check = FactCheck(url, chromadb_client.get_or_create_collection(name="articles"))
 
-    check.thread.join()
+    # check.thread.join()
+
+    print(check_url("https://www.theverge.com/tech/898815/samsung-quick-share-airdrop-support-galaxy-s26"))
