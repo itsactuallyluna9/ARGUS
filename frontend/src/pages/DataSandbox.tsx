@@ -2,6 +2,10 @@ import { useState, useEffect, useRef } from "react"
 import { ResizableHandle, ResizablePanel, ResizablePanelGroup } from "@/components/ui/resizable"
 import { Spinner } from "@/components/ui/spinner"
 import { WebR } from "webr"
+import { Button } from "@/components/ui/button"
+import { Play, HardDriveDownload, HardDriveUpload } from "lucide-react"
+import { EditorView, basicSetup } from "codemirror"
+import { r } from "codemirror-lang-r"
 
 function DataSandboxView() {
   const [rLoaded, setRLoaded] = useState(false)
@@ -13,6 +17,9 @@ function DataSandboxView() {
   
   const webRRef = useRef<WebR | null>(null)
   const isInitialized = useRef(false)
+
+  const editorRef = useRef(null)
+  const viewRef = useRef(null)
 
   useEffect(() => {
     if (!rLoaded) {
@@ -66,6 +73,20 @@ function DataSandboxView() {
     
     loadR()
   }, [])
+
+  useEffect(() => {
+    if (viewRef.current) return
+    
+    viewRef.current = new EditorView({
+      doc: "# hello, world!",
+      extensions: [basicSetup, r()],
+      parent: editorRef.current
+    })
+    return () => {
+      viewRef.current.destroy()
+      viewRef.current = null
+    }
+  }, [])
   
   return (
     <main className="w-full h-screen">
@@ -73,11 +94,22 @@ function DataSandboxView() {
         <ResizablePanel>
           <ResizablePanelGroup orientation="vertical">
             <ResizablePanel>
-              <p>script</p>
+              <div>
+                <Button size="icon">
+                  <Play />
+                </Button>
+                <Button size="icon">
+                  <HardDriveUpload />
+                </Button>
+                <Button size="icon">
+                  <HardDriveDownload />
+                </Button>
+              </div>
+              <div ref={editorRef} />
             </ResizablePanel>
             <ResizableHandle withHandle />
             <ResizablePanel>
-              <p>console</p>
+              <div className="font-mono"></div>
             </ResizablePanel>
           </ResizablePanelGroup>
         </ResizablePanel>
