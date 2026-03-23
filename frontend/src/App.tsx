@@ -4,6 +4,7 @@ import About from "@/pages/About";
 import NotFound from "@/pages/NotFound";
 import DetailsView from "@/pages/Details";
 import Debug from "./pages/Debug";
+import DataSandboxView from "./pages/DataSandbox";
 
 function App() {
   return (
@@ -12,14 +13,14 @@ function App() {
         <Link to="/" className="mr-4">
           Home
         </Link>
-        <Link to="/about">About</Link>
+        <Link to="/sandbox">Data Sandbox</Link>
       </nav>
 
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/details/:id" element={<DetailsView />} />
         <Route path="/about" element={<About />} />
-        <Route path="/sandbox" element={<></>} />
+        <Route path="/sandbox" element={<DataSandboxView />} />
         <Route path="/debug" element={<Debug />} />
         <Route path="*" element={<NotFound />} />
       </Routes>
