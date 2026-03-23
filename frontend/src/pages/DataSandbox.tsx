@@ -82,6 +82,9 @@ function DataSandboxView() {
         
         setRInstallingPackages(false)
         console.log("tidyverse installed successfully")
+
+        // Start processing WebR events
+        processRStreamEvents()
       } catch (error) {
         console.error("Error loading R or installing packages:", error)
         setRLoaded(false)
@@ -91,6 +94,57 @@ function DataSandboxView() {
     
     loadR()
   }, [])
+
+  const processRStreamEvents = async () => {
+    if (!webRRef.current) return
+
+    for await (const event of webRRef.current.stream()) {
+      switch (event.type) {
+        case "stdout":
+          console.log(event.data)
+          if (consoleRef.current) {
+            const line = document.createElement("p")
+            line.textContent = event.data
+            consoleRef.current.appendChild(line)
+          }
+          break
+        case "stderr":
+          console.error(event.data)
+          if (consoleRef.current) {
+            const line = document.createElement("p")
+            line.textContent = event.data
+            line.classList.add("text-red-500")
+            consoleRef.current.appendChild(line)
+          }
+          break
+        case "prompt":
+          // r is waiting for input!
+          // TODO: im not sure how we wanna handle this...
+          console.error("R is waiting for input:", event.data)
+          break
+        case "pager":
+          // TODO: handle pager
+          console.log("Pager event:", event.data)
+          break
+        case "viewer":
+          // TODO: handle viewer
+          console.log("Viewer event:", event.data)
+          break
+        case "canvas":
+          // TODO: handle canvas
+          switch (event.data.type) {
+            case "canvasNewPage":
+              break
+            case "canvasImage":
+              break
+          }
+          console.log("Canvas event:", event.data)
+          break
+        default:
+          console.warn("Unknown event type:", event)
+      }
+    }
+  }
 
   useEffect(() => {
     if (viewRef.current) return
@@ -120,7 +174,8 @@ function DataSandboxView() {
 
     // pass it to r
     setRWorking(true)
-    await webRRef.current.evalRVoid(code)
+    await webRRef.current.FS.writeFile("/tmp/.webRtmp-source", new TextEncoder().encode(code))
+    await webRRef.current.writeConsole("source('/tmp/.webRtmp-source', echo = TRUE, max.deparse.length = Inf)");
     setRWorking(false)
   }
 
@@ -193,7 +248,7 @@ function DataSandboxView() {
                   <p>{rBusyMessage}</p>
                 </div>
               )}
-              <div className="font-mono" ref={consoleRef}></div>
+              <div className="font-mono text-xs" ref={consoleRef}></div>
             </ResizablePanel>
           </ResizablePanelGroup>
         </ResizablePanel>
