@@ -5,14 +5,13 @@ from ddgs import DDGS, exceptions
 from tenacity import retry, retry_if_exception_type, stop_after_attempt
 from threading import Thread
 
-from argus.fixjsonformatting import fix_json_formatting, Accuracy_Schema
+from argus.fixjsonformatting import fix_json_formatting, Completeness_Schema
 from argus.scraper import get_page
 from argus.summarizearticle import summarize_article
 
 
 
-class Accuracy_Agent:
-
+class Completeness_Agent:
 
     def __init__(self, article_text: str, bias_rating: str, key_points: list[str], article_collection: chromadb.Collection, evaluation_model: str = "glm-4.7-flash", think: bool = True):
         
@@ -24,9 +23,9 @@ class Accuracy_Agent:
         self.think = think
 
         self.prompt = """
-        You are an accuracy checker for news articles. You will be given the full text of an article, a bias rating, and a list of key points from the article. 
-        Your task is to evaluate how factually accurate the article is based on the information provided and any additional information you can gather using the tools at your disposal. You should return an accuracy score between 0 and 100 evaluating how factually accurate the article is based on the evidence gathered, and a few sentences justification for the value you chose for accuracy. Additionally, return a list of the source URLs that were used to make your decision. This should include all of the sources that you considered, both those from the related articles and from your own research, but should exclude sources on irrelevant topics.
-
+        You are a completeness checker for news articles. You will be given the full text of an article, a bias rating, and a list of key points.
+        Your task is to evaluate how complete the reporting of the article is compared to the information in other articles on the same topic. You should return a completeness score between 0 and 100 evaluating how complete the article's reporting is based on the information in the other articles and if they left out any important details, and a few sentences justification for the value you chose for completeness.
+        
         You have access to several tools to help you with this task:
         1. A notes tool where you can write out the steps you plan to take to evaluate the article's accuracy. You can read these notes with a read_notes function and write to them with a write_notes function. You should use this tool extremely frequently to keep track of your progress and ensure that you are being thorough in your evaluation.
         2. A search_db_tool that takes a query and returns a list of relevant articles and their URLs from a database of articles. You should use this tool to find more information about the topic of the article and to gather evidence for or against the key points in the article.
@@ -34,32 +33,27 @@ class Accuracy_Agent:
         4. A page_summary_tool that takes a URL and returns a summary of the article at that URL. You should use this tool to quickly gather information from sources that you find with the search_db_tool and search_internet_tool without having to read through the full text of each article.
         5. A page_text_tool that takes a URL and returns the full text of the article at that URL, but only for articles that have already been summarized and added to the database. You should use this tool to get more detailed information from sources that you find with the search_db_tool and search_internet_tool if the summary provided by the page_summary_tool does not give you enough information to evaluate the accuracy of the article.
         
-        When evaluating the accuracy of the article, you should follow the steps below:
-        1. Read through the article text and the bias rating and key points to get a general understanding of the article and its context.
-        2. Use the notes tool to write out a plan for how you will evaluate the article's accuracy. This plan should include the specific claims or key points in the article that you will investigate, the tools you will use to investigate each claim, and the order in which you will investigate them.
-        3. Follow the plan you have laid out, using the tools at your disposal to gather evidence for or against the claims in the article. Be thorough in investigating your claims, but dont spend too long on any one part in particular. Be sure to keep detailed notes of the evidence you gather and how it relates to each claim.
-        4. If/when you find a discrepancy between the claims in the article and the evidence you have gathered, check the original article again to make sure you did not misinterpret the claim. 
-        
-        When you feel that you have gathered enough evidence to make a judgment about the article's accuracy, use the notes tool to write out your final reasoning for the accuracy score you will give the article. Then, return a JSON object with the following format:
+        Use all of the tools at your disposal to gather information from related articles and evaluate the completeness of the reporting in the article. Be sure to keep detailed notes of your process and reasoning, and use those notes to inform your final evaluation of the article's completeness.
+        When evaluating the completeness of the article, consider how the information in the article compares to the information in the related articles. Are there important details that are included in the related articles but not in the article you are evaluating? Are there key points that are mentioned in the related articles but not in the article you are evaluating? Use the information from the related articles to inform your evaluation of the completeness of the reporting in the article.
+
+        When you feel that you have gathered enough information to accurately assess the article's completeness, return a completeness score between 0 and 100 evaluating how complete the article's reporting is based on the information in the other articles and if they left out any important details, and a few sentences justification for the value you chose for completeness.
+        Output your answer in the provided json schema.
         JSON schema: {
-            "accuracy": int,
-            "reasoning": str,
-            "sources": list[str]
+            "completeness": int,
+            "reasoning": str
         }
         """
 
         self.notes = ""
 
-        self.accuracy_score = 0
-        self.accuracy_explanation = ""
-        self.sources = []
+        self.completeness_score = 0
+        self.completeness_explanation = ""
 
-        self.thread = Thread(target=self.evaluate_accuracy)
+        self.thread = Thread(target=self.evaluate_completeness)
         self.thread.start()
 
 
-    #initiates agentic model to evaluate articles accuracy, will use tool calls to research and take notes, coerces to structured output, returns accuracy score, reasoning, and sources used in evaluation
-    def evaluate_accuracy(self) -> tuple[int, str, list[str]]: # type: ignore
+    def evaluate_completeness(self) -> tuple[int, str]: # type: ignore
         
         available_tools = {
             "read_notes": self.read_notes,
@@ -70,7 +64,7 @@ class Accuracy_Agent:
             "page_text_tool": self.page_text_tool,
         }
 
-        messages=[{"role": "user", "content": f"Instructions: {self.prompt}\nArticle text: {self.article_text}\nBias rating: {self.bias_rating}\nKey points: {self.key_points}\nCurrent date:{datetime.now().strftime('%Y-%m-%d')}",}]
+        messages = [{"role": "user", "content": f"Instructions: {self.prompt}\nArticle text: {self.article_text}\nBias rating: {self.bias_rating}\nKey points: {self.key_points}\nCurrent date:{datetime.now().strftime('%Y-%m-%d')}",}]
 
         while True:
             
@@ -97,7 +91,7 @@ class Accuracy_Agent:
                         messages.append({'role': 'tool', 'tool_name': call.function.name, 'content': str(result)})
             
             else:
-                messages.append({'role': 'system', 'content': "Ensure the response is in the correct JSON format according to the schema. The output should include an accuracy score (0-100), reasoning, and the URLs for sources used in the evaluation."})
+                messages.append({'role': 'system', 'content': "Ensure the response is in the correct JSON format according to the schema. The output should include a completeness score (0-100) and a reasoning for the score."})
                 response = ollama.chat(
                     model=self.evaluation_model,
                     think=self.think,
@@ -105,13 +99,12 @@ class Accuracy_Agent:
                 )
                 break
 
-        accuracy_response = fix_json_formatting(response.message.content, Accuracy_Schema) # type: ignore
+        completeness_response = fix_json_formatting(response.message.content, Completeness_Schema)  # type: ignore
 
-        self.accuracy_score = accuracy_response["accuracy"]  # type: ignore
-        self.accuracy_explanation = accuracy_response["reasoning"]  # type: ignore
-        self.sources = accuracy_response["sources"]  # type: ignore
+        self.completeness_score = int(completeness_response["completeness"])  # type: ignore
+        self.completeness_explanation = completeness_response["reasoning"]  # type: ignore
 
-        return self.accuracy_score, self.accuracy_explanation, self.sources  # type: ignore
+        return self.completeness_score, self.completeness_explanation  # type: ignore
 
 
     def read_notes(self) -> str:
@@ -133,7 +126,7 @@ class Accuracy_Agent:
         results = []
         
         for i in range(len(search_results["ids"])):
-            results.append((search_results["metadatas"][i][0]["description"], search_results["ids"][i]))  # type: ignore
+            results.append((search_results["metadatas"][i][0]["description"], search_results["ids"][i])) # type: ignore
 
         return results
 
@@ -198,7 +191,8 @@ class Accuracy_Agent:
         
         except:
             return f"Error: Article {url} not found in database. Please use the page_summary_tool to summarize the article and add it to the database before retrieving the full text."
-        
+
+
 if __name__ == "__main__":
     print("starting")
     article_text = get_page("https://www.usatoday.com/story/travel/2026/03/23/check-tsa-wait-times-government-shutdown-airports/89282748007/?utm_source=firefox-newtab-en-us")
@@ -209,6 +203,9 @@ if __name__ == "__main__":
 
     collection = chromadb.HttpClient().get_or_create_collection(name="articles")
 
-    accuracy_agent = Accuracy_Agent(article_text, bias_rating, key_points, collection, evaluation_model="glm-4.7-flash", think=True)
+    completeness_agent = Completeness_Agent(article_text, bias_rating, key_points, collection, evaluation_model="glm-4.7-flash", think=True)
 
-    print(accuracy_agent.evaluate_accuracy())
+    completeness_agent.thread.join()
+
+    print(completeness_agent.completeness_score)
+    print(completeness_agent.completeness_explanation)

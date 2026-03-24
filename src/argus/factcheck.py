@@ -12,8 +12,8 @@ from argus.fixjsonformatting import URLCheckSchema
 from argus.summarizearticle import summarize_article
 from argus.scraper import get_page
 from argus.findsources import find_related_article_urls
-from argus.evaluatequality import evaluate_accuracy, evaluate_completeness
 from argus.evaluateaccuracy import Accuracy_Agent
+from argus.evaluatecompleteness import Completeness_Agent
 
 
 
@@ -94,9 +94,7 @@ class FactCheck:
         print("Related articles found, now researching article accuracy...")
 
         # evidence + article text + related article summaries + bias rating |> fact check model -> accuracy, completeness scores + explanation
-        self.fact_check(
-            self.article_text, self.bias_rating, self.key_points, self.related_summaries
-        )
+        self.fact_check(self.article_text, self.bias_rating, self.key_points)
 
         self.finished = True
 
@@ -163,22 +161,31 @@ class FactCheck:
         self,
         article_text: str,
         bias_rating: str, key_points: list[str],
-        related_summaries: list[tuple[str, str]],
     ) -> dict[str, Any]:
         
-        self.completeness_score, self.completeness_explanation = evaluate_completeness(
-            article_text=article_text,
-            bias_rating=bias_rating,
-            related_summaries=related_summaries,
-        )
-
-        self.accuracy_score, self.accuracy_explanation, self.sources = Accuracy_Agent(
+        completeness_agent = Completeness_Agent(
             article_text=article_text,
             bias_rating=bias_rating,
             key_points=key_points,
-            related_summaries=related_summaries,
             article_collection=self.article_collection,
-        ).evaluate_accuracy()
+        )
+
+        accuracy_agent = Accuracy_Agent(
+            article_text=article_text,
+            bias_rating=bias_rating,
+            key_points=key_points,
+            article_collection=self.article_collection,
+        )
+
+        completeness_agent.thread.join()
+        accuracy_agent.thread.join()
+
+        self.accuracy_score = accuracy_agent.accuracy_score
+        self.accuracy_explanation = accuracy_agent.accuracy_explanation
+        self.sources = accuracy_agent.sources
+
+        self.completeness_score = completeness_agent.completeness_score
+        self.completeness_explanation = completeness_agent.completeness_explanation
 
         return self.to_dict()
 
@@ -204,11 +211,9 @@ def check_url(url: str) -> bool:
 
 if __name__ == "__main__":
     
-    # chromadb_client = chromadb.HttpClient(host="localhost", port=8000)
-    # url = "https://www.nature.com/news/2005/050617/full/050617-10.html"
+    chromadb_client = chromadb.HttpClient(host="localhost", port=8000)
+    url = "https://www.nature.com/news/2005/050617/full/050617-10.html"
     
-    # check = FactCheck(url, chromadb_client.get_or_create_collection(name="articles"))
+    check = FactCheck(url, chromadb_client.get_or_create_collection(name="articles"))
 
-    # check.thread.join()
-
-    print(check_url("https://www.theverge.com/tech/898815/samsung-quick-share-airdrop-support-galaxy-s26"))
+    check.thread.join()
