@@ -26,6 +26,11 @@ function DataSandboxView() {
   const viewRef = useRef<EditorView | null>(null)
   const consoleRef = useRef<HTMLDivElement | null>(null)
 
+  const [canvasImages, setCanvasImages] = useState([])
+  const [canvasImageIndex, setCanvasImageIndex] = useState(0) // which canvas is the user viewing?
+  const [canvasDrawIndex, setCanvasDrawIndex] = useState(0) // which canvas are we currently drawing on?
+  const drawCanvas = useRef<OffscreenCanvas | null>(null)
+
   useEffect(() => {
     if (!rLoaded) {
       setRBusy(true)
@@ -131,11 +136,41 @@ function DataSandboxView() {
           console.log("Viewer event:", event.data)
           break
         case "canvas":
-          // TODO: handle canvas
-          switch (event.data.type) {
+          switch (event.data.event) {
             case "canvasNewPage":
+              // alright, we have a new plot coming in
+              // if there's an old canvas, save it
+              if (drawCanvas.current) {
+                const blob = await drawCanvas.current.convertToBlob()
+                const url = URL.createObjectURL(blob)
+                setCanvasImages(prev => [...prev, url])
+                setCanvasDrawIndex(prev => prev + 1)
+                setCanvasImageIndex(canvasDrawIndex) // move the user to the new plot
+              }
+              drawCanvas.current = new OffscreenCanvas(1008, 1008)
               break
             case "canvasImage":
+              if (!drawCanvas.current) {
+                console.error("Received canvas image data but no canvas exists!")
+                break
+              }
+              const ctx = drawCanvas.current.getContext("2d")
+              if (!ctx) {
+                console.error("Could not get 2D context from canvas!")
+                break
+              }
+              console.debug("Received canvas image data, drawing to canvas...")
+              ctx.drawImage(event.data.image, 0, 0); // draw what we got!
+              // okay, can we now put that on the screen? reduce the delay
+              // also can't promise we'll actually recieve newpage when we're done, so we'll just update the image as we get it and hope for the best
+              const blob = await drawCanvas.current.convertToBlob()
+              const url = URL.createObjectURL(blob)
+              setCanvasImages(prev => {
+                const newImages = [...prev]
+                newImages[canvasDrawIndex] = url
+                return newImages
+              })
+              // await new Promise(resolve => setTimeout(resolve, 250)) // debugging
               break
           }
           console.log("Canvas event:", event.data)
@@ -260,10 +295,24 @@ function DataSandboxView() {
             </ResizablePanel>
             <ResizableHandle withHandle/>
             <ResizablePanel defaultSize="60%">
+              {canvasImages.length > 0 ? (
+                <>
+                <img src={canvasImages[canvasImageIndex]} alt={`Canvas ${canvasImageIndex + 1}`} className="mx-auto mb-4 h-7/8" />
+                <ButtonGroup className="justify-center">
+                  <Button size="icon" variant="outline" disabled={canvasImageIndex === 0} onClick={() => setCanvasImageIndex(prev => prev - 1)}>
+                    Previous
+                  </Button>
+                  <Button size="icon" variant="outline" disabled={canvasImageIndex === canvasImages.length - 1} onClick={() => setCanvasImageIndex(prev => prev + 1)}>
+                    Next
+                  </Button>
+                </ButtonGroup>
+                </>
+              ) : (
               <div className="flex flex-col items-center justify-center h-full space-y-4">
                 <ChartArea className="mx-auto mb-4" size={48} />
                 <p>No plots to display. Try using <span className="font-mono text-pink-900 bg-pink-100 rounded">plot()</span> or <span className="font-mono text-pink-900 bg-pink-100 rounded">ggplot()</span>.</p>
               </div>
+              )}
               <Tooltip>
                 <TooltipTrigger className="flex items-center">
                   <Button size="icon" variant="outline">
