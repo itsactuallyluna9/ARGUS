@@ -13,6 +13,7 @@ from argus.summarizearticle import summarize_article
 from argus.scraper import get_page
 from argus.findsources import find_related_article_urls
 from argus.evaluatequality import evaluate_accuracy, evaluate_completeness
+from argus.evaluateaccuracy import Accuracy_Agent
 
 
 
@@ -94,7 +95,7 @@ class FactCheck:
 
         # evidence + article text + related article summaries + bias rating |> fact check model -> accuracy, completeness scores + explanation
         self.fact_check(
-            self.article_text, self.bias_rating, self.related_summaries
+            self.article_text, self.bias_rating, self.key_points, self.related_summaries
         )
 
         self.finished = True
@@ -161,7 +162,7 @@ class FactCheck:
     def fact_check(
         self,
         article_text: str,
-        bias_rating: str,
+        bias_rating: str, key_points: list[str],
         related_summaries: list[tuple[str, str]],
     ) -> dict[str, Any]:
         
@@ -171,14 +172,13 @@ class FactCheck:
             related_summaries=related_summaries,
         )
 
-        self.accuracy_score, self.accuracy_explanation, self.sources = (
-            evaluate_accuracy(
-                article_text=article_text,
-                bias_rating=bias_rating,
-                related_summaries=related_summaries,
-                article_collection=self.article_collection,
-            )
-        )
+        self.accuracy_score, self.accuracy_explanation, self.sources = Accuracy_Agent(
+            article_text=article_text,
+            bias_rating=bias_rating,
+            key_points=key_points,
+            related_summaries=related_summaries,
+            article_collection=self.article_collection,
+        ).evaluate_accuracy()
 
         return self.to_dict()
 
