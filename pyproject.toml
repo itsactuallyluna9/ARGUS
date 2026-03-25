@@ -21,6 +21,7 @@ dependencies = [
     "pdf-oxide>=0.3.17",
     "playwright>=1.58.0",
     "playwright-stealth>=2.0.2",
+    "psutil>=7.2.2",
     "pyexcel>=0.7.4",
     "pyexcel-ods3>=0.6.1",
     "pyexcel-xls>=0.7.1",

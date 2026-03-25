@@ -1,31 +1,91 @@
 import { ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Spinner } from "@/components/ui/spinner";
-import { useState, useEffect, useMemo } from "react";
+import { memo, useState, useEffect, useMemo } from "react";
 import { useNavigate } from "react-router";
 import Particles, { initParticlesEngine } from "@tsparticles/react";
 import { loadSlim } from "@tsparticles/slim";
+
+const PARTICLE_OPTIONS = {
+  fullScreen: {
+    enable: false,
+  },
+  fpsLimit: 120,
+  interactivity: {
+    events: {
+      onHover: {
+        enable: true,
+        mode: "grab" as const,
+      },
+    },
+  },
+  particles: {
+    color: {
+      value: "#ffffff",
+    },
+    links: {
+      color: "#ffffff",
+      distance: 150,
+      enable: true,
+      opacity: 0.5,
+      width: 2,
+    },
+    move: {
+      direction: "none" as const,
+      enable: true,
+      outModes: "bounce" as const,
+      random: false,
+      speed: 6,
+      straight: false,
+    },
+    number: {
+      density: {
+        enable: true,
+      },
+      value: 80,
+    },
+    opacity: {
+      value: 0.8,
+    },
+    shape: {
+      type: "circle",
+    },
+    size: {
+      value: { min: 1, max: 7 },
+    },
+  },
+  detectRetina: true,
+};
+
+const HeroParticles = memo(function HeroParticles() {
+  const [particlesInitialized, setParticlesInitialized] = useState(false);
+
+  useEffect(() => {
+    initParticlesEngine(async (engine) => {
+      await loadSlim(engine);
+    }).then(() => {
+      setParticlesInitialized(true);
+    });
+  }, []);
+
+  if (!particlesInitialized) {
+    return null;
+  }
+
+  return (
+    <Particles
+      id="particles"
+      options={PARTICLE_OPTIONS}
+      className="pointer-events-none absolute inset-0 z-0"
+    />
+  );
+});
 
 function Home() {
   const navigate = useNavigate();
   const [url, setURL] = useState("");
   const [submitting, setSubmitting] = useState(false);
   const [errorText, setErrorText] = useState("");
-  const [particlesInitialized, setParticlesInitialized] = useState(false);
-
-  useEffect(() => {
-    initParticlesEngine(async (engine) => {
-      // you can initiate the tsParticles instance (engine) here, adding custom shapes or presets
-      // this loads the tsparticles package bundle, it's the easiest method for getting everything ready
-      // starting from v2 you can add only the features you need reducing the bundle size
-      //await loadAll(engine);
-      //await loadFull(engine);
-      await loadSlim(engine);
-      //await loadBasic(engine);
-    }).then(() => {
-      setParticlesInitialized(true);
-    });
-  }, [])
 
   const submitURL = async () => {
     // update ui - disable field input and button, change icon to Spinner
@@ -34,7 +94,25 @@ function Home() {
 
     // basic check: is it a valid url? if not, reset ui and show error
     // we'll do more comprehensive checks on the backend!
-    if (!URL.canParse(url)) {
+    const trimmedUrl = url.trim();
+    let normalizedUrl = trimmedUrl;
+
+    // If no scheme is present, default to http.
+    if (!trimmedUrl.includes("://")) {
+      normalizedUrl = `http://${trimmedUrl}`;
+      setURL(normalizedUrl);
+    } else {
+      const schemeMatch = trimmedUrl.match(/^([a-zA-Z][a-zA-Z\d+.-]*):\/\//);
+      const scheme = schemeMatch?.[1]?.toLowerCase();
+
+      if (scheme !== "http" && scheme !== "https") {
+        setErrorText("Only http:// or https:// URLs are supported.");
+        setSubmitting(false);
+        return;
+      }
+    }
+
+    if (!URL.canParse(normalizedUrl)) {
       setErrorText("URL is not valid - please enter a valid URL.");
       setSubmitting(false);
       return;
@@ -43,7 +121,7 @@ function Home() {
     // actually try to submit url
     const response = await fetch("/api/create", {
       body: JSON.stringify({
-        url: url,
+        url: normalizedUrl,
       }),
       headers: {
         "Content-Type": "application/json",
@@ -67,79 +145,25 @@ function Home() {
     }
   };
 
-  const options = useMemo(
-    () => ({
-      fullScreen: {
-        enable: false,
-      },
-      fpsLimit: 120,
-      interactivity: {
-        events: {
-          onHover: {
-            enable: true,
-            mode: "grab" as const
-          }
-        }
-      },
-      particles: {
-        color: {
-          value: "#ffffff",
-        },
-        links: {
-          color: "#ffffff",
-          distance: 150,
-          enable: true,
-          opacity: 0.5,
-          width: 2,
-        },
-        move: {
-          direction: "none" as const,
-          enable: true,
-          outModes: {
-            left:  "bounce" as const,
-            right: "bounce" as const
-          },
-          random: false,
-          speed: 6,
-          straight: false,
-        },
-        number: {
-          density: {
-            enable: true,
-          },
-          value: 80,
-        },
-        opacity: {
-          value: 0.8,
-        },
-        shape: {
-          type: "circle",
-        },
-        size: {
-          value: { min: 1, max: 7 },
-        },
-      },
-      detectRetina: true,
-    }),
-    [],
-  );
+  const particlesGradientClass = useMemo(() => {
+    if (errorText) {
+      return "from-red-300 to-red-400";
+    }
+
+    if (submitting) {
+      return "from-fuchsia-400 to-blue-400";
+    }
+
+    return "from-fuchsia-300 to-blue-300";
+  }, [errorText, submitting]);
 
   return (
     <main className="min-h-screen">
       <div className="relative isolate flex h-[90vh] items-center justify-center overflow-hidden p-4">
-        {particlesInitialized && (
-          <Particles
-            id="particles"
-            options={options}
-            className={`pointer-events-none absolute inset-0 z-0 bg-linear-to-b transition-colors duration-500 ${
-              errorText
-                ? "from-red-300 to-red-400"
-                : submitting
-                  ? "from-fuchsia-400 to-blue-400"
-                  : "from-fuchsia-300 to-blue-300"
-            }`}
-          />
-        )}
+        <div
+          className={`pointer-events-none absolute inset-0 -z-10 bg-linear-to-b transition-colors duration-500 ${particlesGradientClass}`}
+        />
+        <HeroParticles />
         <div className="relative z-10 text-center rounded bg-white/50 backdrop-blur-sm p-8">
           <h1 className="text-5xl font-semibold">ARGUS</h1>
           <p className="text-lg italic font-light">Analytical Reasoning and Grounded Understanding System</p>
@@ -151,6 +175,11 @@ function Home() {
               placeholder="Enter a URL..."
               className="grow"
               onChange={(e) => setURL(e.target.value)}
+              onKeyDown={(e) => {
+                if (e.key === "Enter") {
+                  submitURL();
+                }
+              }}
               value={url}
               disabled={submitting}
             />
