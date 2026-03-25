@@ -199,7 +199,7 @@ function DetailsView() {
           {(data && data.political_score) ? (
             <>
               <p>Score: {data.political_score}/100</p>
-              <p>{data.political_explanation}</p>
+              <p>{data.political_bias}</p>
             </>
           ) : (
             <>
@@ -218,7 +218,7 @@ function DetailsView() {
           {(data && data.sensationalism_score) ? (
             <>
               <p>Score: {data.sensationalism_score}/100</p>
-              <p>{data.sensationalism_explanation}</p>
+              <p>{data.sensationalism}</p>
             </>
           ) : (
             <>
