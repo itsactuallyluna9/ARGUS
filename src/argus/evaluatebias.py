@@ -38,12 +38,12 @@ class Bias_Agent:
         4. page_text_tool: This tool allows you to retrieve the full text content of a webpage that has already been summarized given its URL. You can use this tool to get more information about the article you are evaluating, or to get the full text of any articles you find using the search_db_tool.
 
         You should use these tools as needed to gather information and insights that will help you provide a thorough and accurate bias evaluation for the article. 
-        When you feel you have enough information to assess the bias in the article, remember to provide a final bias rating for each of the three parts, as well as an explanation for each rating.
+        When you feel you have enough information to assess the bias in the article, provide an explanation of the political bias, sensationalism, and emotional language and your final bias rating for each.
         Return your output in the following JSON schema:
         {
-            "political_bias": string,
-            "sensationalism": string,
-            "emotional_language": string,
+            "political_bias_explanation": string,
+            "sensationalism_explanation": string,
+            "emotional_language_explanation": string,
             "political_score": int,
             "sensationalism_score": int,
             "emotional_language_score": int,
@@ -119,9 +119,9 @@ class Bias_Agent:
 
         bias_response = fix_json_formatting(response.message.content, Bias_Schema) # type: ignore
 
-        self.bias_rating["political_bias"] = bias_response["political_bias"]
-        self.bias_rating["sensationalism"] = bias_response["sensationalism"]
-        self.bias_rating["emotional_language"] = bias_response["emotional_language"]
+        self.bias_rating["political_bias"] = bias_response["political_bias_explanation"]
+        self.bias_rating["sensationalism"] = bias_response["sensationalism_explanation"]
+        self.bias_rating["emotional_language"] = bias_response["emotional_language_explanation"]
         self.bias_rating["political_score"] = bias_response["political_score"]
         self.bias_rating["sensationalism_score"] = bias_response["sensationalism_score"]
         self.bias_rating["emotional_language_score"] = bias_response["emotional_language_score"]
