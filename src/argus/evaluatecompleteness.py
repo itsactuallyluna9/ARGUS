@@ -68,7 +68,7 @@ class Completeness_Agent:
 
         while True:
             
-            print("Sending message to model...")
+            print("Sending message to completeness model...")
 
             response = ollama.chat(
                 model=self.evaluation_model,
@@ -76,21 +76,28 @@ class Completeness_Agent:
                 messages=messages,
                 tools=[self.read_notes, self.write_notes, self.search_db_tool, self.search_internet_tool, self.page_summary_tool, self.page_text_tool],
             )
-            messages.append(response.message) # type: ignore
+            messages.append(response.message.model_dump())
 
-            print(f"Model reasoning: {response.message.thinking}")
-            print(f"Model response: {response.message.content}")
+            print(f"Completeness model reasoning: {response.message.thinking}")
+            print(f"Completeness model response: {response.message.content}")
 
             if response.message.tool_calls:
+                
                 for call in response.message.tool_calls:
-                    if call.function.name in available_tools:
-                        result = available_tools[call.function.name](
-                            **call.function.arguments
-                        )
-                        print(f"Tool call: {call.function.name} with arguments {call.function.arguments} returned result {result}")
-                        messages.append({'role': 'tool', 'tool_name': call.function.name, 'content': str(result)})
+
+                    tool_name = call.function.name
+                    tool_args = call.function.arguments
+
+                    if tool_name in available_tools:
+                        tool_response = available_tools[tool_name](**tool_args)
+                        messages.append({"role": "tool", "content": f"Tool name: {tool_name}\nTool response: {tool_response}"})
+                        print(f"Tool name: {tool_name}\nTool response: {tool_response}")
+                    else:
+                        messages.append({"role": "tool", "content": f"Tool name: {tool_name}\nTool response: Tool not found."})
+                        print(f"Tool name: {tool_name}\nTool response: Tool not found.")
             
             else:
+                print("No tool calls detected, finalizing completeness evaluation...")
                 messages.append({'role': 'system', 'content': "Ensure the response is in the correct JSON format according to the schema. The output should include a completeness score (0-100) and a reasoning for the score."})
                 response = ollama.chat(
                     model=self.evaluation_model,
@@ -108,15 +115,15 @@ class Completeness_Agent:
 
 
     def read_notes(self) -> str:
-        """Reads the notes for the accuracy evaluation process."""
+        """Reads the notes for the completeness evaluation process."""
         return self.notes
     
 
-    def write_notes(self, notes: str) -> str:
-        """Writes notes for the accuracy evaluation process."""
-        """Args: notes (str): A string representation of the notes for the accuracy evaluation."""
-        self.notes = notes
-        return notes
+    def write_notes(self, new_notes: str) -> str:
+        """Writes notes for the completeness evaluation process."""
+        """Args: notes (str): A string representation of the notes for the completeness evaluation."""
+        self.notes += f"\n{new_notes}"
+        return "Notes updated."
 
 
     def search_db_tool(self, query: str) -> list[tuple[str, str]]:

@@ -14,6 +14,7 @@ from argus.scraper import get_page
 from argus.findsources import find_related_article_urls
 from argus.evaluateaccuracy import Accuracy_Agent
 from argus.evaluatecompleteness import Completeness_Agent
+from argus.evaluatebias import Bias_Agent
 
 
 
@@ -39,13 +40,19 @@ class FactCheck:
         self.summary = "Empty for now!"
         self.bias_rating = "Empty for now!"
         self.key_points = []
-        self.related_summaries = []
 
         self.accuracy_score = 0
         self.completeness_score = 0
         self.accuracy_explanation = "Empty for now!"
         self.completeness_explanation = "Empty for now!"
         self.sources = []
+
+        self.political_bias = "Empty for now!"
+        self.sensationalism = "Empty for now!"
+        self.emotional_language = "Empty for now!"
+        self.political_score = 0
+        self.sensationalism_score = 0
+        self.emotional_language_score = 0
 
         self.finished = False
 
@@ -63,44 +70,44 @@ class FactCheck:
             "summary": self.summary,
             "bias_rating": self.bias_rating,
             "key_points": self.key_points,
-            "related_summaries": self.related_summaries,
             "accuracy_score": self.accuracy_score,
             "completeness_score": self.completeness_score,
             "accuracy_explanation": self.accuracy_explanation,
             "completeness_explanation": self.completeness_explanation,
             "sources": self.sources,
+            "political_bias": self.political_bias,
+            "sensationalism": self.sensationalism,
+            "emotional_language": self.emotional_language,
+            "political_score": self.political_score,
+            "sensationalism_score": self.sensationalism_score,
+            "emotional_language_score": self.emotional_language_score,
             "finished": self.finished,
         }
     
 
     def main(self):
-        print(f"Beginning fact check for {self.url}")
 
         # url |> scrape |> clean -> raw article text
         self.article_text = get_page(self.url)
 
         # raw article text |> summarizer |> -> summary, key points |> chromadb (if not present)
-        self.summary, self.bias_rating, self.key_points = self.summarize_article(
-            self.article_text
-        )
-        print(
-            f"\n\n\nSummary for {self.url}:\n{self.summary}\nBias rating: {self.bias_rating}\nKey points: {self.key_points}\n\n\n"
-        )
+        self.summary, self.bias_rating, self.key_points = self.summarize_article(self.article_text)
+        
+        print(f"\n\n\nSummary for {self.url}:\n{self.summary}\nBias rating: {self.bias_rating}\nKey points: {self.key_points}\n\n\n")
 
-        # summary |> search web for related articles |> summarizer |> chromadb
-        # summary |> find related articles in chromadb -> related article summaries
-        self.related_summaries = self.find_related_articles(self.summary)
-
-        print("Related articles found, now researching article accuracy...")
+        print("\nResearching article accuracy, completeness, and bias...\nThis may take a few minutes...\n")
 
         # evidence + article text + related article summaries + bias rating |> fact check model -> accuracy, completeness scores + explanation
         self.fact_check(self.article_text, self.bias_rating, self.key_points)
 
         self.finished = True
 
-        print(
-            f"\n\n\nFact check results for {self.url}:\nAccuracy: {self.accuracy_score}\nExplanation: {self.accuracy_explanation}\nCompleteness: {self.completeness_score}\nExplanation: {self.completeness_explanation}\n\n\n"
-        )
+        print(f"\n\n\nFact check results for {self.url}:\n")
+        print(f"\nAccuracy score: {self.accuracy_score}\nExplanation: {self.accuracy_explanation}\nSources: {self.sources}")
+        print(f"\nCompleteness score: {self.completeness_score}\nExplanation: {self.completeness_explanation}")
+        print(f"\nPolitical bias: {self.political_bias}\nPolitical bias score: {self.political_score}")
+        print(f"\nSensationalism: {self.sensationalism}\nSensationalism score: {self.sensationalism_score}")
+        print(f"\nEmotional language: {self.emotional_language}\nEmotional language score: {self.emotional_language_score}")
 
 
     @retry(stop=stop_after_attempt(3))
@@ -177,8 +184,15 @@ class FactCheck:
             article_collection=self.article_collection,
         )
 
+        bias_agent = Bias_Agent(
+            article_text=article_text,
+            bias_rating=bias_rating,
+            article_collection=self.article_collection,
+        )
+
         completeness_agent.thread.join()
         accuracy_agent.thread.join()
+        bias_agent.thread.join()
 
         self.accuracy_score = accuracy_agent.accuracy_score
         self.accuracy_explanation = accuracy_agent.accuracy_explanation
@@ -186,6 +200,13 @@ class FactCheck:
 
         self.completeness_score = completeness_agent.completeness_score
         self.completeness_explanation = completeness_agent.completeness_explanation
+
+        self.political_bias = bias_agent.bias_rating["political_bias"]
+        self.sensationalism = bias_agent.bias_rating["sensationalism"]
+        self.emotional_language = bias_agent.bias_rating["emotional_language"]
+        self.political_score = bias_agent.bias_rating["political_score"]
+        self.sensationalism_score = bias_agent.bias_rating["sensationalism_score"]
+        self.emotional_language_score = bias_agent.bias_rating["emotional_language_score"]
 
         return self.to_dict()
 
@@ -212,7 +233,7 @@ def check_url(url: str) -> bool:
 if __name__ == "__main__":
     
     chromadb_client = chromadb.HttpClient(host="localhost", port=8000)
-    url = "https://www.nature.com/news/2005/050617/full/050617-10.html"
+    url = "https://www.theguardian.com/tv-and-radio/2026/mar/24/power-the-downfall-of-huw-edwards-review-martin-clunes-is-sickening"
     
     check = FactCheck(url, chromadb_client.get_or_create_collection(name="articles"))
 

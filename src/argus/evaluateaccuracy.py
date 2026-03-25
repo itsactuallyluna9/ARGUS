@@ -74,7 +74,7 @@ class Accuracy_Agent:
 
         while True:
             
-            print("Sending message to model...")
+            print("Sending message to accuracy model...")
 
             response = ollama.chat(
                 model=self.evaluation_model,
@@ -82,21 +82,28 @@ class Accuracy_Agent:
                 messages=messages,
                 tools=[self.read_notes, self.write_notes, self.search_db_tool, self.search_internet_tool, self.page_summary_tool, self.page_text_tool],
             )
-            messages.append(response.message) # type: ignore
+            messages.append(response.message.model_dump())
 
-            print(f"Model reasoning: {response.message.thinking}")
-            print(f"Model response: {response.message.content}")
+            print(f"Accuracy model reasoning: {response.message.thinking}")
+            print(f"Accuracy model response: {response.message.content}")
 
             if response.message.tool_calls:
+                
                 for call in response.message.tool_calls:
-                    if call.function.name in available_tools:
-                        result = available_tools[call.function.name](
-                            **call.function.arguments
-                        )
-                        print(f"Tool call: {call.function.name} with arguments {call.function.arguments} returned result {result}")
-                        messages.append({'role': 'tool', 'tool_name': call.function.name, 'content': str(result)})
+
+                    tool_name = call.function.name
+                    tool_args = call.function.arguments
+
+                    if tool_name in available_tools:
+                        tool_response = available_tools[tool_name](**tool_args)
+                        messages.append({"role": "tool", "content": f"Tool name: {tool_name}\nTool response: {tool_response}"})
+                        print(f"Tool name: {tool_name}\nTool response: {tool_response}")
+                    else:
+                        messages.append({"role": "tool", "content": f"Tool name: {tool_name}\nTool response: Tool not found."})
+                        print(f"Tool name: {tool_name}\nTool response: Tool not found.")
             
             else:
+                print("No tool calls detected, finalizing accuracy evaluation...")
                 messages.append({'role': 'system', 'content': "Ensure the response is in the correct JSON format according to the schema. The output should include an accuracy score (0-100), reasoning, and the URLs for sources used in the evaluation."})
                 response = ollama.chat(
                     model=self.evaluation_model,
@@ -119,11 +126,11 @@ class Accuracy_Agent:
         return self.notes
     
 
-    def write_notes(self, notes: str) -> str:
+    def write_notes(self, new_notes: str) -> str:
         """Writes notes for the accuracy evaluation process."""
         """Args: notes (str): A string representation of the notes for the accuracy evaluation."""
-        self.notes = notes
-        return notes
+        self.notes += f"\n{new_notes}"
+        return "Notes updated."
 
 
     def search_db_tool(self, query: str) -> list[tuple[str, str]]:
