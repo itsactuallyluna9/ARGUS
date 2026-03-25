@@ -148,6 +148,7 @@ function Debug() {
                 <p className="font-semibold">{model.name}</p>
                 <p>Size: {(model.size / (1024 * 1024 * 1024)).toFixed(2)} GB</p>
                 <p>VRAM Usage: {(model.size_vram / (1024 * 1024 * 1024)).toFixed(2)} GB</p>
+                <p>CPU/GPU Split: {((model.size - model.size_vram) / model.size * 100).toFixed(2)}% / {((model.size_vram) / model.size * 100).toFixed(2)}%</p>
                 <p>Context Length: {model.context_length}</p>
                 <Tooltip>
                   <TooltipTrigger>
