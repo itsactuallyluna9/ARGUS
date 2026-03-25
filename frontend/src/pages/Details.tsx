@@ -28,18 +28,18 @@ interface DetailsResponse {
   summary: string;
   bias_rating: string;
   key_points: string[];
-  related_summaries: Summary[];
   accuracy_score: number;
   completeness_score: number;
   accuracy_explanation: string;
   completeness_explanation: string;
   sources: string[];
+  political_bias: string;
+  sensationalism: string;
+  emotional_language: string;
+  political_score: number;
+  sensationalism_score: number;
+  emotional_language_score: number;
   finished: boolean;
-}
-
-interface Summary {
-  summary: string;
-  url: string;
 }
 
 function DetailsView() {
@@ -155,50 +155,6 @@ function DetailsView() {
       </Card>
       <Card>
         <CardHeader>
-          <CardTitle>Cross-References (bugged)</CardTitle>
-        </CardHeader>
-        <CardContent>
-          <Table>
-            <TableHeader>
-              <TableRow>
-                <TableHead>Summary</TableHead>
-                <TableHead>Original Article</TableHead>
-              </TableRow>
-            </TableHeader>
-            <TableBody>
-              {(data && data.related_summaries) ? (
-                data.related_summaries.map((ref, index) => (
-                  <TableRow key={index}>
-                    <TableCell>{ref[0] || "Generation error :c"}</TableCell>
-                    <TableCell>{ref[1]}</TableCell>
-                  </TableRow>
-                ))
-              ) : (
-                <>
-                  <TableRow>
-                    <TableCell>
-                      <Skeleton className="h-4 w-full mb-2" />
-                    </TableCell>
-                    <TableCell>
-                      <Skeleton className="h-4 w-full mb-2" />
-                    </TableCell>
-                  </TableRow>
-                  <TableRow>
-                    <TableCell>
-                      <Skeleton className="h-4 w-full mb-2" />
-                    </TableCell>
-                    <TableCell>
-                      <Skeleton className="h-4 w-full mb-2" />
-                    </TableCell>
-                  </TableRow>
-                </>
-              )}
-            </TableBody>
-          </Table>
-        </CardContent>
-      </Card>
-      <Card>
-        <CardHeader>
           <CardTitle>Completeness Assessment</CardTitle>
         </CardHeader>
         <CardContent>
@@ -216,7 +172,7 @@ function DetailsView() {
           )}
         </CardContent>
       </Card>
-            <Card>
+      <Card>
         <CardHeader>
           <CardTitle>Accuracy Assessment</CardTitle>
         </CardHeader>
@@ -225,6 +181,63 @@ function DetailsView() {
             <>
               <p>Score: {data.accuracy_score}/100</p>
               <p>{data.accuracy_explanation}</p>
+            </>
+          ) : (
+            <>
+              <Skeleton className="h-4 w-1/4 mb-2" />
+              <Skeleton className="h-4 w-full mb-2" />
+              <Skeleton className="h-4 w-full mb-2" />
+            </>
+          )}
+        </CardContent>
+      </Card>
+      <Card>
+        <CardHeader>
+          <CardTitle>Political Assessment</CardTitle>
+        </CardHeader>
+        <CardContent>
+          {(data && data.political_score) ? (
+            <>
+              <p>Score: {data.political_score}/100</p>
+              <p>{data.political_explanation}</p>
+            </>
+          ) : (
+            <>
+              <Skeleton className="h-4 w-1/4 mb-2" />
+              <Skeleton className="h-4 w-full mb-2" />
+              <Skeleton className="h-4 w-full mb-2" />
+            </>
+          )}
+        </CardContent>
+      </Card>
+      <Card>
+        <CardHeader>
+          <CardTitle>Sensationalism Assessment</CardTitle>
+        </CardHeader>
+        <CardContent>
+          {(data && data.sensationalism_score) ? (
+            <>
+              <p>Score: {data.sensationalism_score}/100</p>
+              <p>{data.sensationalism_explanation}</p>
+            </>
+          ) : (
+            <>
+              <Skeleton className="h-4 w-1/4 mb-2" />
+              <Skeleton className="h-4 w-full mb-2" />
+              <Skeleton className="h-4 w-full mb-2" />
+            </>
+          )}
+        </CardContent>
+      </Card>
+      <Card>
+        <CardHeader>
+          <CardTitle>Emotional Language Assessment</CardTitle>
+        </CardHeader>
+        <CardContent>
+          {(data && data.emotional_language_score) ? (
+            <>
+              <p>Score: {data.emotional_language_score}/100</p>
+              <p>{data.emotional_language}</p>
             </>
           ) : (
             <>
