@@ -127,7 +127,7 @@ class FactCheck:
                         "article_text": article_text,
                         "timestamp": datetime.now().isoformat(),
                     }
-                ],
+                ]
             )
         except:
             pass
