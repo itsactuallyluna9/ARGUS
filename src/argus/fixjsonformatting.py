@@ -38,9 +38,9 @@ class Completeness_Schema(BaseModel):
 
 
 class Bias_Schema(BaseModel):
-    political_bias: str
-    sensationalism: str
-    emotional_language: str
+    political_bias_explanation: str
+    sensationalism_explanation: str
+    emotional_language_explanation: str
     political_score: int
     sensationalism_score: int
     emotional_language_score: int
