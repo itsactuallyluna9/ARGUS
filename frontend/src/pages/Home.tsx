@@ -96,7 +96,6 @@ function Home() {
           direction: "none" as const,
           enable: true,
           outModes: {
-            default: "bounce" as const,
             left:  "bounce" as const,
             right: "bounce" as const
           },
