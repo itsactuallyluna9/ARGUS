@@ -173,7 +173,7 @@ function Debug() {
           </CardHeader>
           <CardContent>
             {/* large textbox, then "only summarize" checkbox and submit on same line */}
-            <Textarea placeholder="Article URLs..." value={articleURLs} onChange={(e) => setArticleURLs(e.target.value)} />
+            <Textarea placeholder="Article URLs (separated by newlines)..." value={articleURLs} onChange={(e) => setArticleURLs(e.target.value)} />
             <div className="flex items-center gap-4 mt-2">
               {/* checkbox - use shadcn ui */}
               <div className="flex items-center gap-2">
