@@ -1,5 +1,6 @@
 from datetime import datetime
 from pathlib import Path
+import json
 import shutil
 import subprocess
 import threading
@@ -100,7 +101,9 @@ def api_create():
     url = data.get("url")
 
     if not check_url(url):
-        return jsonify({"message": f"URL {url} is not valid or cannot be scraped."}), 400
+        return jsonify(
+            {"message": f"URL {url} is not valid or cannot be scraped."}
+        ), 400
 
     found = False
     check: FactCheck = None  # type: ignore
@@ -119,52 +122,64 @@ def api_create():
 
 
 @app.post("/api/status")
-def api_status():    
-
+def api_status():
     data = request.get_json()
     uuid = data.get("uuid")
 
     for fact_check in active_fact_checks:
-
         if fact_check.id == uuid:
-
             if fact_check.finished:
-
                 active_fact_checks.remove(fact_check)
-                past_checks.add(ids=[fact_check.id], documents=[str(fact_check.to_dict())])  # type: ignore
+                past_checks.add(
+                    ids=[fact_check.id], documents=[json.dumps(fact_check.to_dict())]
+                )  # type: ignore
 
             return jsonify(fact_check.to_dict()), 202
 
-    past_check = past_checks.get(ids=[uuid]) # type: ignore
+    past_check = past_checks.get(ids=[uuid])  # type: ignore
 
     if past_check["ids"]:
-        return jsonify(past_checks.get(ids=[uuid])["documents"][0]), 200 # type: ignore
+        return jsonify(json.loads(past_checks.get(ids=[uuid])["documents"][0])), 200  # type: ignore
 
     return jsonify({"message": f"No active fact check found for UUID {uuid}."}), 404
+
 
 @app.get("/api/debug/resources")
 def api_debug_resources():
     import psutil
+
     gpu_metrics = get_gpu_metrics()
-    return jsonify({
-        "cpu": psutil.cpu_percent(),
-        "memory_used": psutil.virtual_memory().used,
-        "memory_total": psutil.virtual_memory().total,
-        **gpu_metrics,
-    })
+    return jsonify(
+        {
+            "cpu": psutil.cpu_percent(),
+            "memory_used": psutil.virtual_memory().used,
+            "memory_total": psutil.virtual_memory().total,
+            **gpu_metrics,
+        }
+    )
+
 
 @app.get("/api/debug/statistics")
 def api_debug_statistics():
-    return jsonify({"factChecks": past_checks.count(), "activeFactChecks": len(active_fact_checks), "articlesInDatabase": articles.count()}), 200
+    return jsonify(
+        {
+            "factChecks": past_checks.count(),
+            "activeFactChecks": len(active_fact_checks),
+            "articlesInDatabase": articles.count(),
+        }
+    ), 200
+
 
 @app.get("/api/debug/active_checks")
 def api_debug_active_checks():
     return jsonify([check.id for check in active_fact_checks]), 200
 
+
 @app.get("/api/debug/models")
 def api_debug_loaded_models():
     res = requests.get("http://localhost:11434/api/ps")
     return res.content, res.status_code
+
 
 @app.post("/api/debug/import")
 def api_debug_import():
@@ -175,12 +190,20 @@ def api_debug_import():
     valid_urls = [url for url in urls if check_url(url)]
 
     # we're gonna do this async in the background, so we can return immediately
-    threading.Thread(target=bulk_import_articles, args=(valid_urls, summarize_only)).start()
+    threading.Thread(
+        target=bulk_import_articles, args=(valid_urls, summarize_only)
+    ).start()
 
     # invalid_urls = urls not in valid_urls
     invalid_urls = [url for url in urls if url not in valid_urls]
 
-    return jsonify({"message": f"Import started for {len(valid_urls)} valid URLs.", "invalid_urls": invalid_urls}), 202
+    return jsonify(
+        {
+            "message": f"Import started for {len(valid_urls)} valid URLs.",
+            "invalid_urls": invalid_urls,
+        }
+    ), 202
+
 
 def bulk_import_articles(urls, summarize_only):
     from argus.scraper import get_page
@@ -209,7 +232,7 @@ def bulk_import_articles(urls, summarize_only):
                             "article_text": article_text,
                             "timestamp": datetime.now().isoformat(),
                         }
-                    ]
+                    ],
                 )
             except:
                 pass
@@ -219,7 +242,8 @@ def bulk_import_articles(urls, summarize_only):
             active_fact_checks.append(check)
             check.thread.join()  # wait for the fact check to finish before starting the next one
             active_fact_checks.remove(check)
-            past_checks.add(ids=[check.id], documents=[str(check.to_dict())])
+            past_checks.add(ids=[check.id], documents=[json.dumps(check.to_dict())])
+
 
 @app.get("/", defaults={"path": ""})
 @app.get("/<path:path>")
