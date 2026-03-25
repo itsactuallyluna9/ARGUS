@@ -100,14 +100,14 @@ class FactCheck:
         # evidence + article text + related article summaries + bias rating |> fact check model -> accuracy, completeness scores + explanation
         self.fact_check(self.article_text, self.bias_rating, self.key_points)
 
-        self.finished = True
-
         print(f"\n\n\nFact check results for {self.url}:\n")
         print(f"\nAccuracy score: {self.accuracy_score}\nExplanation: {self.accuracy_explanation}\nSources: {self.sources}")
         print(f"\nCompleteness score: {self.completeness_score}\nExplanation: {self.completeness_explanation}")
         print(f"\nPolitical bias: {self.political_bias}\nPolitical bias score: {self.political_score}")
         print(f"\nSensationalism: {self.sensationalism}\nSensationalism score: {self.sensationalism_score}")
         print(f"\nEmotional language: {self.emotional_language}\nEmotional language score: {self.emotional_language_score}")
+
+        self.finished = True
 
 
     @retry(stop=stop_after_attempt(3))
