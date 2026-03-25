@@ -10,9 +10,9 @@ dev:
     npx concurrently \
         --names "chroma,flask,node" \
         --profix-colors "yellow,red,blue" \
-        "just --justfile {{justfile()}} dev-chroma" \
-        "just --justfile {{justfile()}} dev-flask" \
-        "just --justfile {{justfile()}} dev-node"
+        "just --justfile '{{justfile()}}' dev-chroma" \
+        "just --justfile '{{justfile()}}' dev-flask" \
+        "just --justfile '{{justfile()}}' dev-node"
 
 dev-chroma:
     uv run chroma-server-wrapper.py
