@@ -175,6 +175,11 @@ function Home() {
               placeholder="Enter a URL..."
               className="grow"
               onChange={(e) => setURL(e.target.value)}
+              onKeyDown={(e) => {
+                if (e.key === "Enter") {
+                  submitURL();
+                }
+              }}
               value={url}
               disabled={submitting}
             />
