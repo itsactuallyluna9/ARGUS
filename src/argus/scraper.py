@@ -1,6 +1,9 @@
 from io import BytesIO, StringIO
 import mimetypes
+from time import time
 
+from bs4 import BeautifulSoup
+import ollama
 import requests
 import trafilatura
 from trafilatura.readability_lxml import is_probably_readerable
@@ -17,75 +20,97 @@ class ScraperError(Exception):
 class UnsupportedContentTypeError(ScraperError):
     pass
 
+def ttl_cache(ttl_seconds):
+    def decorator(func):
+        cache = {}
+
+        def wrapper(*args, **kwargs):
+            cache_key = (func.__name__,) + tuple(args) + tuple(kwargs.items())
+            now = time()
+            cached_result = cache.get(cache_key)
+            if cached_result is None or now - cached_result["timestamp"] > ttl_seconds:
+                cached_result = func(*args, **kwargs)
+                cache[cache_key] = {"result": cached_result, "timestamp": now}
+                # cleanup old cache entries
+                for key in list(cache.keys()):
+                    if now - cache[key]["timestamp"] > ttl_seconds:
+                        del cache[key]
+                return cached_result
+            return cached_result["result"]
+
+        wrapper.clear_cache = lambda: cache.clear()
+        return wrapper
+
+    return decorator
+
 def get_page(url: str) -> tuple[dict[str, str], str]:
-    try:
-        resp = requests.get(url)
-        content_type = (
-            resp.headers.get("Content-Type", "").lower().split(";")[0].strip()
-        )
+    metadata = {}
+    content_type, content, used_fallback = get_source(url)
+    metadata["content_type"] = content_type
+    metadata["content_length"] = len(content)
+    metadata["used_fallback"] = used_fallback
 
-        print(f"Fetched page with content type: {content_type}")
-        print(f"Response status code: {resp.status_code} (OK: {resp.ok})")
+    match content_type:
+        case "text/html" | "application/xhtml+xml":
+            html = content.decode("utf-8", errors="ignore")
+            metadata.update(extract_html_metadata(html))
+            if is_probably_readerable(html):
+                metadata["readerable"] = True
+                metadata.update(trafilatura.extract_metadata(html).as_dict())
+                cleaned = trafilatura.extract(html, output_format="markdown")
+                if cleaned:
+                    return metadata, cleaned
+            # maybe we got something trafilatura doesn't like, but that still has content?
+            metadata["readerable"] = False
+            # well. readerlm?
+            cleaned = ollama.generate("readerlm", html).response
+            return metadata, cleaned
+        case "application/pdf":
+            return metadata, extract_pdf(content)
+        case "application/msword":
+            pass  # TODO: handle classic word docs
+        case "application/vnd.openxmlformats-officedocument.wordprocessingml.document":
+            return metadata, extract_docx(content)
+        case (
+            "text/csv"
+            | "application/vnd.ms-excel"
+            | "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+            | "application/vnd.oasis.opendocument.spreadsheet"
+        ):
+            return metadata, extract_sheet(content, content_type)
+        case (
+            "application/vnd.ms-powerpoint"
+            | "application/vnd.openxmlformats-officedocument.presentationml.presentation"
+        ):
+            pass  # TODO: handle powerpoint presentations
+        case "application/vnd.oasis.opendocument.text":
+            return metadata, extract_openword(content)
+        case "application/vnd.oasis.opendocument.presentation":
+            pass  # TODO: handle open document presentation
+        case "text/plain" | "text/markdown":
+            return metadata, content.decode()  # fair enough
+        case "text/rtf":
+            pass  # TODO: handle rtf
+        case "application/json":
+            return metadata, content.decode()  # sure, why not
+        # images?
+        case _:
+            raise UnsupportedContentTypeError(
+                f"Unsupported content type: {content_type}"
+            )
+    raise ScraperError(f"Failed to extract content from page with content type: {content_type}")
 
-        if content_type not in ("text/html", "application/xhtml+xml"):
-            # okay, this isn't an html page? let's try to figure out if it's a pdf or something else we can handle
-            match content_type:
-                case "application/pdf":
-                    return extract_pdf(resp.content)
-                case "application/msword":
-                    pass  # TODO: handle classic word docs
-                case "application/vnd.openxmlformats-officedocument.wordprocessingml.document":
-                    return extract_docx(resp.content)
-                case (
-                    "text/csv"
-                    | "application/vnd.ms-excel"
-                    | "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
-                    | "application/vnd.oasis.opendocument.spreadsheet"
-                ):
-                    return extract_sheet(resp.content, content_type)
-                case (
-                    "application/vnd.ms-powerpoint"
-                    | "application/vnd.openxmlformats-officedocument.presentationml.presentation"
-                ):
-                    pass  # TODO: handle powerpoint presentations
-                case "application/vnd.oasis.opendocument.text":
-                    return extract_openword(resp.content)
-                case "application/vnd.oasis.opendocument.presentation":
-                    pass  # TODO: handle open document presentation
-                case "text/plain" | "text/markdown":
-                    return resp.text  # fair enough
-                case "text/rtf":
-                    pass  # TODO: handle rtf
-                case "application/json":
-                    return resp.text  # sure, why notpass
-                # images?
-                case _:
-                    raise NotImplementedError(
-                        f"scraper - unsupported content type: {resp.headers.get('Content-Type', '')}"
-                    )
-
-        if not resp.ok or not is_probably_readerable(resp.text):
-            # try again with a headless browser?
-            # either something's wrong, or the page is on to us
-            return get_page_chrome(url)
-
-        markdown = trafilatura.extract(resp.text, output_format="markdown")
-        return markdown
-
-    except Exception as e:
-        print(f"Error fetching page with requests: {e}. Returning default message.")
-        return "Unable to fetch article content. This may be due to the website's structure or anti-scraping measures."
-
-def get_source(url: str) -> tuple[str, bytes]:
+@ttl_cache(5 * 60)
+def get_source(url: str) -> tuple[str, bytes, bool]:
     resp = requests.get(url)
     content_type = (
         resp.headers.get("Content-Type", "").lower().split(";")[0].strip()
     )
 
     if not resp.ok:
-        return get_source_chrome(url)
+        return *get_source_chrome(url), True
 
-    return content_type, resp.content
+    return content_type, resp.content, False
 
 def get_source_chrome(url: str) -> tuple[str, bytes]:
     # this should beat the "the simplest of bot detection methods."
@@ -155,26 +180,33 @@ def get_source_chrome(url: str) -> tuple[str, bytes]:
 
     return content_type, content
 
-def get_page_chrome(url: str) -> str:
-    with Stealth().use_sync(sync_playwright()) as p:
-        with p.chromium.launch(headless=True) as browser:
-            page = browser.new_page()
-            try:
-                page.goto(url)
-                html = page.content()
-            except Exception as e:
-                print(e)
-
-    if not is_probably_readerable(html):
-        raise NotImplementedError(
-            "scraper - page isn't readerable (even with fallback)."
-        )
-
-    markdown = trafilatura.extract(html, output_format="markdown")
-    return markdown
-
 
 # MARK: - Parsers
+
+def extract_html_metadata(html: str) -> dict[str, str]:
+    soup = BeautifulSoup(html, "html.parser")
+    metadata = {}
+    # title and description
+    title_tag = soup.find("title")
+    if title_tag:
+        metadata["title"] = title_tag.text.strip()
+    description_tag = soup.find("meta", attrs={"name": "description"})
+    if description_tag and description_tag.get("content"):
+        metadata["description"] = description_tag["content"].strip()
+    # meta
+    # opengraph
+    for meta in soup.find_all("meta"):
+        # og:
+        if meta.get("property", "").startswith("og:") and meta.get("content"):
+            key = meta["property"][3:]  # remove "og:" prefix
+            metadata[key] = meta["content"].strip()
+        # twitter:
+        elif meta.get("name", "").startswith("twitter:") and meta.get("content"):
+            key = meta["name"][8:]  # remove "twitter:" prefix
+            if key in metadata:
+                key = "twitter_" + key  # avoid collisions with og: tags
+            metadata[key] = meta["content"].strip()
+    return metadata
 
 
 def extract_pdf(content: bytes) -> str:
