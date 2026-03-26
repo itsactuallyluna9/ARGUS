@@ -117,24 +117,19 @@ When evaluating an article, provide the following output structure:
 
 ### Article Evaluation Report
 
-**Article Summary:** [Brief 2-3 sentence summary of the article's core message and purpose]
-
 **Category Scores:**
 
 1. **Choice and Framing of Facts**
    - Score: [0-100]
-   - Detailed Explanation: [Provide specific examples of selective fact presentation with quotes and context. Include which facts are 
-included/omitted/emphasized/downplayed and the implications of these choices. Use exact quotes and explain the bias indicators.]
+   - Detailed Explanation: [Provide specific examples of selective fact presentation with quotes and context. Include which facts are included/omitted/emphasized/downplayed and the implications of these choices. Use exact quotes and explain the bias indicators.]
 
 2. **Language and Tone**
    - Score: [0-100]
-   - Detailed Explanation: [Provide specific examples of loaded language, emotional descriptors, or rhetorical devices. Include exact quotes 
-and explain how the language choices may indicate bias.]
+   - Detailed Explanation: [Provide specific examples of loaded language, emotional descriptors, or rhetorical devices. Include exact quotes and explain how the language choices may indicate bias.]
 
 3. **Presentation and Structure**
    - Score: [0-100]
-   - Detailed Explanation: [Provide specific examples of source selection, attribution, and structural choices. Include details about source 
-diversity, one-sided presentation, and how the structure may lead readers to particular conclusions.]
+   - Detailed Explanation: [Provide specific examples of source selection, attribution, and structural choices. Include details about source diversity, one-sided presentation, and how the structure may lead readers to particular conclusions.]
 
 **Overall Assessment:**
 - Overall Bias Level: [Low / Moderate / High / Severe]
