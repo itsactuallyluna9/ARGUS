@@ -1,17 +1,23 @@
 from io import BytesIO, StringIO
+import mimetypes
 
 import requests
 import trafilatura
 from trafilatura.readability_lxml import is_probably_readerable
-from playwright.sync_api import sync_playwright
+from playwright.sync_api import Error, sync_playwright
 from playwright_stealth import Stealth
 from pdf_oxide import PdfDocument
 from tempfile import NamedTemporaryFile
 import pyexcel
 import docx
 
+class ScraperError(Exception):
+    pass
 
-def get_page(url: str) -> str:
+class UnsupportedContentTypeError(ScraperError):
+    pass
+
+def get_page(url: str) -> tuple[dict[str, str], str]:
     try:
         resp = requests.get(url)
         content_type = (
@@ -70,11 +76,86 @@ def get_page(url: str) -> str:
         print(f"Error fetching page with requests: {e}. Returning default message.")
         return "Unable to fetch article content. This may be due to the website's structure or anti-scraping measures."
 
+def get_source(url: str) -> tuple[str, bytes]:
+    resp = requests.get(url)
+    content_type = (
+        resp.headers.get("Content-Type", "").lower().split(";")[0].strip()
+    )
 
-def get_page_chrome(url: str) -> str:
+    if not resp.ok:
+        return get_source_chrome(url)
+
+    return content_type, resp.content
+
+def get_source_chrome(url: str) -> tuple[str, bytes]:
     # this should beat the "the simplest of bot detection methods."
     # it does work on cornell.
     # this is probably a commentary on something, but i'm not sure what.
+    with Stealth().use_sync(sync_playwright()) as p:
+        with p.chromium.launch(headless=True) as browser:
+            page = browser.new_page()
+
+            downloads = []
+            page.on("download", lambda download: downloads.append(download))
+
+            response = None
+            try:
+                # okay. here we have a couple of possibilities.
+                # 1) this is a normal page.
+                # 2) this is actually a pdf or something, and chrome being chrome will do its in-browser pdf rendering thing.
+                # 3) we'll get a download
+                # 4) something will go wrong, and we can load the page, but its worthless
+                # 5) something will go wrong, and we cant actually load the page
+
+                # do we get a download?
+                try:
+                    response = page.goto(url)
+                except Error as e:
+                    # alright: we might have something?
+                    if "Download is starting" in str(e):
+                        # yay! the browser signalled a download is starting.
+                        # wait briefly for the download event so we can capture it
+                        try:
+                            download = page.wait_for_event("download", timeout=10000)
+                            downloads.append(download)
+                        except Exception:
+                            # if waiting fails, fall through and let the later
+                            # `if downloads:` check handle any downloads that arrived.
+                            pass
+                    else:
+                        raise
+                if downloads:
+                    # yay! we got something (after page load... what??)
+                    download = downloads[0]
+                    download_path = download.path()
+                    if not download_path:
+                        raise ScraperError("Browser download completed but file path was not available.")
+
+                    with open(download_path, "rb") as f:
+                        content = f.read()
+
+                    content_type = ""
+                    if response:
+                        content_type = response.headers.get("content-type", ";").lower().split(";")[0].strip()
+                    content_type = content_type or mimetypes.guess_type(download.suggested_filename)[0] or "application/octet-stream"
+                    return content_type, content
+
+                # get the content type from response headers (handles redirects automatically via page.goto)
+                content_type = "text/html"
+                if response:
+                    content_type = (
+                        response.headers.get("content-type", "text/html").lower().split(";")[0].strip()
+                    )
+
+                # always get bytes from rendered page content
+                content = page.content().encode("utf-8")
+
+            except Exception as e:
+                raise ScraperError(f"Failed to fetch source with headless browser: {e}")
+
+    return content_type, content
+
+def get_page_chrome(url: str) -> str:
     with Stealth().use_sync(sync_playwright()) as p:
         with p.chromium.launch(headless=True) as browser:
             page = browser.new_page()
@@ -167,4 +248,4 @@ def extract_docx(content: bytes) -> str:
 if __name__ == "__main__":
     from sys import argv
 
-    print(get_page(argv[1]))
+    print(get_source_chrome(argv[1]))
