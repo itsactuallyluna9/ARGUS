@@ -17,10 +17,7 @@ from argus.evaluatecompleteness import Completeness_Agent
 from argus.evaluatebias import Bias_Agent
 
 
-
 class FactCheck:
-
-
     def __init__(
         self,
         url: str,
@@ -28,7 +25,7 @@ class FactCheck:
         summarizer_model: str = "gemma3:12b",
         think: bool = False,
     ):
-        
+
         self.url = url
         self.id = uuid.uuid3(uuid.NAMESPACE_DNS, url).hex
 
@@ -61,7 +58,6 @@ class FactCheck:
 
         print(f"Initialized fact check for {self.url} with ID {self.id}")
 
-
     def to_dict(self) -> dict[str, Any]:
         return {
             "url": self.url,
@@ -83,7 +79,6 @@ class FactCheck:
             "emotional_language_score": self.emotional_language_score,
             "finished": self.finished,
         }
-    
 
     def main(self):
 
@@ -91,24 +86,39 @@ class FactCheck:
         self.article_text = get_page(self.url)
 
         # raw article text |> summarizer |> -> summary, key points |> chromadb (if not present)
-        self.summary, self.bias_rating, self.key_points = self.summarize_article(self.article_text)
-        
-        print(f"\n\n\nSummary for {self.url}:\n{self.summary}\nBias rating: {self.bias_rating}\nKey points: {self.key_points}\n\n\n")
+        self.summary, self.bias_rating, self.key_points = self.summarize_article(
+            self.article_text
+        )
 
-        print("\nResearching article accuracy, completeness, and bias...\nThis may take a few minutes...\n")
+        print(
+            f"\n\n\nSummary for {self.url}:\n{self.summary}\nBias rating: {self.bias_rating}\nKey points: {self.key_points}\n\n\n"
+        )
+
+        print(
+            "\nResearching article accuracy, completeness, and bias...\nThis may take a few minutes...\n"
+        )
 
         # evidence + article text + related article summaries + bias rating |> fact check model -> accuracy, completeness scores + explanation
         self.fact_check(self.article_text, self.bias_rating, self.key_points)
 
         print(f"\n\n\nFact check results for {self.url}:\n")
-        print(f"\nAccuracy score: {self.accuracy_score}\nExplanation: {self.accuracy_explanation}\nSources: {self.sources}")
-        print(f"\nCompleteness score: {self.completeness_score}\nExplanation: {self.completeness_explanation}")
-        print(f"\nPolitical bias: {self.political_bias}\nPolitical bias score: {self.political_score}")
-        print(f"\nSensationalism: {self.sensationalism}\nSensationalism score: {self.sensationalism_score}")
-        print(f"\nEmotional language: {self.emotional_language}\nEmotional language score: {self.emotional_language_score}")
+        print(
+            f"\nAccuracy score: {self.accuracy_score}\nExplanation: {self.accuracy_explanation}\nSources: {self.sources}"
+        )
+        print(
+            f"\nCompleteness score: {self.completeness_score}\nExplanation: {self.completeness_explanation}"
+        )
+        print(
+            f"\nPolitical bias: {self.political_bias}\nPolitical bias score: {self.political_score}"
+        )
+        print(
+            f"\nSensationalism: {self.sensationalism}\nSensationalism score: {self.sensationalism_score}"
+        )
+        print(
+            f"\nEmotional language: {self.emotional_language}\nEmotional language score: {self.emotional_language_score}"
+        )
 
         self.finished = True
-
 
     @retry(stop=stop_after_attempt(3))
     def summarize_article(self, article_text: str) -> tuple[str, str, list]:
@@ -134,13 +144,12 @@ class FactCheck:
                         "article_text": article_text,
                         "timestamp": datetime.now().isoformat(),
                     }
-                ]
+                ],
             )
         except:
             pass
 
         return summary, bias_rating, key_points  # type: ignore
-
 
     def find_related_articles(self, summary: str) -> list[tuple[str, str]]:
         # returns list of tuples of (related article summary, related article url)
@@ -163,13 +172,13 @@ class FactCheck:
 
         return summaries
 
-
     def fact_check(
         self,
         article_text: str,
-        bias_rating: str, key_points: list[str],
+        bias_rating: str,
+        key_points: list[str],
     ) -> dict[str, Any]:
-        
+
         completeness_agent = Completeness_Agent(
             article_text=article_text,
             bias_rating=bias_rating,
@@ -206,10 +215,11 @@ class FactCheck:
         self.emotional_language = bias_agent.bias_rating["emotional_language"]
         self.political_score = bias_agent.bias_rating["political_score"]
         self.sensationalism_score = bias_agent.bias_rating["sensationalism_score"]
-        self.emotional_language_score = bias_agent.bias_rating["emotional_language_score"]
+        self.emotional_language_score = bias_agent.bias_rating[
+            "emotional_language_score"
+        ]
 
         return self.to_dict()
-
 
 
 def check_url(url: str) -> bool:
@@ -218,23 +228,21 @@ def check_url(url: str) -> bool:
         text = get_page(url)
 
         response = ollama.generate(
-            model = "nemotron-3-nano:4b",
-            prompt = f"You are a tool that verifies if text scraped from a URL is a valid page or if it is blocked. You will be given the text output of a web scraper, and your task is to decide if the text was successfully scraped or if there was an error. Return \"True\" if it is a valid page, \"False\" if it's a cookies message or some other error.\n\nScraper output from page {url}: {text}",
-            format = URLCheckSchema.model_json_schema()
+            model="nemotron-3-nano:4b",
+            prompt=f'You are a tool that verifies if text scraped from a URL is a valid page or if it is blocked. You will be given the text output of a web scraper, and your task is to decide if the text was successfully scraped or if there was an error. Return "True" if it is a valid page, "False" if it\'s a cookies message or some other error.\n\nScraper output from page {url}: {text}',
+            format=URLCheckSchema.model_json_schema(),
         )
 
         return json.loads(response.response)["isValid"]  # type: ignore
-    
+
     except:
         return False
 
 
-
 if __name__ == "__main__":
-    
     chromadb_client = chromadb.HttpClient(host="localhost", port=8000)
     url = "https://www.theguardian.com/tv-and-radio/2026/mar/24/power-the-downfall-of-huw-edwards-review-martin-clunes-is-sickening"
-    
+
     check = FactCheck(url, chromadb_client.get_or_create_collection(name="articles"))
 
     check.thread.join()
