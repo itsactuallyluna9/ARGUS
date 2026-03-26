@@ -164,7 +164,7 @@ function Home() {
           className={`pointer-events-none absolute inset-0 -z-10 bg-linear-to-b transition-colors duration-500 ${particlesGradientClass}`}
         />
         <HeroParticles />
-        <div className="relative z-10 text-center rounded bg-white/50 dark:bg-black backdrop-blur-sm p-8">
+        <div className="relative z-10 text-center rounded bg-white/50 dark:bg-black/75 backdrop-blur-sm dark:backdrop-blur p-8">
           <h1 className="text-5xl font-semibold">ARGUS</h1>
           <p className="text-lg italic font-light">
             Analytical Reasoning and Grounded Understanding System
