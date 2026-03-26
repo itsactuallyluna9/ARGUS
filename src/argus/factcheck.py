@@ -11,7 +11,6 @@ from threading import Thread
 from argus.fixjsonformatting import URLCheckSchema
 from argus.summarizearticle import summarize_article
 from argus.scraper import get_page
-from argus.findsources import find_related_article_urls
 from argus.evaluateaccuracy import Accuracy_Agent
 from argus.evaluatecompleteness import Completeness_Agent
 from argus.evaluatebias import Bias_Agent
@@ -120,6 +119,7 @@ class FactCheck:
 
         self.finished = True
 
+
     @retry(stop=stop_after_attempt(3))
     def summarize_article(self, article_text: str) -> tuple[str, str, list]:
         # returns json with index sentence, key points, summary, bias rating
@@ -151,26 +151,6 @@ class FactCheck:
 
         return summary, bias_rating, key_points  # type: ignore
 
-    def find_related_articles(self, summary: str) -> list[tuple[str, str]]:
-        # returns list of tuples of (related article summary, related article url)
-
-        urls = find_related_article_urls(summary)
-        summaries = []
-
-        for url in urls:
-            if len(self.article_collection.get(ids=[url])["ids"]) == 0:
-                print(
-                    f"Related article {url} not found in database, summarizing and adding to database..."
-                )
-
-                self.summarize_article(get_page(url))
-
-        related = self.article_collection.query(query_texts=[summary], n_results=5)
-
-        for i in range(len(related["ids"])):
-            summaries.append((related["documents"][i], related["ids"][i]))  # type: ignore
-
-        return summaries
 
     def fact_check(
         self,
@@ -220,6 +200,7 @@ class FactCheck:
         ]
 
         return self.to_dict()
+
 
 
 def check_url(url: str) -> bool:
