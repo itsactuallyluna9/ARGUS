@@ -23,7 +23,7 @@ from rich import print
 from pathlib import Path
 from dataclasses import dataclass
 from datetime import datetime
-from google import genai
+import google.genai as gemini
 from google.genai import types
 from pydantic import BaseModel
 from platform import node
@@ -89,7 +89,7 @@ class Evaluator:
         self, article_text: str, summary: str, summary_model: str, think: bool = False
     ):
         # use gemini
-        with genai.Client(api_key=os.environ.get("GEMINI_API_KEY")) as client:
+        with gemini.Client(api_key=os.environ.get("GEMINI_API_KEY")) as client:
             response = client.models.generate_content(
                 model=self.model,
                 contents=f"{self.prompt}\nArticle: {article_text}\nSummary: {summary}\nEvaluate the summary.",

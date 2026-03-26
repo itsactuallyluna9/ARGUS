@@ -1,3 +1,4 @@
+import os
 import ollama
 
 from argus.fixjsonformatting import fix_json_formatting, SummarizeArticleSchema
@@ -24,9 +25,16 @@ def summarize_article(
     article_text: str,
     model: str = "gemma3:12b",
     think: bool = False,
-    prompt: str = default_prompt,
-    keep_alive=360,
+    use_long_prompt: bool = True,
+    keep_alive=360
 ):
+    
+    if use_long_prompt:
+        with open(os.path.join(os.getcwd(), "prompts", "summarizeprompt.md"), "r") as f:
+            prompt = f.read()
+    else:
+        prompt = default_prompt
+    
     r = ollama.generate(
         model=model,
         prompt=f"{prompt}\nArticle text: {article_text}",
