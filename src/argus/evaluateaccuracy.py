@@ -1,3 +1,4 @@
+import os
 import chromadb
 from datetime import datetime
 import ollama
@@ -19,6 +20,7 @@ class Accuracy_Agent:
         article_collection: chromadb.Collection,
         evaluation_model: str = "glm-4.7-flash",
         think: bool = True,
+        use_long_prompt: bool = True
     ):
 
         self.article_text = article_text
@@ -28,7 +30,7 @@ class Accuracy_Agent:
         self.evaluation_model = evaluation_model
         self.think = think
 
-        self.prompt = """
+        self.default_prompt = """
         You are an accuracy checker for news articles. You will be given the full text of an article, a bias rating, and a list of key points from the article. 
         Your task is to evaluate how factually accurate the article is based on the information provided and any additional information you can gather using the tools at your disposal. You should return an accuracy score between 0 and 100 evaluating how factually accurate the article is based on the evidence gathered, and a few sentences justification for the value you chose for accuracy. Additionally, return a list of the source URLs that were used to make your decision. This should include all of the sources that you considered, both those from the related articles and from your own research, but should exclude sources on irrelevant topics.
 
@@ -58,6 +60,12 @@ class Accuracy_Agent:
         self.accuracy_score = 0
         self.accuracy_explanation = ""
         self.sources = []
+
+        if use_long_prompt:
+            with open(os.path.join(os.getcwd(), "prompts", "accuracyprompt.md"), "r") as f:
+                self.prompt = f.read()
+        else:
+            self.prompt = self.default_prompt
 
         self.thread = Thread(target=self.evaluate_accuracy)
         self.thread.start()
@@ -139,8 +147,8 @@ class Accuracy_Agent:
                 break
 
         accuracy_response = fix_json_formatting(
-            response.message.content, Accuracy_Schema
-        )  # type: ignore
+            response.message.content, Accuracy_Schema # type: ignore
+        )
 
         self.accuracy_score = accuracy_response["accuracy"]  # type: ignore
         self.accuracy_explanation = accuracy_response["reasoning"]  # type: ignore
@@ -155,7 +163,7 @@ class Accuracy_Agent:
     def write_notes(self, new_notes: str) -> str:
         """Writes notes for the accuracy evaluation process."""
         """Args: notes (str): A string representation of the notes for the accuracy evaluation."""
-        self.notes += f"\n{new_notes}"
+        self.notes = self.notes + "\n\n" + new_notes
         return "Notes updated."
 
     def search_db_tool(self, query: str) -> list[tuple[str, str]]:
@@ -164,13 +172,13 @@ class Accuracy_Agent:
         search_results = self.article_collection.query(query_texts=[query], n_results=5)
         results = []
 
-        for i in range(len(search_results["ids"])):
+        for i in range(len(search_results["ids"][0])):
             results.append(
                 (
-                    search_results["metadatas"][i][0]["description"],
-                    search_results["ids"][i],
+                    search_results["metadatas"][0][i]["description"], # type: ignore
+                    search_results["ids"][0][i],
                 )
-            )  # type: ignore
+            )  
 
         return results
 

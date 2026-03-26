@@ -144,6 +144,11 @@ def api_status():
     return jsonify({"message": f"No active fact check found for UUID {uuid}."}), 404
 
 
+@app.get("/api/data")
+def api_data():
+    return jsonify({"message": "not yet implemented"}), 501
+
+
 @app.get("/api/debug/resources")
 def api_debug_resources():
     import psutil

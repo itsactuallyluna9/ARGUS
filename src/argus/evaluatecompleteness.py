@@ -1,3 +1,4 @@
+import os
 import chromadb
 from datetime import datetime
 import ollama
@@ -19,6 +20,7 @@ class Completeness_Agent:
         article_collection: chromadb.Collection,
         evaluation_model: str = "glm-4.7-flash",
         think: bool = True,
+        use_long_prompt: bool = True
     ):
 
         self.article_text = article_text
@@ -28,7 +30,7 @@ class Completeness_Agent:
         self.evaluation_model = evaluation_model
         self.think = think
 
-        self.prompt = """
+        self.default_prompt = """
         You are a completeness checker for news articles. You will be given the full text of an article, a bias rating, and a list of key points.
         Your task is to evaluate how complete the reporting of the article is compared to the information in other articles on the same topic. You should return a completeness score between 0 and 100 evaluating how complete the article's reporting is based on the information in the other articles and if they left out any important details, and a few sentences justification for the value you chose for completeness.
         
@@ -54,6 +56,12 @@ class Completeness_Agent:
 
         self.completeness_score = 0
         self.completeness_explanation = ""
+
+        if use_long_prompt:
+            with open(os.path.join(os.getcwd(), "prompts", "completenessprompt.md"), "r") as f:
+                self.prompt = f.read()
+        else:
+            self.prompt = self.default_prompt
 
         self.thread = Thread(target=self.evaluate_completeness)
         self.thread.start()
@@ -134,8 +142,8 @@ class Completeness_Agent:
                 break
 
         completeness_response = fix_json_formatting(
-            response.message.content, Completeness_Schema
-        )  # type: ignore
+            response.message.content, Completeness_Schema # type: ignore
+        )  
 
         self.completeness_score = int(completeness_response["completeness"])  # type: ignore
         self.completeness_explanation = completeness_response["reasoning"]  # type: ignore
@@ -149,7 +157,7 @@ class Completeness_Agent:
     def write_notes(self, new_notes: str) -> str:
         """Writes notes for the completeness evaluation process."""
         """Args: notes (str): A string representation of the notes for the completeness evaluation."""
-        self.notes += f"\n{new_notes}"
+        self.notes = self.notes + "\n\n" + new_notes
         return "Notes updated."
 
     def search_db_tool(self, query: str) -> list[tuple[str, str]]:
@@ -158,13 +166,13 @@ class Completeness_Agent:
         search_results = self.article_collection.query(query_texts=[query], n_results=5)
         results = []
 
-        for i in range(len(search_results["ids"])):
+        for i in range(len(search_results["ids"][0])):
             results.append(
                 (
-                    search_results["metadatas"][i][0]["description"],
-                    search_results["ids"][i],
+                    search_results["metadatas"][0][i]["description"], # type: ignore
+                    search_results["ids"][0][i],
                 )
-            )  # type: ignore
+            )  
 
         return results
 

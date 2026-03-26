@@ -2,6 +2,7 @@ import chromadb
 from datetime import datetime
 import ollama
 from threading import Thread
+import os
 
 from argus.fixjsonformatting import fix_json_formatting, Bias_Schema
 
@@ -14,6 +15,7 @@ class Bias_Agent:
         article_collection: chromadb.Collection,
         analysis_model: str = "glm-4.7-flash",
         think: bool = True,
+        use_long_prompt: bool = True
     ):
 
         self.article_text = article_text
@@ -23,7 +25,7 @@ class Bias_Agent:
         self.evaluation_model = analysis_model
         self.think = think
 
-        self.prompt = """
+        self.default_prompt = """
         You are a bias evaluation agent. Your task is to evaluate the political bias, sensationalism, and emotional language of a news article. You will be given the full text of the article, as well as an initial bias rating. 
         You will use this information to provide a final bias rating for the article, as well as an explanation for your rating. 
         This bias evaluation is broken into 3 parts, the political bias, sensationalism, and emotional language. For each part, you will provide a rating on a scale of 1 to 100, with 1 being the least biased and 100 being the most biased. You will also provide an explanation for each rating.
@@ -57,6 +59,12 @@ class Bias_Agent:
             "sensationalism_score": 0,
             "emotional_language_score": 0,
         }
+
+        if use_long_prompt:
+            with open(os.path.join(os.getcwd(), "prompts", "biasprompt.md"), "r") as f:
+                self.prompt = f.read()
+        else:
+            self.prompt = self.default_prompt
 
         self.thread = Thread(target=self.analyze_bias)
         self.thread.start()
@@ -136,14 +144,10 @@ class Bias_Agent:
 
         self.bias_rating["political_bias"] = bias_response["political_bias_explanation"]
         self.bias_rating["sensationalism"] = bias_response["sensationalism_explanation"]
-        self.bias_rating["emotional_language"] = bias_response[
-            "emotional_language_explanation"
-        ]
+        self.bias_rating["emotional_language"] = bias_response["emotional_language_explanation"]
         self.bias_rating["political_score"] = bias_response["political_score"]
         self.bias_rating["sensationalism_score"] = bias_response["sensationalism_score"]
-        self.bias_rating["emotional_language_score"] = bias_response[
-            "emotional_language_score"
-        ]
+        self.bias_rating["emotional_language_score"] = bias_response["emotional_language_score"]
 
         return self.bias_rating
 
@@ -154,7 +158,7 @@ class Bias_Agent:
     def write_notes(self, new_notes: str) -> str:
         """Writes notes for the bias evaluation process."""
         """Args: notes (str): A string representation of the notes for the bias evaluation."""
-        self.notes += f"\n{new_notes}"
+        self.notes = self.notes + "\n\n" + new_notes
         return "Notes updated."
 
     def search_db_tool(self, query: str) -> list[tuple[str, str]]:
@@ -163,13 +167,13 @@ class Bias_Agent:
         search_results = self.article_collection.query(query_texts=[query], n_results=5)
         results = []
 
-        for i in range(len(search_results["ids"])):
+        for i in range(len(search_results["ids"][0])):
             results.append(
                 (
-                    search_results["metadatas"][i][0]["description"],
-                    search_results["ids"][i],
+                    search_results["metadatas"][0][i]["description"], # type: ignore
+                    search_results["ids"][0][i],
                 )
-            )  # type: ignore
+            )  
 
         return results
 
