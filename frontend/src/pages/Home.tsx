@@ -35,7 +35,7 @@ const PARTICLE_OPTIONS = {
       enable: true,
       outModes: "bounce" as const,
       random: false,
-      speed: 6,
+      speed: 3,
       straight: false,
     },
     number: {
@@ -76,7 +76,7 @@ const HeroParticles = memo(function HeroParticles() {
     <Particles
       id="particles"
       options={PARTICLE_OPTIONS}
-      className="pointer-events-none absolute inset-0 z-0"
+      className="pointer-events-none absolute inset-0 z-0 motion-reduce:hidden"
     />
   );
 });

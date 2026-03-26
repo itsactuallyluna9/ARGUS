@@ -1,5 +1,5 @@
 import { createContext, useContext, useEffect } from "react";
-import { useTernaryDarkMode } from 'usehooks-ts'
+import { useTernaryDarkMode } from "usehooks-ts";
 
 type Theme = "dark" | "light" | "system";
 
@@ -27,11 +27,12 @@ export function ThemeProvider({
   storageKey = "vite-ui-theme",
   ...props
 }: ThemeProviderProps) {
-  const { isDarkMode, ternaryDarkMode, setTernaryDarkMode } = useTernaryDarkMode({
-    defaultValue: defaultTheme,
-    localStorageKey: storageKey,
-    initializeWithValue: true,
-  });
+  const { isDarkMode, ternaryDarkMode, setTernaryDarkMode } =
+    useTernaryDarkMode({
+      defaultValue: defaultTheme,
+      localStorageKey: storageKey,
+      initializeWithValue: true,
+    });
 
   useEffect(() => {
     const root = window.document.documentElement;

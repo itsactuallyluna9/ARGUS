@@ -6,10 +6,7 @@ from threading import Thread
 from argus.fixjsonformatting import fix_json_formatting, Bias_Schema
 
 
-
 class Bias_Agent:
-    
-
     def __init__(
         self,
         article_text: str,
@@ -18,7 +15,7 @@ class Bias_Agent:
         analysis_model: str = "glm-4.7-flash",
         think: bool = True,
     ):
-        
+
         self.article_text = article_text
         self.intial_bias = bias_rating
 
@@ -58,123 +55,147 @@ class Bias_Agent:
             "emotional_language": "Empty for now!",
             "political_score": 0,
             "sensationalism_score": 0,
-            "emotional_language_score": 0
+            "emotional_language_score": 0,
         }
 
         self.thread = Thread(target=self.analyze_bias)
         self.thread.start()
 
-    
     def analyze_bias(self) -> dict[str, str | int]:
-        
+
         available_tools = {
             "read_notes": self.read_notes,
             "write_notes": self.write_notes,
             "search_db_tool": self.search_db_tool,
-            "page_text_tool": self.page_text_tool
+            "page_text_tool": self.page_text_tool,
         }
 
-        messages = [{"role": "user", "content": f"Instructions: {self.prompt}\n\nArticle Text: {self.article_text}\n\nInitial Bias Rating: {self.intial_bias}\n\nCurrent date: {datetime.now().strftime('%Y-%m-%d')}"}]
+        messages = [
+            {
+                "role": "user",
+                "content": f"Instructions: {self.prompt}\n\nArticle Text: {self.article_text}\n\nInitial Bias Rating: {self.intial_bias}\n\nCurrent date: {datetime.now().strftime('%Y-%m-%d')}",
+            }
+        ]
 
         while True:
-
             print("Sending message to bias model...")
 
             response = ollama.chat(
-                model = self.evaluation_model,
-                think = self.think,
-                messages = messages,
-                tools = [self.write_notes, self.read_notes, self.search_db_tool, self.page_text_tool]
+                model=self.evaluation_model,
+                think=self.think,
+                messages=messages,
+                tools=[
+                    self.write_notes,
+                    self.read_notes,
+                    self.search_db_tool,
+                    self.page_text_tool,
+                ],
             )
             messages.append(response.message.model_dump())
-            
 
             print(f"Bias model reasoning: {response.message.thinking}")
             print(f"Bias model response: {response.message.content}")
 
             if response.message.tool_calls:
-                
                 for call in response.message.tool_calls:
-
                     tool_name = call.function.name
                     tool_args = call.function.arguments
 
                     if tool_name in available_tools:
                         tool_response = available_tools[tool_name](**tool_args)
-                        messages.append({"role": "tool", "content": f"Tool name: {tool_name}\nTool response: {tool_response}"})
+                        messages.append(
+                            {
+                                "role": "tool",
+                                "content": f"Tool name: {tool_name}\nTool response: {tool_response}",
+                            }
+                        )
                         print(f"Tool name: {tool_name}\nTool response: {tool_response}")
                     else:
-                        messages.append({"role": "tool", "content": f"Tool name: {tool_name}\nTool response: Tool not found."})
+                        messages.append(
+                            {
+                                "role": "tool",
+                                "content": f"Tool name: {tool_name}\nTool response: Tool not found.",
+                            }
+                        )
                         print(f"Tool name: {tool_name}\nTool response: Tool not found.")
 
             else:
                 print("No tool calls detected, finalizing bias evaluation...")
-                messages.append({'role': 'system', 'content': "Ensure the response is in the correct JSON format according to the schema. This should include a final bias rating (0-100) for each of the three parts (\"political_score\", \"sensationalism_score\", \"emotional_language_score\"), as well as an explanation for each rating (\"political_bias\", \"sensationalism\", \"emotional_language\")."})
+                messages.append(
+                    {
+                        "role": "system",
+                        "content": 'Ensure the response is in the correct JSON format according to the schema. This should include a final bias rating (0-100) for each of the three parts ("political_score", "sensationalism_score", "emotional_language_score"), as well as an explanation for each rating ("political_bias", "sensationalism", "emotional_language").',
+                    }
+                )
                 response = ollama.chat(
-                    model=self.evaluation_model,
-                    think=self.think,
-                    messages=messages
+                    model=self.evaluation_model, think=self.think, messages=messages
                 )
                 break
 
-        bias_response = fix_json_formatting(response.message.content, Bias_Schema) # type: ignore
+        bias_response = fix_json_formatting(response.message.content, Bias_Schema)  # type: ignore
 
         self.bias_rating["political_bias"] = bias_response["political_bias_explanation"]
         self.bias_rating["sensationalism"] = bias_response["sensationalism_explanation"]
-        self.bias_rating["emotional_language"] = bias_response["emotional_language_explanation"]
+        self.bias_rating["emotional_language"] = bias_response[
+            "emotional_language_explanation"
+        ]
         self.bias_rating["political_score"] = bias_response["political_score"]
         self.bias_rating["sensationalism_score"] = bias_response["sensationalism_score"]
-        self.bias_rating["emotional_language_score"] = bias_response["emotional_language_score"]
+        self.bias_rating["emotional_language_score"] = bias_response[
+            "emotional_language_score"
+        ]
 
         return self.bias_rating
-    
 
     def read_notes(self) -> str:
         """Reads notes for the bias evaluation process."""
         return self.notes
-
 
     def write_notes(self, new_notes: str) -> str:
         """Writes notes for the bias evaluation process."""
         """Args: notes (str): A string representation of the notes for the bias evaluation."""
         self.notes += f"\n{new_notes}"
         return "Notes updated."
-    
 
     def search_db_tool(self, query: str) -> list[tuple[str, str]]:
         """Searches the article collection for relevant information."""
         """Args: query (str): A string representation of the query to search the article collection."""
         search_results = self.article_collection.query(query_texts=[query], n_results=5)
         results = []
-        
+
         for i in range(len(search_results["ids"])):
-            results.append((search_results["metadatas"][i][0]["description"], search_results["ids"][i]))  # type: ignore
+            results.append(
+                (
+                    search_results["metadatas"][i][0]["description"],
+                    search_results["ids"][i],
+                )
+            )  # type: ignore
 
         return results
-
 
     def page_text_tool(self, url: str) -> str:
         """Retrieves the full text content of a webpage that has already been summarized given its URL."""
         """Args: url (str): The URL of the webpage to retrieve text from."""
-        
-        try: 
-            page = self.article_collection.get(ids=[url]) # type: ignore
+
+        try:
+            page = self.article_collection.get(ids=[url])  # type: ignore
             return page["metadatas"][0]["article_text"]  # type: ignore
-        
+
         except:
             return f"Error: Article {url} not found in database."
-        
+
 
 if __name__ == "__main__":
-
     article_collection = chromadb.HttpClient().get_or_create_collection(name="articles")
 
-    metadata = article_collection.query(query_texts=["Costco"], n_results=1)["metadatas"][0][0] # type: ignore
+    metadata = article_collection.query(query_texts=["Costco"], n_results=1)[
+        "metadatas"
+    ][0][0]  # type: ignore
 
     bias_agent = Bias_Agent(
         article_text=metadata["article_text"],  # type: ignore
         bias_rating=metadata["bias"],  # type: ignore
-        article_collection=article_collection
+        article_collection=article_collection,
     )
 
     bias_evaluation = bias_agent.analyze_bias()

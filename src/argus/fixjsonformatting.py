@@ -8,20 +8,20 @@ You are a tool designed to take improperly formatted strings and coerce them int
 Return the properly formatted JSON object. Do not include any explanatory text, only return the JSON.
 """
 
+
 @retry(
     retry=retry_if_exception_type(json.decoder.JSONDecodeError),
     stop=stop_after_attempt(3),
 )
 def fix_json_formatting(s: str, schema: type[BaseModel]):
-    
-    response = ollama.generate(
-        prompt = f"{default_prompt}\nString to reformat: {s}",
-        model="nemotron-3-nano:4b",
-        format = schema.model_json_schema()
-        ).response
-    
-    return json.loads(response)
 
+    response = ollama.generate(
+        prompt=f"{default_prompt}\nString to reformat: {s}",
+        model="nemotron-3-nano:4b",
+        format=schema.model_json_schema(),
+    ).response
+
+    return json.loads(response)
 
 
 class Accuracy_Schema(BaseModel):
@@ -30,11 +30,9 @@ class Accuracy_Schema(BaseModel):
     sources: list[str]
 
 
-
 class Completeness_Schema(BaseModel):
     completeness: int
     reasoning: str
-
 
 
 class Bias_Schema(BaseModel):
@@ -46,13 +44,11 @@ class Bias_Schema(BaseModel):
     emotional_language_score: int
 
 
-
 class SummarizeArticleSchema(BaseModel):
     description: str
     articleSummary: str
     points: list[str]
     biasSummary: str
-
 
 
 class URLCheckSchema(BaseModel):
