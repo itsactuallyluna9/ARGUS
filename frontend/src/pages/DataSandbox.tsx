@@ -64,6 +64,23 @@ function DataSandboxView() {
     }
   }, [rLoaded, rInstallingPackages, rWorking]);
 
+  const fetchData = async () => {
+    if (!webRRef.current) return;
+    if (!xtermRef.current) return;
+    if (rBusy) return;
+    setRWorking(true);
+
+    // use download.file("<here>/api/data", "data.csv")
+    const downloadUrl = `${window.location.origin}/api/data`;
+    xtermRef.current.writeln(`download.file("${downloadUrl}", "data.csv")`);
+    await webRRef.current.writeConsole(
+      `download.file("${downloadUrl}", "data.csv")`,
+    );
+
+    xtermRef.current.writeln("data <- read.csv('data.csv')");
+    webRRef.current.writeConsole("data <- read.csv('data.csv')")
+  }
+
   useEffect(() => {
     let isDisposed = false;
     let resizeObserver: ResizeObserver | null = null;
