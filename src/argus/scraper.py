@@ -57,6 +57,12 @@ def get_page(url: str) -> tuple[dict[str, str], str]:
             if is_probably_readerable(html):
                 metadata["readerable"] = True
                 metadata.update(trafilatura.extract_metadata(html).as_dict())
+                del metadata["body"]
+                del metadata["comments"]
+                del metadata["commentsbody"]
+                for key in set(metadata.keys()):
+                    if metadata[key] is None:
+                        del metadata[key]
                 cleaned = trafilatura.extract(html, output_format="markdown")
                 if cleaned:
                     return metadata, cleaned
@@ -280,4 +286,4 @@ def extract_docx(content: bytes) -> str:
 if __name__ == "__main__":
     from sys import argv
 
-    print(get_source_chrome(argv[1]))
+    print(get_page(argv[1])[0])
