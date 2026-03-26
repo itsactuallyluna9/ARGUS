@@ -147,14 +147,14 @@ function Home() {
 
   const particlesGradientClass = useMemo(() => {
     if (errorText) {
-      return "from-red-300 to-red-400";
+      return "from-red-300 to-red-400 dark:from-red-900 dark:to-red-950";
     }
 
     if (submitting) {
-      return "from-fuchsia-400 to-blue-400";
+      return "from-fuchsia-400 to-blue-400 dark:from-fuchsia-900 dark:to-blue-900";
     }
 
-    return "from-fuchsia-300 to-blue-300";
+    return "from-fuchsia-300 to-blue-300 dark:from-fuchsia-950 dark:to-blue-950";
   }, [errorText, submitting]);
 
   return (
@@ -164,11 +164,13 @@ function Home() {
           className={`pointer-events-none absolute inset-0 -z-10 bg-linear-to-b transition-colors duration-500 ${particlesGradientClass}`}
         />
         <HeroParticles />
-        <div className="relative z-10 text-center rounded bg-white/50 backdrop-blur-sm p-8">
+        <div className="relative z-10 text-center rounded bg-white/50 dark:bg-black backdrop-blur-sm p-8">
           <h1 className="text-5xl font-semibold">ARGUS</h1>
-          <p className="text-lg italic font-light">Analytical Reasoning and Grounded Understanding System</p>
+          <p className="text-lg italic font-light">
+            Analytical Reasoning and Grounded Understanding System
+          </p>
 
-          <div className="rounded-full border-2 transition border-red-400 bg-white hover:border-red-300 flex pl-2 mt-8">
+          <div className="rounded-full border-2 transition border-red-400 hover:border-red-300 flex pl-2 mt-8">
             <input
               autoFocus
               type="url"
@@ -196,8 +198,7 @@ function Home() {
           <div className="text-red-700">{errorText}</div>
         </div>
       </div>
-      <div>
-      </div>
+      <div></div>
     </main>
   );
 }
