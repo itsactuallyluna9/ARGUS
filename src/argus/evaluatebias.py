@@ -22,6 +22,8 @@ class Bias_Agent:
         self.article_collection = article_collection
         self.evaluation_model = analysis_model
         self.think = think
+        self.agent_metadata = {}
+        self.agent_metadata["scheduled"] = datetime.now()
 
         self.prompt = """
         You are a bias evaluation agent. Your task is to evaluate the political bias, sensationalism, and emotional language of a news article. You will be given the full text of the article, as well as an initial bias rating. 
@@ -62,6 +64,9 @@ class Bias_Agent:
         self.thread.start()
 
     def analyze_bias(self) -> dict[str, str | int]:
+        self.agent_metadata["started"] = datetime.now()
+        self.agent_metadata["total_tool_calls"] = 0
+        self.agent_metadata["tool_calls"] = {}
 
         available_tools = {
             "read_notes": self.read_notes,
@@ -110,6 +115,11 @@ class Bias_Agent:
                             }
                         )
                         print(f"Tool name: {tool_name}\nTool response: {tool_response}")
+                        self.agent_metadata["total_tool_calls"] += 1
+                        if tool_name in self.agent_metadata["tool_calls"]:
+                            self.agent_metadata["tool_calls"][tool_name] += 1
+                        else:
+                            self.agent_metadata["tool_calls"][tool_name] = 1
                     else:
                         messages.append(
                             {
@@ -144,6 +154,8 @@ class Bias_Agent:
         self.bias_rating["emotional_language_score"] = bias_response[
             "emotional_language_score"
         ]
+
+        self.agent_metadata["finished"] = datetime.now()
 
         return self.bias_rating
 

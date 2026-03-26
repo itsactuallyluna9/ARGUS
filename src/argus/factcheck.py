@@ -225,6 +225,10 @@ class FactCheck:
             article_collection=self.article_collection,
         )
 
+        self.fact_check_metadata["completeness_agent"] = completeness_agent.agent_metadata
+        self.fact_check_metadata["accuracy_agent"] = accuracy_agent.agent_metadata
+        self.fact_check_metadata["bias_agent"] = bias_agent.agent_metadata
+
         completeness_agent.thread.join()
         accuracy_agent.thread.join()
         bias_agent.thread.join()
