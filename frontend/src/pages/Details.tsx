@@ -51,18 +51,18 @@ function DetailsView() {
     if (!analysisComplete) {
       const response = await fetch(`/api/status`, {
         body: JSON.stringify({
-          uuid: id
+          uuid: id,
         }),
         headers: {
-          "Content-Type": "application/json"
+          "Content-Type": "application/json",
         },
-        method: "POST"
+        method: "POST",
       });
       const data = await response.json();
       if (data.finished) {
         setAnalysisComplete(true);
       }
-      setData(data)
+      setData(data);
     }
   }, 5000);
 
@@ -115,139 +115,141 @@ function DetailsView() {
         </Tooltip>
       </div>
       <Separator className="my-4" />
-      <Card>
-        <CardHeader>
-          <CardTitle>Article Summary</CardTitle>
-        </CardHeader>
-        <CardContent>
-          {(data && data.summary !== "Empty for now!") ? (
-            <p>{data.summary}</p>
-          ) : (
-            <>
-              <Skeleton className="h-4 w-full mb-2" />
-              <Skeleton className="h-4 w-full mb-2" />
-              <Skeleton className="h-4 w-full mb-2" />
-              <Skeleton className="h-4 w-full mb-2" />
-              <Skeleton className="h-4 w-1/4 mb-2" />
-            </>
-          )}
-        </CardContent>
-      </Card>
-      <Card>
-        <CardHeader>
-          <CardTitle>Key Points</CardTitle>
-        </CardHeader>
-        <CardContent>
-          {(data && data.key_points) ? (
-            <ul className="list-disc pl-5 space-y-1">
-              {data.key_points.map((point, index) => (
-                <li key={index}>{point}</li>
-              ))}
-            </ul>
-          ) : (
-            <>
-              <Skeleton className="h-4 w-1/2 mb-2" />
-              <Skeleton className="h-4 w-1/2 mb-2" />
-              <Skeleton className="h-4 w-1/2 mb-2" />
-            </>
-          )}
-        </CardContent>
-      </Card>
-      <Card>
-        <CardHeader>
-          <CardTitle>Completeness Assessment</CardTitle>
-        </CardHeader>
-        <CardContent>
-          {(data && data.completeness_score) ? (
-            <>
-              <p>Score: {data.completeness_score}/100</p>
-              <p>{data.completeness_explanation}</p>
-            </>
-          ) : (
-            <>
-              <Skeleton className="h-4 w-1/4 mb-2" />
-              <Skeleton className="h-4 w-full mb-2" />
-              <Skeleton className="h-4 w-full mb-2" />
-            </>
-          )}
-        </CardContent>
-      </Card>
-      <Card>
-        <CardHeader>
-          <CardTitle>Accuracy Assessment</CardTitle>
-        </CardHeader>
-        <CardContent>
-          {(data && data.accuracy_score) ? (
-            <>
-              <p>Score: {data.accuracy_score}/100</p>
-              <p>{data.accuracy_explanation}</p>
-            </>
-          ) : (
-            <>
-              <Skeleton className="h-4 w-1/4 mb-2" />
-              <Skeleton className="h-4 w-full mb-2" />
-              <Skeleton className="h-4 w-full mb-2" />
-            </>
-          )}
-        </CardContent>
-      </Card>
-      <Card>
-        <CardHeader>
-          <CardTitle>Political Assessment</CardTitle>
-        </CardHeader>
-        <CardContent>
-          {(data && data.political_score) ? (
-            <>
-              <p>Score: {data.political_score}/100</p>
-              <p>{data.political_bias}</p>
-            </>
-          ) : (
-            <>
-              <Skeleton className="h-4 w-1/4 mb-2" />
-              <Skeleton className="h-4 w-full mb-2" />
-              <Skeleton className="h-4 w-full mb-2" />
-            </>
-          )}
-        </CardContent>
-      </Card>
-      <Card>
-        <CardHeader>
-          <CardTitle>Sensationalism Assessment</CardTitle>
-        </CardHeader>
-        <CardContent>
-          {(data && data.sensationalism_score) ? (
-            <>
-              <p>Score: {data.sensationalism_score}/100</p>
-              <p>{data.sensationalism}</p>
-            </>
-          ) : (
-            <>
-              <Skeleton className="h-4 w-1/4 mb-2" />
-              <Skeleton className="h-4 w-full mb-2" />
-              <Skeleton className="h-4 w-full mb-2" />
-            </>
-          )}
-        </CardContent>
-      </Card>
-      <Card>
-        <CardHeader>
-          <CardTitle>Emotional Language Assessment</CardTitle>
-        </CardHeader>
-        <CardContent>
-          {(data && data.emotional_language_score) ? (
-            <>
-              <p>Score: {data.emotional_language_score}/100</p>
-              <p>{data.emotional_language}</p>
-            </>
-          ) : (
-            <>
-              <Skeleton className="h-4 w-1/4 mb-2" />
-              <Skeleton className="h-4 w-full mb-2" />
-              <Skeleton className="h-4 w-full mb-2" />
-            </>
-          )}
-        </CardContent>
-      </Card>
+      <div className="grid grid-cols-1 gap-4">
+        <Card>
+          <CardHeader>
+            <CardTitle>Article Summary</CardTitle>
+          </CardHeader>
+          <CardContent>
+            {data && data.summary !== "Empty for now!" ? (
+              <p>{data.summary}</p>
+            ) : (
+              <>
+                <Skeleton className="h-4 w-full mb-2" />
+                <Skeleton className="h-4 w-full mb-2" />
+                <Skeleton className="h-4 w-full mb-2" />
+                <Skeleton className="h-4 w-full mb-2" />
+                <Skeleton className="h-4 w-1/4 mb-2" />
+              </>
+            )}
+          </CardContent>
+        </Card>
+        <Card>
+          <CardHeader>
+            <CardTitle>Key Points</CardTitle>
+          </CardHeader>
+          <CardContent>
+            {data && data.key_points ? (
+              <ul className="list-disc pl-5 space-y-1">
+                {data.key_points.map((point, index) => (
+                  <li key={index}>{point}</li>
+                ))}
+              </ul>
+            ) : (
+              <>
+                <Skeleton className="h-4 w-1/2 mb-2" />
+                <Skeleton className="h-4 w-1/2 mb-2" />
+                <Skeleton className="h-4 w-1/2 mb-2" />
+              </>
+            )}
+          </CardContent>
+        </Card>
+        <Card>
+          <CardHeader>
+            <CardTitle>Completeness Assessment</CardTitle>
+          </CardHeader>
+          <CardContent>
+            {data && data.completeness_score ? (
+              <>
+                <p>Score: {data.completeness_score}/100</p>
+                <p>{data.completeness_explanation}</p>
+              </>
+            ) : (
+              <>
+                <Skeleton className="h-4 w-full mb-2" />
+                <Skeleton className="h-4 w-full mb-2" />
+                <Skeleton className="h-4 w-1/4 mb-2" />
+              </>
+            )}
+          </CardContent>
+        </Card>
+        <Card>
+          <CardHeader>
+            <CardTitle>Accuracy Assessment</CardTitle>
+          </CardHeader>
+          <CardContent>
+            {data && data.accuracy_score ? (
+              <>
+                <p>Score: {data.accuracy_score}/100</p>
+                <p>{data.accuracy_explanation}</p>
+              </>
+            ) : (
+              <>
+                <Skeleton className="h-4 w-full mb-2" />
+                <Skeleton className="h-4 w-full mb-2" />
+                <Skeleton className="h-4 w-1/4 mb-2" />
+              </>
+            )}
+          </CardContent>
+        </Card>
+        <Card>
+          <CardHeader>
+            <CardTitle>Political Assessment</CardTitle>
+          </CardHeader>
+          <CardContent>
+            {data && data.political_score ? (
+              <>
+                <p>Score: {data.political_score}/100</p>
+                <p>{data.political_bias}</p>
+              </>
+            ) : (
+              <>
+                <Skeleton className="h-4 w-full mb-2" />
+                <Skeleton className="h-4 w-full mb-2" />
+                <Skeleton className="h-4 w-1/4 mb-2" />
+              </>
+            )}
+          </CardContent>
+        </Card>
+        <Card>
+          <CardHeader>
+            <CardTitle>Sensationalism Assessment</CardTitle>
+          </CardHeader>
+          <CardContent>
+            {data && data.sensationalism_score ? (
+              <>
+                <p>Score: {data.sensationalism_score}/100</p>
+                <p>{data.sensationalism}</p>
+              </>
+            ) : (
+              <>
+                <Skeleton className="h-4 w-full mb-2" />
+                <Skeleton className="h-4 w-full mb-2" />
+                <Skeleton className="h-4 w-1/4 mb-2" />
+              </>
+            )}
+          </CardContent>
+        </Card>
+        <Card>
+          <CardHeader>
+            <CardTitle>Emotional Language Assessment</CardTitle>
+          </CardHeader>
+          <CardContent>
+            {data && data.emotional_language_score ? (
+              <>
+                <p>Score: {data.emotional_language_score}/100</p>
+                <p>{data.emotional_language}</p>
+              </>
+            ) : (
+              <>
+                <Skeleton className="h-4 w-full mb-2" />
+                <Skeleton className="h-4 w-full mb-2" />
+                <Skeleton className="h-4 w-1/4 mb-2" />
+              </>
+            )}
+          </CardContent>
+        </Card>
+      </div>
     </main>
   );
 }
