@@ -134,7 +134,7 @@ def api_status():
                 active_fact_checks.remove(fact_check)
                 past_checks.add(
                     ids=[fact_check.id], documents=[json.dumps(fact_check.to_dict())]
-                )  # type: ignore
+                )  
 
             return jsonify(fact_check.to_dict()), 202
 
