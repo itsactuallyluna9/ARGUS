@@ -39,28 +39,29 @@ class ArgusData(pd.DataFrame):
         fact_check_uuids = fact_check_data["ids"]
         fact_check_docs = fact_check_data["documents"]
 
-        self.article_df = pd.DataFrame(
-            {
-                "url": article_urls,
-                "summary": article_docs,
-                "description": [meta["description"] for meta in article_metas], # type: ignore
-                "article_text": [meta["article_text"] for meta in article_metas], # type: ignore
-                "bias": [meta["bias"] for meta in article_metas], # type: ignore
-                "points": [meta["points"] for meta in article_metas], # type: ignore
-                "timestamp": [meta["timestamp"] for meta in article_metas], # type: ignore
-            }
-        )
+        try:
+            self.article_df = pd.DataFrame(
+                {
+                    "url": article_urls,
+                    "summary": article_docs,
+                    "description": [meta["description"] for meta in article_metas], # type: ignore
+                    "article_text": [meta["article_text"] for meta in article_metas], # type: ignore
+                    "bias": [meta["bias"] for meta in article_metas], # type: ignore
+                    "points": [meta["points"] for meta in article_metas], # type: ignore
+                    "timestamp": [meta["timestamp"] for meta in article_metas], # type: ignore
+                }
+            )
+        except:
+            self.article_df = pd.DataFrame()
+
         try:
             self.fact_check_df = pd.json_normalize(json.loads(fact_check_docs[0])) # type: ignore
             for i in range(1, len(fact_check_docs)): # type: ignore
                 doc = fact_check_docs[i] # type: ignore
-                try:
-                    json_doc = json.loads(doc) # type: ignore
-                    self.fact_check_df = pd.concat([self.fact_check_df, pd.json_normalize(json_doc)], ignore_index=True) # type: ignore
-                    
-                except:
-                    pass
-        except IndexError:
+                json_doc = json.loads(doc) # type: ignore
+                self.fact_check_df = pd.concat([self.fact_check_df, pd.json_normalize(json_doc)], ignore_index=True) # type: ignore
+                
+        except:
             self.fact_check_df = pd.DataFrame()
 
         self.timestamp = datetime.now().isoformat()
