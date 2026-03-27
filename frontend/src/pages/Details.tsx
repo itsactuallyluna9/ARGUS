@@ -2,7 +2,7 @@ import { useParams } from "react-router-dom";
 import { Separator } from "@/components/ui/separator";
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
-import { Clock, Bot } from "lucide-react";
+import { Clock, Bot, Flag } from "lucide-react";
 import { useEffect, useState, useRef } from "react";
 import { Spinner } from "@/components/ui/spinner";
 import {
@@ -18,27 +18,28 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { useInterval } from "usehooks-ts";
+import { useInterval, useTimeout } from "usehooks-ts";
 import prettyMilliseconds from "pretty-ms";
+import { Button } from "@/components/ui/button";
 
 interface DetailsResponse {
   url: string;
   id: string;
   article_text: string;
-  summary: string;
-  bias_rating: string;
+  summary: string | null;
+  bias_rating: string | null;
   key_points: string[];
-  accuracy_score: number;
-  completeness_score: number;
-  accuracy_explanation: string;
-  completeness_explanation: string;
+  accuracy_score: number | null;
+  completeness_score: number | null;
+  accuracy_explanation: string | null;
+  completeness_explanation: string | null;
   sources: string[];
-  political_bias: string;
-  sensationalism: string;
-  emotional_language: string;
-  political_score: number;
-  sensationalism_score: number;
-  emotional_language_score: number;
+  political_bias: string | null;
+  sensationalism: string | null;
+  emotional_language: string | null;
+  political_score: number | null;
+  sensationalism_score: number | null;
+  emotional_language_score: number | null;
   finished: boolean;
 }
 
@@ -47,7 +48,7 @@ function DetailsView() {
   const [analysisComplete, setAnalysisComplete] = useState(false);
   const [data, setData] = useState<DetailsResponse | null>(null);
 
-  useInterval(async () => {
+  const fetchData = async () => {
     if (!analysisComplete) {
       const response = await fetch(`/api/status`, {
         body: JSON.stringify({
@@ -64,18 +65,27 @@ function DetailsView() {
       }
       setData(data);
     }
-  }, 5000);
+  };
+
+  fetchData();
+  useInterval(fetchData, 5000);
 
   return (
     <main className="p-4">
-      <h1 className="font-semibold text-2xl">placeholder (title)</h1>
+      <h1 className="font-semibold text-2xl text-pretty">
+        {analysisComplete
+          ? "ChatGPT Convinces Sam Altman to Kill Humanity"
+          : "placeholder (title)"}
+      </h1>
       <div className="flex items-center text-muted-foreground">
         <img
           src="https://placehold.co/24"
           alt="The Guardian Logo"
           className="h-6 mr-2 rounded"
         />
-        <p className="italic text-lg">placeholder (site name)</p>
+        <p className="italic text-lg">
+          {analysisComplete ? "The Onion" : "placeholder (site name)"}
+        </p>
         <Separator orientation="vertical" className="mx-4" />
         <Tooltip>
           <TooltipTrigger className="flex items-center">
@@ -121,7 +131,7 @@ function DetailsView() {
             <CardTitle>Article Summary</CardTitle>
           </CardHeader>
           <CardContent>
-            {data && data.summary !== "Empty for now!" ? (
+            {data && data.summary != null ? (
               <p>{data.summary}</p>
             ) : (
               <>
@@ -139,7 +149,7 @@ function DetailsView() {
             <CardTitle>Key Points</CardTitle>
           </CardHeader>
           <CardContent>
-            {data && data.key_points ? (
+            {data && data.key_points.length !== 0 ? (
               <ul className="list-disc pl-5 space-y-1">
                 {data.key_points.map((point, index) => (
                   <li key={index}>{point}</li>
@@ -154,12 +164,14 @@ function DetailsView() {
             )}
           </CardContent>
         </Card>
+      </div>
+      <div className="grid grid-cols-2 gap-4 py-4">
         <Card>
           <CardHeader>
             <CardTitle>Completeness Assessment</CardTitle>
           </CardHeader>
           <CardContent>
-            {data && data.completeness_score ? (
+            {data && data.completeness_score != null ? (
               <>
                 <p>Score: {data.completeness_score}/100</p>
                 <p>{data.completeness_explanation}</p>
@@ -178,7 +190,7 @@ function DetailsView() {
             <CardTitle>Accuracy Assessment</CardTitle>
           </CardHeader>
           <CardContent>
-            {data && data.accuracy_score ? (
+            {data && data.accuracy_score != null ? (
               <>
                 <p>Score: {data.accuracy_score}/100</p>
                 <p>{data.accuracy_explanation}</p>
@@ -197,7 +209,7 @@ function DetailsView() {
             <CardTitle>Political Assessment</CardTitle>
           </CardHeader>
           <CardContent>
-            {data && data.political_score ? (
+            {data && data.political_score != null ? (
               <>
                 <p>Score: {data.political_score}/100</p>
                 <p>{data.political_bias}</p>
@@ -216,7 +228,7 @@ function DetailsView() {
             <CardTitle>Sensationalism Assessment</CardTitle>
           </CardHeader>
           <CardContent>
-            {data && data.sensationalism_score ? (
+            {data && data.sensationalism_score != null ? (
               <>
                 <p>Score: {data.sensationalism_score}/100</p>
                 <p>{data.sensationalism}</p>
@@ -235,7 +247,7 @@ function DetailsView() {
             <CardTitle>Emotional Language Assessment</CardTitle>
           </CardHeader>
           <CardContent>
-            {data && data.emotional_language_score ? (
+            {data && data.emotional_language_score != null ? (
               <>
                 <p>Score: {data.emotional_language_score}/100</p>
                 <p>{data.emotional_language}</p>
@@ -249,6 +261,15 @@ function DetailsView() {
             )}
           </CardContent>
         </Card>
+        <div className="flex text-muted-foreground items-center justify-center">
+          <Bot />
+          ARGUS is built on top of LLMs and can make mistakes. Please
+          double-check respones.
+        </div>
+        <Button variant="destructive">
+          <Flag />
+          Report a Concern
+        </Button>
       </div>
     </main>
   );
