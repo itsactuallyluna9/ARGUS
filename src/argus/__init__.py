@@ -224,7 +224,7 @@ def bulk_import_articles(urls, summarize_only):
 
     for url in urls:
         if summarize_only:
-            article_text = get_page(url)
+            article_metadata, article_text = get_page(url)
             response = summarize_article(article_text, model="gemma3:12b", think=False)
             description = response["description"]  # type: ignore
             summary = response["articleSummary"]  # type: ignore
@@ -244,6 +244,7 @@ def bulk_import_articles(urls, summarize_only):
                             "points": key_points,
                             "article_text": article_text,
                             "timestamp": datetime.now().isoformat(),
+                            "metadata": json.dumps(article_metadata)
                         }
                     ],
                 )

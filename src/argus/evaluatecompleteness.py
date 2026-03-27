@@ -1,3 +1,4 @@
+import json
 import os
 import chromadb
 from datetime import datetime
@@ -15,6 +16,7 @@ class Completeness_Agent:
     def __init__(
         self,
         article_text: str,
+        article_metadata: dict,
         bias_rating: str,
         key_points: list[str],
         article_collection: chromadb.Collection,
@@ -24,6 +26,8 @@ class Completeness_Agent:
     ):
 
         self.article_text = article_text
+        self.title = article_metadata.get("title", "Title not found")
+        self.source_name = article_metadata.get("site_name", "Source not found")
         self.bias_rating = bias_rating
         self.key_points = key_points
         self.article_collection = article_collection
@@ -213,7 +217,7 @@ class Completeness_Agent:
                 f"Article {url} not found in database, summarizing and adding to database..."
             )
 
-            article_text = get_page(url)
+            article_metadata, article_text = get_page(url)
             summary = summarize_article(article_text)
 
             try:
@@ -229,6 +233,7 @@ class Completeness_Agent:
                             "points": summary["points"],
                             "article_text": article_text,
                             "timestamp": datetime.now().isoformat(),
+                            "metadata": json.dumps(article_metadata)
                         }
                     ],
                 )
@@ -256,7 +261,7 @@ class Completeness_Agent:
 
 if __name__ == "__main__":
     print("starting")
-    article_text = get_page(
+    article_metadata, article_text = get_page(
         "https://www.usatoday.com/story/travel/2026/03/23/check-tsa-wait-times-government-shutdown-airports/89282748007/?utm_source=firefox-newtab-en-us"
     )
     print(article_text)
@@ -268,6 +273,7 @@ if __name__ == "__main__":
 
     completeness_agent = Completeness_Agent(
         article_text,
+        article_metadata,
         bias_rating,
         key_points,
         collection,

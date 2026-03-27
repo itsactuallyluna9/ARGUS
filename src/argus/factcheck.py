@@ -24,6 +24,7 @@ class FactCheck:
         summarizer_model: str = "gemma3:12b",
         think: bool = False,
     ):
+        
         self.url = url
         self.id = uuid.uuid3(uuid.NAMESPACE_DNS, url).hex
 
@@ -59,6 +60,7 @@ class FactCheck:
 
         print(f"Initialized fact check for {self.url} with ID {self.id}")
 
+
     def to_dict(self) -> dict[str, Any]:
         return {
             "url": self.url,
@@ -83,57 +85,36 @@ class FactCheck:
             "finished": self.finished,
         }
 
+
     def main(self):
+
         self.fact_check_metadata["check_started"] = datetime.now()
 
         # url |> scrape |> clean -> raw article text
-        with with_timing(
-            lambda t: self.fact_check_metadata.update(
-                {"scraper_duration": t.duration_s}
-            )
-        ):
-            self.article_text = get_page(self.url)
+        with with_timing(lambda t: self.fact_check_metadata.update({"scraper_duration": t.duration_s})):
+            
+            self.article_metadata, self.article_text = get_page(self.url)
 
         # raw article text |> summarizer |> -> summary, key points |> chromadb (if not present)
-        with with_timing(
-            lambda t: self.fact_check_metadata.update(
-                {"summary_duration": t.duration_s}
-            )
-        ):
-            self.summary, self.bias_rating, self.key_points = self.summarize_article(
-                self.article_text
-            )
+        with with_timing(lambda t: self.fact_check_metadata.update({"summary_duration": t.duration_s})):
 
-        print(
-            f"\n\n\nSummary for {self.url}:\n{self.summary}\nBias rating: {self.bias_rating}\nKey points: {self.key_points}\n\n\n"
-        )
+            self.summary, self.bias_rating, self.key_points = self.summarize_article(self.article_text)
 
-        print(
-            "\nResearching article accuracy, completeness, and bias...\nThis may take a few minutes...\n"
-        )
+        print(f"\n\n\nSummary for {self.url}:\n{self.summary}\nBias rating: {self.bias_rating}\nKey points: {self.key_points}\n\n\n")
+
+        print("\nResearching article accuracy, completeness, and bias...\nThis may take a few minutes...\n")
 
         # evidence + article text + related article summaries + bias rating |> fact check model -> accuracy, completeness scores + explanation
-        with with_timing(
-            lambda t: self.fact_check_metadata.update({"agents_duration": t.duration_s})
-        ):
+        with with_timing(lambda t: self.fact_check_metadata.update({"agents_duration": t.duration_s})):
+
             self.fact_check(self.article_text, self.bias_rating, self.key_points)
 
         print(f"\n\n\nFact check results for {self.url}:\n")
-        print(
-            f"\nAccuracy score: {self.accuracy_score}\nExplanation: {self.accuracy_explanation}\nSources: {self.sources}"
-        )
-        print(
-            f"\nCompleteness score: {self.completeness_score}\nExplanation: {self.completeness_explanation}"
-        )
-        print(
-            f"\nPolitical bias: {self.political_bias}\nPolitical bias score: {self.political_score}"
-        )
-        print(
-            f"\nSensationalism: {self.sensationalism}\nSensationalism score: {self.sensationalism_score}"
-        )
-        print(
-            f"\nEmotional language: {self.emotional_language}\nEmotional language score: {self.emotional_language_score}"
-        )
+        print(f"\nAccuracy score: {self.accuracy_score}\nExplanation: {self.accuracy_explanation}\nSources: {self.sources}")
+        print(f"\nCompleteness score: {self.completeness_score}\nExplanation: {self.completeness_explanation}")
+        print(f"\nPolitical bias: {self.political_bias}\nPolitical bias score: {self.political_score}")
+        print(f"\nSensationalism: {self.sensationalism}\nSensationalism score: {self.sensationalism_score}")
+        print(f"\nEmotional language: {self.emotional_language}\nEmotional language score: {self.emotional_language_score}")
 
         self.finished = True
         self.fact_check_metadata["check_finished"] = datetime.now()
@@ -145,6 +126,7 @@ class FactCheck:
             self.fact_check_metadata["check_finished"]
             - self.fact_check_metadata["check_submitted"]
         ).total_seconds()
+
 
 
     @retry(stop=stop_after_attempt(3))
@@ -170,6 +152,7 @@ class FactCheck:
                         "points": key_points,
                         "article_text": article_text,
                         "timestamp": datetime.now().isoformat(),
+                        "metadata": json.dumps(self.article_metadata)
                     }
                 ],
             )
@@ -185,8 +168,10 @@ class FactCheck:
         bias_rating: str,
         key_points: list[str],
     ) -> dict[str, Any]:
+        
         completeness_agent = Completeness_Agent(
             article_text=article_text,
+            article_metadata=self.article_metadata,
             bias_rating=bias_rating,
             key_points=key_points,
             article_collection=self.article_collection,
@@ -194,6 +179,7 @@ class FactCheck:
 
         accuracy_agent = Accuracy_Agent(
             article_text=article_text,
+            article_metadata=self.article_metadata,
             bias_rating=bias_rating,
             key_points=key_points,
             article_collection=self.article_collection,
@@ -201,6 +187,7 @@ class FactCheck:
 
         bias_agent = Bias_Agent(
             article_text=article_text,
+            article_metadata=self.article_metadata,
             bias_rating=bias_rating,
             article_collection=self.article_collection,
         )
@@ -225,9 +212,7 @@ class FactCheck:
         self.emotional_language = bias_agent.bias_rating["emotional_language"]
         self.political_score = bias_agent.bias_rating["political_score"]
         self.sensationalism_score = bias_agent.bias_rating["sensationalism_score"]
-        self.emotional_language_score = bias_agent.bias_rating[
-            "emotional_language_score"
-        ]
+        self.emotional_language_score = bias_agent.bias_rating["emotional_language_score"]
 
         return self.to_dict()
 
