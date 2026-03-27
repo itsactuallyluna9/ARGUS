@@ -28,6 +28,8 @@ class Completeness_Agent:
         self.article_text = article_text
         self.title = article_metadata.get("title", "Title not found")
         self.source_name = article_metadata.get("site_name", "Source not found")
+        self.date = article_metadata.get("date", "Date not found")
+        
         self.bias_rating = bias_rating
         self.key_points = key_points
         self.article_collection = article_collection
@@ -89,7 +91,7 @@ class Completeness_Agent:
         messages = [
             {
                 "role": "user",
-                "content": f"Instructions: {self.prompt}\nArticle text: {self.article_text}\nBias rating: {self.bias_rating}\nKey points: {self.key_points}\nCurrent date:{datetime.now().strftime('%Y-%m-%d')}",
+                "content": f"Instructions: {self.prompt}\nText of {self.title} from {self.source_name} on {self.date}: {self.article_text}\nBias rating: {self.bias_rating}\nKey points: {self.key_points}\nCurrent date:{datetime.now().strftime('%Y-%m-%d')}",
             }
         ]
 

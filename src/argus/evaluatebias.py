@@ -22,6 +22,7 @@ class Bias_Agent:
         self.article_text = article_text
         self.title = article_metadata.get("title", "No title found")  # type: ignore
         self.source_name = article_metadata.get("source", "No source found")  # type: ignore
+        self.date = article_metadata.get("date", "No date found")  # type: ignore
         self.intial_bias = bias_rating
 
         self.article_collection = article_collection
@@ -89,7 +90,7 @@ class Bias_Agent:
         messages = [
             {
                 "role": "user",
-                "content": f"Instructions: {self.prompt}\n\nText of {self.title} from {self.source_name}: {self.article_text}\n\nInitial Bias Rating: {self.intial_bias}\n\nCurrent date: {datetime.now().strftime('%Y-%m-%d')}",
+                "content": f"Instructions: {self.prompt}\n\nText of {self.title} from {self.source_name} on {self.date}: {self.article_text}\n\nInitial Bias Rating: {self.intial_bias}\n\nCurrent date: {datetime.now().strftime('%Y-%m-%d')}",
             }
         ]
 
