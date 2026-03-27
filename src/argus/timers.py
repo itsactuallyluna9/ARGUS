@@ -1,7 +1,6 @@
 from collections import deque
 from contextlib import ContextDecorator
 import datetime
-from types import Optional
 
 
 def utc_now():
@@ -9,10 +8,10 @@ def utc_now():
 
 
 class with_timing(ContextDecorator):
-    _enter_time: Optional[datetime.datetime]
-    _exit_time: Optional[datetime.datetime]
+    _enter_time: datetime.datetime | None
+    _exit_time: datetime.datetime | None
 
-    def __init__(self, cb = None):
+    def __init__(self, cb=None):
         self._enter_time = None
         self._exit_time = None
         self._cb = cb
