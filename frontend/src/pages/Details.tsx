@@ -261,12 +261,14 @@ function DetailsView() {
             )}
           </CardContent>
         </Card>
-        <div className="flex text-muted-foreground items-center justify-center">
-          <Bot />
-          ARGUS is built on top of LLMs and can make mistakes. Please
-          double-check respones.
-        </div>
-        <Button variant="destructive">
+      </div>
+      <div className="flex text-muted-foreground items-center justify-center">
+        <Bot />
+        ARGUS is built on top of LLMs and can make mistakes. Please double-check
+        respones.
+      </div>
+      <div className="flex items-center justify-center p-2">
+        <Button variant="destructive" className="w-[50%]">
           <Flag />
           Report a Concern
         </Button>
