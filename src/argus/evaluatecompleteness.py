@@ -36,7 +36,7 @@ class Completeness_Agent:
         self.evaluation_model = evaluation_model
         self.think = think
         self.agent_metadata = {}
-        self.agent_metadata["scheduled"] = datetime.now()
+        self.agent_metadata["scheduled"] = datetime.now().isoformat()
 
         self.default_prompt = """
         You are a completeness checker for news articles. You will be given the full text of an article, a bias rating, and a list of key points.
@@ -75,7 +75,7 @@ class Completeness_Agent:
         self.thread.start()
 
     def evaluate_completeness(self) -> tuple[int, str]:  # type: ignore
-        self.agent_metadata["started"] = datetime.now()
+        self.agent_metadata["started"] = datetime.now().isoformat()
         self.agent_metadata["total_tool_calls"] = 0
         self.agent_metadata["tool_calls"] = {}
 
@@ -164,7 +164,7 @@ class Completeness_Agent:
         self.completeness_score = int(completeness_response["completeness"])  # type: ignore
         self.completeness_explanation = completeness_response["reasoning"]  # type: ignore
 
-        self.agent_metadata["finished"] = datetime.now()
+        self.agent_metadata["finished"] = datetime.now().isoformat()
 
         return self.completeness_score, self.completeness_explanation  # type: ignore
 

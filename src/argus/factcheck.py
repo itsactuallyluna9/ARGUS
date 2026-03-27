@@ -32,7 +32,7 @@ class FactCheck:
         self.model = summarizer_model
         self.think = think
         self.fact_check_metadata = {}
-        self.fact_check_metadata["check_submitted"] = datetime.now()
+        self.fact_check_metadata["check_submitted"] = datetime.now().isoformat()
 
         self.article_text = None
         self.summary = None
@@ -87,8 +87,7 @@ class FactCheck:
 
 
     def main(self):
-
-        self.fact_check_metadata["check_started"] = datetime.now()
+        self.fact_check_metadata["check_started"] = datetime.now().isoformat()
 
         # url |> scrape |> clean -> raw article text
         with with_timing(lambda t: self.fact_check_metadata.update({"scraper_duration": t.duration_s})):
@@ -117,14 +116,15 @@ class FactCheck:
         print(f"\nEmotional language: {self.emotional_language}\nEmotional language score: {self.emotional_language_score}")
 
         self.finished = True
-        self.fact_check_metadata["check_finished"] = datetime.now()
+        check_finished = datetime.now()
+        self.fact_check_metadata["check_finished"] = check_finished.isoformat()
+        started = datetime.fromisoformat(self.fact_check_metadata["check_started"])
+        submitted = datetime.fromisoformat(self.fact_check_metadata["check_submitted"])
         self.fact_check_metadata["check_duration_from_start"] = (
-            self.fact_check_metadata["check_finished"]
-            - self.fact_check_metadata["check_started"]
+            check_finished - started
         ).total_seconds()
         self.fact_check_metadata["check_duration_from_submitted"] = (
-            self.fact_check_metadata["check_finished"]
-            - self.fact_check_metadata["check_submitted"]
+            check_finished - submitted
         ).total_seconds()
 
 
