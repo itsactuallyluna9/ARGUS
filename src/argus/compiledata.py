@@ -14,7 +14,7 @@ class ArgusData(pd.DataFrame):
     def __init__(self, *args, **kwargs):
 
         super().__init__(*args, **kwargs)
-        
+
         self.datetime = None
 
 
@@ -23,6 +23,11 @@ class ArgusData(pd.DataFrame):
         
         self.articles = article_collection
         self.fact_checks = fact_check_collection
+
+        self.fact_checks.add(
+            ids=["placeholder"],
+            documents=[json.dumps({"placeholder": "This is a placeholder document to ensure the collection is not empty."})],
+        )
 
         article_data = self.articles.get()
         fact_check_data = self.fact_checks.get()
@@ -45,29 +50,18 @@ class ArgusData(pd.DataFrame):
                 "timestamp": [meta["timestamp"] for meta in article_metas], # type: ignore
             }
         )
-
-        self.fact_check_df = pd.DataFrame(
-            {
-                "id": fact_check_uuids,
-                "url": [json.loads(doc)["url"] for doc in fact_check_docs], # type: ignore
-                "article_text": [json.loads(doc)["article_text"] for doc in fact_check_docs], # type: ignore
-                "summary": [json.loads(doc)["summary"] for doc in fact_check_docs], # type: ignore
-                "bias_rating": [json.loads(doc)["bias_rating"] for doc in fact_check_docs], # type: ignore
-                "key_points": [json.loads(doc)["key_points"] for doc in fact_check_docs], # type: ignore
-                "accuracy_score": [json.loads(doc)["accuracy_score"] for doc in fact_check_docs], # type: ignore
-                "completeness_score": [json.loads(doc)["completeness_score"] for doc in fact_check_docs], # type: ignore
-                "accuracy_explanation": [json.loads(doc)["accuracy_explanation"] for doc in fact_check_docs], # type: ignore
-                "completeness_explanation": [json.loads(doc)["completeness_explanation"] for doc in fact_check_docs], # type: ignore
-                "sources": [json.loads(doc)["sources"] for doc in fact_check_docs], # type: ignore
-                "political_bias": [json.loads(doc)["political_bias"] for doc in fact_check_docs], # type: ignore
-                "sensationalism": [json.loads(doc)["sensationalism"] for doc in fact_check_docs], # type: ignore
-                "emotional_language": [json.loads(doc)["emotional_language"] for doc in fact_check_docs], # type: ignore
-                "political_score": [json.loads(doc)["political_score"] for doc in fact_check_docs], # type: ignore
-                "sensationalism_score": [json.loads(doc)["sensationalism_score"] for doc in fact_check_docs], # type: ignore
-                "emotional_language_score": [json.loads(doc)["emotional_language_score"] for doc in fact_check_docs],# type: ignore
-                "finished": [json.loads(doc)["finished"] for doc in fact_check_docs] # type: ignore
-            }
-        )
+        try:
+            self.fact_check_df = pd.json_normalize(json.loads(fact_check_docs[0])) # type: ignore
+            for i in range(1, len(fact_check_docs)): # type: ignore
+                doc = fact_check_docs[i] # type: ignore
+                try:
+                    json_doc = json.loads(doc) # type: ignore
+                    self.fact_check_df = pd.concat([self.fact_check_df, pd.json_normalize(json_doc)], ignore_index=True) # type: ignore
+                    
+                except:
+                    pass
+        except IndexError:
+            self.fact_check_df = pd.DataFrame()
 
         self.timestamp = datetime.now().isoformat()
         
