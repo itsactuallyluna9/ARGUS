@@ -76,7 +76,7 @@ const HeroParticles = memo(function HeroParticles() {
     <Particles
       id="particles"
       options={PARTICLE_OPTIONS}
-      className="pointer-events-none absolute inset-0 z-0 motion-reduce:hidden"
+      className="pointer-events-none absolute inset-0 z-0 motion-reduce:hidden dark:opacity-75"
     />
   );
 });
