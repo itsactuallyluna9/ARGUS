@@ -32,23 +32,23 @@ class FactCheck:
         self.model = summarizer_model
         self.think = think
 
-        self.article_text = "Empty for now!"
-        self.summary = "Empty for now!"
-        self.bias_rating = "Empty for now!"
+        self.article_text = None
+        self.summary = None
+        self.bias_rating = None
         self.key_points = []
 
-        self.accuracy_score = 0
-        self.completeness_score = 0
-        self.accuracy_explanation = "Empty for now!"
-        self.completeness_explanation = "Empty for now!"
+        self.accuracy_score = None
+        self.completeness_score = None
+        self.accuracy_explanation = None
+        self.completeness_explanation = None
         self.sources = []
 
-        self.political_bias = "Empty for now!"
-        self.sensationalism = "Empty for now!"
-        self.emotional_language = "Empty for now!"
-        self.political_score = 0
-        self.sensationalism_score = 0
-        self.emotional_language_score = 0
+        self.political_bias = None
+        self.sensationalism = None
+        self.emotional_language = None
+        self.political_score = None
+        self.sensationalism_score = None
+        self.emotional_language_score = None
 
         self.finished = False
 
