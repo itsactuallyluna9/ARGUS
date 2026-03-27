@@ -67,7 +67,6 @@ function DetailsView() {
     }
   };
 
-  fetchData();
   useInterval(fetchData, 5000);
 
   return (
