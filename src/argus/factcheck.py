@@ -1,6 +1,5 @@
 import json
 from typing import Any
-from urllib import response
 import chromadb
 from datetime import datetime
 import ollama
@@ -14,6 +13,7 @@ from argus.scraper import get_page
 from argus.evaluateaccuracy import Accuracy_Agent
 from argus.evaluatecompleteness import Completeness_Agent
 from argus.evaluatebias import Bias_Agent
+from argus.timers import with_timing
 
 
 class FactCheck:
@@ -24,18 +24,20 @@ class FactCheck:
         summarizer_model: str = "gemma3:12b",
         think: bool = False,
     ):
-
         self.url = url
         self.id = uuid.uuid3(uuid.NAMESPACE_DNS, url).hex
 
         self.article_collection = article_collection
         self.model = summarizer_model
         self.think = think
+        self.fact_check_metadata = {}
+        self.fact_check_metadata["check_submitted"] = datetime.now()
 
         self.article_text = None
         self.summary = None
         self.bias_rating = None
         self.key_points = []
+        self.article_metadata = {}
 
         self.accuracy_score = None
         self.completeness_score = None
@@ -61,10 +63,12 @@ class FactCheck:
         return {
             "url": self.url,
             "id": self.id,
+            "fact_check_metadata": self.fact_check_metadata,
             "article_text": self.article_text,
             "summary": self.summary,
             "bias_rating": self.bias_rating,
             "key_points": self.key_points,
+            "article_metadata": self.article_metadata,
             "accuracy_score": self.accuracy_score,
             "completeness_score": self.completeness_score,
             "accuracy_explanation": self.accuracy_explanation,
@@ -80,14 +84,25 @@ class FactCheck:
         }
 
     def main(self):
+        self.fact_check_metadata["check_started"] = datetime.now()
 
         # url |> scrape |> clean -> raw article text
-        self.article_text = get_page(self.url)
+        with with_timing(
+            lambda t: self.fact_check_metadata.update(
+                {"scraper_duration": t.duration_s}
+            )
+        ):
+            self.article_text = get_page(self.url)
 
         # raw article text |> summarizer |> -> summary, key points |> chromadb (if not present)
-        self.summary, self.bias_rating, self.key_points = self.summarize_article(
-            self.article_text
-        )
+        with with_timing(
+            lambda t: self.fact_check_metadata.update(
+                {"summary_duration": t.duration_s}
+            )
+        ):
+            self.summary, self.bias_rating, self.key_points = self.summarize_article(
+                self.article_text
+            )
 
         print(
             f"\n\n\nSummary for {self.url}:\n{self.summary}\nBias rating: {self.bias_rating}\nKey points: {self.key_points}\n\n\n"
@@ -98,7 +113,10 @@ class FactCheck:
         )
 
         # evidence + article text + related article summaries + bias rating |> fact check model -> accuracy, completeness scores + explanation
-        self.fact_check(self.article_text, self.bias_rating, self.key_points)
+        with with_timing(
+            lambda t: self.fact_check_metadata.update({"agents_duration": t.duration_s})
+        ):
+            self.fact_check(self.article_text, self.bias_rating, self.key_points)
 
         print(f"\n\n\nFact check results for {self.url}:\n")
         print(
@@ -118,6 +136,15 @@ class FactCheck:
         )
 
         self.finished = True
+        self.fact_check_metadata["check_finished"] = datetime.now()
+        self.fact_check_metadata["check_duration_from_start"] = (
+            self.fact_check_metadata["check_finished"]
+            - self.fact_check_metadata["check_started"]
+        ).total_seconds()
+        self.fact_check_metadata["check_duration_from_submitted"] = (
+            self.fact_check_metadata["check_finished"]
+            - self.fact_check_metadata["check_submitted"]
+        ).total_seconds()
 
 
     @retry(stop=stop_after_attempt(3))
@@ -158,7 +185,6 @@ class FactCheck:
         bias_rating: str,
         key_points: list[str],
     ) -> dict[str, Any]:
-
         completeness_agent = Completeness_Agent(
             article_text=article_text,
             bias_rating=bias_rating,
@@ -178,6 +204,10 @@ class FactCheck:
             bias_rating=bias_rating,
             article_collection=self.article_collection,
         )
+
+        self.fact_check_metadata["completeness_agent"] = completeness_agent.agent_metadata
+        self.fact_check_metadata["accuracy_agent"] = accuracy_agent.agent_metadata
+        self.fact_check_metadata["bias_agent"] = bias_agent.agent_metadata
 
         completeness_agent.thread.join()
         accuracy_agent.thread.join()
