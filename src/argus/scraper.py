@@ -14,11 +14,14 @@ from tempfile import NamedTemporaryFile
 import pyexcel
 import docx
 
+
 class ScraperError(Exception):
     pass
 
+
 class UnsupportedContentTypeError(ScraperError):
     pass
+
 
 def ttl_cache(ttl_seconds):
     def decorator(func):
@@ -42,6 +45,7 @@ def ttl_cache(ttl_seconds):
         return wrapper
 
     return decorator
+
 
 def get_page(url: str) -> tuple[dict[str, str], str]:
     metadata = {}
@@ -69,7 +73,7 @@ def get_page(url: str) -> tuple[dict[str, str], str]:
             # maybe we got something trafilatura doesn't like, but that still has content?
             metadata["readerable"] = False
             # well. readerlm?
-            cleaned = ollama.generate("readerlm", html).response
+            cleaned = ollama.generate("reader-lm", html).response
             return metadata, cleaned
         case "application/pdf":
             return metadata, extract_pdf(content)
@@ -104,19 +108,21 @@ def get_page(url: str) -> tuple[dict[str, str], str]:
             raise UnsupportedContentTypeError(
                 f"Unsupported content type: {content_type}"
             )
-    raise ScraperError(f"Failed to extract content from page with content type: {content_type}")
+    raise ScraperError(
+        f"Failed to extract content from page with content type: {content_type}"
+    )
+
 
 @ttl_cache(5 * 60)
 def get_source(url: str) -> tuple[str, bytes, bool]:
     resp = requests.get(url)
-    content_type = (
-        resp.headers.get("Content-Type", "").lower().split(";")[0].strip()
-    )
+    content_type = resp.headers.get("Content-Type", "").lower().split(";")[0].strip()
 
     if not resp.ok:
         return *get_source_chrome(url), True
 
     return content_type, resp.content, False
+
 
 def get_source_chrome(url: str) -> tuple[str, bytes]:
     # this should beat the "the simplest of bot detection methods."
@@ -160,22 +166,36 @@ def get_source_chrome(url: str) -> tuple[str, bytes]:
                     download = downloads[0]
                     download_path = download.path()
                     if not download_path:
-                        raise ScraperError("Browser download completed but file path was not available.")
+                        raise ScraperError(
+                            "Browser download completed but file path was not available."
+                        )
 
                     with open(download_path, "rb") as f:
                         content = f.read()
 
                     content_type = ""
                     if response:
-                        content_type = response.headers.get("content-type", ";").lower().split(";")[0].strip()
-                    content_type = content_type or mimetypes.guess_type(download.suggested_filename)[0] or "application/octet-stream"
+                        content_type = (
+                            response.headers.get("content-type", ";")
+                            .lower()
+                            .split(";")[0]
+                            .strip()
+                        )
+                    content_type = (
+                        content_type
+                        or mimetypes.guess_type(download.suggested_filename)[0]
+                        or "application/octet-stream"
+                    )
                     return content_type, content
 
                 # get the content type from response headers (handles redirects automatically via page.goto)
                 content_type = "text/html"
                 if response:
                     content_type = (
-                        response.headers.get("content-type", "text/html").lower().split(";")[0].strip()
+                        response.headers.get("content-type", "text/html")
+                        .lower()
+                        .split(";")[0]
+                        .strip()
                     )
 
                 # always get bytes from rendered page content
@@ -188,6 +208,7 @@ def get_source_chrome(url: str) -> tuple[str, bytes]:
 
 
 # MARK: - Parsers
+
 
 def extract_html_metadata(html: str) -> dict[str, str]:
     soup = BeautifulSoup(html, "html.parser")
