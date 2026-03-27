@@ -24,11 +24,6 @@ class ArgusData(pd.DataFrame):
         self.articles = article_collection
         self.fact_checks = fact_check_collection
 
-        self.fact_checks.add(
-            ids=["placeholder"],
-            documents=[json.dumps({"placeholder": "This is a placeholder document to ensure the collection is not empty."})],
-        )
-
         article_data = self.articles.get()
         fact_check_data = self.fact_checks.get()
 
@@ -60,7 +55,7 @@ class ArgusData(pd.DataFrame):
                 doc = fact_check_docs[i] # type: ignore
                 json_doc = json.loads(doc) # type: ignore
                 self.fact_check_df = pd.concat([self.fact_check_df, pd.json_normalize(json_doc)], ignore_index=True) # type: ignore
-                
+
         except:
             self.fact_check_df = pd.DataFrame()
 
