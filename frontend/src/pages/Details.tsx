@@ -73,9 +73,7 @@ function DetailsView() {
   return (
     <main className="p-4">
       <h1 className="font-semibold text-2xl text-pretty">
-        {analysisComplete
-          ? "ChatGPT Convinces Sam Altman to Kill Humanity"
-          : "placeholder (title)"}
+        placeholder (title)
       </h1>
       <div className="flex items-center text-muted-foreground">
         <img
@@ -83,9 +81,7 @@ function DetailsView() {
           alt="The Guardian Logo"
           className="h-6 mr-2 rounded"
         />
-        <p className="italic text-lg">
-          {analysisComplete ? "The Onion" : "placeholder (site name)"}
-        </p>
+        <p className="italic text-lg">placeholder (site name)</p>
         <Separator orientation="vertical" className="mx-4" />
         <Tooltip>
           <TooltipTrigger className="flex items-center">
