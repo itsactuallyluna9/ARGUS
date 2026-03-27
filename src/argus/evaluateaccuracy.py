@@ -29,6 +29,8 @@ class Accuracy_Agent:
         self.article_collection = article_collection
         self.evaluation_model = evaluation_model
         self.think = think
+        self.agent_metadata = {}
+        self.agent_metadata["scheduled"] = datetime.now()
 
         self.default_prompt = """
         You are an accuracy checker for news articles. You will be given the full text of an article, a bias rating, and a list of key points from the article. 
@@ -72,6 +74,9 @@ class Accuracy_Agent:
 
     # initiates agentic model to evaluate articles accuracy, will use tool calls to research and take notes, coerces to structured output, returns accuracy score, reasoning, and sources used in evaluation
     def evaluate_accuracy(self) -> tuple[int, str, list[str]]:  # type: ignore
+        self.agent_metadata["started"] = datetime.now()
+        self.agent_metadata["total_tool_calls"] = 0
+        self.agent_metadata["tool_calls"] = {}
 
         available_tools = {
             "read_notes": self.read_notes,
@@ -124,6 +129,11 @@ class Accuracy_Agent:
                             }
                         )
                         print(f"Tool name: {tool_name}\nTool response: {tool_response}")
+                        self.agent_metadata["total_tool_calls"] += 1
+                        if tool_name in self.agent_metadata["tool_calls"]:
+                            self.agent_metadata["tool_calls"][tool_name] += 1
+                        else:
+                            self.agent_metadata["tool_calls"][tool_name] = 1
                     else:
                         messages.append(
                             {
@@ -153,6 +163,8 @@ class Accuracy_Agent:
         self.accuracy_score = accuracy_response["accuracy"]  # type: ignore
         self.accuracy_explanation = accuracy_response["reasoning"]  # type: ignore
         self.sources = accuracy_response["sources"]  # type: ignore
+        
+        self.agent_metadata["finished"] = datetime.now()
 
         return self.accuracy_score, self.accuracy_explanation, self.sources  # type: ignore
 
