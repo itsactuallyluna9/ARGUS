@@ -7,7 +7,15 @@ import {
 import { Spinner } from "@/components/ui/spinner";
 import { WebR } from "webr";
 import { Button } from "@/components/ui/button";
-import { Play, Square, ChartArea, Download, Upload } from "lucide-react";
+import {
+  Play,
+  Square,
+  ChartArea,
+  Download,
+  Upload,
+  Bot,
+  Cat,
+} from "lucide-react";
 import { EditorView, basicSetup } from "codemirror";
 import { r } from "codemirror-lang-r";
 import { ButtonGroup } from "@/components/ui/button-group";
@@ -71,15 +79,57 @@ function DataSandboxView() {
     setRWorking(true);
 
     // use download.file("<here>/api/data", "data.csv")
-    const downloadUrl = `${window.location.origin}/api/data`;
-    xtermRef.current.writeln(`download.file("${downloadUrl}", "data.csv")`);
-    await webRRef.current.writeConsole(
-      `download.file("${downloadUrl}", "data.csv")`,
+    // data/article_data.csv
+    // data/fact_check_data.csv
+    xtermRef.current.writeln(`# Downloading Data (this may take a while)`);
+
+    // await webRRef.current.FS.unlink("/home/web_user/data");
+    await webRRef.current.FS.mkdir("/home/web_user/data");
+
+    const response = await fetch("/api/data");
+    if (!response.ok) {
+      // TODO: panic
+      return;
+    }
+    const data = await response.json();
+
+    const article_fields = Object.keys(data.articles[0]);
+    const null_replacer = (key, value) => {
+      return value === null ? "" : value;
+    };
+    const article_csv = [
+      article_fields.join(","),
+      ...data.articles.map((article) =>
+        article_fields
+          .map((fieldName) => JSON.stringify(article[fieldName], null_replacer))
+          .join(","),
+      ),
+    ].join("\n");
+
+    const fact_check_fields = Object.keys(data.fact_checks[0]);
+    const fact_check_csv = [
+      fact_check_fields.join(","),
+      ...data.fact_checks.map((check) =>
+        fact_check_fields
+          .map((fieldName) => JSON.stringify(check[fieldName], null_replacer))
+          .join(","),
+      ),
+    ].join("\n");
+
+    console.log(article_csv);
+    console.log(fact_check_csv);
+
+    await webRRef.current.FS.writeFile(
+      "/home/web_user/data/article_data.csv",
+      new TextEncoder().encode(article_csv),
+    );
+    await webRRef.current.FS.writeFile(
+      "/home/web_user/data/fact_check_data.csv",
+      new TextEncoder().encode(fact_check_csv),
     );
 
-    xtermRef.current.writeln("data <- read.csv('data.csv')");
-    webRRef.current.writeConsole("data <- read.csv('data.csv')")
-  }
+    setRWorking(false);
+  };
 
   useEffect(() => {
     let isDisposed = false;
@@ -337,7 +387,7 @@ function DataSandboxView() {
       "/tmp/.webRtmp-source",
       new TextEncoder().encode(code),
     );
-    await webRRef.current.writeConsole(
+    webRRef.current.writeConsole(
       "source('/tmp/.webRtmp-source', echo = TRUE, max.deparse.length = Inf)",
     );
     // setRWorking(false)
@@ -395,6 +445,10 @@ function DataSandboxView() {
                       Run code
                     </TooltipContent>
                   </Tooltip>
+
+                  <Button size="icon" onClick={fetchData}>
+                    <Cat />
+                  </Button>
                   {window.crossOriginIsolated && (
                     <Tooltip>
                       <TooltipTrigger asChild>
