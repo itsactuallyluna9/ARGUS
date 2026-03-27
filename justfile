@@ -18,7 +18,7 @@ dev-chroma:
     uv run chroma-server-wrapper.py
 
 dev-flask:
-    uv run flask --app argus:app run --host 0.0.0.0 --port 5000 --debug
+    cd src/argus && uv run flask --app __init__.py:app run --host 0.0.0.0 --port 5000 --debug
 
 dev-node:
     cd frontend && npm run dev -- --host
