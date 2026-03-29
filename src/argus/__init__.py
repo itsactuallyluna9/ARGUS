@@ -259,6 +259,30 @@ def bulk_import_articles(urls, summarize_only):
             past_checks.add(ids=[check.id], documents=[json.dumps(check.to_dict())])
 
 
+@app.post("/api/debug/chroma")
+def debug_chromadb():
+    request_data = request.get_json()
+
+    collection = chromaclient.get_collection(request_data["collection"])
+    if len(request_data["query_texts"]) == 0:
+        result = collection.get(
+            limit=request_data["limit"],
+            ids=(request_data["ids"] or None),
+        )
+    else:
+        result = collection.query(
+            query_texts=request_data["query_texts"],
+            n_results=request_data["limit"],
+            ids=(request_data["ids"] or None),
+        )
+
+    if request_data["method"] == "delete":
+        collection.delete(ids=result["ids"])
+        return "{}", 204
+    else:
+        return jsonify(result)
+
+
 @app.get("/", defaults={"path": ""})
 @app.get("/<path:path>")
 def serve_frontend(path: str):
