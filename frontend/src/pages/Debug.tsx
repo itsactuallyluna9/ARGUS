@@ -9,11 +9,23 @@ import {
   TooltipContent,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
-import { Bot, Cpu, Database } from "lucide-react";
+import { Bot, Cpu, Database, Eraser, Search } from "lucide-react";
 import prettyMilliseconds from "pretty-ms";
 import prettyBytes from "pretty-bytes";
 import { useState } from "react";
 import { useInterval } from "usehooks-ts";
+import { ButtonGroup } from "@/components/ui/button-group";
+import { Input } from "@/components/ui/input";
+import { SelectionRange } from "@codemirror/state";
+import {
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import { useFormAction } from "react-router-dom";
 
 function Debug() {
   const [resources, setResources] = useState({
@@ -250,8 +262,172 @@ function Debug() {
             )}
           </CardContent>
         </Card>
+        <Card>
+          <CardHeader>
+            <CardTitle>ChromaDB Viewer</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <ChromaViewer />
+          </CardContent>
+        </Card>
       </div>
     </main>
+  );
+}
+
+function ChromaViewer() {
+  const [collection, setCollection] = useState("");
+  const [queryText, setQueryText] = useState("");
+  const [ids, setIDs] = useState("");
+  const [limit, setLimit] = useState(10);
+
+  const [searching, setSearching] = useState(false);
+  const [deleting, setDeleting] = useState(false);
+  // doingNetwork is true when either searching or deleting is true
+  const doingNetwork = searching || deleting;
+  const [results, setResults] = useState(null);
+  const [error, setError] = useState<string | null>(null);
+
+  const getParams = (method: string) => {
+    return {
+      method,
+      collection,
+      query_texts: queryText.split(";;").filter((str) => str.trim() !== ""),
+      ids: ids.split(",").filter((str) => str.trim() !== ""),
+      limit: limit,
+    };
+  };
+
+  const onSearch = async () => {
+    setSearching(true);
+    setError(null);
+    try {
+      const params = getParams("search");
+      const response = await fetch("/api/debug/chroma", {
+        method: "POST",
+        body: JSON.stringify(params),
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+
+      const data = await response.json();
+      setResults(data);
+    } catch (err) {
+      setError(
+        err instanceof Error ? err.message : "An unknown error occurred",
+      );
+      console.error("ChromaDB search error:", err);
+    } finally {
+      setSearching(false);
+    }
+  };
+
+  const onDelete = async () => {
+    setDeleting(true);
+    setError(null);
+    try {
+      const params = getParams("delete");
+      const response = await fetch("/api/debug/chroma", {
+        method: "POST",
+        body: JSON.stringify(params),
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+
+      const data = await response.json();
+      setResults(data);
+      // Clear inputs after successful deletion
+      setIDs("");
+    } catch (err) {
+      setError(
+        err instanceof Error ? err.message : "An unknown error occurred",
+      );
+      console.error("ChromaDB delete error:", err);
+    } finally {
+      setDeleting(false);
+    }
+  };
+
+  return (
+    <div>
+      <Select
+        disabled={doingNetwork}
+        value={collection}
+        onValueChange={setCollection}
+      >
+        <SelectTrigger>
+          <SelectValue placeholder="Collection" />
+        </SelectTrigger>
+        <SelectContent>
+          <SelectGroup>
+            <SelectItem value="articles">Articles</SelectItem>
+            <SelectItem value="fact_checks">Fact Checks</SelectItem>
+          </SelectGroup>
+        </SelectContent>
+      </Select>
+      <Input
+        disabled={doingNetwork}
+        value={queryText}
+        onChange={(e) => setQueryText(e.target.value)}
+        placeholder="Query Text (separated by ;;)"
+      />
+      <Input
+        disabled={doingNetwork}
+        value={ids}
+        onChange={(e) => setIDs(e.target.value)}
+        placeholder="IDs (separated by commas)"
+      />
+      <Input
+        disabled={doingNetwork}
+        value={limit.toString()}
+        onChange={(e) => {
+          const num = parseInt(e.target.value);
+          if (!isNaN(num) && num > 0) setLimit(num);
+        }}
+        placeholder="Limit"
+        type="number"
+        min="1"
+      />
+      <ButtonGroup>
+        <Button disabled={doingNetwork} onClick={onSearch}>
+          {searching ? <Spinner /> : <Search />}
+          Search
+        </Button>
+        <Button
+          disabled={doingNetwork}
+          onClick={onDelete}
+          variant="destructive"
+        >
+          {deleting ? <Spinner /> : <Eraser />}
+          Delete
+        </Button>
+      </ButtonGroup>
+
+      {error && (
+        <div className="p-4 mb-4 bg-red-50 border border-red-200 text-red-800 rounded">
+          Error: {error}
+        </div>
+      )}
+
+      {results && (
+        <div className="mt-4">
+          <h2 className="font-semibold mb-2">Results:</h2>
+          <pre className="bg-gray-50 p-4 rounded overflow-auto">
+            {JSON.stringify(results, null, 2)}
+          </pre>
+        </div>
+      )}
+    </div>
   );
 }
 
