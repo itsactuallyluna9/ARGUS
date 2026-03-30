@@ -99,6 +99,7 @@ function DataSandboxView() {
 
   const [pagerContent, setPagerContent] = useState("");
   const [pagerTitle, setPagerTitle] = useState("");
+  const [pagerMethod, setPagerMethod] = useState("");
 
   const [currentTab, setCurrentTab] = useState("data-loader");
 
@@ -309,6 +310,7 @@ function DataSandboxView() {
             await webR.FS.unlink(event.data.path);
           }
           setCurrentTab("pager");
+          setPagerMethod("pager");
           setPagerTitle(event.data.title);
           setPagerContent(new TextDecoder().decode(pager_file));
           break;
@@ -333,11 +335,42 @@ function DataSandboxView() {
           setViewData(converted);
           break;
         case "browse":
-          // this isn't supported :(
-          console.warn("R browse event received but not supported");
-          xtermRef.current?.writeln(
-            "# Browse event received but not supported - sorry :(",
+          console.log(event);
+          let html_source = new TextDecoder().decode(
+            await webR.FS.readFile(event.data.url),
           );
+          // okay, we need to do the following:
+          // 1) replace all <script src=...> tags with inline scripts
+          // - should read from /path/to/R/library/plotly/htmlwidgets/{path}
+          // 2) make it iframable
+          // - either url or just. set the source.
+          const root_node = new DOMParser().parseFromString(
+            html_source,
+            "text/html",
+          );
+          
+          // TODO: also links (rel=stylesheet)
+          for (let script of root_node.scripts) {
+            if (script.src) {
+              const script_src = new URL(script.src).pathname;
+              script.src = "";
+              console.log(script_src);
+              console.log(`/usr/lib/R/library/plotly/htmlwidgets${script_src}`);
+              script.innerText = new TextDecoder().decode(
+                await webR.FS.readFile(
+                  `/usr/lib/R/library/plotly/htmlwidgets${script_src}`,
+                ),
+              );
+            }
+          }
+
+          html_source = new XMLSerializer().serializeToString(root_node);
+          console.log(html_source);
+
+          setCurrentTab("pager");
+          setPagerMethod("browse");
+          setPagerTitle("?");
+          setPagerContent(html_source);
           break;
         case "canvas":
           switch (event.data.event) {
@@ -572,8 +605,19 @@ function DataSandboxView() {
                   </Table>
                 </TabsContent>
                 <TabsContent value="pager">
-                  <h2 className="text-lg font-bold">{pagerTitle}</h2>
-                  <pre className="whitespace-pre-wrap">{pagerContent}</pre>
+                  {pagerMethod === "browse" && (
+                    <iframe
+                      title={pagerTitle}
+                      srcDoc={pagerContent}
+                      className="w-full h-96 border"
+                    />
+                  )}
+                  {pagerMethod === "pager" && (
+                    <>
+                      <h2 className="text-lg font-bold">{pagerTitle}</h2>
+                      <pre className="whitespace-pre-wrap">{pagerContent}</pre>
+                    </>
+                  )}
                 </TabsContent>
               </Tabs>
             </ResizablePanel>
