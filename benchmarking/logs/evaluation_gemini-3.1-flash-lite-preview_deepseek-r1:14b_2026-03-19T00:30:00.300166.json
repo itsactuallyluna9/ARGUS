@@ -1,8 +1,0 @@
-{
-    "accuracy": 100,
-    "completeness": 95,
-    "reasoning": "The summary is highly accurate and correctly identifies all core findings from the article. It captures the methodology, the primary hypothesis regarding environmental heat, and the comparison to modern birds. It is very complete, omitting only minor details such as the specific species name (Heyuannia huangi) and the exact temperature variances measured in the experiment, which are not strictly necessary for a comprehensive overview.",
-    "model": "deepseek-r1:14b",
-    "thinking": false,
-    "evalModel": "gemini-3.1-flash-lite-preview"
-}

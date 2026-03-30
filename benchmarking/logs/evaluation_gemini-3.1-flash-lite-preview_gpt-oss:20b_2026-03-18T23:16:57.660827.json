@@ -1,8 +1,0 @@
-{
-    "accuracy": 85,
-    "completeness": 70,
-    "reasoning": "The summary accurately reflects the core scientific findings and community sentiments described in the article, such as the population trends and the debate surrounding the 'invasive' label. However, it is less of a summary of the article's narrative and more of a policy recommendation document written in the voice of a consultant, meaning it omits significant portions of the article's historical context, such as the specific origin story involving the biomedical research facility and the details regarding the 1947 escape. While it successfully captures the central tension of the text, it loses much of the journalistic reporting on the specific individuals and history that defined the article's structure.",
-    "model": "gpt-oss:20b",
-    "thinking": false,
-    "evalModel": "gemini-3.1-flash-lite-preview"
-}

@@ -1,8 +1,0 @@
-{
-    "accuracy": 80,
-    "completeness": 85,
-    "reasoning": "The summary is mostly accurate, but it contains a significant factual error: it identifies the vervet monkeys as 'European green monkeys,' whereas the article correctly identifies them as African vervet monkeys (Chlorocebus sabaeus/green monkey), which arrived via the biomedical trade. Additionally, it states the Florida Fish and Wildlife Commission has not classified them as invasive, while the text explicitly mentions the commission considers them an invasive species due to their nonnative status and potential impacts. It is otherwise a good, comprehensive overview of the situation.",
-    "model": "nemotron-3-nano:4b",
-    "thinking": false,
-    "evalModel": "gemini-3.1-flash-lite-preview"
-}

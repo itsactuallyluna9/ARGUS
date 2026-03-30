@@ -1,8 +1,0 @@
-{
-    "accuracy": 100,
-    "completeness": 95,
-    "reasoning": "The summary is highly accurate, correctly reflecting the study's methodology and findings regarding oviraptor egg incubation. It captures the essence of the research published in Frontiers in Ecology and Evolution. It is very complete, though it omits the minor detail regarding the specific materials (polystyrene foam, resin) used for the model nest, which is an acceptable exclusion for a concise summary.",
-    "model": "gemma3:4b",
-    "thinking": false,
-    "evalModel": "gemini-3.1-flash-lite-preview"
-}

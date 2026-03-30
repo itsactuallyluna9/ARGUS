@@ -1,8 +1,0 @@
-{
-    "accuracy": 100,
-    "completeness": 95,
-    "reasoning": "The summary accurately reflects the project's goals, technical implementation, and motivations. It captures all major factual claims, including the specific hardware examples and future roadmap. The only minor omission is the specific mention of California\u2019s Digital Age Assurance Act as an example of the legislation the project is responding to, but the summary remains highly comprehensive.",
-    "model": "gemma3:4b",
-    "thinking": false,
-    "evalModel": "gemini-3.1-flash-lite-preview"
-}

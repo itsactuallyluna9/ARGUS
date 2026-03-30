@@ -1,8 +1,0 @@
-{
-    "accuracy": 100,
-    "completeness": 95,
-    "reasoning": "The summary is highly accurate and captures the core of the article effectively. It captures all key factual claims. It is missing the specific detail about Redford's age at his time of death, but this does not significantly impact the overall quality or completeness of the summary regarding the main subject.",
-    "model": "gemma3:12b",
-    "evalModel": "gemini-3.1-flash-lite-preview",
-    "thinking": false
-}

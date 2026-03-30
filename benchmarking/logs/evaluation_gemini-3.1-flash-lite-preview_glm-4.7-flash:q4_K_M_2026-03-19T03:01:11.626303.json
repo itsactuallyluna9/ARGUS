@@ -1,8 +1,0 @@
-{
-    "accuracy": 100,
-    "completeness": 95,
-    "reasoning": "The summary and the key points are highly accurate, reflecting the content of the article faithfully. The completeness is excellent, covering the conflicting statements, the reactions of allies, the perspective of families of service members, and the geopolitical fallout. It only slightly misses the nuance of the UK's position, which is more complex than a simple refusal to intervene, but this does not significantly detract from the overall quality.",
-    "model": "glm-4.7-flash:q4_K_M",
-    "thinking": false,
-    "evalModel": "gemini-3.1-flash-lite-preview"
-}

@@ -1,8 +1,0 @@
-{
-    "accuracy": 100,
-    "completeness": 100,
-    "reasoning": "The summary and the key factual claims are highly accurate and align perfectly with the provided article. All essential details, including the specific films, the nature of the tribute, and the background context regarding the actresses' relationships with Redford, are included in a comprehensive manner.",
-    "model": "qwen3.5:27b",
-    "thinking": false,
-    "evalModel": "gemini-3.1-flash-lite-preview"
-}

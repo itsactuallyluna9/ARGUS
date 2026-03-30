@@ -1,8 +1,0 @@
-{
-    "accuracy": 100,
-    "completeness": 95,
-    "reasoning": "The summary is highly accurate and captures the core conflict, the economic context, and the industry trends discussed in the article. It effectively synthesizes the viewpoints of Brad Reese and the industry expert Alexis Villacis. The completeness is excellent, though it could have briefly mentioned that Hershey explicitly stated their traditional Peanut Butter Cups remain unchanged to further reflect the nuance of their public stance.",
-    "model": "gemma3:12b",
-    "thinking": false,
-    "evalModel": "gemini-3.1-flash-lite-preview"
-}

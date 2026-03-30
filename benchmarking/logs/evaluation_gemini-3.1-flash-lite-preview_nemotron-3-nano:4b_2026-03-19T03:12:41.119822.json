@@ -1,8 +1,0 @@
-{
-    "accuracy": 90,
-    "completeness": 95,
-    "reasoning": "The summary is highly accurate and comprehensive, capturing the project's purpose and technical nature well. There is a minor inaccuracy in the summary text where it states the project avoids age verification 'in compliance with' California's law; the article actually states the project engages in 'intentional non-compliance' to protest the law. Otherwise, the summary perfectly reflects the key points and the intent of the project.",
-    "model": "nemotron-3-nano:4b",
-    "thinking": false,
-    "evalModel": "gemini-3.1-flash-lite-preview"
-}

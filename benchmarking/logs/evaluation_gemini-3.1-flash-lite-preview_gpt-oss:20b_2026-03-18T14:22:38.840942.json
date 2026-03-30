@@ -1,8 +1,0 @@
-{
-    "accuracy": 15,
-    "completeness": 30,
-    "reasoning": "The summary is highly inaccurate and contains a significant amount of fabricated information. It invents institutions (Institute of Marine and Coastal Sciences at the University of Florida), fictional scientists (Dr. Emily Vargas), non-existent government reports, and inaccurate statistics (e.g., origin of the monkeys, population size, and local government resolutions). While it correctly identifies the existence of the monkey colony and the general tension between public sentiment and ecological concerns, it invents almost all of its evidence and data points, rendering it unreliable.",
-    "model": "gpt-oss:20b",
-    "thinking": false,
-    "evalModel": "gemini-3.1-flash-lite-preview"
-}

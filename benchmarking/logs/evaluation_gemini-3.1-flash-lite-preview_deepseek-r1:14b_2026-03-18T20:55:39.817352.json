@@ -1,8 +1,0 @@
-{
-    "accuracy": 100,
-    "completeness": 95,
-    "reasoning": "The summary accurately reflects the core facts provided in the article, including the specific changes to the polio advisory list and the CDC's health recommendations. It captures the essence of the polio threat and the broader context of other travel advisories. The completeness is high, though it omits the specific detail about the optional adult booster dose recommendation, which is a minor point in the context of the overall article.",
-    "model": "deepseek-r1:14b",
-    "thinking": false,
-    "evalModel": "gemini-3.1-flash-lite-preview"
-}

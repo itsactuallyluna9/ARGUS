@@ -1,8 +1,0 @@
-{
-    "accuracy": 100,
-    "completeness": 95,
-    "reasoning": "The summary is highly accurate, correctly synthesizing the researchers' findings and experimental methodology. It captures the essence of the study regarding the Heyuannia huangi's unique nest structure and the role of solar heat. It is nearly complete, missing only the specific mention of the genus name (Heyuannia huangi) and the exact time period (approx. 70-66 million years ago), though this does not detract from the overall quality of the summary.",
-    "model": "nemotron-3-nano:4b",
-    "thinking": false,
-    "evalModel": "gemini-3.1-flash-lite-preview"
-}

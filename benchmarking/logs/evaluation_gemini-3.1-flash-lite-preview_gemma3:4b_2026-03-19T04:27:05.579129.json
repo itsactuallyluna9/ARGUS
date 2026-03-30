@@ -1,8 +1,0 @@
-{
-    "accuracy": 100,
-    "completeness": 95,
-    "reasoning": "The summary is highly accurate and correctly identifies the core event and historical context provided in the article. It is nearly complete, missing only minor details such as the specific presenters (Kumail Nanjiani and Mark Wahlberg) and the specific clarification regarding the 1932 'tie' not being a true statistical tie, though these omissions do not significantly impact the overall quality of the summary.",
-    "model": "gemma3:4b",
-    "thinking": false,
-    "evalModel": "gemini-3.1-flash-lite-preview"
-}

@@ -1,8 +1,0 @@
-{
-    "accuracy": 85,
-    "completeness": 70,
-    "reasoning": "The summary accurately captures the central tension between ecological science and community perception regarding the vervet monkeys. However, it is incomplete as it fails to mention the key historical context of how the monkeys arrived (the 1947 escape from a private research center) and omits the specific findings from Dr. Missy Williams\u2019 research regarding the population's projected extinction, which is a major focus of the article.",
-    "model": "nemotron-3-nano:4b",
-    "thinking": false,
-    "evalModel": "gemini-3.1-flash-lite-preview"
-}

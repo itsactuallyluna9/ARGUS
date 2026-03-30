@@ -1,8 +1,0 @@
-{
-    "accuracy": 100,
-    "completeness": 90,
-    "reasoning": "The summary is highly accurate and correctly identifies the core event and context provided in the article. It is mostly complete, though it misses the specific detail regarding the 2013 tie which was explicitly mentioned in the text as the most recent prior tie, opting instead to list older historical examples.",
-    "model": "gemma3:4b",
-    "thinking": false,
-    "evalModel": "gemini-3.1-flash-lite-preview"
-}

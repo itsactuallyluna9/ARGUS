@@ -1,8 +1,0 @@
-{
-    "accuracy": 100,
-    "completeness": 100,
-    "reasoning": "The summary and the included key points are highly accurate, faithfully representing the technical, legal, and roadmap-related aspects of the article. It captures all essential details, including the project's purpose, its methodology, the target legislation, and the future plans mentioned, leaving out no significant information.",
-    "model": "glm-4.7-flash:q4_K_M",
-    "thinking": false,
-    "evalModel": "gemini-3.1-flash-lite-preview"
-}

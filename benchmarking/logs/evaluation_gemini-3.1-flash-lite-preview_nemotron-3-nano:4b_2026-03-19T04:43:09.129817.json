@@ -1,8 +1,0 @@
-{
-    "accuracy": 90,
-    "completeness": 95,
-    "reasoning": "The summary is highly accurate and comprehensive, capturing the essence of the scientific, social, and policy debate regarding the Dania Beach monkeys. It includes the key findings from Missy Williams' research and the differing perspectives of ecologists and local residents. There is a minor factual inaccuracy in point 1: the summary uses the scientific name 'Scotocercus punctatus', which refers to a bird (the streaked scrub warbler), while the text correctly identifies the monkeys as 'Chlorocebus sabaeus'.",
-    "model": "nemotron-3-nano:4b",
-    "thinking": false,
-    "evalModel": "gemini-3.1-flash-lite-preview"
-}

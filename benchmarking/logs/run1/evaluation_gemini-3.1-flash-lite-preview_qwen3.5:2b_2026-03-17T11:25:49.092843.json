@@ -1,7 +1,0 @@
-{
-    "accuracy": 100,
-    "completeness": 95,
-    "reasoning": "The summary is highly accurate and captures the core tension of the article: Trump's claim versus the denials from former presidents' representatives. It covers all essential details including the reason for the claim, the denial of contact, and the context of the events. It could be marginally more complete by explicitly noting that the last time all presidents were together was the inauguration in 2025, but this is a minor detail compared to the main narrative.",
-    "model": "qwen3.5:2b",
-    "evalModel": "gemini-3.1-flash-lite-preview"
-}

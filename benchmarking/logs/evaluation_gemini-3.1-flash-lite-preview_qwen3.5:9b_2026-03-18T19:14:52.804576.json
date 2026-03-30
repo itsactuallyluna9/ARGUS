@@ -1,8 +1,0 @@
-{
-    "accuracy": 100,
-    "completeness": 95,
-    "reasoning": "The summary accurately captures the core technical and philosophical aspects of the project, including the motivation behind the protest, the technical implementation, and the future roadmap. It is highly complete, though it misses minor detail regarding the specific mention of 'Milk-V Duo S' versus the earlier mention of 'Milk-V Duo', which is negligible. The reasoning and factual points provided perfectly reflect the original article.",
-    "model": "qwen3.5:9b",
-    "thinking": false,
-    "evalModel": "gemini-3.1-flash-lite-preview"
-}

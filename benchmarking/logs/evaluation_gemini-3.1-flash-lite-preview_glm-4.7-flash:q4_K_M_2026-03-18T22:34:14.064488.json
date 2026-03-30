@@ -1,8 +1,0 @@
-{
-    "accuracy": 95,
-    "completeness": 90,
-    "reasoning": "The summary is highly accurate in its representation of the article's core arguments and facts, correctly identifying the key figures (Missy Williams), the scientific debate, and the community dynamics. It accurately distinguishes between the competing perspectives on the monkeys' status as an invasive species. The completeness score is slightly docked because it misses a few specific, noteworthy details from the text, such as the specific origin story involving the 1947 biomedical research facility escape (attributing it instead to generic 'stowaways') and the specific genetic finding that they are Chlorocebus sabaeus from West Africa, rather than the earlier East African theory.",
-    "model": "glm-4.7-flash:q4_K_M",
-    "thinking": false,
-    "evalModel": "gemini-3.1-flash-lite-preview"
-}

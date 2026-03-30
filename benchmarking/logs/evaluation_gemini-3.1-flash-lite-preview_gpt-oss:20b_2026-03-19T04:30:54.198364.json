@@ -1,8 +1,0 @@
-{
-    "accuracy": 100,
-    "completeness": 95,
-    "reasoning": "The summary is highly accurate and captures the core narrative, including the specific anecdote about Brad Reese and the macroeconomic factors affecting the cocoa industry. It is nearly complete, missing only minor details such as the mention of specific competitor brands like Toblerone and Nestl\u00e9's broader context, but these do not detract from the main focus of the article.",
-    "model": "gpt-oss:20b",
-    "thinking": false,
-    "evalModel": "gemini-3.1-flash-lite-preview"
-}

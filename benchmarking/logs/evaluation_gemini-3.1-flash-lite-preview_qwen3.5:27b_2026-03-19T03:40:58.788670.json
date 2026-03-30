@@ -1,8 +1,0 @@
-{
-    "accuracy": 100,
-    "completeness": 95,
-    "reasoning": "The summary is highly accurate, correctly identifying all key facts and historical contexts provided in the article. It is extremely complete, covering the specific films involved, the significance of the event, the reaction of the participants, and the historical list of past ties. It only narrowly misses being 100% complete by omitting the full list of all seven historical ties, though it provides sufficient context by citing the most notable examples.",
-    "model": "qwen3.5:27b",
-    "thinking": false,
-    "evalModel": "gemini-3.1-flash-lite-preview"
-}

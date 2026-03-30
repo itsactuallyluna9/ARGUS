@@ -1,8 +1,0 @@
-{
-    "accuracy": 100,
-    "completeness": 100,
-    "reasoning": "The summary provides a highly accurate and comprehensive overview of the article. It captures all critical information, including the specific countries added and removed, the CDC's vaccination recommendations, the nature of the virus, and the contextual information regarding the Level 2 status and other existing travel advisories.",
-    "model": "qwen3.5:27b",
-    "thinking": false,
-    "evalModel": "gemini-3.1-flash-lite-preview"
-}

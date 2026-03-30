@@ -1,8 +1,0 @@
-{
-    "accuracy": 100,
-    "completeness": 95,
-    "reasoning": "The summary is highly accurate and correctly identifies the central conflict regarding Trump's unsubstantiated claim. It covers all major factual points mentioned in the article. It is slightly less than perfect only because it omits the specific context regarding the date of the last time all presidents were together (the 2025 inauguration), though this is a minor detail in relation to the main story.",
-    "model": "deepseek-r1:14b",
-    "evalModel": "gemini-3.1-flash-lite-preview",
-    "thinking": false
-}

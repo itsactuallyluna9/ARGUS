@@ -1,8 +1,0 @@
-{
-    "accuracy": 100,
-    "completeness": 100,
-    "reasoning": "The summary is highly accurate, reflecting all the key information from the article without error. It is also very complete, covering the specific changes to the country list, the vaccination recommendations for children and adults, the nature of the virus, and the additional travel advisories mentioned in the text.",
-    "model": "gpt-oss:20b",
-    "thinking": false,
-    "evalModel": "gemini-3.1-flash-lite-preview"
-}

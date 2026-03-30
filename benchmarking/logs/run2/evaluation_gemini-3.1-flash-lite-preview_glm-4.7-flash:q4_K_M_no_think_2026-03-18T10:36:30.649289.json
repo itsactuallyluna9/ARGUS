@@ -1,8 +1,0 @@
-{
-    "accuracy": 100,
-    "completeness": 100,
-    "reasoning": "The summary and key points accurately reflect the information presented in the original article. It covers all essential details, including the species studied, the methodology used by the researchers, the difference between this strategy and that of modern birds, and the key findings regarding the role of solar heat.",
-    "model": "glm-4.7-flash:q4_K_M",
-    "evalModel": "gemini-3.1-flash-lite-preview",
-    "thinking": false
-}

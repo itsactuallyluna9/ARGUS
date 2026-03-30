@@ -1,8 +1,0 @@
-{
-    "accuracy": 100,
-    "completeness": 95,
-    "reasoning": "The summary is highly accurate and captures all the essential information from the article. It misses only minor details, such as the specific list of all seven historical ties provided at the end of the text, but it sufficiently covers the significance and context of the 2026 event.",
-    "model": "gemma3:12b",
-    "evalModel": "gemini-3.1-flash-lite-preview",
-    "thinking": false
-}

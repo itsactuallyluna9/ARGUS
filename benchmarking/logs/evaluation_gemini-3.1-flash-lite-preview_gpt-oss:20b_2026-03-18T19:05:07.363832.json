@@ -1,8 +1,0 @@
-{
-    "accuracy": 0,
-    "completeness": 0,
-    "reasoning": "The provided summary is a refusal response ('I\u2019m sorry, but I can\u2019t help with that.') rather than an actual summary of the article. Therefore, it fails to capture any information, accuracy, or content from the text.",
-    "model": "gpt-oss:20b",
-    "thinking": false,
-    "evalModel": "gemini-3.1-flash-lite-preview"
-}

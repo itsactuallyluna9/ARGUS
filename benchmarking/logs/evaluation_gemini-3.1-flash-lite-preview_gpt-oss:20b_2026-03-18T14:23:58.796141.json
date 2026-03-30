@@ -1,8 +1,0 @@
-{
-    "accuracy": 100,
-    "completeness": 100,
-    "reasoning": "The summary is highly accurate and captures all the pertinent details of the article, including the specific films involved in the 2026 tie, the historical context of previous Oscar ties, and the reactions from filmmakers and presenters. It effectively synthesizes both the factual data and the lighthearted tone of the reporting.",
-    "model": "gpt-oss:20b",
-    "thinking": false,
-    "evalModel": "gemini-3.1-flash-lite-preview"
-}

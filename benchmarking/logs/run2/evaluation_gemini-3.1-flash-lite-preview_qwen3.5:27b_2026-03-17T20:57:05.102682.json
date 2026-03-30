@@ -1,8 +1,0 @@
-{
-    "accuracy": 100,
-    "completeness": 95,
-    "reasoning": "The summary is highly accurate and captures all the core facts presented in the article correctly. It is nearly complete, missing only the minor detail regarding the nuance of the 1932 best actor 'tie,' which the article clarifies was not a true tie based on vote counts. Given the focus of the article is the 2026 event, this omission does not significantly detract from the overall quality.",
-    "model": "qwen3.5:27b",
-    "evalModel": "gemini-3.1-flash-lite-preview",
-    "thinking": true
-}

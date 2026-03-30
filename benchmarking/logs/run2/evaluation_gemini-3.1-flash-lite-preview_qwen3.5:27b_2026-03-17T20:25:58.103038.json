@@ -1,8 +1,0 @@
-{
-    "accuracy": 100,
-    "completeness": 100,
-    "reasoning": "The summary is highly accurate, faithfully reflecting the claims made by Trump and the subsequent denials by the representatives of the four living former presidents. It includes all essential context provided in the article, such as the specific settings where the comments were made, the rationale given by Trump for his secrecy, and the relevant historical background regarding the presidents' interactions.",
-    "model": "qwen3.5:27b",
-    "evalModel": "gemini-3.1-flash-lite-preview",
-    "thinking": true
-}

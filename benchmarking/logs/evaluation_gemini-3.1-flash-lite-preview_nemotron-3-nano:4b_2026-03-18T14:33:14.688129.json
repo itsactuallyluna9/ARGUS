@@ -1,8 +1,0 @@
-{
-    "accuracy": 100,
-    "completeness": 95,
-    "reasoning": "The summary accurately captures the core details of the CDC's updated polio travel advisory and the specific vaccine recommendations provided in the text. It correctly identifies the addition of Laos and Namibia and the removal of four other countries. It is highly complete, though it could have briefly mentioned that the CDC has other unrelated travel advisories mentioned at the end of the article to be fully comprehensive, though this is a minor detail.",
-    "model": "nemotron-3-nano:4b",
-    "thinking": false,
-    "evalModel": "gemini-3.1-flash-lite-preview"
-}

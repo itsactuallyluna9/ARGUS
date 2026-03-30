@@ -1,8 +1,0 @@
-{
-    "accuracy": 100,
-    "completeness": 100,
-    "reasoning": "The summary is highly accurate and captures all the essential details of the article, including the specific changes to the CDC's polio advisory list, the clinical context of the virus, and the broader context of other CDC travel notices. The key points are correctly represented, and the reasoning for the travel recommendations is clearly explained.",
-    "model": "nemotron-3-nano:4b",
-    "thinking": false,
-    "evalModel": "gemini-3.1-flash-lite-preview"
-}

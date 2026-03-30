@@ -1,8 +1,0 @@
-{
-    "accuracy": 100,
-    "completeness": 100,
-    "reasoning": "The summary and the included key points are highly accurate, correctly relaying Trump's claims and the subsequent denials from the former presidents' camps. The points cover all essential aspects of the report, including the context of the claims, the denials, and the surrounding political atmosphere described in the text.",
-    "model": "gemma3:12b",
-    "thinking": false,
-    "evalModel": "gemini-3.1-flash-lite-preview"
-}

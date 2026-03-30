@@ -1,7 +1,0 @@
-{
-    "accuracy": 0,
-    "completeness": 0,
-    "reasoning": "The user failed to provide a summary to evaluate. Therefore, the accuracy and completeness cannot be determined.",
-    "model": "qwen3.5:2b",
-    "evalModel": "gemini-3.1-flash-lite-preview"
-}

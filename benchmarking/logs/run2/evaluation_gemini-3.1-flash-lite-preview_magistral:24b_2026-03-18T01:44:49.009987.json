@@ -1,8 +1,0 @@
-{
-    "accuracy": 100,
-    "completeness": 95,
-    "reasoning": "The summary is highly accurate and captures all the core factual elements of the article, including the claim, the denial, and the broader context of Trump's relationships with former presidents. It is nearly complete, missing only the minor detail that the reporter specifically asked about George W. Bush and Bill Clinton, which prompted Trump's further vague remarks, but this does not significantly detract from the overall coverage.",
-    "model": "magistral:24b",
-    "evalModel": "gemini-3.1-flash-lite-preview",
-    "thinking": true
-}

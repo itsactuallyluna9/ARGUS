@@ -1,7 +1,0 @@
-{
-    "accuracy": 90,
-    "completeness": 90,
-    "reasoning": "The summary is highly accurate and captures the core of the provided text. The completeness score is docked slightly because the summary in the points section incorrectly cites Robert Redford's death as September 2025, whereas the article states he died in September of the previous year (relative to the 2026 event). Otherwise, the summary correctly captures the sentiment and key details of the interaction.",
-    "model": "qwen3.5:9b",
-    "evalModel": "gemini-3.1-flash-lite-preview"
-}

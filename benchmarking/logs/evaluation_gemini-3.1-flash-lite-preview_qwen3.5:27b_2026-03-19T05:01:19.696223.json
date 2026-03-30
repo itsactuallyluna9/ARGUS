@@ -1,8 +1,0 @@
-{
-    "accuracy": 100,
-    "completeness": 100,
-    "reasoning": "The summary and points provided are highly accurate and align perfectly with the source article's technical details, the project's goals, and its future roadmap. All major factual claims from the text, including specific hardware examples and planned distribution methods, are comprehensively covered.",
-    "model": "qwen3.5:27b",
-    "thinking": false,
-    "evalModel": "gemini-3.1-flash-lite-preview"
-}

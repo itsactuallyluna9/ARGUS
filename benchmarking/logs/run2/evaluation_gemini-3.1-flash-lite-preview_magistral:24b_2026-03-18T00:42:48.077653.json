@@ -1,8 +1,0 @@
-{
-    "accuracy": 100,
-    "completeness": 95,
-    "reasoning": "The summary is highly accurate and captures the core findings of the article without introducing errors. It is very complete, covering the methodology (life-sized model), the specific behavioral differences from modern birds (nest layout), and the key conclusion regarding solar heat. It omits the specific species name (Heyuannia huangi) and the historical timeframe, but this does not detract from the overall quality of the summary.",
-    "model": "magistral:24b",
-    "evalModel": "gemini-3.1-flash-lite-preview",
-    "thinking": true
-}

@@ -1,8 +1,0 @@
-{
-    "accuracy": 100,
-    "completeness": 95,
-    "reasoning": "The summary is highly accurate and captures the core message and specific updates regarding the CDC's polio travel advisory. It is nearly complete, though it omitted the detail that the update also involved removing Finland, Ghana, Spain, and Zimbabwe from the list, which provides a more comprehensive view of the change.",
-    "model": "gemma3:4b",
-    "thinking": false,
-    "evalModel": "gemini-3.1-flash-lite-preview"
-}

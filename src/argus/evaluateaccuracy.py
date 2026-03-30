@@ -13,17 +13,7 @@ from argus.summarizearticle import summarize_article
 
 
 class Accuracy_Agent:
-    def __init__(
-        self,
-        article_text: str,
-        article_metadata: dict,
-        bias_rating: str,
-        key_points: list[str],
-        article_collection: chromadb.Collection,
-        evaluation_model: str = "glm-4.7-flash",
-        think: bool = True,
-        use_long_prompt: bool = True
-    ):
+    def __init__(self, article_text: str, article_metadata: dict, bias_rating: str, key_points: list[str], article_collection: chromadb.Collection, evaluation_model: str = "glm-4.7-flash", think: bool = True, use_long_prompt: bool = True):
 
         self.article_text = article_text
         self.title = article_metadata.get("title", "Title not found")
@@ -157,13 +147,12 @@ class Accuracy_Agent:
                         "content": "Ensure the response is in the correct JSON format according to the schema. The output should include an accuracy score (0-100), reasoning, and the URLs for sources used in the evaluation.",
                     }
                 )
-                response = ollama.chat(
-                    model=self.evaluation_model, think=self.think, messages=messages
-                )
+                response = ollama.chat(model=self.evaluation_model, think=self.think, messages=messages)
                 break
 
         accuracy_response = fix_json_formatting(
-            response.message.content, Accuracy_Schema # type: ignore
+            response.message.content,
+            Accuracy_Schema,  # type: ignore
         )
 
         self.accuracy_score = accuracy_response["accuracy"]  # type: ignore
@@ -193,10 +182,10 @@ class Accuracy_Agent:
         for i in range(len(search_results["ids"][0])):
             results.append(
                 (
-                    search_results["metadatas"][0][i]["description"], # type: ignore
+                    search_results["metadatas"][0][i]["description"],  # type: ignore
                     search_results["ids"][0][i],
                 )
-            )  
+            )
 
         return results
 
@@ -221,9 +210,7 @@ class Accuracy_Agent:
         """Args: url (str): The URL of the webpage to summarize."""
 
         if len(self.article_collection.get(ids=[url])["ids"]) == 0:
-            print(
-                f"Article {url} not found in database, summarizing and adding to database..."
-            )
+            print(f"Article {url} not found in database, summarizing and adding to database...")
 
             article_metadata, article_text = get_page(url)
             summary = summarize_article(article_text)
@@ -232,18 +219,7 @@ class Accuracy_Agent:
                 self.article_collection.add(
                     ids=[url],
                     documents=[summary["articleSummary"]],
-                    metadatas=[
-                        {
-                            "url": url,
-                            "description": summary["description"],
-                            "summary": summary["articleSummary"],
-                            "bias": summary["biasSummary"],
-                            "points": summary["points"],
-                            "article_text": article_text,
-                            "timestamp": datetime.now().isoformat(),
-                            "metadata": json.dumps(article_metadata)
-                        }
-                    ],
+                    metadatas=[{"url": url, "description": summary["description"], "summary": summary["articleSummary"], "bias": summary["biasSummary"], "points": summary["points"], "article_text": article_text, "timestamp": datetime.now().isoformat(), "metadata": json.dumps(article_metadata)}],
                 )
                 print(f"Article {url} added to database.")
 
@@ -269,9 +245,7 @@ class Accuracy_Agent:
 
 if __name__ == "__main__":
     print("starting")
-    article_metadata, article_text = get_page(
-        "https://www.usatoday.com/story/travel/2026/03/23/check-tsa-wait-times-government-shutdown-airports/89282748007/?utm_source=firefox-newtab-en-us"
-    )
+    article_metadata, article_text = get_page("https://www.usatoday.com/story/travel/2026/03/23/check-tsa-wait-times-government-shutdown-airports/89282748007/?utm_source=firefox-newtab-en-us")
     print(article_text)
     bias_rating = ""
     key_points = []

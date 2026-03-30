@@ -1,8 +1,0 @@
-{
-    "accuracy": 100,
-    "completeness": 95,
-    "reasoning": "The summary is highly accurate and captures the core narrative, the specific catalyst (Brad Reese), and the broader economic context provided by the article. It effectively synthesizes the viewpoints of the various actors mentioned. It is nearly complete, missing only minor details regarding specific competitor brands mentioned in the article, which does not detract from the overall quality of the summary.",
-    "model": "gemma3:12b",
-    "evalModel": "gemini-3.1-flash-lite-preview",
-    "thinking": false
-}

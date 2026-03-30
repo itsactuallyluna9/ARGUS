@@ -1,8 +1,0 @@
-{
-    "accuracy": 85,
-    "completeness": 90,
-    "reasoning": "The summary is highly accurate regarding the core event, the president's conflicting statements, and the reaction of international allies. It loses minor accuracy points because it introduces details not explicitly present in the provided source text, such as the specific cause of the war being a 'missile attack on two US military bases in Iraq,' which is not mentioned in the provided article. Otherwise, it captures the essential claims and the tone of the report well.",
-    "model": "qwen3.5:9b",
-    "evalModel": "gemini-3.1-flash-lite-preview",
-    "thinking": true
-}

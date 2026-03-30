@@ -1,8 +1,0 @@
-{
-    "accuracy": 100,
-    "completeness": 95,
-    "reasoning": "The summary is highly accurate and correctly identifies the key entities and facts from the article. It is nearly complete, missing only the specific vaccine dosing schedule for unvaccinated adults mentioned in the text, though this is a minor omission in the context of a general article summary.",
-    "model": "deepseek-r1:14b",
-    "thinking": false,
-    "evalModel": "gemini-3.1-flash-lite-preview"
-}

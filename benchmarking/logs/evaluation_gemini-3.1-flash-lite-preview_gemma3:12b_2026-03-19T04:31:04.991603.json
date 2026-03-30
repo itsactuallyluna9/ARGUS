@@ -1,8 +1,0 @@
-{
-    "accuracy": 100,
-    "completeness": 95,
-    "reasoning": "The summary is highly accurate, correctly relaying the content of the article and the quotes provided. It is nearly complete, capturing all major factual points including the specific films mentioned and the nature of the actresses' tributes. The only minor omission is that it does not mention Redford's age at death (89), but this does not detract from the overall quality of the summary.",
-    "model": "gemma3:12b",
-    "thinking": false,
-    "evalModel": "gemini-3.1-flash-lite-preview"
-}

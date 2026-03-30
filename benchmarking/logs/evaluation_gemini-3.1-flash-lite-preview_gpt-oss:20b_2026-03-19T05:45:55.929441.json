@@ -1,8 +1,0 @@
-{
-    "accuracy": 95,
-    "completeness": 95,
-    "reasoning": "The summary is highly accurate and captures all essential details of the article. It correctly identifies the core tension of the headline\u2014Fonda's lighthearted objection to Streisand's tribute\u2014and includes relevant background information. The minor deduction in accuracy and completeness stems from the summary stating Redford died in September 2025, whereas the article states he died in September of 'last year' relative to a March 2026 dateline (implying 2025), but the text itself says he died at age 89, while some calculations regarding his birth and death years might be technically debated, the summary reflects the text provided accurately.",
-    "model": "gpt-oss:20b",
-    "thinking": false,
-    "evalModel": "gemini-3.1-flash-lite-preview"
-}

@@ -1,8 +1,0 @@
-{
-    "accuracy": 90,
-    "completeness": 90,
-    "reasoning": "The summary accurately captures the core conflict of the article. However, it contains a minor inaccuracy in the initial description claiming Fonda 'urges her to deliver her own tribute,' whereas the article states Fonda expressed a wish that she (Fonda) had been the one to deliver the tribute. Otherwise, the points and article summary are well-aligned with the provided text.",
-    "model": "nemotron-3-nano:4b",
-    "evalModel": "gemini-3.1-flash-lite-preview",
-    "thinking": true
-}

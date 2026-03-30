@@ -1,8 +1,0 @@
-{
-    "accuracy": 100,
-    "completeness": 95,
-    "reasoning": "The summary accurately reflects the core findings of the article and the methodology used. It successfully explains why oviraptors used a different incubation strategy than modern birds. It is highly complete, though it could have briefly mentioned the specific species (Heyuannia huangi) for perfect detail, but it otherwise captures all significant information.",
-    "model": "deepseek-r1:14b",
-    "thinking": false,
-    "evalModel": "gemini-3.1-flash-lite-preview"
-}

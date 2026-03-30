@@ -1,8 +1,0 @@
-{
-    "accuracy": 100,
-    "completeness": 100,
-    "reasoning": "The summary provides a highly accurate and comprehensive overview of the article, covering all key factual claims including the specific political backlash, the details regarding the fallen service members, and the international reactions to Trump's demands. The points are clearly articulated and reflect the full scope of the reporting, including the specific threats made by the president toward NATO and China.",
-    "model": "qwen3.5:27b",
-    "thinking": false,
-    "evalModel": "gemini-3.1-flash-lite-preview"
-}

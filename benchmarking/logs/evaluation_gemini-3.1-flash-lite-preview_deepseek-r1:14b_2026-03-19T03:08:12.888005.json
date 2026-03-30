@@ -1,8 +1,0 @@
-{
-    "accuracy": 100,
-    "completeness": 100,
-    "reasoning": "The summary and the provided key points are perfectly aligned with the facts presented in the article. Every detail regarding the specific countries added and removed, the vaccination recommendations for adults, the severity of the disease, and the current state of other travel advisories is captured accurately and comprehensively.",
-    "model": "deepseek-r1:14b",
-    "thinking": false,
-    "evalModel": "gemini-3.1-flash-lite-preview"
-}

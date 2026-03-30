@@ -1,7 +1,0 @@
-{
-    "accuracy": 100,
-    "completeness": 95,
-    "reasoning": "The summary is highly accurate and captures all the core facts presented in the article, including the specific countries added and removed and the vaccination recommendations. It is nearly complete, missing only the minor details regarding the specific dosage schedule for unvaccinated adults, which does not significantly detract from the overall utility of the summary.",
-    "model": "glm-4.7-flash:q4_K_M",
-    "evalModel": "gemini-3.1-flash-lite-preview"
-}

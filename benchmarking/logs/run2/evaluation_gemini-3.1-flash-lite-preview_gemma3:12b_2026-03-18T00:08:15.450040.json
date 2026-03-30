@@ -1,8 +1,0 @@
-{
-    "accuracy": 100,
-    "completeness": 100,
-    "reasoning": "The summary and the provided key points accurately reflect the content of the article, capturing both Trump's claims and the subsequent denials from the former presidents' representatives. It covers all the essential details of the narrative, including the context in which the claims were made and the relevant background information regarding Trump's past relationships with the former presidents.",
-    "model": "gemma3:12b",
-    "evalModel": "gemini-3.1-flash-lite-preview",
-    "thinking": false
-}

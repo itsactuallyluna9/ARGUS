@@ -1,8 +1,0 @@
-{
-    "accuracy": 100,
-    "completeness": 100,
-    "reasoning": "The summary and the provided key points are perfectly aligned with the article content. Every detail, including the specific countries added and removed, the CDC's vaccine recommendations, the clinical description of polio, and the context of the travel advisory levels, is accurately represented and comprehensive.",
-    "model": "qwen3.5:27b",
-    "evalModel": "gemini-3.1-flash-lite-preview",
-    "thinking": true
-}

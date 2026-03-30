@@ -1,8 +1,0 @@
-{
-    "accuracy": 100,
-    "completeness": 95,
-    "reasoning": "The summary is highly accurate and captures all the core factual claims from the article. It provides a balanced view of the narrative, the economic factors, and the specific product examples mentioned. It is nearly complete, missing only minor details such as Hershey's public response defending their standard products.",
-    "model": "qwen3.5:9b",
-    "thinking": false,
-    "evalModel": "gemini-3.1-flash-lite-preview"
-}

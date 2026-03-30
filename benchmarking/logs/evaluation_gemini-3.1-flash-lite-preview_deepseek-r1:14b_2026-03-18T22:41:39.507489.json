@@ -1,8 +1,0 @@
-{
-    "accuracy": 85,
-    "completeness": 80,
-    "reasoning": "The summary is generally accurate, but it contains a factual error: it claims the monkeys were introduced 'over a century ago,' whereas the text states they arrived in 1947 after escaping from a biomedical research center. It is also slightly incomplete as it omits the specific origin of the monkeys (West Africa), the role of the researcher Missy Williams in advocating for them, and the specific findings regarding their likely extinction within the next century, which is a major focus of the article.",
-    "model": "deepseek-r1:14b",
-    "thinking": false,
-    "evalModel": "gemini-3.1-flash-lite-preview"
-}

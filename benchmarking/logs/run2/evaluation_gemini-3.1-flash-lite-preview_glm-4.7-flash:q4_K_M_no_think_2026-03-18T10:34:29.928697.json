@@ -1,8 +1,0 @@
-{
-    "accuracy": 100,
-    "completeness": 95,
-    "reasoning": "The summary is highly accurate, correctly relaying Trump's claims and the subsequent denials from the former presidents' representatives. It captures the essential facts including the context of the Iran conflict and Trump's refusal to name the source. It is nearly complete, missing only the minor detail regarding when the living former presidents were last together (at the inauguration), which is not central to the main narrative.",
-    "model": "glm-4.7-flash:q4_K_M",
-    "evalModel": "gemini-3.1-flash-lite-preview",
-    "thinking": false
-}

@@ -1,8 +1,0 @@
-{
-    "accuracy": 90,
-    "completeness": 95,
-    "reasoning": "The summary accurately reflects the core of the article and the president's contradictory statements. It is highly complete, covering the diplomatic tension, the domestic backlash from military families, and the specific claims regarding oil production and NATO. One minor inaccuracy in the provided summary points: it states three service members were killed in an Iranian attack on a tanker, while the article reports that six airmen were killed in a refueling tanker crash, not necessarily a direct attack, though the article links the conflict to these deaths.",
-    "model": "nemotron-3-nano:4b",
-    "thinking": false,
-    "evalModel": "gemini-3.1-flash-lite-preview"
-}

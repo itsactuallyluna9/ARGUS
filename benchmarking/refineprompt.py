@@ -10,12 +10,9 @@ from tenacity import RetryError, retry, retry_if_exception_type, wait_exponentia
 load_dotenv()
 
 
-
-#prompt refiner agent class, takes initial prompt and description of goal, refines it based on recursive feedback from model and possibly gemini function calls, and refine the prompt based on quality of results for a certain number of iterations
+# prompt refiner agent class, takes initial prompt and description of goal, refines it based on recursive feedback from model and possibly gemini function calls, and refine the prompt based on quality of results for a certain number of iterations
 class PromptRefiner:
-
-
-    def __init__(self,  initial_prompt: str, goal_description: str, local_model: str = "glm-4.7-flash", local_think: bool = True, gemini_model: str = "gemini-3.1-flash-lite-preview", gemini_think: bool = True):
+    def __init__(self, initial_prompt: str, goal_description: str, local_model: str = "glm-4.7-flash", local_think: bool = True, gemini_model: str = "gemini-3.1-flash-lite-preview", gemini_think: bool = True):
 
         self.model = local_model
         self.think = local_think
@@ -39,36 +36,20 @@ class PromptRefiner:
 
         self.notes = ""
 
-
-    def refine_prompt(self, max_iterations: int = 5) -> str: # type: ignore
-
+    def refine_prompt(self, max_iterations: int = 5) -> str:  # type: ignore
         """Refines the prompt based on feedback from the model and tool calls."""
 
         iteration_count = 0
-        available_tools = {
-            "write_notes": self.write_notes,
-            "read_notes": self.read_notes
-        }
-        
+        available_tools = {"write_notes": self.write_notes, "read_notes": self.read_notes}
 
         for _ in range(max_iterations):
-
-            messages = [
-                {"role": "system", "content": self.system_prompt},
-                {"role": "user", "content": f"Refine the prompt to better achieve the goal of {self.goal_description}. Current prompt: {self.refined_prompt}"}
-            ]
+            messages = [{"role": "system", "content": self.system_prompt}, {"role": "user", "content": f"Refine the prompt to better achieve the goal of {self.goal_description}. Current prompt: {self.refined_prompt}"}]
             iteration_count += 1
-            
-            while True:
 
+            while True:
                 print(f"[Iteration {iteration_count}] Sending prompt to model for refinement...")
 
-                response = ollama.chat(
-                    model=self.model,
-                    think=self.think,
-                    messages=messages,
-                    tools = [self.write_notes, self.read_notes]
-                )
+                response = ollama.chat(model=self.model, think=self.think, messages=messages, tools=[self.write_notes, self.read_notes])
 
                 messages.append(response.message.model_dump())
 
@@ -96,50 +77,33 @@ class PromptRefiner:
             print(f"[Error] ServerError encountered: {e}, returning last refined prompt without Gemini feedback.")
             final_prompt = self.refined_prompt
 
-        return final_prompt # type: ignore
-        
-    
+        return final_prompt  # type: ignore
 
-    @retry(
-        retry=retry_if_exception_type(ServerError),
-        wait=wait_exponential(1, 60),
-        stop=stop_after_attempt(5)
-    )
+    @retry(retry=retry_if_exception_type(ServerError), wait=wait_exponential(1, 60), stop=stop_after_attempt(5))
     def gemini_feedback(self) -> str:
 
-        chat = self.gemini_client.chats.create(
-            model=self.gemini_model,
-            config=gemini.types.GenerateContentConfig(
-                thinking_config=gemini.types.ThinkingConfig(
-                    include_thoughts=self.gemini_think
-                )
-            )
-        )
+        chat = self.gemini_client.chats.create(model=self.gemini_model, config=gemini.types.GenerateContentConfig(thinking_config=gemini.types.ThinkingConfig(include_thoughts=self.gemini_think)))
 
         print(f"[Gemini Feedback] Sending refined prompt to Gemini for feedback...")
 
         gemini_response = chat.send_message(self.system_prompt + f"\n\nRefine the prompt to better achieve the goal of {self.goal_description}. Current prompt: {self.refined_prompt}")
 
-        print(f"[Gemini Feedback] {gemini_response.text}") # type: ignore
+        print(f"[Gemini Feedback] {gemini_response.text}")  # type: ignore
 
-        return gemini_response.text # type: ignore
+        return gemini_response.text  # type: ignore
 
-    
     def write_notes(self, content: str) -> str:
         self.notes = content
         return "Notes updated."
 
-    
     def read_notes(self) -> str:
         return self.notes
-    
 
 
-#takes in a list of dicts with prompt name, initial prompt, and goal description, and runs the prompt refiner agent on each, printing the final refined prompt for each
+# takes in a list of dicts with prompt name, initial prompt, and goal description, and runs the prompt refiner agent on each, printing the final refined prompt for each
 def main(prompts: list[dict[str, str]]):
 
     for prompt in prompts:
-
         refiner = PromptRefiner(initial_prompt=prompt["initial_prompt"], goal_description=prompt["goal_description"])
 
         refined_prompt = refiner.refine_prompt()
@@ -148,7 +112,6 @@ def main(prompts: list[dict[str, str]]):
 
 
 if __name__ == "__main__":
-
     prompts = [
         {
             "prompt_name": "accuracy_prompt",
@@ -176,9 +139,8 @@ if __name__ == "__main__":
                 "sources": list[str]
             }
             """,
-            "goal_description": "To evaluate the factual accuracy of a news article based on the information provided and additional research, returning a score from 0-100, an explanation for the score, and a list of sources used in the evaluation. Do not remove the tool definitions, only refine them, if necessary."
+            "goal_description": "To evaluate the factual accuracy of a news article based on the information provided and additional research, returning a score from 0-100, an explanation for the score, and a list of sources used in the evaluation. Do not remove the tool definitions, only refine them, if necessary.",
         }
     ]
 
     main(prompts)
-    

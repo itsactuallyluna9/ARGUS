@@ -1,8 +1,0 @@
-{
-    "accuracy": 100,
-    "completeness": 100,
-    "reasoning": "The summary provides an excellent and highly accurate overview of the article, correctly identifying the project's purpose, technical implementation, and future roadmap. It includes all essential key points, effectively capturing both the technical aspects and the broader legal arguments presented by the project. The reasoning is sound, and no significant information from the original text was omitted.",
-    "model": "qwen3.5:9b",
-    "thinking": false,
-    "evalModel": "gemini-3.1-flash-lite-preview"
-}

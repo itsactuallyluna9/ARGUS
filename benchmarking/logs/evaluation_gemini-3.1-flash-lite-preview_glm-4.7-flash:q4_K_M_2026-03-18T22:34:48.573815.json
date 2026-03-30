@@ -1,8 +1,0 @@
-{
-    "accuracy": 100,
-    "completeness": 100,
-    "reasoning": "The summary provides a highly accurate and comprehensive overview of the article. It correctly identifies the primary update regarding the polio advisory, the specific countries added and removed, the recommended vaccination procedures, and the broader context of the CDC's travel alert system. All provided key points are directly supported by the article text.",
-    "model": "glm-4.7-flash:q4_K_M",
-    "thinking": false,
-    "evalModel": "gemini-3.1-flash-lite-preview"
-}

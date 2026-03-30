@@ -1,8 +1,0 @@
-{
-    "accuracy": 100,
-    "completeness": 100,
-    "reasoning": "The summary and the included key points are highly accurate, reflecting the article's technical and legal context perfectly. It captures all critical details, including the project's purpose, the specific legislation mentioned, the technical nature of the distribution, and the roadmap for future releases, leaving no significant information behind.",
-    "model": "nemotron-3-nano:4b",
-    "thinking": false,
-    "evalModel": "gemini-3.1-flash-lite-preview"
-}

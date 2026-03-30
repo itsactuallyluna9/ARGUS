@@ -1,8 +1,0 @@
-{
-    "accuracy": 100,
-    "completeness": 95,
-    "reasoning": "The summary is highly accurate and captures all the core factual claims of the article. It effectively contrasts Trump's claims with the denials from the representatives of the former presidents. It is nearly complete, missing only minor contextual details regarding the specific venue (Kennedy Center meeting) and Trump's specific negative comments about other presidents, which are minor details in the context of the main narrative.",
-    "model": "qwen3.5:27b",
-    "thinking": false,
-    "evalModel": "gemini-3.1-flash-lite-preview"
-}

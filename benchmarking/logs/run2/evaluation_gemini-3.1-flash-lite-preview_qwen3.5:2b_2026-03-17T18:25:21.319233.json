@@ -1,8 +1,0 @@
-{
-    "accuracy": 95,
-    "completeness": 90,
-    "reasoning": "The summary is highly accurate and captures the core essence of the Ageless Linux project. It correctly identifies the protest nature of the project, its Debian base, and its future roadmap. A minor discrepancy exists in the points section where it states the project aims to expand 'later this year,' while the article specifies a target of Q3 2026. The summary is very complete, omitting only minor technical details like the specific Milk-V Duo hardware mention, which does not significantly impact the overall understanding.",
-    "model": "qwen3.5:2b",
-    "evalModel": "gemini-3.1-flash-lite-preview",
-    "thinking": true
-}

@@ -1,8 +1,0 @@
-{
-    "accuracy": 100,
-    "completeness": 90,
-    "reasoning": "The summary accurately captures the core information regarding the CDC's polio travel advisory update, including specific additions and vaccination recommendations. It is highly accurate regarding the provided text. It is mostly complete but slightly omits specific details mentioned in the article, such as the removal of Finland, Ghana, Spain, and Zimbabwe from the list, and the specific vaccination schedule recommended for unvaccinated adults.",
-    "model": "gemma3:4b",
-    "thinking": false,
-    "evalModel": "gemini-3.1-flash-lite-preview"
-}

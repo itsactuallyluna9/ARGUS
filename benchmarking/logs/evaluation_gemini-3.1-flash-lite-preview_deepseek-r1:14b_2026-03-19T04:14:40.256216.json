@@ -1,8 +1,0 @@
-{
-    "accuracy": 100,
-    "completeness": 95,
-    "reasoning": "The summary is highly accurate and captures the core tension of the article regarding Trump's conflicting statements. It is very complete, covering the backlash, the rationale cited by Trump, the perspective of families of fallen soldiers, and the international response. It only narrowly misses some of the more granular details, such as the specific warning regarding the summit with Xi Jinping, but this does not detract from the overall quality.",
-    "model": "deepseek-r1:14b",
-    "thinking": false,
-    "evalModel": "gemini-3.1-flash-lite-preview"
-}

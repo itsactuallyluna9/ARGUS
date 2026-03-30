@@ -1,8 +1,0 @@
-{
-    "accuracy": 100,
-    "completeness": 100,
-    "reasoning": "The summary is highly accurate, correctly reflecting all details from the article regarding the CDC travel advisory updates, vaccination recommendations, and medical facts about polio. It covers all the provided key factual claims thoroughly and provides appropriate context without omission.",
-    "model": "qwen3.5:9b",
-    "thinking": false,
-    "evalModel": "gemini-3.1-flash-lite-preview"
-}

@@ -1,8 +1,0 @@
-{
-    "accuracy": 100,
-    "completeness": 100,
-    "reasoning": "The summary and points provided are highly accurate and align perfectly with the factual details presented in the article. It captures all key components of the narrative, including the contradictory nature of the claims, the context surrounding the former presidents, and the specific denials provided by their representatives.",
-    "model": "glm-4.7-flash:q4_K_M",
-    "evalModel": "gemini-3.1-flash-lite-preview",
-    "thinking": true
-}

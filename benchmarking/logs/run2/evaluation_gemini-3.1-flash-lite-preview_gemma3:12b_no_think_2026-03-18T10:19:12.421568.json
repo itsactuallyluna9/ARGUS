@@ -1,8 +1,0 @@
-{
-    "accuracy": 100,
-    "completeness": 95,
-    "reasoning": "The summary is highly accurate, correctly capturing the core tension of Trump's contradictory statements and the subsequent backlash. It effectively covers the key factual claims and provides a nuanced view of the geopolitical situation. The only minor point of omission is the specific detail regarding the 13 US service member deaths mentioned in the text, which adds significant weight to the criticism of Trump's comments, but the summary remains strong and comprehensive overall.",
-    "model": "gemma3:12b",
-    "evalModel": "gemini-3.1-flash-lite-preview",
-    "thinking": false
-}

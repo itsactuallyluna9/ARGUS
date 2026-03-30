@@ -1,8 +1,0 @@
-{
-    "accuracy": 100,
-    "completeness": 100,
-    "reasoning": "The summary and the points accurately reflect all technical and legal facets mentioned in the article, including the specific name of the legislation and the future roadmap. The information is presented neutrally and covers the protest objectives and the specific technical implementation details provided in the source text without omission.",
-    "model": "nemotron-3-nano:4b",
-    "thinking": false,
-    "evalModel": "gemini-3.1-flash-lite-preview"
-}

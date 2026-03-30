@@ -1,8 +1,0 @@
-{
-    "accuracy": 80,
-    "completeness": 85,
-    "reasoning": "The summary and points accurately capture the core tension between Trump's claims and the denials from former presidents. However, it contains a minor inaccuracy in the final bullet point, which suggests Trump said he would consider naming the person if Republicans found it problematic, whereas the article quotes him saying he won't name the person to avoid embarrassment. Otherwise, it provides a comprehensive overview of the event.",
-    "model": "nemotron-3-nano:4b",
-    "thinking": false,
-    "evalModel": "gemini-3.1-flash-lite-preview"
-}

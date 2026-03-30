@@ -1,8 +1,0 @@
-{
-    "accuracy": 100,
-    "completeness": 95,
-    "reasoning": "The summary accurately captures the core controversy, the conflicting nature of Trump's statements, the backlash from critics and families, and the international response. It is highly complete, though it omits minor details like the specific names of countries that explicitly refused (such as Luxembourg or Australia) and specific mentions of the planned Xi Jinping summit, which are secondary to the main narrative.",
-    "model": "deepseek-r1:14b",
-    "thinking": false,
-    "evalModel": "gemini-3.1-flash-lite-preview"
-}

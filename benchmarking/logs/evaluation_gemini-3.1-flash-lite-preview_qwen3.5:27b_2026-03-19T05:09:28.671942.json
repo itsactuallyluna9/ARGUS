@@ -1,8 +1,0 @@
-{
-    "accuracy": 100,
-    "completeness": 100,
-    "reasoning": "The summary accurately captures the core message and tone of the original article. It covers all necessary background information, quotes, and specific factual points mentioned in the text, ensuring a comprehensive and faithful representation of the source material.",
-    "model": "qwen3.5:27b",
-    "thinking": false,
-    "evalModel": "gemini-3.1-flash-lite-preview"
-}

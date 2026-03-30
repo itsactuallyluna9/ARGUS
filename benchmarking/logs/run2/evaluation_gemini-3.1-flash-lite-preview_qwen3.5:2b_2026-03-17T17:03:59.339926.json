@@ -1,8 +1,0 @@
-{
-    "accuracy": 100,
-    "completeness": 95,
-    "reasoning": "The summary is highly accurate and correctly identifies the methodology and core findings of the study. It covers all essential factual claims. It is missing a minor detail regarding the potential consequence mentioned in the article, specifically the risk of asynchronous hatching due to uneven egg temperatures, but this does not detract from the overall quality of the summary.",
-    "model": "qwen3.5:2b",
-    "evalModel": "gemini-3.1-flash-lite-preview",
-    "thinking": true
-}

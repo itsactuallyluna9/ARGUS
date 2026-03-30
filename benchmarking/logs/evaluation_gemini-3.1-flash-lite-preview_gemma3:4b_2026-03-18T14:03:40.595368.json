@@ -1,8 +1,0 @@
-{
-    "accuracy": 100,
-    "completeness": 95,
-    "reasoning": "The summary is highly accurate and captures all the key factual claims made in the article. It effectively explains the project's purpose, its methodology, and its future roadmap. The completeness is excellent, though it omits minor details like the specific mention of California\u2019s Digital Age Assurance Act as an example of the legislation the project is responding to.",
-    "model": "gemma3:4b",
-    "thinking": false,
-    "evalModel": "gemini-3.1-flash-lite-preview"
-}

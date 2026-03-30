@@ -1,8 +1,0 @@
-{
-    "accuracy": 100,
-    "completeness": 100,
-    "reasoning": "The summary is highly accurate, correctly reflecting all key findings from the article. It is also comprehensive, capturing the methodology, the specific species studied, the environmental factors (sunlight and temperature), and the scientific conclusions without omitting any critical information.",
-    "model": "qwen3.5:9b",
-    "thinking": false,
-    "evalModel": "gemini-3.1-flash-lite-preview"
-}

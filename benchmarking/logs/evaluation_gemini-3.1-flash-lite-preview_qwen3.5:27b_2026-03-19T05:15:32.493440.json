@@ -1,8 +1,0 @@
-{
-    "accuracy": 100,
-    "completeness": 100,
-    "reasoning": "The summary is highly accurate, correctly relaying the findings of the study and the specific methodology used by the researchers without misrepresenting any information. It is also extremely complete, covering the context of the dinosaur species, the experimental setup, the results under varying temperatures, and the final scientific conclusions.",
-    "model": "qwen3.5:27b",
-    "thinking": false,
-    "evalModel": "gemini-3.1-flash-lite-preview"
-}

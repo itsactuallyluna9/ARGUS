@@ -1,8 +1,0 @@
-{
-    "accuracy": 90,
-    "completeness": 95,
-    "reasoning": "The summary is highly accurate and captures the core of the article well. There is a minor factual error in the provided 'points' list: the article states Redford died in September 2025 (implied by the 2026 article date stating he died 'last year' at 89), whereas the summary point incorrectly identifies the date as September 2026. Otherwise, the summary is comprehensive and captures all essential information.",
-    "model": "gemma3:4b",
-    "thinking": false,
-    "evalModel": "gemini-3.1-flash-lite-preview"
-}

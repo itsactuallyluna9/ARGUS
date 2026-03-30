@@ -1,8 +1,0 @@
-{
-    "accuracy": 100,
-    "completeness": 95,
-    "reasoning": "The summary is highly accurate, correctly identifying the films, presenters, and the context of the tie within Oscar history. It covers all the main factual claims and narrative elements of the article. It is only slightly less than perfect on completeness because it omits the historical nuance mentioned in the text regarding the 1932 'tie' (which the Academy noted was not a true tie due to a now-defunct rule), though this is a minor detail in the context of the overall report.",
-    "model": "gpt-oss:20b",
-    "evalModel": "gemini-3.1-flash-lite-preview",
-    "thinking": false
-}

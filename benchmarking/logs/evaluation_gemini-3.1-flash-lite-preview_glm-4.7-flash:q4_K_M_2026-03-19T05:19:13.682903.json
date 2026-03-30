@@ -1,8 +1,0 @@
-{
-    "accuracy": 100,
-    "completeness": 95,
-    "reasoning": "The summary is highly accurate and captures the core tension presented in the article. It effectively highlights the contradiction between Trump's call for international military aid and his dismissal of the strategic importance of the Strait of Hormuz to the U.S. It is nearly complete, missing only the specific mention of the personal tragedy surrounding the U.S. service members, though this is a minor omission relative to the primary political focus of the report.",
-    "model": "glm-4.7-flash:q4_K_M",
-    "thinking": false,
-    "evalModel": "gemini-3.1-flash-lite-preview"
-}

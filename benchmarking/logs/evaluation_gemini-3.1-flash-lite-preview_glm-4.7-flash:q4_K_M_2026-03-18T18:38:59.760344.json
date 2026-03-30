@@ -1,8 +1,0 @@
-{
-    "accuracy": 95,
-    "completeness": 90,
-    "reasoning": "The summary is highly accurate and captures the core event and context well. It is very complete, though it contains a minor factual slip in the first point where it states this was the first tie in the category 'in nearly 100 years', whereas the text clarifies it was the first since 1995. Otherwise, it covers the historical context, the presenters, and the reaction of the winners excellently.",
-    "model": "glm-4.7-flash:q4_K_M",
-    "thinking": false,
-    "evalModel": "gemini-3.1-flash-lite-preview"
-}

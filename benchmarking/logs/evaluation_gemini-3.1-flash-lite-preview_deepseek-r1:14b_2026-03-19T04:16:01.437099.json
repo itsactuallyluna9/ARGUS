@@ -1,8 +1,0 @@
-{
-    "accuracy": 100,
-    "completeness": 95,
-    "reasoning": "The summary and points are highly accurate, faithfully reflecting the claims made in the article and the subsequent denials. It covers all major factual components, including the specific claim, the denials from former presidents' representatives, and the context of Trump's political relationships. It is almost perfectly complete, missing only minor details such as the specific venue where the comments were made or the mention of the Vice President's task force announcement, which are tangential to the main story.",
-    "model": "deepseek-r1:14b",
-    "thinking": false,
-    "evalModel": "gemini-3.1-flash-lite-preview"
-}

@@ -1,8 +1,0 @@
-{
-    "accuracy": 100,
-    "completeness": 100,
-    "reasoning": "The summary is highly accurate, correctly identifying the event, the participants, and the historical context provided in the article. It is also extremely complete, capturing all significant details including specific quotes, historical background on Oscars tie rules, and the reactions of the winners, while maintaining a neutral tone.",
-    "model": "gpt-oss:20b",
-    "thinking": false,
-    "evalModel": "gemini-3.1-flash-lite-preview"
-}

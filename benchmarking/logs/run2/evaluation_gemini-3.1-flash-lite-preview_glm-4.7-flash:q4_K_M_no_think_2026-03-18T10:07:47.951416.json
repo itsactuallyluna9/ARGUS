@@ -1,8 +1,0 @@
-{
-    "accuracy": 100,
-    "completeness": 95,
-    "reasoning": "The summary is highly accurate and captures the core tension and contradictions in President Trump's statements as presented in the article. It covers all the main factual claims, including the backlash, the contradiction in policy, specific ally reactions, and the impact on military families. It is nearly complete, missing only minor details such as the specific threat regarding the delay of the summit with Xi Jinping, which is not essential to the central narrative.",
-    "model": "glm-4.7-flash:q4_K_M",
-    "evalModel": "gemini-3.1-flash-lite-preview",
-    "thinking": false
-}

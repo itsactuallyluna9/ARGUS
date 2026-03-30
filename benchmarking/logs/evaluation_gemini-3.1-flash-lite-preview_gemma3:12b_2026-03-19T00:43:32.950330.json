@@ -1,8 +1,0 @@
-{
-    "accuracy": 100,
-    "completeness": 100,
-    "reasoning": "The summary is highly accurate and captures all essential details from the article, including specific changes to the CDC travel list, vaccination recommendations, the nature of the virus, and current alert levels. It effectively synthesized the key points without introducing any factual errors or subjective bias.",
-    "model": "gemma3:12b",
-    "thinking": false,
-    "evalModel": "gemini-3.1-flash-lite-preview"
-}

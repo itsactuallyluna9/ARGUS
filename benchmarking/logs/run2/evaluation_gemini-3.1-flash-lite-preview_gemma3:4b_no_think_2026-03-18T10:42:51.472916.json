@@ -1,8 +1,0 @@
-{
-    "accuracy": 95,
-    "completeness": 90,
-    "reasoning": "The summary is highly accurate and captures the core tension between cocoa market volatility and the corporate trend of ingredient reformulation. It correctly identifies the primary actors, the economic drivers, and the consumer backlash. It is slightly less than 100% complete as it omits the broader industry context regarding ethical labor concerns and shifting global supply origins (like Ecuador and Indonesia), though it covers all essential elements of the article's main narrative.",
-    "model": "gemma3:4b",
-    "evalModel": "gemini-3.1-flash-lite-preview",
-    "thinking": false
-}

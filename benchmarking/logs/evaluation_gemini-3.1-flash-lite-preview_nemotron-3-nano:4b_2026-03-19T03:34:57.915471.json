@@ -1,8 +1,0 @@
-{
-    "accuracy": 100,
-    "completeness": 90,
-    "reasoning": "The summary is highly accurate and correctly identifies the core conflict between market volatility and corporate cost-cutting measures. It captures the essential context of Brad Reese's complaint and the broader industry trends explained by Alexis Villacis. It could be slightly more complete by briefly mentioning the regulatory differences between US and European markets regarding what constitutes 'chocolate,' which was a significant section of the article.",
-    "model": "nemotron-3-nano:4b",
-    "thinking": false,
-    "evalModel": "gemini-3.1-flash-lite-preview"
-}

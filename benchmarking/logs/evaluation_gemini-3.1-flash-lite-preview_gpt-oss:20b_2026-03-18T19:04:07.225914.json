@@ -1,8 +1,0 @@
-{
-    "accuracy": 100,
-    "completeness": 95,
-    "reasoning": "The summary is highly accurate, correctly identifying the films, the presenter, and the historical significance of the tie. It captures all key facts presented in the article. It is nearly complete, missing only minor peripheral details such as the specific list of past documentary ties or the exact quote by Conan O'Brien about ruining Oscar pools, which are not essential for a high-quality summary.",
-    "model": "gpt-oss:20b",
-    "thinking": false,
-    "evalModel": "gemini-3.1-flash-lite-preview"
-}

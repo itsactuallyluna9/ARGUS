@@ -1,8 +1,0 @@
-{
-    "accuracy": 100,
-    "completeness": 90,
-    "reasoning": "The summary is highly accurate and correctly identifies the core details of the CDC's travel advisory update. It is missing some minor details from the original article, such as the list of countries removed from the advisory (Finland, Ghana, Spain, and Zimbabwe) and the specific vaccination schedule for adults who have never been vaccinated, but it captures all primary factual claims effectively.",
-    "model": "gemma3:4b",
-    "thinking": false,
-    "evalModel": "gemini-3.1-flash-lite-preview"
-}

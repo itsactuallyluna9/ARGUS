@@ -1,8 +1,0 @@
-{
-    "accuracy": 95,
-    "completeness": 90,
-    "reasoning": "The summary is highly accurate regarding the meteorlogical explanations provided in the text. It loses a few points on completeness because it contains a factual error in the final sentence of the summary, stating the West will be 'cool and dry' when the article states it will be 'warm and dry'. Aside from that slip, it captures the core points and expert commentary well.",
-    "model": "nemotron-3-nano:4b",
-    "thinking": false,
-    "evalModel": "gemini-3.1-flash-lite-preview"
-}

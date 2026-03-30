@@ -1,8 +1,0 @@
-{
-    "accuracy": 95,
-    "completeness": 95,
-    "reasoning": "The summary accurately captures the essence of Fonda's playful remarks and the context surrounding the Oscar tribute. However, it contains a minor attribution error in point 3: the summary attributes the description of Redford as someone who defended the freedom of the press and the environment to Fonda, when those specific comments were actually made by Streisand in her speech. Otherwise, the summary is comprehensive and well-structured.",
-    "model": "glm-4.7-flash:q4_K_M",
-    "evalModel": "gemini-3.1-flash-lite-preview",
-    "thinking": false
-}

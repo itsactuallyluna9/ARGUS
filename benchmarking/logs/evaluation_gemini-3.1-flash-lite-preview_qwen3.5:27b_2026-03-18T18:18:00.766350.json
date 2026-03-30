@@ -1,8 +1,0 @@
-{
-    "accuracy": 100,
-    "completeness": 95,
-    "reasoning": "The summary is highly accurate and captures the core tension between scientific perspectives on invasive species and local community sentiment. It correctly identifies the history of the monkeys, the biological findings by Missy Williams, and the opposing viewpoints of ecologists. It is nearly complete, omitting only minor details like the specific year of the original monkey escape (1947) and the exact name of the researcher's mentor (Katie Detwiler), which are not strictly necessary for a high-level summary of the conflict.",
-    "model": "qwen3.5:27b",
-    "thinking": false,
-    "evalModel": "gemini-3.1-flash-lite-preview"
-}

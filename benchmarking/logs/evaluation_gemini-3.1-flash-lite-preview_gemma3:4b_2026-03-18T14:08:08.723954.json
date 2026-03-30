@@ -1,8 +1,0 @@
-{
-    "accuracy": 100,
-    "completeness": 95,
-    "reasoning": "The summary is highly accurate in its reporting of the core conflict between Trump's statement and the denials from former presidents' representatives. It captures the main events and context well. It is nearly complete, though it omits the specific detail that Trump explicitly ruled out George W. Bush as the mystery individual, which was a specific clarifying point in the article.",
-    "model": "gemma3:4b",
-    "thinking": false,
-    "evalModel": "gemini-3.1-flash-lite-preview"
-}

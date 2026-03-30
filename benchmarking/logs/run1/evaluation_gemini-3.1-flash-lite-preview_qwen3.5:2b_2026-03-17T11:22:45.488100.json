@@ -1,7 +1,0 @@
-{
-    "accuracy": 90,
-    "completeness": 90,
-    "reasoning": "The summary is highly accurate regarding the main event and historical context. However, it incorrectly identifies Kumail Nanjiani as the host of the 2026 Academy Awards, when the text only identifies him as a presenter, and Conan O'Brien as the host. Otherwise, it covers the key factual points well.",
-    "model": "qwen3.5:2b",
-    "evalModel": "gemini-3.1-flash-lite-preview"
-}

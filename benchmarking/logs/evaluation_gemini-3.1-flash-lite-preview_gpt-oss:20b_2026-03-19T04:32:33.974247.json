@@ -1,8 +1,0 @@
-{
-    "accuracy": 100,
-    "completeness": 95,
-    "reasoning": "The summary is highly accurate and captures all the core factual claims of the article, including the meteorological reasoning and regional forecasts. It is almost completely comprehensive, only slightly missing the nuance that the heat is expected to be 'dry' in the interior Southwest, which was mentioned in the final paragraphs of the text.",
-    "model": "gpt-oss:20b",
-    "thinking": false,
-    "evalModel": "gemini-3.1-flash-lite-preview"
-}

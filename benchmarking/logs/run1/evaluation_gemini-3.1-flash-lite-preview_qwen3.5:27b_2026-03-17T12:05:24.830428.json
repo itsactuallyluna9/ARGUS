@@ -1,7 +1,0 @@
-{
-    "accuracy": 100,
-    "completeness": 95,
-    "reasoning": "The summary is highly accurate and captures all the core facts of the event. It effectively conveys the rarity of the Oscar tie, the participants involved, and the historical context provided. It is nearly perfect in completeness, omitting only minor details like the specific names of the filmmakers mentioned in the body text and the anecdotal nuance regarding the 1932 tie not being a true statistical tie, which are not essential for a high-level summary.",
-    "model": "qwen3.5:27b",
-    "evalModel": "gemini-3.1-flash-lite-preview"
-}

@@ -1,8 +1,0 @@
-{
-    "accuracy": 100,
-    "completeness": 100,
-    "reasoning": "The summary and the provided key points are highly accurate and align perfectly with the content of the article. It covers all the essential details, including Trump's claim, the denials from former presidents' aides, the context of his relationships with those presidents, and the specific event details.",
-    "model": "glm-4.7-flash:q4_K_M",
-    "thinking": false,
-    "evalModel": "gemini-3.1-flash-lite-preview"
-}

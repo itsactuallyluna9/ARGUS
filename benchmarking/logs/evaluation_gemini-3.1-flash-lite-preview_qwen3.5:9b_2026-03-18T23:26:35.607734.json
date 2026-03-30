@@ -1,8 +1,0 @@
-{
-    "accuracy": 100,
-    "completeness": 100,
-    "reasoning": "The summary and key points accurately reflect the article content, capturing the essence of Fonda's playful commentary and the context of the Oscars tribute. It includes all essential details, such as the specific number of films collaborated on, the nature of the tribute, and the background on how both actresses previously honored Redford.",
-    "model": "qwen3.5:9b",
-    "thinking": false,
-    "evalModel": "gemini-3.1-flash-lite-preview"
-}

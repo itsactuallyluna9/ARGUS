@@ -1,8 +1,0 @@
-{
-    "accuracy": 100,
-    "completeness": 100,
-    "reasoning": "The summary and key points are highly accurate and completely reflect the article's contents. It captures the essence of Trump's claim, the denials from the former presidents' camps, the context of the statements, and the fact that the White House did not provide immediate comment. No significant information was omitted.",
-    "model": "qwen3.5:9b",
-    "thinking": false,
-    "evalModel": "gemini-3.1-flash-lite-preview"
-}

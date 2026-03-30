@@ -1,7 +1,0 @@
-{
-    "accuracy": 95,
-    "completeness": 90,
-    "reasoning": "The summary is highly accurate and captures the core tension between scientific classification of invasive species and local sentiment. It correctly identifies the origins of the monkeys, the role of Missy Williams, and the ecological debate. It slightly misses the specific detail about the monkeys' origin story (the 1947 zoo escape involving the cousin of Theodore Roosevelt), though it captures the essence of their likely history. Overall, it is a thorough and well-structured reflection of the article.",
-    "model": "gemma3:12b",
-    "evalModel": "gemini-3.1-flash-lite-preview"
-}

@@ -1,8 +1,0 @@
-{
-    "accuracy": 100,
-    "completeness": 95,
-    "reasoning": "The summary is highly accurate and correctly reflects the tone and content of the article. It captures all key factual claims, including the playful nature of Fonda's remarks, the specific context of the tribute, and the background regarding their respective histories with Redford. The completeness is excellent, though it could have briefly mentioned the number of films Redford and Fonda collaborated on (four) to fully mirror the primary premise of Fonda's complaint.",
-    "model": "magistral:24b",
-    "evalModel": "gemini-3.1-flash-lite-preview",
-    "thinking": true
-}

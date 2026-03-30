@@ -1,8 +1,0 @@
-{
-    "accuracy": 100,
-    "completeness": 95,
-    "reasoning": "The summary and points are highly accurate and reflect the events and tone of the article effectively. The completeness is excellent, covering the core conflict, the contradictory nature of Trump's statements, the reactions of allies and families, and the specific pressures applied to international partners. It only marginally misses some of the finer details, such as the mention of specific internal political dynamics like the Luxembourg deputy prime minister's comment or the specific incident involving the crashed tanker.",
-    "model": "deepseek-r1:14b",
-    "evalModel": "gemini-3.1-flash-lite-preview",
-    "thinking": true
-}

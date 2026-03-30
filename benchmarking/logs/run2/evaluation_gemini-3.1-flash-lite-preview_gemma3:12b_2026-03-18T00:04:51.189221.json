@@ -1,8 +1,0 @@
-{
-    "accuracy": 100,
-    "completeness": 95,
-    "reasoning": "The summary is highly accurate, correctly synthesizing the meteorological explanations and regional forecasts provided in the article. It is nearly complete, missing only the brief mention of the long-term potential wildfire and water supply concerns resulting from the Western heatwave, but otherwise covers all primary information and key factual points.",
-    "model": "gemma3:12b",
-    "evalModel": "gemini-3.1-flash-lite-preview",
-    "thinking": false
-}

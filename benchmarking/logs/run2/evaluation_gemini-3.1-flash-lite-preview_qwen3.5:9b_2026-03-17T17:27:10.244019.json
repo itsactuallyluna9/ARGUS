@@ -1,8 +1,0 @@
-{
-    "accuracy": 95,
-    "completeness": 90,
-    "reasoning": "The summary is highly accurate and captures the main points well. It incorrectly states that both Kumail Nanjiani and Conan O'Brien presented the award, whereas the text clarifies that Nanjiani presented it and O'Brien made a joke afterward. It is very complete regarding the event and historical context.",
-    "model": "qwen3.5:9b",
-    "evalModel": "gemini-3.1-flash-lite-preview",
-    "thinking": true
-}

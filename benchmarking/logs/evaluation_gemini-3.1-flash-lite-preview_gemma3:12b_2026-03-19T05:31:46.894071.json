@@ -1,8 +1,0 @@
-{
-    "accuracy": 100,
-    "completeness": 100,
-    "reasoning": "The summary and the included key points are highly accurate, correctly identifying all updates to the CDC's polio travel advisory list, the rationale behind the list, and the CDC's medical recommendations. The summary is complete, covering the specific countries added and removed, the vaccination advice, the risks of the virus, and the contextual mention of other active travel advisories.",
-    "model": "gemma3:12b",
-    "thinking": false,
-    "evalModel": "gemini-3.1-flash-lite-preview"
-}

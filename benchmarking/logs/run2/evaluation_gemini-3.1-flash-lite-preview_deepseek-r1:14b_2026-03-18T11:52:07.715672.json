@@ -1,7 +1,0 @@
-{
-    "accuracy": 95,
-    "completeness": 90,
-    "reasoning": "The summary is highly accurate in reflecting the article's core narrative and the contradictory nature of the president's statements. It captures the essence of the backlash and the international response. A small deduction in accuracy occurs because the summary mentions Russia in the 'points' section, which is not explicitly listed as a pressured country in the text, and a deduction in completeness is applied because while the summary covers the main points, it omits specific details about the ongoing fatalities that fuel the emotional weight of the criticism.",
-    "model": "deepseek-r1:14b",
-    "evalModel": "gemini-3.1-flash-lite-preview"
-}

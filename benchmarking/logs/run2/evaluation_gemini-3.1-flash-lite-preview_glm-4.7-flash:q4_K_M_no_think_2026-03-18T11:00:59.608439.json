@@ -1,8 +1,0 @@
-{
-    "accuracy": 100,
-    "completeness": 95,
-    "reasoning": "The summary is highly accurate, correctly relaying Trump's claims and the subsequent denials from the offices of the former presidents. It captures all essential factual details. It is slightly shy of perfect completeness only because it does not explicitly mention the specific exclusion of George W. Bush by Trump during the Oval Office questioning, although this is a minor detail in the context of the main story.",
-    "model": "glm-4.7-flash:q4_K_M",
-    "evalModel": "gemini-3.1-flash-lite-preview",
-    "thinking": false
-}

@@ -1,8 +1,0 @@
-{
-    "accuracy": 95,
-    "completeness": 85,
-    "reasoning": "The summary is highly accurate in reflecting the article's tone, the core conflict regarding the monkeys' status, and the perspectives of both researchers and residents. It captures the essence of the scientific and emotional debate well. However, it misses a few important factual details, such as the specific origin of the monkeys (the 1947 escape from a biomedical research/zoo center), which provides crucial historical context mentioned in the text. Despite this, it provides a comprehensive overview of the article's themes.",
-    "model": "nemotron-3-nano:4b",
-    "thinking": false,
-    "evalModel": "gemini-3.1-flash-lite-preview"
-}

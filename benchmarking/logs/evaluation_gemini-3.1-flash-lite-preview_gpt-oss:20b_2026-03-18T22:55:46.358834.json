@@ -1,8 +1,0 @@
-{
-    "accuracy": 100,
-    "completeness": 95,
-    "reasoning": "The summary is highly accurate, correctly identifying the key events, the economic context, and the regulatory environment described in the article. It captures both the personal perspective of Brad Reese and the broader industry trends effectively. The completeness is excellent, though it could have briefly mentioned that industry experts suggest some consumers are simply adjusting to the new reality or opting for premium alternatives as a final note on market shifts.",
-    "model": "gpt-oss:20b",
-    "thinking": false,
-    "evalModel": "gemini-3.1-flash-lite-preview"
-}

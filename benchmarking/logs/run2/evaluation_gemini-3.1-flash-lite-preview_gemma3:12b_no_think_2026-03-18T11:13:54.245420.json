@@ -1,8 +1,0 @@
-{
-    "accuracy": 100,
-    "completeness": 95,
-    "reasoning": "The summary is highly accurate and correctly reflects the article's findings regarding the experimental methodology and conclusions. It is nearly complete, missing only minor details such as the specific species name (Heyuannia huangi) or the model's construction materials, which are not critical to the core message.",
-    "model": "gemma3:12b",
-    "evalModel": "gemini-3.1-flash-lite-preview",
-    "thinking": false
-}

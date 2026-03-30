@@ -1,8 +1,0 @@
-{
-    "accuracy": 100,
-    "completeness": 95,
-    "reasoning": "The summary is highly accurate and correctly identifies the main event, the films involved, and the historical context provided by the article. It is nearly complete, capturing the key facts, the presenter's role, and the reactions of the winners. It omits only minor details like the specific date of the last tie (2013) or the names of every individual producer mentioned, but these are negligible omissions for a concise summary.",
-    "model": "qwen3.5:9b",
-    "thinking": false,
-    "evalModel": "gemini-3.1-flash-lite-preview"
-}

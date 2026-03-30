@@ -1,8 +1,0 @@
-{
-    "accuracy": 100,
-    "completeness": 95,
-    "reasoning": "The summary is highly accurate and captures the core message, the economic context, and the specific case study involving Brad Reese perfectly. It misses only minor secondary details, such as the mention of specific competitors like Nestl\u00e9 or the future outlook for cocoa supply chains in regions like Ecuador and Indonesia, but these omissions do not detract from the summary's overall quality.",
-    "model": "gemma3:4b",
-    "evalModel": "gemini-3.1-flash-lite-preview",
-    "thinking": false
-}

@@ -1,8 +1,0 @@
-{
-    "accuracy": 100,
-    "completeness": 95,
-    "reasoning": "The summary is highly accurate and captures all the core factual claims presented in the article. It mentions the winners, the context of the tie, the presenters, and the historical list of ties. It is very complete, missing only minor details such as the specifics of the 1932 'tie' nuance regarding the vote count difference, which does not significantly impact the overall summary.",
-    "model": "gpt-oss:20b",
-    "thinking": false,
-    "evalModel": "gemini-3.1-flash-lite-preview"
-}

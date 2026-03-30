@@ -1,8 +1,0 @@
-{
-    "accuracy": 100,
-    "completeness": 100,
-    "reasoning": "The summary is highly accurate and captures all essential details of the article, including the specific claims made by President Trump, the subsequent denials from the former presidents' representatives, and the contextual details regarding why the identity of the former president remains unknown. The inclusion of the points provides a comprehensive breakdown of the factual narrative.",
-    "model": "qwen3.5:27b",
-    "evalModel": "gemini-3.1-flash-lite-preview",
-    "thinking": true
-}

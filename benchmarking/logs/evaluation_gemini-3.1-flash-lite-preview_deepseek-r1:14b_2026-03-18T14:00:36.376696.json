@@ -1,8 +1,0 @@
-{
-    "accuracy": 100,
-    "completeness": 95,
-    "reasoning": "The summary is highly accurate and correctly identifies the key factual claims made in the article regarding the CDC polio travel advisory, the countries added and removed, and the vaccination recommendations. It is nearly complete, missing only the specific details regarding the CDC's recommended three-dose schedule for unvaccinated adults, though this is a minor omission in the context of a general summary.",
-    "model": "deepseek-r1:14b",
-    "thinking": false,
-    "evalModel": "gemini-3.1-flash-lite-preview"
-}

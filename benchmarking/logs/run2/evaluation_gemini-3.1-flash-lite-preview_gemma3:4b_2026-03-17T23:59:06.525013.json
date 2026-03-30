@@ -1,8 +1,0 @@
-{
-    "accuracy": 100,
-    "completeness": 95,
-    "reasoning": "The summary is highly accurate, correctly relaying Trump's claims and the subsequent denials from former presidents' representatives. It captures the essence of the event and the supporting details well. The completeness score is slightly less than perfect only because the summary omits the specific detail that Trump explicitly denied it was George W. Bush when asked, which provides further context to the mystery.",
-    "model": "gemma3:4b",
-    "evalModel": "gemini-3.1-flash-lite-preview",
-    "thinking": false
-}

@@ -1,8 +1,0 @@
-{
-    "accuracy": 100,
-    "completeness": 100,
-    "reasoning": "The summary and key points are highly accurate, correctly identifying the specific countries added and removed, the CDC's recommendations for vaccination, and the nature of the polio virus as described in the source text. It covers all essential aspects of the article including the Level 2 status, the justification for the advisory, and the broader context of other CDC health notices.",
-    "model": "gemma3:12b",
-    "evalModel": "gemini-3.1-flash-lite-preview",
-    "thinking": false
-}

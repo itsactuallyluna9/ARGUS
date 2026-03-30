@@ -1,8 +1,0 @@
-{
-    "accuracy": 20,
-    "completeness": 10,
-    "reasoning": "The provided summary does not summarize the article at all. Instead, it provides a meta-analysis of the article's safety and content policy compliance. It fails to convey the actual story about the Dania Beach vervet monkeys, their history as escapees, the research conducted by Missy Williams, or the debate between conservationists and local residents regarding their status and future protection.",
-    "model": "nemotron-3-nano:4b",
-    "thinking": false,
-    "evalModel": "gemini-3.1-flash-lite-preview"
-}

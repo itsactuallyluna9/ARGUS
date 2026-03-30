@@ -1,8 +1,0 @@
-{
-    "accuracy": 100,
-    "completeness": 95,
-    "reasoning": "The summary accurately captures the core contradiction in President Trump's statements and correctly identifies the backlash and the stance of various international actors. It is highly accurate and covers almost all critical factual points. It misses a minor detail regarding the specific threat Trump made about delaying a summit with China based on their cooperation, but overall it provides a very comprehensive and precise overview.",
-    "model": "gemma3:12b",
-    "thinking": false,
-    "evalModel": "gemini-3.1-flash-lite-preview"
-}

@@ -1,8 +1,0 @@
-{
-    "accuracy": 100,
-    "completeness": 100,
-    "reasoning": "The summary and key points are highly accurate, correctly relaying Trump's claims and the subsequent denials from former presidents' representatives. It is also complete, covering all essential details including the context of the claims, the specific individuals involved, and the historical timeline mentioned in the article.",
-    "model": "qwen3.5:27b",
-    "thinking": false,
-    "evalModel": "gemini-3.1-flash-lite-preview"
-}

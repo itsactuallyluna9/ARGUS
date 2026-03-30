@@ -1,8 +1,0 @@
-{
-    "accuracy": 100,
-    "completeness": 90,
-    "reasoning": "The summary is highly accurate and captures the core theme of the article perfectly. It mentions the primary reason for the ingredient changes, the consumer response (specifically regarding Brad Reese), and the corporate strategy involved. It is slightly less than 100% complete as it omits specific details regarding the regulatory differences between the US and Europe and the mention of specific emerging alternatives like 'ChoViva', which add depth to the article's exploration of the industry's future.",
-    "model": "deepseek-r1:14b",
-    "thinking": false,
-    "evalModel": "gemini-3.1-flash-lite-preview"
-}

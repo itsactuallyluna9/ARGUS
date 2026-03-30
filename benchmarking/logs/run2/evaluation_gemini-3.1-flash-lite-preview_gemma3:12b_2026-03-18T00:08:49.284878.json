@@ -1,8 +1,0 @@
-{
-    "accuracy": 100,
-    "completeness": 100,
-    "reasoning": "The summary and factual claims provided are highly accurate and align perfectly with the source text. Every significant detail, including the project's purpose, the specific legislation mentioned, the technical implementation, and the future roadmap, is covered comprehensively.",
-    "model": "gemma3:12b",
-    "evalModel": "gemini-3.1-flash-lite-preview",
-    "thinking": false
-}

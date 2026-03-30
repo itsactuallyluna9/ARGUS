@@ -1,8 +1,0 @@
-{
-    "accuracy": 85,
-    "completeness": 80,
-    "reasoning": "The summary is mostly accurate, but it contains two factual errors. It incorrectly identifies the category as 'second-best-live-action' rather than 'best live-action', and it incorrectly states that there have been seven ties in the 'short film category' history, whereas the article states there have been seven ties in total Oscar history. The summary is reasonably complete, covering the main event, the presenters, and the historical context, though it misses the specific detail that this was the first tie in the live-action short category since 1995.",
-    "model": "qwen3.5:2b",
-    "evalModel": "gemini-3.1-flash-lite-preview",
-    "thinking": true
-}

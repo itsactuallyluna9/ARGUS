@@ -85,9 +85,7 @@ class Evaluator:
     prompt: str
 
     # @retry(wait=wait_exponential(1, 60))
-    def evaluate(
-        self, article_text: str, summary: str, summary_model: str, think: bool = False
-    ):
+    def evaluate(self, article_text: str, summary: str, summary_model: str, think: bool = False):
         # use gemini
         with gemini.Client(api_key=os.environ.get("GEMINI_API_KEY")) as client:
             response = client.models.generate_content(
@@ -168,9 +166,7 @@ summarizer_models = [
 def benchmark_article(article_file: Path):
     article_text = article_file.read_text()
 
-    for model, think in track(
-        summarizer_models, description="Benchmarking summarization models..."
-    ):
+    for model, think in track(summarizer_models, description="Benchmarking summarization models..."):
         summarizer = Summarizer(model=model, prompt=summarizer_prompt, think=think)
         summary_response = summarizer.evaluate(article_text)
         summary = summary_response.response
@@ -179,9 +175,7 @@ def benchmark_article(article_file: Path):
             print(f"[!] Model {model} did not return a summary.")
             continue
 
-        evaluator = Evaluator(
-            model="gemini-3.1-flash-lite-preview", prompt=evaluator_prompt
-        )
+        evaluator = Evaluator(model="gemini-3.1-flash-lite-preview", prompt=evaluator_prompt)
         if summary_response.thinking:
             think = True
         else:
@@ -210,9 +204,7 @@ def benchmark_model(model_name: str, think: bool):
             print(f"[!] Model {model_name} did not return a summary.")
             continue
 
-        evaluator = Evaluator(
-            model="gemini-3.1-flash-lite-preview", prompt=evaluator_prompt
-        )
+        evaluator = Evaluator(model="gemini-3.1-flash-lite-preview", prompt=evaluator_prompt)
         try:
             evaluator.evaluate(article_text, summary, model_name)
         except:
@@ -220,9 +212,7 @@ def benchmark_model(model_name: str, think: bool):
 
 
 def benchmark_models():
-    for model, think in track(
-        summarizer_models, description="Benchmarking summarization models..."
-    ):
+    for model, think in track(summarizer_models, description="Benchmarking summarization models..."):
         benchmark_model(model, think)
         unload_model(model, think)
 

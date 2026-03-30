@@ -1,8 +1,0 @@
-{
-    "accuracy": 100,
-    "completeness": 95,
-    "reasoning": "The summary accurately captures the core purpose and technical basis of the Ageless Linux project. It correctly reflects the project's motivations, methods of protest, and future roadmap. The completeness is high, covering all essential factual claims including the legal arguments and the specific expansion plans. The only minor omission is the specific mention of the Milk-V Duo hardware device, though its omission does not significantly detract from the overall understanding of the project's goals.",
-    "model": "gemma3:4b",
-    "evalModel": "gemini-3.1-flash-lite-preview",
-    "thinking": false
-}

@@ -1,7 +1,0 @@
-{
-    "accuracy": 95,
-    "completeness": 85,
-    "reasoning": "The summary is highly accurate regarding the main points of the article and accurately reflects the arguments presented by the subjects. There is a minor name error where the summary refers to economist Alexis Villacis as 'Ana Villacis'. Regarding completeness, the summary captures the consumer impact and corporate critique well, but it leaves out the significant context regarding the climate-driven cocoa supply crisis in West Africa, which serves as the primary catalyst for these industry changes.",
-    "model": "qwen3.5:27b",
-    "evalModel": "gemini-3.1-flash-lite-preview"
-}

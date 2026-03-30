@@ -1,8 +1,0 @@
-{
-    "accuracy": 100,
-    "completeness": 95,
-    "reasoning": "The summary is highly accurate and captures all the core arguments and technical details presented in the article. It misses only minor details, such as the specific timeline (Q3 2026) for the planned releases and the mention of the specific California Digital Age Assurance Act as a motivating example, but these omissions do not detract from the overall quality of the summary.",
-    "model": "gemma3:4b",
-    "evalModel": "gemini-3.1-flash-lite-preview",
-    "thinking": false
-}

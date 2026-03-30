@@ -1,7 +1,0 @@
-{
-    "accuracy": 95,
-    "completeness": 90,
-    "reasoning": "The summary accurately reflects the core message regarding the CDC polio advisory and vaccination recommendations. It is highly accurate regarding the advisory level and the clinical guidance. It is slightly less complete as it misses the specific details about the removal/addition of countries and does not mention the specific vaccination schedule for adults who haven't been vaccinated at all, focusing instead on the booster.",
-    "model": "qwen3.5:27b",
-    "evalModel": "gemini-3.1-flash-lite-preview"
-}

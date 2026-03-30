@@ -1,7 +1,0 @@
-{
-    "accuracy": 100,
-    "completeness": 95,
-    "reasoning": "The summary is highly accurate, correctly synthesizing the causes of weather patterns in the East and West as described in the source text. It covers all the primary factual claims. It is missing only minor, non-essential details, such as the specific mentioned cities of Sacramento and San Jose, but this does not detract from the overall quality or completeness.",
-    "model": "glm-4.7-flash:q4_K_M",
-    "evalModel": "gemini-3.1-flash-lite-preview"
-}

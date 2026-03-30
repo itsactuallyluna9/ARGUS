@@ -1,8 +1,0 @@
-{
-    "accuracy": 95,
-    "completeness": 90,
-    "reasoning": "The summary accurately captures the core controversy regarding Trump's comments on the Strait of Hormuz and the subsequent diplomatic backlash. It correctly identifies the key figures and the tension between the U.S. demand for support and the refusal of other nations to commit military assets. It is highly complete, though it misses the specific detail regarding the Financial Times interview where Trump warned NATO of a 'very bad' future if they failed to assist.",
-    "model": "nemotron-3-nano:4b",
-    "thinking": false,
-    "evalModel": "gemini-3.1-flash-lite-preview"
-}

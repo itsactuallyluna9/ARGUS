@@ -1,7 +1,0 @@
-{
-    "accuracy": 0,
-    "completeness": 0,
-    "reasoning": "The provided summary is empty. As there is no content to evaluate, both the accuracy and completeness scores are zero.",
-    "model": "qwen3.5:9b",
-    "evalModel": "gemini-3.1-flash-lite-preview"
-}

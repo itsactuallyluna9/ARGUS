@@ -1,7 +1,0 @@
-{
-    "accuracy": 100,
-    "completeness": 100,
-    "reasoning": "The summary is highly accurate and captures all the essential findings of the article, including the specific methodology, the species studied, the environmental factors involved, and the key conclusion about a hybrid incubation strategy. It covers all major points clearly and correctly.",
-    "model": "glm-4.7-flash:q4_K_M",
-    "evalModel": "gemini-3.1-flash-lite-preview"
-}

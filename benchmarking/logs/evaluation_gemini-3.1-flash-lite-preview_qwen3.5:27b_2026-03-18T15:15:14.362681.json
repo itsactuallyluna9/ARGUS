@@ -1,8 +1,0 @@
-{
-    "accuracy": 100,
-    "completeness": 95,
-    "reasoning": "The summary is highly accurate and captures all the core technical and philosophical aspects of the project. It effectively translates the article's tone and factual claims into a structured format. The only minor omission is the specific mention of BitTorrent distribution as an additional focus for challenging potential regulatory overreach, but the summary is otherwise comprehensive.",
-    "model": "qwen3.5:27b",
-    "thinking": false,
-    "evalModel": "gemini-3.1-flash-lite-preview"
-}

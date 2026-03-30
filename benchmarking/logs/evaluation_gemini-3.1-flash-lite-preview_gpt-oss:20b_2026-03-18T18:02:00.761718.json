@@ -1,8 +1,0 @@
-{
-    "accuracy": 100,
-    "completeness": 95,
-    "reasoning": "The summary is highly accurate and captures all the core factual claims and scientific context mentioned in the article. It is nearly complete, missing only minor details such as the specific mentioned concern about wildfire risks and future water supply issues in the West, but otherwise effectively summarizes the main points of the weather events and their meteorological explanations.",
-    "model": "gpt-oss:20b",
-    "thinking": false,
-    "evalModel": "gemini-3.1-flash-lite-preview"
-}

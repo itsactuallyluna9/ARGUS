@@ -1,8 +1,0 @@
-{
-    "accuracy": 85,
-    "completeness": 90,
-    "reasoning": "The summary is highly accurate regarding the main event of the 2026 Oscars. However, there is a factual error in the summary's narrative section: it incorrectly attributes the 2013 tie announcement to Kumail Nanjiani and mentions an animated character 'Ted' participating in the 2026 reaction, while the article clearly attributes the 2013 announcement to Mark Wahlberg and states that the 2013 tie featured Ted. The summary is otherwise comprehensive.",
-    "model": "nemotron-3-nano:4b",
-    "thinking": false,
-    "evalModel": "gemini-3.1-flash-lite-preview"
-}

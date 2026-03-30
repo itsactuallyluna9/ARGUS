@@ -1,8 +1,0 @@
-{
-    "accuracy": 100,
-    "completeness": 100,
-    "reasoning": "The summary is highly accurate and captures all essential details from the article, including the specific country changes, vaccination guidelines, and disease characteristics. It successfully synthesizes the provided text into a clear, concise format without omitting significant information or introducing distortions.",
-    "model": "qwen3.5:27b",
-    "thinking": false,
-    "evalModel": "gemini-3.1-flash-lite-preview"
-}

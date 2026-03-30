@@ -1,7 +1,0 @@
-{
-    "accuracy": 100,
-    "completeness": 95,
-    "reasoning": "The summary accurately reflects the core scientific findings and methodologies described in the article. It captures the distinction between thermoregulatory contact incubation in birds and the environmental-assisted incubation proposed for oviraptors. The completeness is high, though it omits the specific dinosaur species (Heyuannia huangi) mentioned in the text, which would have provided slightly more context.",
-    "model": "qwen3.5:2b",
-    "evalModel": "gemini-3.1-flash-lite-preview"
-}

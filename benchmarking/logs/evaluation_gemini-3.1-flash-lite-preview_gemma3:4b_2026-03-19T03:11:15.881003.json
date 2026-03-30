@@ -1,8 +1,0 @@
-{
-    "accuracy": 100,
-    "completeness": 95,
-    "reasoning": "The summary accurately captures the core issue, the reasons for the industry changes, and the various stakeholder perspectives involved. It is highly accurate to the source material. It is nearly complete, missing only minor details like the mention of specific alternative products like 'ChoViva' or the specific mention of Hershey's defense regarding their classic products, but these omissions do not detract from the overall quality of the summary.",
-    "model": "gemma3:4b",
-    "thinking": false,
-    "evalModel": "gemini-3.1-flash-lite-preview"
-}

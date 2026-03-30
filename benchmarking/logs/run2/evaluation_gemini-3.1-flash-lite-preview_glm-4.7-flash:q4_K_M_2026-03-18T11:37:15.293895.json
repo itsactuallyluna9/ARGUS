@@ -1,7 +1,0 @@
-{
-    "accuracy": 100,
-    "completeness": 95,
-    "reasoning": "The summary is highly accurate, correctly capturing the core conflict, scientific perspectives, and the specific history of the Dania Beach vervet monkey colony. It is nearly complete, though it omits the specific detail about the monkeys' origin story regarding the 1947 escape from the biomedical research center owned by Leila Roosevelt Denis, which explains how they arrived in Florida.",
-    "model": "glm-4.7-flash:q4_K_M",
-    "evalModel": "gemini-3.1-flash-lite-preview"
-}

@@ -1,8 +1,0 @@
-{
-    "accuracy": 100,
-    "completeness": 95,
-    "reasoning": "The summary is highly accurate, correctly capturing the core conflict and the specific quotes attributed to the President. It is very complete, covering the diplomatic pressure on allies, the backlash from families of service members, and the specific threats regarding international summits. It misses only minor details, such as the specific identities of the foreign officials mentioned, but it effectively conveys all essential information.",
-    "model": "gemma3:4b",
-    "evalModel": "gemini-3.1-flash-lite-preview",
-    "thinking": false
-}

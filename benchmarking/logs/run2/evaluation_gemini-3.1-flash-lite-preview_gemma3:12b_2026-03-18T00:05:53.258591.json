@@ -1,8 +1,0 @@
-{
-    "accuracy": 100,
-    "completeness": 95,
-    "reasoning": "The summary is highly accurate and captures all the essential information provided in the source text, including the specific films involved, the historical context of Oscar ties, and the reactions of the participants. It is nearly complete, missing only minor details such as the specific list of all seven historical ties provided at the end of the article, which is a minor omission.",
-    "model": "gemma3:12b",
-    "evalModel": "gemini-3.1-flash-lite-preview",
-    "thinking": false
-}

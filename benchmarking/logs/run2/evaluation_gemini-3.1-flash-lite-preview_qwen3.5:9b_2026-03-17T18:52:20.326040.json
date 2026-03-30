@@ -1,8 +1,0 @@
-{
-    "accuracy": 100,
-    "completeness": 100,
-    "reasoning": "The summary is highly accurate, correctly identifying the core scientific study, the methodology used by the researchers, and the key conclusions regarding the dual role of solar and body heat in oviraptor incubation. It includes all major factual claims from the article and provides a comprehensive overview of the context, the experimental setup, and the final synthesis of the findings.",
-    "model": "qwen3.5:9b",
-    "evalModel": "gemini-3.1-flash-lite-preview",
-    "thinking": true
-}

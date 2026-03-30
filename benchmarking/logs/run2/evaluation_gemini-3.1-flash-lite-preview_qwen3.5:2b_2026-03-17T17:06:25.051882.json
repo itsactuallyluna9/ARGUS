@@ -1,8 +1,0 @@
-{
-    "accuracy": 75,
-    "completeness": 80,
-    "reasoning": "The summary accurately captures the central tension regarding Trump's conflicting statements about US involvement in the Strait of Hormuz. However, it contains some factual inaccuracies, such as misrepresenting the quotes from families of service members and incorrectly stating the UK Prime Minister said the US would not be drawn into a wider war. While it covers the primary points, it conflates some details regarding the nature of the diplomatic fallout.",
-    "model": "qwen3.5:2b",
-    "evalModel": "gemini-3.1-flash-lite-preview",
-    "thinking": true
-}

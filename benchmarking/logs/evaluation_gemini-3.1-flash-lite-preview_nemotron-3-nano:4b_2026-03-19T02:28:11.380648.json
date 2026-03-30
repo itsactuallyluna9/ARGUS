@@ -1,8 +1,0 @@
-{
-    "accuracy": 100,
-    "completeness": 100,
-    "reasoning": "The summary and points provided are highly accurate and align perfectly with the source text. It captures all technical details regarding the project's nature, the specific laws being challenged, and the future roadmap for the initiative. No important information was omitted.",
-    "model": "nemotron-3-nano:4b",
-    "thinking": false,
-    "evalModel": "gemini-3.1-flash-lite-preview"
-}

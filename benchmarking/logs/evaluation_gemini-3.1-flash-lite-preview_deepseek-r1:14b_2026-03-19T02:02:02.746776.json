@@ -1,8 +1,0 @@
-{
-    "accuracy": 100,
-    "completeness": 95,
-    "reasoning": "The summary is highly accurate, correctly relaying the core narrative of Trump's claim and the subsequent denial from representatives of all living former presidents. It includes the key points of the article. It is nearly complete, missing only minor contextual details such as the specific timeframe of the Iran conflict mentioned in the text or the fact that the White House did not respond to inquiries regarding the discrepancy.",
-    "model": "deepseek-r1:14b",
-    "thinking": false,
-    "evalModel": "gemini-3.1-flash-lite-preview"
-}

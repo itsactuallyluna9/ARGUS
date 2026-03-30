@@ -1,7 +1,0 @@
-{
-    "accuracy": 100,
-    "completeness": 95,
-    "reasoning": "The summary accurately reflects the core events and sentiments described in the article, including the contradictory nature of Trump's statements and the international backlash. It is highly complete, capturing both the diplomatic tensions and the domestic criticism. It could only be marginally improved by mentioning the specific context of the ongoing three-week war in Iran or the specific mention of the refueling tanker crash, but the current summary covers all critical narrative arcs.",
-    "model": "deepseek-r1:14b",
-    "evalModel": "gemini-3.1-flash-lite-preview"
-}

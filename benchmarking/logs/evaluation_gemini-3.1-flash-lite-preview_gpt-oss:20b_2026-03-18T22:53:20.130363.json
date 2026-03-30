@@ -1,8 +1,0 @@
-{
-    "accuracy": 100,
-    "completeness": 100,
-    "reasoning": "The summary and the provided key points are highly accurate and align perfectly with the content of the article. It covers all essential details, including the specific dinosaur species, the methodology of the nest experiment, the thermal findings, and the comparison to modern avian incubation strategies.",
-    "model": "gpt-oss:20b",
-    "thinking": false,
-    "evalModel": "gemini-3.1-flash-lite-preview"
-}

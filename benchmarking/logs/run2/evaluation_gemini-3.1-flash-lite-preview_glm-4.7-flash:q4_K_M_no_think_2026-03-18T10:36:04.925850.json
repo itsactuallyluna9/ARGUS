@@ -1,8 +1,0 @@
-{
-    "accuracy": 100,
-    "completeness": 95,
-    "reasoning": "The summary is highly accurate and captures all the essential narrative beats and technical information from the article. It misses only minor secondary details, such as the mention of specific competitors like Cadbury or Rowntree's and the long-term outlook regarding future sourcing in Indonesia and Ecuador, but these omissions do not affect the overall quality or understanding of the piece.",
-    "model": "glm-4.7-flash:q4_K_M",
-    "evalModel": "gemini-3.1-flash-lite-preview",
-    "thinking": false
-}

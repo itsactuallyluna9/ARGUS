@@ -1,8 +1,0 @@
-{
-    "accuracy": 100,
-    "completeness": 100,
-    "reasoning": "The summary accurately captures the core findings of the article, including the specific research methodology, the species studied, and the environmental factors identified in the incubation process. It is highly complete as it encompasses the nest structure, the limitations of direct contact incubation, and the specific temperature findings that support the hypothesis of solar-assisted incubation.",
-    "model": "nemotron-3-nano:4b",
-    "thinking": false,
-    "evalModel": "gemini-3.1-flash-lite-preview"
-}

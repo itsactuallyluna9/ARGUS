@@ -1,7 +1,0 @@
-{
-    "accuracy": 85,
-    "completeness": 40,
-    "reasoning": "The summary is accurate in its legal assessment of how invasive species are managed, but it completely fails to summarize the article provided. The article is a long-form feature piece about a specific colony of vervet monkeys in Dania Beach, their history, the research of Missy Williams, and the broader debate on whether they should be protected. The summary ignores the entire subject matter of the article, focusing instead on a generic, hypothetical question about shooting wildlife, which only appears as a tiny closing remark in the source text.",
-    "model": "gpt-oss:20b",
-    "evalModel": "gemini-3.1-flash-lite-preview"
-}

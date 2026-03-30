@@ -1,8 +1,0 @@
-{
-    "accuracy": 95,
-    "completeness": 90,
-    "reasoning": "The summary accurately captures the main narrative, themes, and perspectives of the article. It provides a balanced view of the conflicting viewpoints regarding whether the monkeys should be classified as invasive or merely nonnative. It is highly accurate regarding the core details of the monkeys' history and the current scientific debate. It is slightly less than 100% complete only because it omits some of the more specific, poignant details, such as the exact origin story involving the 1947 escape from a biomedical/zoo facility or the specific tragic anecdotes about individual monkeys like Betty, which help illustrate the welfare challenges mentioned in the text.",
-    "model": "gemma3:4b",
-    "evalModel": "gemini-3.1-flash-lite-preview",
-    "thinking": false
-}

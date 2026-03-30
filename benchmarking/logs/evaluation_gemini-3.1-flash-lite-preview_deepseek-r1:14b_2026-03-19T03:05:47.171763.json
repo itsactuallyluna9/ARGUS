@@ -1,8 +1,0 @@
-{
-    "accuracy": 100,
-    "completeness": 95,
-    "reasoning": "The summary is highly accurate and correctly identifies the key event and participants. It provides a comprehensive overview of the historical context of Oscar ties and the reaction of the winners. It is only slightly less than perfect on completeness as it omits mentioning the specific mention of the 2013 tie which serves as the most recent comparison, but this does not detract from the overall quality of the summary.",
-    "model": "deepseek-r1:14b",
-    "thinking": false,
-    "evalModel": "gemini-3.1-flash-lite-preview"
-}

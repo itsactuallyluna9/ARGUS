@@ -1,8 +1,0 @@
-{
-    "accuracy": 100,
-    "completeness": 95,
-    "reasoning": "The summary is highly accurate and correctly reflects the article's findings regarding the role of sunlight in oviraptor egg incubation. It captures the methodology and scientific reasoning well. It is nearly complete, missing only minor details such as the specific timeframe of the species or the exact temperature fluctuations measured, but these do not detract from the core message.",
-    "model": "gemma3:4b",
-    "evalModel": "gemini-3.1-flash-lite-preview",
-    "thinking": false
-}

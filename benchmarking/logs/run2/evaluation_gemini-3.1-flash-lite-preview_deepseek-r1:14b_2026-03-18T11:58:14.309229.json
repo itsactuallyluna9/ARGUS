@@ -1,7 +1,0 @@
-{
-    "accuracy": 95,
-    "completeness": 85,
-    "reasoning": "The summary is highly accurate, correctly reflecting the nuance of the article regarding the conflict between ecological science and public sentiment. It captures the central tension regarding the Dania Beach vervet population well. However, it is slightly incomplete as it omits specific, compelling details mentioned in the article, such as the interesting historical origin of the colony (the 1947 escape from a biomedical research-cum-zoo facility), which provides important context for how these monkeys arrived in Florida.",
-    "model": "deepseek-r1:14b",
-    "evalModel": "gemini-3.1-flash-lite-preview"
-}

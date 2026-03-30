@@ -1,8 +1,0 @@
-{
-    "accuracy": 95,
-    "completeness": 95,
-    "reasoning": "The summary and points are highly accurate, though there is a minor date discrepancy regarding the article text which states Redford died in September 2025 (implied by the 2026 article date), but the summary mentions September 2025 correctly. It covers all essential details including the reason for Fonda's quip, the specific collaborations, and the shared history of tributes. The summary is comprehensive and captures both the factual context and the playful tone of the article.",
-    "model": "glm-4.7-flash:q4_K_M",
-    "thinking": false,
-    "evalModel": "gemini-3.1-flash-lite-preview"
-}

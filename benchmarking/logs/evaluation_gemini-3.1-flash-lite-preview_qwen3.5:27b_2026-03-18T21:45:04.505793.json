@@ -1,8 +1,0 @@
-{
-    "accuracy": 100,
-    "completeness": 100,
-    "reasoning": "The summary is highly accurate, correctly identifying the species, methodology, and conclusions of the study described in the article. It is also complete, covering all major factual claims including the egg arrangement, the limitations of contact incubation for these dinosaurs, and the compensatory role of sunlight in stabilizing egg temperatures.",
-    "model": "qwen3.5:27b",
-    "thinking": false,
-    "evalModel": "gemini-3.1-flash-lite-preview"
-}

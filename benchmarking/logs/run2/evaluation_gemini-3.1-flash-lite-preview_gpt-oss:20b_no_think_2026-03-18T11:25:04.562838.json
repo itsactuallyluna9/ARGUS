@@ -1,8 +1,0 @@
-{
-    "accuracy": 100,
-    "completeness": 95,
-    "reasoning": "The summary is highly accurate and correctly reflects the core findings of the article. It captures the meteorological causes of the weather events, the specific regional forecasts, and the long-term patterns mentioned. It is nearly complete, missing only minor peripheral details like the specific cities mentioned (Phoenix, Las Vegas, etc.) regarding the western heat records, though this omission does not detract from the overall integrity of the summary.",
-    "model": "gpt-oss:20b",
-    "evalModel": "gemini-3.1-flash-lite-preview",
-    "thinking": false
-}

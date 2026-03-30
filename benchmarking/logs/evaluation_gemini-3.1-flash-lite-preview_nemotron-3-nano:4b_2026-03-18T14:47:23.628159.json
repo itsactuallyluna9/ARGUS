@@ -1,8 +1,0 @@
-{
-    "accuracy": 85,
-    "completeness": 90,
-    "reasoning": "The summary accurately captures the core meteorological explanations and the geographic contrast between the East and West. However, the accuracy score is penalized because the fifth bullet point in the provided summary contains a repetitive and nonsensical error ('March March...') that significantly degrades the quality of the text. Otherwise, the summary is complete and captures all major findings regarding the jet stream, storm patterns, and specific forecast outcomes.",
-    "model": "nemotron-3-nano:4b",
-    "thinking": false,
-    "evalModel": "gemini-3.1-flash-lite-preview"
-}

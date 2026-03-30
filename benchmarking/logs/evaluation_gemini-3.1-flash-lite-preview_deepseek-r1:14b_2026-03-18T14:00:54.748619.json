@@ -1,8 +1,0 @@
-{
-    "accuracy": 100,
-    "completeness": 90,
-    "reasoning": "The summary is highly accurate and captures the core drivers of the weather patterns described in the article. It provides a strong overview of both the Eastern volatility and the Western heat dome. It is missing some of the specific upcoming forecast details mentioned in the final sections, such as the predicted cooling trend in the East and the specific risks associated with the Western heat (wildfires and water supply), but it is otherwise a comprehensive summary.",
-    "model": "deepseek-r1:14b",
-    "thinking": false,
-    "evalModel": "gemini-3.1-flash-lite-preview"
-}

@@ -1,8 +1,0 @@
-{
-    "accuracy": 100,
-    "completeness": 100,
-    "reasoning": "The summary is highly accurate and adheres strictly to the information provided in the article. It encompasses all key factual points, including the specific species studied, the methodology of the nest reconstruction, the comparative analysis with modern bird incubation, and the researchers' findings regarding solar contribution to egg thermoregulation.",
-    "model": "qwen3.5:27b",
-    "thinking": false,
-    "evalModel": "gemini-3.1-flash-lite-preview"
-}

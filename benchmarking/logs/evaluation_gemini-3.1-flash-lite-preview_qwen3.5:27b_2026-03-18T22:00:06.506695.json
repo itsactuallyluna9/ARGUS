@@ -1,8 +1,0 @@
-{
-    "accuracy": 100,
-    "completeness": 100,
-    "reasoning": "The summary provides a comprehensive and accurate account of the article's contents. It captures the contradiction in President Trump's statements, the public and international backlash, the specific concerns of service members' families, and the geopolitical implications involving allies and China. All key points are correctly represented.",
-    "model": "qwen3.5:27b",
-    "thinking": false,
-    "evalModel": "gemini-3.1-flash-lite-preview"
-}

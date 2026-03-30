@@ -1,8 +1,0 @@
-{
-    "accuracy": 100,
-    "completeness": 100,
-    "reasoning": "The summary and points provided are highly accurate and encompass all key factual details from the article, including the specific films, the nature of the actresses' tributes, and the details regarding the Oscars ceremony. It correctly identifies the core premise of Fonda's playful quip and provides comprehensive context regarding the careers and history shared between the individuals mentioned.",
-    "model": "qwen3.5:27b",
-    "thinking": false,
-    "evalModel": "gemini-3.1-flash-lite-preview"
-}
