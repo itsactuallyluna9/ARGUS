@@ -81,17 +81,9 @@ def get_page(url: str) -> tuple[dict[str, str], str]:
             pass  # TODO: handle classic word docs
         case "application/vnd.openxmlformats-officedocument.wordprocessingml.document":
             return metadata, extract_docx(content)
-        case (
-            "text/csv"
-            | "application/vnd.ms-excel"
-            | "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
-            | "application/vnd.oasis.opendocument.spreadsheet"
-        ):
+        case "text/csv" | "application/vnd.ms-excel" | "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" | "application/vnd.oasis.opendocument.spreadsheet":
             return metadata, extract_sheet(content, content_type)
-        case (
-            "application/vnd.ms-powerpoint"
-            | "application/vnd.openxmlformats-officedocument.presentationml.presentation"
-        ):
+        case "application/vnd.ms-powerpoint" | "application/vnd.openxmlformats-officedocument.presentationml.presentation":
             pass  # TODO: handle powerpoint presentations
         case "application/vnd.oasis.opendocument.text":
             return metadata, extract_openword(content)
@@ -105,12 +97,8 @@ def get_page(url: str) -> tuple[dict[str, str], str]:
             return metadata, content.decode()  # sure, why not
         # images?
         case _:
-            raise UnsupportedContentTypeError(
-                f"Unsupported content type: {content_type}"
-            )
-    raise ScraperError(
-        f"Failed to extract content from page with content type: {content_type}"
-    )
+            raise UnsupportedContentTypeError(f"Unsupported content type: {content_type}")
+    raise ScraperError(f"Failed to extract content from page with content type: {content_type}")
 
 
 @ttl_cache(5 * 60)
@@ -166,37 +154,21 @@ def get_source_chrome(url: str) -> tuple[str, bytes]:
                     download = downloads[0]
                     download_path = download.path()
                     if not download_path:
-                        raise ScraperError(
-                            "Browser download completed but file path was not available."
-                        )
+                        raise ScraperError("Browser download completed but file path was not available.")
 
                     with open(download_path, "rb") as f:
                         content = f.read()
 
                     content_type = ""
                     if response:
-                        content_type = (
-                            response.headers.get("content-type", ";")
-                            .lower()
-                            .split(";")[0]
-                            .strip()
-                        )
-                    content_type = (
-                        content_type
-                        or mimetypes.guess_type(download.suggested_filename)[0]
-                        or "application/octet-stream"
-                    )
+                        content_type = response.headers.get("content-type", ";").lower().split(";")[0].strip()
+                    content_type = content_type or mimetypes.guess_type(download.suggested_filename)[0] or "application/octet-stream"
                     return content_type, content
 
                 # get the content type from response headers (handles redirects automatically via page.goto)
                 content_type = "text/html"
                 if response:
-                    content_type = (
-                        response.headers.get("content-type", "text/html")
-                        .lower()
-                        .split(";")[0]
-                        .strip()
-                    )
+                    content_type = response.headers.get("content-type", "text/html").lower().split(";")[0].strip()
 
                 # always get bytes from rendered page content
                 content = page.content().encode("utf-8")
@@ -256,9 +228,7 @@ def extract_sheet(content: bytes, content_type: str) -> str:
     }
     extension = lookup.get(content_type)
     if extension is None:
-        raise NotImplementedError(
-            f"scraper - unsupported spreadsheet content type: {content_type} (how did we get here?)"
-        )
+        raise NotImplementedError(f"scraper - unsupported spreadsheet content type: {content_type} (how did we get here?)")
     with NamedTemporaryFile(suffix=f".{extension}") as tmpfile:
         tmpfile.write(content)
         tmpfile.flush()
@@ -295,9 +265,7 @@ def extract_docx(content: bytes) -> str:
                     wrapping += "**"
                 if run.italic or (paragraph.style and paragraph.style.font.italic):
                     wrapping += "*"
-                if run.underline or (
-                    paragraph.style and paragraph.style.font.underline
-                ):
+                if run.underline or (paragraph.style and paragraph.style.font.underline):
                     wrapping += "__"
                 output.write(f"{wrapping}{run.text}{wrapping}")
             output.write("\n\n")
