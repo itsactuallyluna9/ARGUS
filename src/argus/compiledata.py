@@ -4,12 +4,8 @@ import json
 from datetime import datetime
 
 
-
 class ArgusData(pd.DataFrame):
-
-
     """A custom DataFrame for ARGUS data, with additional methods for processing and analysis."""
-    
 
     def __init__(self, *args, **kwargs):
 
@@ -17,10 +13,9 @@ class ArgusData(pd.DataFrame):
 
         self.datetime = None
 
-
     def fetch_data(self, article_collection: chromadb.Collection, fact_check_collection: chromadb.Collection):
         """Fetch data from the ChromaDB collection and populate the DataFrame."""
-        
+
         self.articles = article_collection
         self.fact_checks = fact_check_collection
 
@@ -39,28 +34,27 @@ class ArgusData(pd.DataFrame):
                 {
                     "url": article_urls,
                     "summary": article_docs,
-                    "description": [meta["description"] for meta in article_metas], # type: ignore
-                    "article_text": [meta["article_text"] for meta in article_metas], # type: ignore
-                    "bias": [meta["bias"] for meta in article_metas], # type: ignore
-                    "points": [meta["points"] for meta in article_metas], # type: ignore
-                    "timestamp": [meta["timestamp"] for meta in article_metas], # type: ignore
+                    "description": [meta["description"] for meta in article_metas],  # type: ignore
+                    "article_text": [meta["article_text"] for meta in article_metas],  # type: ignore
+                    "bias": [meta["bias"] for meta in article_metas],  # type: ignore
+                    "points": [meta["points"] for meta in article_metas],  # type: ignore
+                    "timestamp": [meta["timestamp"] for meta in article_metas],  # type: ignore
                 }
             )
         except:
             self.article_df = pd.DataFrame()
 
         try:
-            self.fact_check_df = pd.json_normalize(json.loads(fact_check_docs[0])) # type: ignore
-            for i in range(1, len(fact_check_docs)): # type: ignore
-                doc = fact_check_docs[i] # type: ignore
-                json_doc = json.loads(doc) # type: ignore
-                self.fact_check_df = pd.concat([self.fact_check_df, pd.json_normalize(json_doc)], ignore_index=True) # type: ignore
+            self.fact_check_df = pd.json_normalize(json.loads(fact_check_docs[0]))  # type: ignore
+            for i in range(1, len(fact_check_docs)):  # type: ignore
+                doc = fact_check_docs[i]  # type: ignore
+                json_doc = json.loads(doc)  # type: ignore
+                self.fact_check_df = pd.concat([self.fact_check_df, pd.json_normalize(json_doc)], ignore_index=True)  # type: ignore
 
         except:
             self.fact_check_df = pd.DataFrame()
 
         self.timestamp = datetime.now().isoformat()
-        
 
 
 if __name__ == "__main__":

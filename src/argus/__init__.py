@@ -29,6 +29,7 @@ active_fact_checks = []
 cached_data = ArgusData()
 cached_data.fetch_data(articles, past_checks)
 
+
 def get_gpu_metrics() -> dict[str, float | int | bool | None]:
     """Return GPU utilization and memory stats when nvidia-smi is available."""
     if shutil.which("nvidia-smi") is None:
@@ -103,9 +104,7 @@ def api_create():
     url = data.get("url")
 
     if not check_url(url):
-        return jsonify(
-            {"message": f"URL {url} is not valid or cannot be scraped."}
-        ), 400
+        return jsonify({"message": f"URL {url} is not valid or cannot be scraped."}), 400
 
     found = False
     check: FactCheck = None  # type: ignore
@@ -132,9 +131,7 @@ def api_status():
         if fact_check.id == uuid:
             if fact_check.finished:
                 active_fact_checks.remove(fact_check)
-                past_checks.add(
-                    ids=[fact_check.id], documents=[json.dumps(fact_check.to_dict())]
-                )  
+                past_checks.add(ids=[fact_check.id], documents=[json.dumps(fact_check.to_dict())])
 
             return jsonify(fact_check.to_dict()), 202
 
@@ -151,7 +148,7 @@ def api_data():
 
     if cached_data.timestamp and (datetime.now() - datetime.fromisoformat(cached_data.timestamp)).total_seconds() < 86400:  # if cached data is less than 24 hours old, return it
         return jsonify({"articles": cached_data.article_df.to_dict(orient="records"), "fact_checks": cached_data.fact_check_df.to_dict(orient="records")}), 200
-     
+
     else:
         cached_data.fetch_data(articles, past_checks)
         return jsonify({"articles": cached_data.article_df.to_dict(orient="records"), "fact_checks": cached_data.fact_check_df.to_dict(orient="records")}), 200
@@ -203,9 +200,7 @@ def api_debug_import():
     valid_urls = [url for url in urls if check_url(url)]
 
     # we're gonna do this async in the background, so we can return immediately
-    threading.Thread(
-        target=bulk_import_articles, args=(valid_urls, summarize_only)
-    ).start()
+    threading.Thread(target=bulk_import_articles, args=(valid_urls, summarize_only)).start()
 
     # invalid_urls = urls not in valid_urls
     invalid_urls = [url for url in urls if url not in valid_urls]
@@ -235,18 +230,7 @@ def bulk_import_articles(urls, summarize_only):
                 articles.add(
                     ids=[url],
                     documents=[summary],
-                    metadatas=[
-                        {
-                            "url": url,
-                            "description": description,
-                            "summary": summary,
-                            "bias": bias_rating,
-                            "points": key_points,
-                            "article_text": article_text,
-                            "timestamp": datetime.now().isoformat(),
-                            "metadata": json.dumps(article_metadata)
-                        }
-                    ],
+                    metadatas=[{"url": url, "description": description, "summary": summary, "bias": bias_rating, "points": key_points, "article_text": article_text, "timestamp": datetime.now().isoformat(), "metadata": json.dumps(article_metadata)}],
                 )
             except:
                 pass

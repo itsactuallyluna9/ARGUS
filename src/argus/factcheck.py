@@ -24,7 +24,7 @@ class FactCheck:
         summarizer_model: str = "gemma3:12b",
         think: bool = False,
     ):
-        
+
         self.url = url
         self.id = uuid.uuid3(uuid.NAMESPACE_DNS, url).hex
 
@@ -60,7 +60,6 @@ class FactCheck:
 
         print(f"Initialized fact check for {self.url} with ID {self.id}")
 
-
     def to_dict(self) -> dict[str, Any]:
         return {
             "url": self.url,
@@ -85,18 +84,15 @@ class FactCheck:
             "finished": self.finished,
         }
 
-
     def main(self):
         self.fact_check_metadata["check_started"] = datetime.now().isoformat()
 
         # url |> scrape |> clean -> raw article text
         with with_timing(lambda t: self.fact_check_metadata.update({"scraper_duration": t.duration_s})):
-            
             self.article_metadata, self.article_text = get_page(self.url)
 
         # raw article text |> summarizer |> -> summary, key points |> chromadb (if not present)
         with with_timing(lambda t: self.fact_check_metadata.update({"summary_duration": t.duration_s})):
-
             self.summary, self.bias_rating, self.key_points = self.summarize_article(self.article_text)
 
         print(f"\n\n\nSummary for {self.url}:\n{self.summary}\nBias rating: {self.bias_rating}\nKey points: {self.key_points}\n\n\n")
@@ -105,7 +101,6 @@ class FactCheck:
 
         # evidence + article text + related article summaries + bias rating |> fact check model -> accuracy, completeness scores + explanation
         with with_timing(lambda t: self.fact_check_metadata.update({"agents_duration": t.duration_s})):
-
             self.fact_check(self.article_text, self.bias_rating, self.key_points)
 
         print(f"\n\n\nFact check results for {self.url}:\n")
@@ -120,14 +115,8 @@ class FactCheck:
         self.fact_check_metadata["check_finished"] = check_finished.isoformat()
         started = datetime.fromisoformat(self.fact_check_metadata["check_started"])
         submitted = datetime.fromisoformat(self.fact_check_metadata["check_submitted"])
-        self.fact_check_metadata["check_duration_from_start"] = (
-            check_finished - started
-        ).total_seconds()
-        self.fact_check_metadata["check_duration_from_submitted"] = (
-            check_finished - submitted
-        ).total_seconds()
-
-
+        self.fact_check_metadata["check_duration_from_start"] = (check_finished - started).total_seconds()
+        self.fact_check_metadata["check_duration_from_submitted"] = (check_finished - submitted).total_seconds()
 
     @retry(stop=stop_after_attempt(3))
     def summarize_article(self, article_text: str) -> tuple[str, str, list]:
@@ -143,24 +132,12 @@ class FactCheck:
             self.article_collection.add(
                 ids=[self.url],
                 documents=[summary],
-                metadatas=[
-                    {
-                        "url": self.url,
-                        "description": description,
-                        "summary": summary,
-                        "bias": bias_rating,
-                        "points": key_points,
-                        "article_text": article_text,
-                        "timestamp": datetime.now().isoformat(),
-                        "metadata": json.dumps(self.article_metadata)
-                    }
-                ],
+                metadatas=[{"url": self.url, "description": description, "summary": summary, "bias": bias_rating, "points": key_points, "article_text": article_text, "timestamp": datetime.now().isoformat(), "metadata": json.dumps(self.article_metadata)}],
             )
         except:
             pass
 
         return summary, bias_rating, key_points  # type: ignore
-
 
     def fact_check(
         self,
@@ -168,7 +145,7 @@ class FactCheck:
         bias_rating: str,
         key_points: list[str],
     ) -> dict[str, Any]:
-        
+
         completeness_agent = Completeness_Agent(
             article_text=article_text,
             article_metadata=self.article_metadata,
@@ -215,7 +192,6 @@ class FactCheck:
         self.emotional_language_score = bias_agent.bias_rating["emotional_language_score"]
 
         return self.to_dict()
-
 
 
 def check_url(url: str) -> bool:
