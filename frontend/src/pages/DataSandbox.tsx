@@ -26,8 +26,9 @@ import {
 } from "@/components/ui/tooltip";
 import { Terminal } from "@xterm/xterm";
 import { FitAddon } from "@xterm/addon-fit";
-import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import "@xterm/xterm/css/xterm.css";
+import { Table, TableBody, TableCaption, TableCell, TableHeader, TableRow } from "@/components/ui/table";
 
 const ENTER_KEY = 13;
 const BACKSPACE_KEY = 127;
@@ -53,6 +54,12 @@ function DataSandboxView() {
   const [canvasImageIndex, setCanvasImageIndex] = useState(0); // which canvas is the user viewing?
   const [canvasDrawIndex, setCanvasDrawIndex] = useState(0); // which canvas are we currently drawing on?
   const drawCanvas = useRef<OffscreenCanvas | null>(null);
+
+  const [viewData, setViewData] = useState<Record<string, unknown>[]>([]);
+  const [viewTitle, setViewTitle] = useState("")
+
+  const [pagerContent, setPagerContent] = useState("");
+  const [pagerTitle, setPagerTitle] = useState("")
 
   const [currentTab, setCurrentTab] = useState("data-loader");
 
@@ -282,21 +289,34 @@ function DataSandboxView() {
           setRWorking(false);
           break;
         case "pager":
-          // TODO: handle pager
-          const file = await webR.FS.readFile(event.data.path);
+          const pager_file = await webR.FS.readFile(event.data.path);
           if (event.data.deleteFile) {
             await webR.FS.unlink(event.data.path);
           }
-          console.log("Pager file content:", new TextDecoder().decode(file));
-          console.log("Pager event:", event.data);
+          setCurrentTab("pager")
+          setPagerTitle(event.data.title)
+          setPagerContent(new TextDecoder().decode(pager_file))
           break;
-        case "viewer":
-          // TODO: handle viewer
-          console.log("Viewer event:", event.data);
+        case "view":
+          setCurrentTab("view")
+          setViewTitle(event.data.title)
+          const to_process = event.data.data
+          // convert Object{col_name: {type: ... names: ... values: []}} to
+          // [{col_name: value, ...}, ...]
+          let converted = []
+          for (let i = 0; i < to_process[Object.keys(to_process)[0]].values.length; i++) {
+            let row = {}
+            for (const col_name in to_process) {
+              row[col_name] = to_process[col_name].values[i]
+            }
+            converted.push(row)
+          }
+          setViewData(converted)
           break;
-        case "browser":
-          // TODO: ????
-          console.log("Browser event:", event.data);
+        case "browse":
+          // this isn't supported :(
+          console.warn("R browse event received but not supported");
+          xtermRef.current?.writeln("# Browse event received but not supported - sorry :(");
           break;
         case "canvas":
           switch (event.data.event) {
@@ -445,10 +465,6 @@ function DataSandboxView() {
                       Run code
                     </TooltipContent>
                   </Tooltip>
-
-                  <Button size="icon" onClick={fetchData}>
-                    <Cat />
-                  </Button>
                   {window.crossOriginIsolated && (
                     <Tooltip>
                       <TooltipTrigger asChild>
@@ -497,11 +513,45 @@ function DataSandboxView() {
                 <TabsList>
                   <TabsTrigger value="data-loader">Data Loader</TabsTrigger>
                   <TabsTrigger value="documentation">Documentation</TabsTrigger>
-                  <TabsTrigger value="view">View</TabsTrigger>
-                  <TabsTrigger value="pager">Pager</TabsTrigger>
-                  <TabsTrigger value="browser">Browser</TabsTrigger>
+                  <TabsTrigger value="view" disabled={viewData.length === 0}>
+                    View
+                  </TabsTrigger>
+                  <TabsTrigger value="pager" disabled={pagerContent === ""}>
+                    Pager
+                  </TabsTrigger>
                   <TabsTrigger value="settings">Settings</TabsTrigger>
                 </TabsList>
+                <TabsContent value="data-loader">
+                  <Button size="icon" onClick={fetchData}>
+                    <Cat />
+                  </Button>
+                </TabsContent>
+              <TabsContent value="view">
+                <Table>
+                  <TableCaption>{viewTitle} | {viewData.length} rows</TableCaption>
+                  <TableHeader>
+                    <TableRow>
+                      {viewData[0] &&
+                        Object.keys(viewData[0]).map((col_name) => (
+                          <TableCell key={col_name}>{col_name}</TableCell>
+                        ))}
+                    </TableRow>
+                  </TableHeader>
+                <TableBody>
+                  {viewData.map((row, index) => (
+                    <TableRow key={index}>
+                      {Object.values(row).map((value, i) => (
+                        <TableCell key={i}>{String(value)}</TableCell>
+                      ))}
+                    </TableRow>
+                  ))}
+                  </TableBody>
+                  </Table>
+                </TabsContent>
+                <TabsContent value="pager">
+                  <h2 className="text-lg font-bold">{pagerTitle}</h2>
+                  <pre className="whitespace-pre-wrap">{pagerContent}</pre>
+                </TabsContent>
               </Tabs>
             </ResizablePanel>
             <ResizableHandle withHandle />
