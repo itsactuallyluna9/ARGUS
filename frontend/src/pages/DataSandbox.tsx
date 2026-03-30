@@ -677,7 +677,7 @@ function DataSandboxView() {
                   <img
                     src={canvasImages[canvasImageIndex]}
                     alt={`Canvas ${canvasImageIndex + 1}`}
-                    className="mx-auto mb-4 h-7/8"
+                    className="mx-auto mb-4 h-7/8 bg-white"
                   />
                   <ButtonGroup className="justify-center">
                     <Button
