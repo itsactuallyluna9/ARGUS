@@ -1,7 +1,0 @@
-{
-    "accuracy": 95,
-    "completeness": 90,
-    "reasoning": "The summary is highly accurate and captures the core tension between scientific classification and public sentiment well. It includes key details about the population history, the extinction projections, and the viewpoints of the researchers and residents. It slightly misses the specific detail about the origin of the monkeys being linked to a biomedical research-cum-zoo from 1939/1947, which is a significant part of the narrative, but this does not hinder the overall quality of the summary.",
-    "model": "qwen3.5:9b",
-    "evalModel": "gemini-3.1-flash-lite-preview"
-}

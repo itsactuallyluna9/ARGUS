@@ -1,8 +1,0 @@
-{
-    "accuracy": 100,
-    "completeness": 95,
-    "reasoning": "The summary is highly accurate, correctly capturing the core of Trump's contradictory statements and the subsequent public and international reactions. It covers the key factual claims effectively. The completeness score is slightly less than perfect only because it omits minor details like the specific locations mentioned (e.g., Mar-a-Lago, Washington) or the specific warning Trump gave to NATO regarding its future, but these do not detract from the overall understanding of the article.",
-    "model": "gpt-oss:20b",
-    "evalModel": "gemini-3.1-flash-lite-preview",
-    "thinking": false
-}

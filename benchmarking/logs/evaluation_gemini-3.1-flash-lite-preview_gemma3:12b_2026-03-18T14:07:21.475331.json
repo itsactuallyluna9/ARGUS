@@ -1,8 +1,0 @@
-{
-    "accuracy": 100,
-    "completeness": 100,
-    "reasoning": "The summary is highly accurate and captures all essential details from the article, including the specific country changes, vaccination recommendations, the nature of the polio virus, and the structure of the CDC's advisory system. It successfully synthesizes the provided information without introducing errors or bias.",
-    "model": "gemma3:12b",
-    "thinking": false,
-    "evalModel": "gemini-3.1-flash-lite-preview"
-}

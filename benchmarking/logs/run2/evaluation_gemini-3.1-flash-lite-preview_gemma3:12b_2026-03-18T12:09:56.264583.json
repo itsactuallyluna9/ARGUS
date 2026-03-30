@@ -1,7 +1,0 @@
-{
-    "accuracy": 100,
-    "completeness": 95,
-    "reasoning": "The summary is highly accurate and captures the core technical and philosophical objectives of the Ageless Linux project. It correctly identifies the project's basis in Debian, its protest nature, and the specific concerns regarding regulatory overreach. It is nearly complete, missing only the specific mention of the Milk-V Duo hardware model, though the summary does note the general intent to use hardware devices for testing, which makes it comprehensive enough for most readers.",
-    "model": "gemma3:12b",
-    "evalModel": "gemini-3.1-flash-lite-preview"
-}

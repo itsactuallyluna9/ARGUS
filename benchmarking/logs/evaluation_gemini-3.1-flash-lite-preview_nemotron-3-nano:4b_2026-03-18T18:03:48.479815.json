@@ -1,8 +1,0 @@
-{
-    "accuracy": 85,
-    "completeness": 80,
-    "reasoning": "The summary is well-written and captures the core tension between ecological labeling and local community sentiment. However, it contains a few inaccuracies: it incorrectly states the monkeys are confined to a '250 sq km' area, whereas the text mentions that as the size of an island in St. Kitts, not the Florida habitat. Additionally, it labels the potential management of the monkeys as 'eugenics,' which is a misuse of the term compared to the article's context of 'biomedical research' or 'culling.' The summary omits the detailed backstory of the 1947 escape from the research center, which is a key historical element explaining the colony's origin.",
-    "model": "nemotron-3-nano:4b",
-    "thinking": false,
-    "evalModel": "gemini-3.1-flash-lite-preview"
-}

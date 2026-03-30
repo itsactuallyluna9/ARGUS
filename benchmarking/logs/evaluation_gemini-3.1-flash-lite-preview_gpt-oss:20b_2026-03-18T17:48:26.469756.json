@@ -1,8 +1,0 @@
-{
-    "accuracy": 100,
-    "completeness": 95,
-    "reasoning": "The summary is highly accurate and correctly captures the core contradictory nature of Trump's statements and the subsequent fallout. It is extremely complete, covering all essential points including the military context, international pushback, and the domestic criticism. The only minor omission is the specific mention of the 13 service members killed, though the summary does correctly note that families of fallen service members criticized the president.",
-    "model": "gpt-oss:20b",
-    "thinking": false,
-    "evalModel": "gemini-3.1-flash-lite-preview"
-}

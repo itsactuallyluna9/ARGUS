@@ -1,8 +1,0 @@
-{
-    "accuracy": 100,
-    "completeness": 95,
-    "reasoning": "The summary is highly accurate, correctly relaying meteorological explanations and specific forecasts provided in the text. It captures the essential points regarding both the Eastern and Western weather patterns. It is nearly complete, missing only minor details like the specific mention of the 'clipper' weather systems affecting the Midwest and Northeast later in the week.",
-    "model": "gpt-oss:20b",
-    "evalModel": "gemini-3.1-flash-lite-preview",
-    "thinking": false
-}

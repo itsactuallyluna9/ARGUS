@@ -1,8 +1,0 @@
-{
-    "accuracy": 95,
-    "completeness": 100,
-    "reasoning": "The summary is highly accurate, capturing the playful tone of Fonda's comments. There is a minor factual discrepancy in the points list where it states Redford died in September 2026, while the text specifies he died in September of the previous year (2025, given the article date is March 2026). Otherwise, the summary is comprehensive and covers all major facets of the article.",
-    "model": "gemma3:4b",
-    "evalModel": "gemini-3.1-flash-lite-preview",
-    "thinking": false
-}

@@ -1,8 +1,0 @@
-{
-    "accuracy": 95,
-    "completeness": 90,
-    "reasoning": "The summary is highly accurate and captures the main points of the article effectively. The only minor nuance is that the article states the US threshold for 'chocolate' is 15%, but the summary and points characterize this as the requirement for 'milk chocolate', whereas the regulation specifically concerns the definition of 'chocolate' or 'chocolate candy' products. The summary is very complete, covering the specific case study of Brad Reese, the industry economic context, and the regulatory framework.",
-    "model": "gpt-oss:20b",
-    "evalModel": "gemini-3.1-flash-lite-preview",
-    "thinking": false
-}

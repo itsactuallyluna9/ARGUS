@@ -1,8 +1,0 @@
-{
-    "accuracy": 100,
-    "completeness": 95,
-    "reasoning": "The summary is highly accurate, correctly reflecting both Trump's claims and the subsequent denials from the former presidents' representatives. It captures the essential context of the situation, including the specific political history mentioned. The completeness is high, though it could have briefly mentioned the specific setting of the Kennedy Center remarks to provide slightly more context, but overall, it covers all key factual claims comprehensively.",
-    "model": "deepseek-r1:14b",
-    "evalModel": "gemini-3.1-flash-lite-preview",
-    "thinking": true
-}

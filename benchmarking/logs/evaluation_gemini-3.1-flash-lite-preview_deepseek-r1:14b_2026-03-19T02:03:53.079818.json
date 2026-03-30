@@ -1,8 +1,0 @@
-{
-    "accuracy": 100,
-    "completeness": 95,
-    "reasoning": "The summary is highly accurate and correctly identifies the core findings of the study. It covers all essential points including the methodology (life-sized model), the species involved, and the contrast with modern bird incubation. It is nearly complete, missing only the specific mention of the time period (70-66 million years ago), which is a minor detail in the context of the summary.",
-    "model": "deepseek-r1:14b",
-    "thinking": false,
-    "evalModel": "gemini-3.1-flash-lite-preview"
-}

@@ -1,8 +1,0 @@
-{
-    "accuracy": 100,
-    "completeness": 95,
-    "reasoning": "The summary accurately captures the core purpose and technical nature of the Ageless Linux project. It is highly complete, covering the motivation, technical implementation, and future roadmap. A slight deduction was made only because it omits the specific mention of the project's intent to test if BitTorrent seeders could be classified as 'operating system providers,' which was a notable point in the article.",
-    "model": "deepseek-r1:14b",
-    "thinking": false,
-    "evalModel": "gemini-3.1-flash-lite-preview"
-}

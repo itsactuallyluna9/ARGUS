@@ -1,8 +1,0 @@
-{
-    "accuracy": 100,
-    "completeness": 100,
-    "reasoning": "The summary is highly accurate and adheres strictly to the facts provided in the article. It captures all key points, including the specific species studied, the experimental methodology, the distinction between oviraptor and modern bird incubation, and the conclusion regarding the role of sunlight.",
-    "model": "qwen3.5:9b",
-    "thinking": false,
-    "evalModel": "gemini-3.1-flash-lite-preview"
-}

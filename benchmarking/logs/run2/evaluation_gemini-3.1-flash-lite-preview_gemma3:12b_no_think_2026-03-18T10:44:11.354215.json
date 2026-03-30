@@ -1,8 +1,0 @@
-{
-    "accuracy": 100,
-    "completeness": 95,
-    "reasoning": "The summary is highly accurate and correctly identifies the core contradiction in President Trump's statements. It captures the main points regarding international resistance and domestic backlash effectively. It is almost completely comprehensive, only omitting minor specific details like the mention of the delayed meeting with Xi Jinping, which is secondary to the primary focus on the Iran war rhetoric.",
-    "model": "gemma3:12b",
-    "evalModel": "gemini-3.1-flash-lite-preview",
-    "thinking": false
-}

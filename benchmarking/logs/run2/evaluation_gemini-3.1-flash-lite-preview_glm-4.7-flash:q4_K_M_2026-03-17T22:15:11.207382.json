@@ -1,8 +1,0 @@
-{
-    "accuracy": 100,
-    "completeness": 95,
-    "reasoning": "The summary accurately captures the core narrative, the reasons behind the market changes, and the specific case of Brad Reese. It is highly accurate regarding the factual claims. It is nearly complete, missing only minor peripheral details such as the specific mention that standard Reese's Peanut Butter Cups remain unchanged, though the summary does an excellent job of distilling the complex economic and consumer-behavior aspects of the article.",
-    "model": "glm-4.7-flash:q4_K_M",
-    "evalModel": "gemini-3.1-flash-lite-preview",
-    "thinking": true
-}

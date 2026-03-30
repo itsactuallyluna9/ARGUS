@@ -1,8 +1,0 @@
-{
-    "accuracy": 100,
-    "completeness": 100,
-    "reasoning": "The summary and the provided key points accurately reflect the information presented in the article. Every significant detail, including the specific countries added and removed, the reasoning for the advisory, the vaccination recommendations, the nature of the virus, and the mention of other health alerts, is included.",
-    "model": "glm-4.7-flash:q4_K_M",
-    "evalModel": "gemini-3.1-flash-lite-preview",
-    "thinking": false
-}

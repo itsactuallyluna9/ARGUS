@@ -1,8 +1,0 @@
-{
-    "accuracy": 100,
-    "completeness": 100,
-    "reasoning": "The summary and the included key points are highly accurate, strictly adhering to the findings presented in the article. The summary captures all critical aspects of the study, including the methodology, the rationale regarding nest structure, and the conclusion about solar incubation, leaving out no significant details.",
-    "model": "gemma3:12b",
-    "evalModel": "gemini-3.1-flash-lite-preview",
-    "thinking": false
-}

@@ -1,8 +1,0 @@
-{
-    "accuracy": 100,
-    "completeness": 100,
-    "reasoning": "The summary and key points accurately reflect the findings and methodology described in the article. It covers all essential details, including the species mentioned, the unique physical structure of the nests, the experimental approach using a life-sized model, and the conclusions regarding the role of solar heat in incubation.",
-    "model": "qwen3.5:9b",
-    "thinking": false,
-    "evalModel": "gemini-3.1-flash-lite-preview"
-}

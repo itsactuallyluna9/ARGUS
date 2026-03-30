@@ -1,8 +1,0 @@
-{
-    "accuracy": 100,
-    "completeness": 95,
-    "reasoning": "The summary is highly accurate and correctly captures the core narrative of the article, including the disputed claim and the rebuttals from the former presidents' representatives. It is nearly complete, missing only the minor detail that Trump explicitly ruled out George W. Bush during a later press interaction, but this does not detract from the overall integrity of the summary.",
-    "model": "gemma3:4b",
-    "evalModel": "gemini-3.1-flash-lite-preview",
-    "thinking": false
-}

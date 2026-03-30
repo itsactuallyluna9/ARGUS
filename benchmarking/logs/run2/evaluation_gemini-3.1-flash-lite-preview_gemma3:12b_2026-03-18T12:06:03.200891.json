@@ -1,7 +1,0 @@
-{
-    "accuracy": 100,
-    "completeness": 95,
-    "reasoning": "The summary accurately captures the core conflict, the specific comments made by the president, and the subsequent international and public backlash. It effectively synthesizes the key points and perspectives presented in the article. The completeness score is slightly reduced only because the summary omits the specific mention of the 13 US service members killed, which was a significant contextual detail regarding the public backlash mentioned in the article.",
-    "model": "gemma3:12b",
-    "evalModel": "gemini-3.1-flash-lite-preview"
-}

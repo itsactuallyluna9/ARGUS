@@ -1,8 +1,0 @@
-{
-    "accuracy": 100,
-    "completeness": 95,
-    "reasoning": "The summary is highly accurate and captures all the critical factual claims mentioned. It does a great job of connecting the anecdotal experience of Brad Reese with the broader economic context of the cocoa market. It is nearly complete, missing only minor details like the mention of specific competitors or the future outlook for cocoa sourcing in regions like Ecuador and Indonesia, but it successfully covers the core narrative of the article.",
-    "model": "nemotron-3-nano:4b",
-    "thinking": false,
-    "evalModel": "gemini-3.1-flash-lite-preview"
-}

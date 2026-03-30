@@ -1,8 +1,0 @@
-{
-    "accuracy": 100,
-    "completeness": 95,
-    "reasoning": "The summary is highly accurate and captures all the core facts of the event described in the article. It is nearly complete, missing only minor details such as specific quotes from the host Conan O'Brien or the exact names of all individual filmmakers involved, which are not strictly necessary for a comprehensive summary.",
-    "model": "gemma3:12b",
-    "thinking": false,
-    "evalModel": "gemini-3.1-flash-lite-preview"
-}

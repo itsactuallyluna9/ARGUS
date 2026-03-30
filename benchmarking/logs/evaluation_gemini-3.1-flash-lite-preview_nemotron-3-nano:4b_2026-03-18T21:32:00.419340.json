@@ -1,8 +1,0 @@
-{
-    "accuracy": 95,
-    "completeness": 90,
-    "reasoning": "The summary is highly accurate in its reporting of the event and the historical context provided. It correctly identifies the winners, the rarity of the occurrence, and the key participants. It is very complete, though it slightly misidentifies Kumail Nanjiani as the 'host' of the Oscars when he was only a presenter for that specific category, while Conan O'Brien was the actual show host.",
-    "model": "nemotron-3-nano:4b",
-    "thinking": false,
-    "evalModel": "gemini-3.1-flash-lite-preview"
-}

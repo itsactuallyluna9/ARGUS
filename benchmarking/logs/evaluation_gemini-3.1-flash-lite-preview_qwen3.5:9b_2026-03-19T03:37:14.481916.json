@@ -1,8 +1,0 @@
-{
-    "accuracy": 90,
-    "completeness": 95,
-    "reasoning": "The summary is highly accurate and comprehensive regarding the main subject. However, there is a minor attribution error in the summary's points: it attributes the 'intellectual cowboy' quote to Fonda, while the article clearly states that Streisand used that phrase during her speech. Otherwise, the summary captures all key facts and context.",
-    "model": "qwen3.5:9b",
-    "thinking": false,
-    "evalModel": "gemini-3.1-flash-lite-preview"
-}

@@ -1,8 +1,0 @@
-{
-    "accuracy": 100,
-    "completeness": 95,
-    "reasoning": "The summary is highly accurate, correctly relaying Trump's claims and the subsequent denials from representatives of all four living former presidents. It captures the essential details of the reported events and the context of the claims. The completeness is nearly perfect, with the only minor exclusion being the specific date the four presidents last met (the inauguration), which is not central to the main point of the article.",
-    "model": "gpt-oss:20b",
-    "evalModel": "gemini-3.1-flash-lite-preview",
-    "thinking": false
-}

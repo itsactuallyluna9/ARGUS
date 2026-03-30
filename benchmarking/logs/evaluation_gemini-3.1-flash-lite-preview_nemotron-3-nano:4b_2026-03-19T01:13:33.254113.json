@@ -1,8 +1,0 @@
-{
-    "accuracy": 100,
-    "completeness": 100,
-    "reasoning": "The summary and the included key points are highly accurate, strictly adhering to the information provided in the original text. All essential details\u2014including the specific dinosaur species, the experimental method used (a life-sized nest model), the findings regarding temperature distribution, and the conclusion about solar incubation\u2014are fully captured without any omissions.",
-    "model": "nemotron-3-nano:4b",
-    "thinking": false,
-    "evalModel": "gemini-3.1-flash-lite-preview"
-}

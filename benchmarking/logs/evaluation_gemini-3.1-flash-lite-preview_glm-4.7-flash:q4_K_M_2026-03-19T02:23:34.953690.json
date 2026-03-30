@@ -1,8 +1,0 @@
-{
-    "accuracy": 100,
-    "completeness": 95,
-    "reasoning": "The summary is highly accurate and captures the core objectives and technical methods of the project perfectly. It is nearly complete, missing only the specific mention that the project is largely symbolic and relies on intentional non-compliance as a demonstration, though this is implied in the summary's discussion of the protest. Overall, it is an excellent synthesis of the provided text.",
-    "model": "glm-4.7-flash:q4_K_M",
-    "thinking": false,
-    "evalModel": "gemini-3.1-flash-lite-preview"
-}

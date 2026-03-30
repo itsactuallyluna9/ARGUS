@@ -1,8 +1,0 @@
-{
-    "accuracy": 100,
-    "completeness": 95,
-    "reasoning": "The summary is highly accurate and captures the core narrative of the article perfectly. It identifies the key economic drivers, the specific instance of the Reese family member's criticism, and the broader industry trends. It is almost completely comprehensive, only missing minor details like the mention of specific lab-grown alternatives like 'ChoViva' or the specific mention of global retailers like Nestl\u00e9, but these omissions do not detract from the main message.",
-    "model": "gemma3:12b",
-    "thinking": false,
-    "evalModel": "gemini-3.1-flash-lite-preview"
-}

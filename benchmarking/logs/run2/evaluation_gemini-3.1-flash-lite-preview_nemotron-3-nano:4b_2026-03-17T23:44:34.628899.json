@@ -1,8 +1,0 @@
-{
-    "accuracy": 85,
-    "completeness": 90,
-    "reasoning": "The summary provides an excellent overview of the article's main narrative and key points, including the origin of the monkey colony, their current ecological status, and the public/policy debates surrounding them. However, it contains a significant factual error in the snapshot section, where it labels the species as 'Cercopithecus aethiops' while the article clearly identifies them as 'Chlorocebus sabaeus'. Additionally, the article notes that the Florida Fish and Wildlife Conservation Commission specifically considers them an 'invasive species,' which contradicts the summary's claim that they have 'No invasive species designation'.",
-    "model": "nemotron-3-nano:4b",
-    "evalModel": "gemini-3.1-flash-lite-preview",
-    "thinking": true
-}

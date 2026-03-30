@@ -1,8 +1,0 @@
-{
-    "accuracy": 95,
-    "completeness": 90,
-    "reasoning": "The summary accurately captures the main narrative, the scientific debate, and the central themes of the article. It correctly identifies the key figures, the origin of the monkeys, and the conflicting perspectives regarding their status. It is highly accurate in its representation of the article's tone. It is slightly less than 100% complete as it omits a few minor details, such as the specific historical event of the 1947 escape being linked to the biomedical trade, though it does mention they were brought over decades ago.",
-    "model": "gemma3:12b",
-    "evalModel": "gemini-3.1-flash-lite-preview",
-    "thinking": false
-}

@@ -1,8 +1,0 @@
-{
-    "accuracy": 100,
-    "completeness": 95,
-    "reasoning": "The summary is highly accurate and correctly reflects the contradictory nature of the president's statements and the subsequent public and international reactions. It captures all major factual points provided in the article. It is nearly complete, missing only minor details such as specific mentions of Luxembourg's deputy prime minister or the exact count of fallen service members, which does not detract from the overall integrity of the summary.",
-    "model": "magistral:24b",
-    "evalModel": "gemini-3.1-flash-lite-preview",
-    "thinking": true
-}

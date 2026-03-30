@@ -1,8 +1,0 @@
-{
-    "accuracy": 100,
-    "completeness": 95,
-    "reasoning": "The summary accurately captures the core arguments and facts presented in the article regarding market volatility, reformulation strategies, and consumer reaction. It covers the essential points, including the perspective of Brad Reese and the analysis from economist Alexis Villacis. It is highly complete, though it omits the minor detail regarding the specific regulatory thresholds (15% vs 20% cocoa) that differentiate \u2018chocolate\u2019 from \u2018chocolate flavor\u2019 in the US versus the UK, which is a secondary detail.",
-    "model": "gemma3:12b",
-    "evalModel": "gemini-3.1-flash-lite-preview",
-    "thinking": false
-}

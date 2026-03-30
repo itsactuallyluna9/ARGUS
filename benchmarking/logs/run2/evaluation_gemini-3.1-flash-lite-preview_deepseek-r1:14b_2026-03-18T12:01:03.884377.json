@@ -1,7 +1,0 @@
-{
-    "accuracy": 100,
-    "completeness": 95,
-    "reasoning": "The summary is highly accurate, correctly relaying the central claim, the subsequent denials from former presidents' representatives, and the context of the interaction. It captures the essential factual points perfectly. It is nearly complete, missing only minor details such as the specific venues where Trump made the remarks (Kennedy Center and the Oval Office) and the mention of the Vice President's task force announcement, but these are secondary to the primary narrative.",
-    "model": "deepseek-r1:14b",
-    "evalModel": "gemini-3.1-flash-lite-preview"
-}

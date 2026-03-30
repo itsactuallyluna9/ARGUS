@@ -1,8 +1,0 @@
-{
-    "accuracy": 100,
-    "completeness": 95,
-    "reasoning": "The summary is highly accurate, correctly synthesizing the causes of the current US weather patterns as explained by meteorological experts. It captures the distinction between the volatile East and the persistent heat in the West. It is nearly complete, missing only minor details regarding specific forecasted snowfall and the potential environmental impacts of the heat dome, such as wildfire risks and water supply concerns, but it covers all major factual pillars.",
-    "model": "qwen3.5:9b",
-    "thinking": false,
-    "evalModel": "gemini-3.1-flash-lite-preview"
-}

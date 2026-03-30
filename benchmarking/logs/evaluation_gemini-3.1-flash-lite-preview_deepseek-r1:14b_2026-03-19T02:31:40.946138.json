@@ -1,8 +1,0 @@
-{
-    "accuracy": 100,
-    "completeness": 95,
-    "reasoning": "The summary is highly accurate and captures all key technical and conceptual aspects of the Ageless Linux project. It mentions the core motivation, the methodology of using a script on Debian, the focus on specific legislation, and the planned future milestones. The only minor omission is the specific mention of the intent to distribute images via BitTorrent to further challenge legal interpretations, but this does not significantly detract from the overall quality or completeness.",
-    "model": "deepseek-r1:14b",
-    "thinking": false,
-    "evalModel": "gemini-3.1-flash-lite-preview"
-}

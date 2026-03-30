@@ -1,7 +1,0 @@
-{
-    "accuracy": 100,
-    "completeness": 95,
-    "reasoning": "The summary is highly accurate and correctly reflects the article's core information, including the additions and removals from the advisory list and the CDC's health recommendations. It captures the essential points very well. It misses minor details such as the specific list of symptoms for polio or the specific vaccination schedule details for those completely unvaccinated, but these omissions do not significantly detract from the overall usefulness or accuracy of the summary.",
-    "model": "gemma3:12b",
-    "evalModel": "gemini-3.1-flash-lite-preview"
-}

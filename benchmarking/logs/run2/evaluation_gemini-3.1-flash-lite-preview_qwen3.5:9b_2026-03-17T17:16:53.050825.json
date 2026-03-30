@@ -1,8 +1,0 @@
-{
-    "accuracy": 95,
-    "completeness": 90,
-    "reasoning": "The summary accurately captures the central conflict of the article, the economic drivers behind ingredient reformulation, and the perspective of Brad Reese. It provides a detailed and factual account of the key points. It is nearly complete, though it misses the specific mention of 'shrinkflation' as a concurrent strategy to reformulation mentioned in the text, and it omits the nuance that some Hershey's products (like the Snack Size Eggs) still contain real milk chocolate, whereas the summary focuses primarily on the reduction of cocoa.",
-    "model": "qwen3.5:9b",
-    "evalModel": "gemini-3.1-flash-lite-preview",
-    "thinking": true
-}

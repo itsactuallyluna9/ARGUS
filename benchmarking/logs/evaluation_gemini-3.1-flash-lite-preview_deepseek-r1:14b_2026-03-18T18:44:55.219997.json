@@ -1,8 +1,0 @@
-{
-    "accuracy": 90,
-    "completeness": 85,
-    "reasoning": "The summary accurately captures the core conflict, the history of the monkeys' arrival (though it slightly misstated the origin as 'pet trade' instead of the biomedical center/zoo incident mentioned in the text), and the opposing viewpoints of scientists and residents. It is highly complete in covering the population data, public sentiment, and the scientific debate, though it omits some specific details like the role of Missy Williams as the central advocate and the specific threat of the exotic pet trade mentioned in the article.",
-    "model": "deepseek-r1:14b",
-    "thinking": false,
-    "evalModel": "gemini-3.1-flash-lite-preview"
-}

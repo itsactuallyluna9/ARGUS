@@ -1,8 +1,0 @@
-{
-    "accuracy": 85,
-    "completeness": 90,
-    "reasoning": "The summary is mostly accurate, but it contains a minor factual error by attributing a quote to Kumail Nanjiani that he did not say ('were the only two to win'). It also correctly identifies the 2013 tie, though the summary inconsistently lists '2023/2013'. Otherwise, it captures the essential details, historical context, and the reactions of the winners effectively.",
-    "model": "qwen3.5:9b",
-    "evalModel": "gemini-3.1-flash-lite-preview",
-    "thinking": true
-}

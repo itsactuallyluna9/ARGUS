@@ -1,8 +1,0 @@
-{
-    "accuracy": 100,
-    "completeness": 95,
-    "reasoning": "The summary accurately captures the core purpose, technical nature, and future goals of the Ageless Linux project. It correctly reflects the article's tone and primary factual points. The completeness is high, though it could have specifically named the Milk-V Duo hardware mentioned in the text to be perfectly comprehensive.",
-    "model": "gemma3:12b",
-    "thinking": false,
-    "evalModel": "gemini-3.1-flash-lite-preview"
-}

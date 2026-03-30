@@ -1,8 +1,0 @@
-{
-    "accuracy": 95,
-    "completeness": 90,
-    "reasoning": "The summary is highly accurate in representing the main points of the article. It contains one minor factual error regarding the date of Robert Redford's death: the summary lists it as September 2025, while the article states he died in September of the previous year (2025) at age 89, but the article date is March 2026, making the death September 2025 correct. Wait, the article states he died in September last year, so 2025 is accurate. The summary is complete and captures the primary narrative regarding Fonda's comments and the context of the Oscars tribute.",
-    "model": "glm-4.7-flash:q4_K_M",
-    "thinking": false,
-    "evalModel": "gemini-3.1-flash-lite-preview"
-}

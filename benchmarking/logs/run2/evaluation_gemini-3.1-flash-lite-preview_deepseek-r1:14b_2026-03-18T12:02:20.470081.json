@@ -1,7 +1,0 @@
-{
-    "accuracy": 100,
-    "completeness": 95,
-    "reasoning": "The summary is highly accurate and captures all the core arguments and technical details regarding the Ageless Linux project. It effectively synthesizes the intent of the project, the underlying legal concerns, and the future roadmap. It is only missing minor details, such as the specific mention of 'Debian 13' as the base for the current project, but this does not detract from the overall quality of the summary.",
-    "model": "deepseek-r1:14b",
-    "evalModel": "gemini-3.1-flash-lite-preview"
-}

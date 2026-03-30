@@ -1,8 +1,0 @@
-{
-    "accuracy": 85,
-    "completeness": 70,
-    "reasoning": "The summary accurately captures the central tension between ecological policy and local community sentiment regarding the vervet monkeys. However, it contains a few factual errors, such as claiming rhesus macaques from Silver Springs steal the vervets' food (the article implies they are separate populations) and mentioning 'orange-jay birds,' which are not present in the text. It misses key historical details like the origin of the colony from a failed biomedical zoo and the specific research findings regarding their population growth and extinction projections.",
-    "model": "nemotron-3-nano:4b",
-    "thinking": false,
-    "evalModel": "gemini-3.1-flash-lite-preview"
-}

@@ -1,8 +1,0 @@
-{
-    "accuracy": 100,
-    "completeness": 95,
-    "reasoning": "The summary is highly accurate and captures the core objectives and technical nature of the project. It is nearly complete, missing only the specific timeframe mentioned for the roadmap (Q3 2026), but otherwise covers all essential details and the broader implications of the project.",
-    "model": "gemma3:4b",
-    "thinking": false,
-    "evalModel": "gemini-3.1-flash-lite-preview"
-}

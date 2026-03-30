@@ -1,8 +1,0 @@
-{
-    "accuracy": 100,
-    "completeness": 95,
-    "reasoning": "The summary is highly accurate and captures the core essence and findings of the article. It is nearly complete, though it could have benefited from a brief mention of the specific consequences of the heat dome mentioned in the West, such as wildfire risks or accelerated snowmelt.",
-    "model": "deepseek-r1:14b",
-    "thinking": false,
-    "evalModel": "gemini-3.1-flash-lite-preview"
-}

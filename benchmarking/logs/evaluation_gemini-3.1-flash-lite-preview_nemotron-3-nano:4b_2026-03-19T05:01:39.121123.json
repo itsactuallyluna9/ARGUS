@@ -1,8 +1,0 @@
-{
-    "accuracy": 100,
-    "completeness": 95,
-    "reasoning": "The summary is highly accurate, correctly synthesizing the researchers' findings and the experimental methods used. It reflects the nuances between modern avian thermoregulatory contact incubation and the oviraptor's environmental-based strategy. The completeness is excellent, though it omits the specific age range of the species studied (70-66 million years ago), which is a minor detail in the broader context of the findings.",
-    "model": "nemotron-3-nano:4b",
-    "thinking": false,
-    "evalModel": "gemini-3.1-flash-lite-preview"
-}

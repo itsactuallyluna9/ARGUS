@@ -1,7 +1,0 @@
-{
-    "accuracy": 95,
-    "completeness": 90,
-    "reasoning": "The summary is highly accurate in its reporting of the article's content and the specific claims made by Fonda and Streisand. It is almost entirely complete, though it contains one minor error regarding the date of Robert Redford's death, which the article states was in September of the previous year (2025), not 2023 as noted in the summary's final point.",
-    "model": "deepseek-r1:14b",
-    "evalModel": "gemini-3.1-flash-lite-preview"
-}

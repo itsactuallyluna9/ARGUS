@@ -1,8 +1,0 @@
-{
-    "accuracy": 100,
-    "completeness": 95,
-    "reasoning": "The summary is highly accurate and correctly identifies all the primary factual claims from the article. It captures the essence of the CDC advisory, the specific countries involved, and the medical recommendations. It is nearly complete, missing only minor details like the specific vaccination schedule for adults who have never been vaccinated and the mention of other concurrent health advisories like measles or rabies, which are peripheral to the main topic of the polio advisory.",
-    "model": "deepseek-r1:14b",
-    "thinking": false,
-    "evalModel": "gemini-3.1-flash-lite-preview"
-}

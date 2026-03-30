@@ -1,7 +1,0 @@
-{
-    "accuracy": 95,
-    "completeness": 90,
-    "reasoning": "The summary is highly accurate in its reporting of the meteorological causes and specific regional forecasts provided in the text. It slightly misstates the duration of the heat pattern, noting 'late April' when the article specifies 'late in the month' of March, but otherwise captures the essential details, reasoning, and context effectively.",
-    "model": "gpt-oss:20b",
-    "evalModel": "gemini-3.1-flash-lite-preview"
-}

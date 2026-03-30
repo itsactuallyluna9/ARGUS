@@ -1,8 +1,0 @@
-{
-    "accuracy": 100,
-    "completeness": 95,
-    "reasoning": "The summary is highly accurate and captures the core sentiment of Jane Fonda's comments. It is nearly complete, missing only minor details such as the specific list of films they co-starred in or Fonda's specific playful tone, but it successfully distills the primary narrative effectively.",
-    "model": "deepseek-r1:14b",
-    "thinking": false,
-    "evalModel": "gemini-3.1-flash-lite-preview"
-}

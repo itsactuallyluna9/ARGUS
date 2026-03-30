@@ -1,8 +1,0 @@
-{
-    "accuracy": 100,
-    "completeness": 100,
-    "reasoning": "The summary and the points provided are entirely accurate and reflect the details found in the source article. All key events, names, and historical context regarding previous Oscar ties are covered comprehensively.",
-    "model": "gpt-oss:20b",
-    "thinking": false,
-    "evalModel": "gemini-3.1-flash-lite-preview"
-}

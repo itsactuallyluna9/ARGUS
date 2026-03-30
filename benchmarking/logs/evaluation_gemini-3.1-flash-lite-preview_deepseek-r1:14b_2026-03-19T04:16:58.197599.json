@@ -1,8 +1,0 @@
-{
-    "accuracy": 100,
-    "completeness": 95,
-    "reasoning": "The summary is highly accurate, correctly capturing the playful nature of Fonda's comments and the specific context of the Oscar tribute. It includes all essential factual points. A completeness score of 95 was given because, while it covers all main points, it omits the specific detail that Fonda and Redford were collaborators on four specific films (1966, 1967, 1979, 2017) and does not mention their initial social media reactions to his passing, though these are minor details in the broader context.",
-    "model": "deepseek-r1:14b",
-    "thinking": false,
-    "evalModel": "gemini-3.1-flash-lite-preview"
-}

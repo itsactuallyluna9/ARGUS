@@ -1,8 +1,0 @@
-{
-    "accuracy": 100,
-    "completeness": 95,
-    "reasoning": "The summary is highly accurate and correctly identifies the project's purpose, technical implementation, and future roadmap. It is very complete, though it could have briefly mentioned that the project is not a traditional distribution but rather a minor modification of an existing Debian installation to provide slightly more context on its lightweight nature. Overall, the summary is excellent.",
-    "model": "gpt-oss:20b",
-    "evalModel": "gemini-3.1-flash-lite-preview",
-    "thinking": false
-}

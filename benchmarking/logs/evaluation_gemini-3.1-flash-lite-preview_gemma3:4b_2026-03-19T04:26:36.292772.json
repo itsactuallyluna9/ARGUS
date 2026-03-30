@@ -1,8 +1,0 @@
-{
-    "accuracy": 100,
-    "completeness": 95,
-    "reasoning": "The summary is highly accurate and correctly identifies the key scientific findings and the methodology used. It captures the essential shift in understanding regarding oviraptor incubation strategies compared to modern birds. It is very complete, missing only minor details like the specific construction materials of the model or the exact temperature fluctuations measured, which are not critical for a general summary.",
-    "model": "gemma3:4b",
-    "thinking": false,
-    "evalModel": "gemini-3.1-flash-lite-preview"
-}

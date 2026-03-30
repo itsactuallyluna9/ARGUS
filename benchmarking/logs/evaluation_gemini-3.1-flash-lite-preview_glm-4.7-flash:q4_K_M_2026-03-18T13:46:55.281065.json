@@ -1,8 +1,0 @@
-{
-    "accuracy": 100,
-    "completeness": 100,
-    "reasoning": "The summary accurately captures the core findings of the article, including the methodology used by the researchers and the specific biological conclusions drawn regarding oviraptor nesting behavior. All key factual claims are addressed, and the information is presented in a clear, accurate, and comprehensive manner.",
-    "model": "glm-4.7-flash:q4_K_M",
-    "thinking": false,
-    "evalModel": "gemini-3.1-flash-lite-preview"
-}

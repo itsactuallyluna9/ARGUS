@@ -1,8 +1,0 @@
-{
-    "accuracy": 95,
-    "completeness": 95,
-    "reasoning": "The summary and key points are highly accurate and capture the essence of the article well. There is a minor discrepancy regarding the date of death (the summary states September 2025, while the text says September last year with a 2026 article date), which suggests a slight conflict in the internal timeline of the provided text. Otherwise, the summary is comprehensive and addresses all major points.",
-    "model": "gpt-oss:20b",
-    "evalModel": "gemini-3.1-flash-lite-preview",
-    "thinking": false
-}

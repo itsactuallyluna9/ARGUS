@@ -1,8 +1,0 @@
-{
-    "accuracy": 100,
-    "completeness": 95,
-    "reasoning": "The summary is highly accurate and correctly identifies the core findings of the study. It covers the methodology, the distinction from modern bird incubation, and the role of sunlight. It is nearly complete, missing only the specific mention of the genus Heyuannia huangi, which provides helpful context on which specific oviraptor was modeled.",
-    "model": "deepseek-r1:14b",
-    "evalModel": "gemini-3.1-flash-lite-preview",
-    "thinking": true
-}

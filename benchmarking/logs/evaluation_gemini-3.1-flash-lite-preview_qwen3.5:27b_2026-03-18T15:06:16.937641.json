@@ -1,8 +1,0 @@
-{
-    "accuracy": 100,
-    "completeness": 95,
-    "reasoning": "The summary is highly accurate, correctly capturing the core conflict, the economic reasons for the industry trend, and the specific details surrounding the product reformulation. It covers all the essential elements, including the consumer perspective of Brad Reese, the macroeconomic factors cited by experts, and the regulatory distinctions. It is nearly complete, missing only the specific mention of the broader range of affected products beyond the Mini Hearts (like Mr Goodbar and Take 5), but this does not significantly detract from the overall quality of the summary.",
-    "model": "qwen3.5:27b",
-    "thinking": false,
-    "evalModel": "gemini-3.1-flash-lite-preview"
-}

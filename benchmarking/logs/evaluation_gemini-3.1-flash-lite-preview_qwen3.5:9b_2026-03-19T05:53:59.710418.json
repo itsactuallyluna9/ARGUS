@@ -1,8 +1,0 @@
-{
-    "accuracy": 100,
-    "completeness": 100,
-    "reasoning": "The summary and the included key points are highly accurate and align perfectly with the source article's findings. It provides a comprehensive overview of the research methodology, the specific challenges posed by the oviraptor's egg-laying behavior, and the experimental conclusions regarding solar incubation.",
-    "model": "qwen3.5:9b",
-    "thinking": false,
-    "evalModel": "gemini-3.1-flash-lite-preview"
-}

@@ -1,8 +1,0 @@
-{
-    "accuracy": 100,
-    "completeness": 100,
-    "reasoning": "The summary and the provided key points are highly accurate and faithfully represent the original text without introducing errors. It covers all essential details, including the project's technical nature, the specific legal concerns driving the initiative, the planned future developments, and the project's overall goal of highlighting regulatory challenges.",
-    "model": "gemma3:12b",
-    "thinking": false,
-    "evalModel": "gemini-3.1-flash-lite-preview"
-}

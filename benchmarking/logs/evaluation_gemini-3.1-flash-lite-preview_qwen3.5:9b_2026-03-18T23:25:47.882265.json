@@ -1,8 +1,0 @@
-{
-    "accuracy": 100,
-    "completeness": 95,
-    "reasoning": "The summary is highly accurate and correctly captures the core contradiction of Trump's statements and the subsequent public backlash. It is very complete regarding the key points of the article; it only slightly omits specific secondary details such as Trump's threat to delay a summit with China or the specific quotes from individual foreign officials like Xavier Bettel, which are minor in the context of the overall summary.",
-    "model": "qwen3.5:9b",
-    "thinking": false,
-    "evalModel": "gemini-3.1-flash-lite-preview"
-}

@@ -1,8 +1,0 @@
-{
-    "accuracy": 100,
-    "completeness": 100,
-    "reasoning": "The summary is highly accurate and captures all the essential details provided in the article. It correctly identifies the core conflict of the news (Fonda's playful jealousy), provides the necessary context for the tribute, and accurately lists the collaborative history between the actors without omitting important information.",
-    "model": "deepseek-r1:14b",
-    "evalModel": "gemini-3.1-flash-lite-preview",
-    "thinking": false
-}

@@ -1,7 +1,0 @@
-{
-    "accuracy": 100,
-    "completeness": 95,
-    "reasoning": "The summary is highly accurate and captures all the core factual elements of the article, including Trump's claim, the specific denials from representatives, and the contextual background provided. It is nearly complete, though it could have additionally mentioned the specific context that Trump also explicitly stated it was not George W. Bush during his second mention of the story.",
-    "model": "gemma3:12b",
-    "evalModel": "gemini-3.1-flash-lite-preview"
-}

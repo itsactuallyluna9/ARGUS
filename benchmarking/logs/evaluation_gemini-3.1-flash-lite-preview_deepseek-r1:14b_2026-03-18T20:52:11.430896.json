@@ -1,8 +1,0 @@
-{
-    "accuracy": 100,
-    "completeness": 95,
-    "reasoning": "The summary is highly accurate and correctly reflects the contradictory nature of President Trump's statements as described in the article. It captures all major factual points, including the backlash, the specific concerns of service members' families, and the reluctance of international allies. It is nearly complete, missing only minor peripheral details like the specific mention of Australia and Japan's refusal to send warships, which does not diminish the overall quality of the summary.",
-    "model": "deepseek-r1:14b",
-    "thinking": false,
-    "evalModel": "gemini-3.1-flash-lite-preview"
-}

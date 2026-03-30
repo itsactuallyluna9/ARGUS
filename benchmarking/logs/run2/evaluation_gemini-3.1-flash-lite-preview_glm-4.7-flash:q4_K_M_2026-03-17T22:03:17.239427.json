@@ -1,8 +1,0 @@
-{
-    "accuracy": 100,
-    "completeness": 95,
-    "reasoning": "The summary is highly accurate, capturing the nuance of the scientific debate, the specific history of the monkeys' origin, and the community dynamics described in the article. It is nearly complete, missing only minor specific anecdotes (like the backhoe incident or the specific identity of the former zoo founder), which are not essential for a high-level summary.",
-    "model": "glm-4.7-flash:q4_K_M",
-    "evalModel": "gemini-3.1-flash-lite-preview",
-    "thinking": true
-}

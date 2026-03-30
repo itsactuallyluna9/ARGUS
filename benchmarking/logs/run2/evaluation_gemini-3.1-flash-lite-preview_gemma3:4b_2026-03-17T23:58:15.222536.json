@@ -1,8 +1,0 @@
-{
-    "accuracy": 100,
-    "completeness": 95,
-    "reasoning": "The summary is highly accurate and captures the main themes of the article effectively. It covers the economic drivers, the specific corporate behavior, and the consumer backlash well. It is almost complete, missing only the nuance that some traditional products (like the core Reese's Peanut Butter Cup) have remained unchanged while the reformulation is primarily focused on new or seasonal items.",
-    "model": "gemma3:4b",
-    "evalModel": "gemini-3.1-flash-lite-preview",
-    "thinking": false
-}

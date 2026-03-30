@@ -1,8 +1,0 @@
-{
-    "accuracy": 100,
-    "completeness": 100,
-    "reasoning": "The summary accurately captures the core claim made by President Trump and the subsequent refutations from the representatives of all living former presidents. It includes the necessary context regarding Trump's specific relationships with these predecessors and confirms all essential factual points mentioned in the article.",
-    "model": "gemma3:12b",
-    "thinking": false,
-    "evalModel": "gemini-3.1-flash-lite-preview"
-}

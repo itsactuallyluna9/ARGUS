@@ -1,7 +1,0 @@
-{
-    "accuracy": 95,
-    "completeness": 90,
-    "reasoning": "The summary and points are highly accurate in capturing the core events and statements reported in the article. It effectively contrasts Trump's contradictory messaging and correctly identifies the international and domestic backlash. The completeness is excellent, though it slightly omits the specific context regarding the recent US refueling tanker crash involving the death of service members, focusing instead on the general criticism from families.",
-    "model": "glm-4.7-flash:q4_K_M",
-    "evalModel": "gemini-3.1-flash-lite-preview"
-}

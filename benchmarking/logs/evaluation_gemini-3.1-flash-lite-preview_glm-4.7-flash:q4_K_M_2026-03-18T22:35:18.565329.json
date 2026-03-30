@@ -1,8 +1,0 @@
-{
-    "accuracy": 100,
-    "completeness": 95,
-    "reasoning": "The summary is highly accurate and captures all the core factual claims of the article. It effectively contrasts Trump's assertion with the denials from the representatives of the former presidents. It loses a minor amount of completeness by omitting the specific context regarding the venues where Trump made these claims (the Kennedy Center board meeting and the Oval Office task force announcement), but this does not detract from the main narrative.",
-    "model": "glm-4.7-flash:q4_K_M",
-    "thinking": false,
-    "evalModel": "gemini-3.1-flash-lite-preview"
-}

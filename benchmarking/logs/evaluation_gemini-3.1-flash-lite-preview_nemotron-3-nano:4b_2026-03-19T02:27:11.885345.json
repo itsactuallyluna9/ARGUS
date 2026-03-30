@@ -1,8 +1,0 @@
-{
-    "accuracy": 95,
-    "completeness": 90,
-    "reasoning": "The summary is highly accurate, capturing the core conflict between cocoa market volatility, corporate cost-cutting measures, and consumer backlash. It correctly identifies the primary actors, such as Brad Reese and economist Alexis Villacis, and the contributing factors to the industry's shift in ingredients. The summary is very complete, though it could have briefly noted Hershey's specific defense mentioned in the article regarding their standard Peanut Butter Cups to be fully exhaustive.",
-    "model": "nemotron-3-nano:4b",
-    "thinking": false,
-    "evalModel": "gemini-3.1-flash-lite-preview"
-}

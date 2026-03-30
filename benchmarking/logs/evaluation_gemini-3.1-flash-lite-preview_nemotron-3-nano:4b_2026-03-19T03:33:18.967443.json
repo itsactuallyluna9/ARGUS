@@ -1,8 +1,0 @@
-{
-    "accuracy": 100,
-    "completeness": 100,
-    "reasoning": "The summary and the provided key points are perfectly accurate, capturing the essence of the CDC advisory, the specific country additions and removals, and the medical context regarding vaccination and the nature of the polio virus. All critical details, including the level of the advisory and the lack of higher-tier alerts, are thoroughly covered.",
-    "model": "nemotron-3-nano:4b",
-    "thinking": false,
-    "evalModel": "gemini-3.1-flash-lite-preview"
-}

@@ -1,8 +1,0 @@
-{
-    "accuracy": 85,
-    "completeness": 85,
-    "reasoning": "The summary is highly accurate in its portrayal of the scientific, social, and policy challenges surrounding the Dania Beach vervet monkeys. It captures the essence of the debate regarding their status as non-native vs. invasive species. However, it contains a minor factual error regarding the origin of the colony: the article states the monkeys likely escaped from a biomedical research/zoo center that had imported them, whereas the summary incorrectly claims a 'pet owner' released them. It also omits the specific details about the 1947 escape event, which is a significant part of the article's narrative.",
-    "model": "deepseek-r1:14b",
-    "thinking": false,
-    "evalModel": "gemini-3.1-flash-lite-preview"
-}

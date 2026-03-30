@@ -1,8 +1,0 @@
-{
-    "accuracy": 100,
-    "completeness": 95,
-    "reasoning": "The summary is highly accurate and captures all the critical nuances of the article, including the specific reasoning behind ingredient changes, the economic factors, and the role of the Reese descendant. It is extremely complete, though it could arguably have touched more explicitly on the global ethical factors like child labor or the specific impact of the UK/EU regulations as a primary focus point, though they are briefly mentioned. Overall, it is a comprehensive and accurate representation of the source material.",
-    "model": "gpt-oss:20b",
-    "thinking": false,
-    "evalModel": "gemini-3.1-flash-lite-preview"
-}

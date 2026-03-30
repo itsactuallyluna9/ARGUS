@@ -1,8 +1,0 @@
-{
-    "accuracy": 85,
-    "completeness": 80,
-    "reasoning": "The summary is mostly accurate, though it contains a minor error regarding the classification of the monkeys; the text states the Florida Fish and Wildlife Conservation Commission considers them an invasive species, whereas the summary claims they are 'not considered invasive' under current data. While the summary captures the core themes of the article well, it misses key details like the specific origin of the monkeys (escaping from a biomedical center in 1947) and the efforts of Dr. Missy Williams to establish a sanctuary for them, which are significant parts of the narrative.",
-    "model": "nemotron-3-nano:4b",
-    "thinking": false,
-    "evalModel": "gemini-3.1-flash-lite-preview"
-}

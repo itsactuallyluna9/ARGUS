@@ -1,8 +1,0 @@
-{
-    "accuracy": 100,
-    "completeness": 95,
-    "reasoning": "The summary is highly accurate and captures all the core scientific explanations provided in the text. It is extremely complete, though it misses minor details such as the specific forecast for the remainder of the week and the mention of specific cities expected to break heat records in the West.",
-    "model": "gemma3:4b",
-    "evalModel": "gemini-3.1-flash-lite-preview",
-    "thinking": false
-}

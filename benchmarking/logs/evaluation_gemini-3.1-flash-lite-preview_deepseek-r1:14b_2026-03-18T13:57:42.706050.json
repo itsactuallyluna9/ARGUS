@@ -1,8 +1,0 @@
-{
-    "accuracy": 100,
-    "completeness": 95,
-    "reasoning": "The summary is highly accurate, correctly identifying the films involved, the presenter, and the historical context provided by the article. It is nearly complete, capturing all significant narrative beats, though it could have specifically mentioned the total historical list of ties provided in the article for absolute completeness.",
-    "model": "deepseek-r1:14b",
-    "thinking": false,
-    "evalModel": "gemini-3.1-flash-lite-preview"
-}

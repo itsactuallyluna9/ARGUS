@@ -1,8 +1,0 @@
-{
-    "accuracy": 95,
-    "completeness": 90,
-    "reasoning": "The summary accurately captures the core contradiction in Trump's foreign policy stance regarding the Strait of Hormuz and correctly summarizes the reactions from allies and families of the deceased. It accurately reflects the claims made in the article, though it could have benefited from explicitly mentioning the specific context of the 'Operation Epic Fury' mentioned in the text to provide full clarity on the military situation described.",
-    "model": "gemma3:4b",
-    "thinking": false,
-    "evalModel": "gemini-3.1-flash-lite-preview"
-}

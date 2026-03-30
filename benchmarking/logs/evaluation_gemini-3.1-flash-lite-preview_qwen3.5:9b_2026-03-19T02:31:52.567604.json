@@ -1,8 +1,0 @@
-{
-    "accuracy": 100,
-    "completeness": 95,
-    "reasoning": "The summary is highly accurate and captures all the core arguments of the original article. It covers the specific weather phenomena in both the East and West, explains the underlying meteorological causes mentioned, and provides the forecast outlook. It loses a very small amount of completeness only by omitting the specific names of all cities mentioned (such as Sacramento and San Jose) and the mention of water supply concerns, though these are minor details compared to the article's main focus.",
-    "model": "qwen3.5:9b",
-    "thinking": false,
-    "evalModel": "gemini-3.1-flash-lite-preview"
-}

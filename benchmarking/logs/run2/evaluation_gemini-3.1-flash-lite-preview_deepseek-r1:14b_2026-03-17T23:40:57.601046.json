@@ -1,8 +1,0 @@
-{
-    "accuracy": 100,
-    "completeness": 95,
-    "reasoning": "The summary is highly accurate and correctly reflects the article's core findings regarding the experimental methodology and the differences between oviraptor and bird incubation strategies. It covers all essential points. It is missing only minor details such as the specific species studied (Heyuannia huangi) and the exact temperature differences measured in the experiment, but these do not detract from the overall quality of the summary.",
-    "model": "deepseek-r1:14b",
-    "evalModel": "gemini-3.1-flash-lite-preview",
-    "thinking": true
-}

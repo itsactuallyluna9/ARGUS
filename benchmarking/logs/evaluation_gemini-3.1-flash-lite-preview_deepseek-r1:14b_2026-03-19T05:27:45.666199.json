@@ -1,8 +1,0 @@
-{
-    "accuracy": 95,
-    "completeness": 90,
-    "reasoning": "The summary accurately captures the main points of the article and correctly identifies the meteorological causes discussed. It is highly complete, though it includes a small typographical error in the fourth point where a Chinese character appears. Otherwise, it covers the geographic split between the East and West and the role of climate change mentioned in the text.",
-    "model": "deepseek-r1:14b",
-    "thinking": false,
-    "evalModel": "gemini-3.1-flash-lite-preview"
-}

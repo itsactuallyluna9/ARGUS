@@ -1,8 +1,0 @@
-{
-    "accuracy": 100,
-    "completeness": 100,
-    "reasoning": "The summary and key points accurately reflect all essential information from the article, including the specific country changes, the clinical details of polio, the vaccination recommendations, and the context regarding CDC travel advisory levels. It captures both the primary news regarding the polio update and the secondary information about other health advisories without missing significant details or introducing inaccuracies.",
-    "model": "qwen3.5:27b",
-    "thinking": false,
-    "evalModel": "gemini-3.1-flash-lite-preview"
-}

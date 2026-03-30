@@ -1,8 +1,0 @@
-{
-    "accuracy": 100,
-    "completeness": 95,
-    "reasoning": "The summary is highly accurate and captures the core tension between environmental policy and community affection described in the article. It effectively synthesizes the origins, scientific debate, and future outlook for the colony. The completeness score is slightly docked only because it omits the specific detail regarding the 1947 origin story involving the biomedical research organization/zoo run by the cousin of Theodore Roosevelt, which is a significant piece of the article's historical narrative.",
-    "model": "qwen3.5:27b",
-    "evalModel": "gemini-3.1-flash-lite-preview",
-    "thinking": true
-}

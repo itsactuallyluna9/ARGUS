@@ -1,8 +1,0 @@
-{
-    "accuracy": 95,
-    "completeness": 90,
-    "reasoning": "The summary is highly accurate in reflecting the article's core content, capturing the essence of Trump's contradictory statements and the subsequent backlash. It is very complete, covering the diplomatic friction, the family perspectives, and the core claims. It loses a minor amount of completeness by not detailing specific alternative geopolitical details like the summit with Xi Jinping, but it remains a strong representation of the text.",
-    "model": "nemotron-3-nano:4b",
-    "evalModel": "gemini-3.1-flash-lite-preview",
-    "thinking": true
-}

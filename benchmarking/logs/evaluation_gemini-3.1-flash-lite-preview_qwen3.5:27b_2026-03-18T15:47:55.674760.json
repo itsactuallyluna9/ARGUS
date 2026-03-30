@@ -1,8 +1,0 @@
-{
-    "accuracy": 100,
-    "completeness": 95,
-    "reasoning": "The summary is highly accurate, correctly identifying the project's purpose, its methodology, and the legal concerns it addresses. The key factual claims are perfectly represented. It is nearly complete, missing only the specific mention of the Q3 2026 timeline for the future releases, though it does mention the year 2026.",
-    "model": "qwen3.5:27b",
-    "thinking": false,
-    "evalModel": "gemini-3.1-flash-lite-preview"
-}

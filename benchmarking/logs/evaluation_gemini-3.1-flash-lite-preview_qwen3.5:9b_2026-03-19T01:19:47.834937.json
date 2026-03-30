@@ -1,8 +1,0 @@
-{
-    "accuracy": 100,
-    "completeness": 95,
-    "reasoning": "The summary is highly accurate and captures the core tension between scientific classification and public sentiment regarding the vervet monkeys. It correctly identifies the population trends, the reasons for their restricted growth, and the ethical dilemma. It is nearly complete, though it omits the historical detail about the monkeys' origin from the biomedical research facility, which provides important context for how they arrived in Florida.",
-    "model": "qwen3.5:9b",
-    "thinking": false,
-    "evalModel": "gemini-3.1-flash-lite-preview"
-}

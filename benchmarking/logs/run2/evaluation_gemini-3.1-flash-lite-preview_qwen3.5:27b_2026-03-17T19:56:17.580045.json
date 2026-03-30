@@ -1,8 +1,0 @@
-{
-    "accuracy": 85,
-    "completeness": 90,
-    "reasoning": "The summary is highly accurate in its portrayal of the scientific and social debate surrounding the monkeys. However, it contains a few factual inaccuracies: it incorrectly identifies the species as Chlorocebus pygerythrus (the text explicitly identifies them as Chlorocebus sabaeus/green monkeys) and it misses the specific origin story of the 1947 escape from the biomedical research center. The summary is quite complete, though it misses the mention of the 1995 study which originally misidentified the colony's species.",
-    "model": "qwen3.5:27b",
-    "evalModel": "gemini-3.1-flash-lite-preview",
-    "thinking": true
-}

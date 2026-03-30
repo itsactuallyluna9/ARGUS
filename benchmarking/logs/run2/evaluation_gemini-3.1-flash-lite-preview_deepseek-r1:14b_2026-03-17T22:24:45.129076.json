@@ -1,8 +1,0 @@
-{
-    "accuracy": 100,
-    "completeness": 95,
-    "reasoning": "The summary is highly accurate and correctly reflects the article's core details, including specific country updates and health recommendations. It is nearly complete, missing only the minor details regarding the specific CDC vaccine dosage schedule for adults who haven't been vaccinated, which is not essential for a high-level summary.",
-    "model": "deepseek-r1:14b",
-    "evalModel": "gemini-3.1-flash-lite-preview",
-    "thinking": true
-}

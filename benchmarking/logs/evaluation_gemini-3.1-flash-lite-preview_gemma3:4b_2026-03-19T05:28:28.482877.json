@@ -1,8 +1,0 @@
-{
-    "accuracy": 95,
-    "completeness": 90,
-    "reasoning": "The summary is highly accurate and captures the core tension between Trump's claims and the denials from former presidents' aides. It correctly identifies the key figures and the context of the statements. One minor inaccuracy is found in the 'points' section: it states Trump 'named' a former president, when he specifically refused to name anyone, though it correctly notes he offered descriptive clues. The completeness is high, though it could have briefly mentioned the specific setting of the comments (the Kennedy Center meeting) to be fully exhaustive.",
-    "model": "gemma3:4b",
-    "thinking": false,
-    "evalModel": "gemini-3.1-flash-lite-preview"
-}

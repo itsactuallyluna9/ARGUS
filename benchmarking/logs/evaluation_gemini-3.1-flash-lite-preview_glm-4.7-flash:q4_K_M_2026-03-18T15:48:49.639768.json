@@ -1,8 +1,0 @@
-{
-    "accuracy": 100,
-    "completeness": 95,
-    "reasoning": "The summary is highly accurate and captures all the core arguments presented in the article. It successfully explains the unique nest layout, the experiment methodology, and the conclusion regarding the combination of parental body heat and solar radiation. It is nearly perfect in completeness, only omitting minor technical details like the specific materials used for the nest model (polystyrene, resin, etc.), which do not detract from the overall understanding.",
-    "model": "glm-4.7-flash:q4_K_M",
-    "thinking": false,
-    "evalModel": "gemini-3.1-flash-lite-preview"
-}

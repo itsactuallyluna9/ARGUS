@@ -1,8 +1,0 @@
-{
-    "accuracy": 100,
-    "completeness": 100,
-    "reasoning": "The summary and supporting points are highly accurate and align perfectly with the provided article. All key findings, including the methodology, the distinction between oviraptor and modern bird incubation, and the role of sunlight in stabilizing egg temperatures, are comprehensively covered.",
-    "model": "gemma3:12b",
-    "thinking": false,
-    "evalModel": "gemini-3.1-flash-lite-preview"
-}

@@ -1,8 +1,0 @@
-{
-    "accuracy": 85,
-    "completeness": 50,
-    "reasoning": "The summary is accurate regarding the details it does include, such as the comparison of specific Reese's products and the mention of premium brands. However, it is highly incomplete because it completely ignores the central narrative of the article: the protest by Brad Reese, the grandson of the company's founder, and the broader context of why these companies are reformulating products\u2014namely the volatile cocoa market, climate change impacts, and the economic strategies companies are using to maintain profits during a cocoa crisis.",
-    "model": "qwen3.5:2b",
-    "evalModel": "gemini-3.1-flash-lite-preview",
-    "thinking": true
-}

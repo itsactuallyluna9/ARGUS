@@ -1,7 +1,0 @@
-{
-    "accuracy": 100,
-    "completeness": 95,
-    "reasoning": "The summary is highly accurate and captures all the core factual claims presented in the article perfectly. It is very complete, though it could be slightly more comprehensive by explicitly mentioning the specific forecast details for the Northeast/Mid-Atlantic temperature drop mentioned in the text, though this is a minor omission.",
-    "model": "gemma3:12b",
-    "evalModel": "gemini-3.1-flash-lite-preview"
-}

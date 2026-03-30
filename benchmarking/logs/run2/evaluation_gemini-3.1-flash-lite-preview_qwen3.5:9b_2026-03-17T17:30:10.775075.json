@@ -1,8 +1,0 @@
-{
-    "accuracy": 95,
-    "completeness": 95,
-    "reasoning": "The summary is highly accurate and captures the core details of the article well. The only minor discrepancy is a slight misinterpretation in the first point where it suggests Fonda felt Streisand shouldn't have received credit, rather than simply expressing a preference to have been the one to deliver the tribute herself. Otherwise, the summary is comprehensive and captures all essential facts.",
-    "model": "qwen3.5:9b",
-    "evalModel": "gemini-3.1-flash-lite-preview",
-    "thinking": true
-}

@@ -1,8 +1,0 @@
-{
-    "accuracy": 100,
-    "completeness": 95,
-    "reasoning": "The summary and the identified key points accurately represent the core narrative and factual details provided in the article. It captures the role of market volatility, climate factors, and the specific consumer-led criticism by Brad Reese. It misses only minor nuances regarding the long-term outlook for cocoa sourcing and the specific competitive landscape, but otherwise covers all major aspects of the article comprehensively.",
-    "model": "qwen3.5:9b",
-    "thinking": false,
-    "evalModel": "gemini-3.1-flash-lite-preview"
-}

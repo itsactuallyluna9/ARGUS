@@ -1,8 +1,0 @@
-{
-    "accuracy": 60,
-    "completeness": 80,
-    "reasoning": "The summary contains significant factual errors regarding the origin of the monkeys. It incorrectly states they are descendants of 1970s Tarzan movies, whereas the article states they escaped a biomedical research facility/zoo in the 1940s established by a relative of Theodore Roosevelt. While it captures the overall themes and ethical debates well, this major inaccuracy regarding their historical origin lowers the accuracy score. It is otherwise comprehensive in covering the ecological debate and community sentiment.",
-    "model": "glm-4.7-flash:q4_K_M",
-    "thinking": false,
-    "evalModel": "gemini-3.1-flash-lite-preview"
-}

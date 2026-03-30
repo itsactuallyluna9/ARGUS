@@ -1,8 +1,0 @@
-{
-    "accuracy": 100,
-    "completeness": 95,
-    "reasoning": "The summary is highly accurate and correctly identifies all major factual claims from the article. It is extremely complete, though it misses the specific clarification provided in the article regarding the 1932 'tie' not being a true statistical tie, which adds historical context to the list of seven ties mentioned.",
-    "model": "deepseek-r1:14b",
-    "evalModel": "gemini-3.1-flash-lite-preview",
-    "thinking": false
-}

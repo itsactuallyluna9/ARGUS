@@ -1,8 +1,0 @@
-{
-    "accuracy": 100,
-    "completeness": 95,
-    "reasoning": "The summary and key points are highly accurate and align perfectly with the source text. It covers all the major aspects including the mechanisms behind the weather in the East and West, the specific forecasts, and the mention of climate change. It only missed minor specific details like naming the cities (Phoenix, Las Vegas, Sacramento, San Jose) where record heat is expected, but the overall summary remains comprehensive.",
-    "model": "nemotron-3-nano:4b",
-    "thinking": false,
-    "evalModel": "gemini-3.1-flash-lite-preview"
-}

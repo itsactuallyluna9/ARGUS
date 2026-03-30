@@ -1,8 +1,0 @@
-{
-    "accuracy": 95,
-    "completeness": 90,
-    "reasoning": "The summary is highly accurate and captures the core tension between scientific classification as a non-native species and the community's emotional attachment. It correctly identifies the origins, the population size, the threats the monkeys face, and the debate surrounding their management. It is very complete, though it misses the specific detail regarding the 1947 origin story from the biomedical research center, which serves as an interesting historical anchor for the population's existence.",
-    "model": "deepseek-r1:14b",
-    "evalModel": "gemini-3.1-flash-lite-preview",
-    "thinking": true
-}

@@ -1,7 +1,0 @@
-{
-    "accuracy": 100,
-    "completeness": 95,
-    "reasoning": "The summary accurately captures the core technical and legal motivations behind the Ageless Linux project as detailed in the text. It correctly identifies the protest nature of the project, its reliance on Debian, and its future roadmap. It is highly complete, though it omits minor details like the specific mention of the 'Digital Age Assurance Act' in the point list (though it is mentioned in the summary text). Overall, it provides a comprehensive and accurate overview of the article.",
-    "model": "qwen3.5:9b",
-    "evalModel": "gemini-3.1-flash-lite-preview"
-}

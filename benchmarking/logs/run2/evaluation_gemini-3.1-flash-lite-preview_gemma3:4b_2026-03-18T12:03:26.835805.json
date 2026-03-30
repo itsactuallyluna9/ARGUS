@@ -1,7 +1,0 @@
-{
-    "accuracy": 95,
-    "completeness": 85,
-    "reasoning": "The summary is highly accurate in representing the key arguments and scientific perspectives presented in the article. It captures the tension between the ecological concerns and the local affection for the monkeys. However, it is slightly incomplete as it omits the specific historical origin of the colony (the 1947 escape from a biomedical research center), which is a significant portion of the article's narrative arc.",
-    "model": "gemma3:4b",
-    "evalModel": "gemini-3.1-flash-lite-preview"
-}

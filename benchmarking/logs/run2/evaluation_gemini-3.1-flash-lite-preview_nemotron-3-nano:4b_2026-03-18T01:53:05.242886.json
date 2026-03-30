@@ -1,8 +1,0 @@
-{
-    "accuracy": 100,
-    "completeness": 100,
-    "reasoning": "The summary and the provided key points are highly accurate and align perfectly with the factual content of the article. It captures all critical technical details, the project's purpose as a form of protest/legal experiment, and the roadmap for 2026 without omitting any significant information.",
-    "model": "nemotron-3-nano:4b",
-    "evalModel": "gemini-3.1-flash-lite-preview",
-    "thinking": true
-}

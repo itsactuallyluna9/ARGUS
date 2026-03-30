@@ -1,8 +1,0 @@
-{
-    "accuracy": 100,
-    "completeness": 95,
-    "reasoning": "The summary is highly accurate and captures the core sentiment of the article. It provides all essential details regarding Fonda's comments, the context of the Oscar tribute, and the background on their professional relationship. It is missing only minor supplementary details, such as the specific mention of Fonda's 'intellectual cowboy' quote or the fact that Redford had an uncredited role in one of her earlier films, but these omissions do not impact the overall completeness or understanding of the story.",
-    "model": "gemma3:4b",
-    "evalModel": "gemini-3.1-flash-lite-preview",
-    "thinking": false
-}

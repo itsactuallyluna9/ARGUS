@@ -1,8 +1,0 @@
-{
-    "accuracy": 100,
-    "completeness": 95,
-    "reasoning": "The summary is highly accurate and captures all the core factual elements of the article, including the specific claim, the denial from the former presidents' camps, and the context of Trump's public statements. It provides a comprehensive overview of the situation. It is only missing minor details, such as the fact that the White House did not respond to the reporters' findings or the specific context regarding the inauguration being the last time they were all together, which are peripheral to the main story.",
-    "model": "gemma3:4b",
-    "evalModel": "gemini-3.1-flash-lite-preview",
-    "thinking": false
-}

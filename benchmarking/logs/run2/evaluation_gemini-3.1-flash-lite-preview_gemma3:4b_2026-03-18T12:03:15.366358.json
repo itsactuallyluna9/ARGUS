@@ -1,7 +1,0 @@
-{
-    "accuracy": 100,
-    "completeness": 95,
-    "reasoning": "The summary is highly accurate and captures the core of the article effectively. It captures all essential points, though it could have briefly mentioned the specific year of Redford's passing or his age to be fully comprehensive, but this does not significantly detract from the summary's quality.",
-    "model": "gemma3:4b",
-    "evalModel": "gemini-3.1-flash-lite-preview"
-}

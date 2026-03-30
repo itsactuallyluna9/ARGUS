@@ -1,8 +1,0 @@
-{
-    "accuracy": 100,
-    "completeness": 95,
-    "reasoning": "The summary accurately captures the core issue, the reasons behind it, and the industry context provided in the article. It is highly complete, covering both the business motivations and the consumer impact. The only minor missing detail is the specific mention of the Reese family's reaction (other than Brad Reese) or the broader implications of new EU/UK regulations mentioned in the text, but the summary is excellent overall.",
-    "model": "deepseek-r1:14b",
-    "thinking": false,
-    "evalModel": "gemini-3.1-flash-lite-preview"
-}

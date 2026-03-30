@@ -1,7 +1,0 @@
-{
-    "accuracy": 100,
-    "completeness": 100,
-    "reasoning": "The summary and the included key points are highly accurate, strictly adhering to the facts reported in the source text. It captures the essential conflict between Trump's statement and the denials from the former presidents' aides, and the completeness is excellent as it includes relevant context regarding Trump's history with the former presidents and the specific instances where he made these claims.",
-    "model": "glm-4.7-flash:q4_K_M",
-    "evalModel": "gemini-3.1-flash-lite-preview"
-}

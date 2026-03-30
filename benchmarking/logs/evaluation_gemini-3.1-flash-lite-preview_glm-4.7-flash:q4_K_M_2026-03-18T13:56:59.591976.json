@@ -1,8 +1,0 @@
-{
-    "accuracy": 100,
-    "completeness": 95,
-    "reasoning": "The summary is highly accurate and captures all essential details presented in the article. It effectively contrasts the weather patterns in the East and West and correctly attributes the causes cited by meteorologists. The completeness is excellent, though it could have briefly mentioned the potential long-term impacts of the Western heat (such as water supply concerns) to be fully comprehensive.",
-    "model": "glm-4.7-flash:q4_K_M",
-    "thinking": false,
-    "evalModel": "gemini-3.1-flash-lite-preview"
-}

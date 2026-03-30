@@ -1,8 +1,0 @@
-{
-    "accuracy": 100,
-    "completeness": 95,
-    "reasoning": "The summary is highly accurate and captures the core claims of the article. It is nearly complete, though it omits the specific context that these claims were made by Trump twice in a single day and that Trump explicitly denied it was George W. Bush.",
-    "model": "qwen3.5:2b",
-    "evalModel": "gemini-3.1-flash-lite-preview",
-    "thinking": true
-}

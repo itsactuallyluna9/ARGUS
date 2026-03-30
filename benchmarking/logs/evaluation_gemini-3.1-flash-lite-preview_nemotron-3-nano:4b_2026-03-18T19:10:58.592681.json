@@ -1,8 +1,0 @@
-{
-    "accuracy": 90,
-    "completeness": 95,
-    "reasoning": "The summary accurately captures the core controversy regarding Trump's contradictory statements on the Strait of Hormuz. The key points are highly comprehensive, covering the geopolitical implications, the domestic backlash, and specific threats to allies. The accuracy score is slightly docked because the point regarding the UK as 'a once great ally' conflates Trump's quote about the UK with his warnings to NATO as a whole, though the overall factual representation of the article is excellent.",
-    "model": "nemotron-3-nano:4b",
-    "thinking": false,
-    "evalModel": "gemini-3.1-flash-lite-preview"
-}

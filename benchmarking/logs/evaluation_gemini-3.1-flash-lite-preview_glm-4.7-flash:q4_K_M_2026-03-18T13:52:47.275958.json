@@ -1,8 +1,0 @@
-{
-    "accuracy": 100,
-    "completeness": 95,
-    "reasoning": "The summary is highly accurate and captures all the core facts of the event, including the films involved, the presenter, and the historical context of Oscar ties. It omits only a few minor details, such as the specific list of all seven historical ties provided in the article, but it captures enough of the essence to be considered very complete for a summary.",
-    "model": "glm-4.7-flash:q4_K_M",
-    "thinking": false,
-    "evalModel": "gemini-3.1-flash-lite-preview"
-}

@@ -1,8 +1,0 @@
-{
-    "accuracy": 100,
-    "completeness": 100,
-    "reasoning": "The summary provides a highly accurate and thorough account of the article's core findings and methodology. It correctly captures the specific species mentioned, the nature of the experimental model, the temperature data regarding heat distribution, and the conclusion regarding the hybrid incubation strategy, missing no essential details from the source text.",
-    "model": "qwen3.5:27b",
-    "thinking": false,
-    "evalModel": "gemini-3.1-flash-lite-preview"
-}

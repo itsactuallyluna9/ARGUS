@@ -1,8 +1,0 @@
-{
-    "accuracy": 100,
-    "completeness": 95,
-    "reasoning": "The summary is highly accurate and correctly reflects the article's details regarding the CDC's polio travel advisory. It captures the list updates, recommendations for vaccination, and the nature of the virus effectively. The completeness is high, though it could have briefly mentioned the specific vaccination schedule mentioned for unvaccinated adults to be perfectly exhaustive, but the summary is excellent as-is.",
-    "model": "glm-4.7-flash:q4_K_M",
-    "thinking": false,
-    "evalModel": "gemini-3.1-flash-lite-preview"
-}

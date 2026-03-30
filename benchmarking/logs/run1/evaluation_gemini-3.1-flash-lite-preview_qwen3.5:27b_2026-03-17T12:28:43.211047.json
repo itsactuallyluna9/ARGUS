@@ -1,7 +1,0 @@
-{
-    "accuracy": 90,
-    "completeness": 95,
-    "reasoning": "The summary and key points are highly accurate and capture the essence of the article well. The only minor inaccuracy is that the summary lists the date as 'Wednesday' while the article is dated Monday, March 16. Otherwise, it effectively covers the central conflict, the contradictory nature of the President's statements, and the reactions from allies and families.",
-    "model": "qwen3.5:27b",
-    "evalModel": "gemini-3.1-flash-lite-preview"
-}

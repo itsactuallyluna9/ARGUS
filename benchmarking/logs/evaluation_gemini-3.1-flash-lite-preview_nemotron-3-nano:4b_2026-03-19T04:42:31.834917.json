@@ -1,8 +1,0 @@
-{
-    "accuracy": 100,
-    "completeness": 95,
-    "reasoning": "The summary is highly accurate and correctly reflects the article's core points, including the geographic split in weather patterns and the meteorological explanations provided. It is nearly complete, missing only minor details such as the specific mentions of the 'clipper' storm systems or the distinction that the East's swings are typical for March. Overall, it captures the essential information precisely.",
-    "model": "nemotron-3-nano:4b",
-    "thinking": false,
-    "evalModel": "gemini-3.1-flash-lite-preview"
-}

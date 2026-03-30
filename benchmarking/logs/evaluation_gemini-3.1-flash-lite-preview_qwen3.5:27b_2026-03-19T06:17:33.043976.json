@@ -1,8 +1,0 @@
-{
-    "accuracy": 100,
-    "completeness": 100,
-    "reasoning": "The summary provides an excellent and comprehensive overview of the article, accurately capturing both the specific narrative of Brad Reese and the broader economic context provided by the economist, Alexis Villacis. It covers all essential points, including the factors behind cocoa price volatility, the strategies used by manufacturers like Hershey to maintain profits, and the regional regulatory differences, while maintaining a neutral and objective tone.",
-    "model": "qwen3.5:27b",
-    "thinking": false,
-    "evalModel": "gemini-3.1-flash-lite-preview"
-}

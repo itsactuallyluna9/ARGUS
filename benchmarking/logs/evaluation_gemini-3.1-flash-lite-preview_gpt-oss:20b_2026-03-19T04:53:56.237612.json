@@ -1,8 +1,0 @@
-{
-    "accuracy": 100,
-    "completeness": 95,
-    "reasoning": "The summary is highly accurate and captures all essential details of the article. It correctly identifies the core conflict, the context of the Oscar tribute, and the background relationship between the actors. The only minor nuance is that while the summary accurately lists facts from the article, it slightly attributes Fonda's praise of Redford's values (environment/press) to her own interview, whereas those specific quotes were actually delivered by Streisand during her tribute, although Fonda expressed similar sentiments elsewhere. Despite this minor attribution mix-up, the summary is excellent.",
-    "model": "gpt-oss:20b",
-    "thinking": false,
-    "evalModel": "gemini-3.1-flash-lite-preview"
-}

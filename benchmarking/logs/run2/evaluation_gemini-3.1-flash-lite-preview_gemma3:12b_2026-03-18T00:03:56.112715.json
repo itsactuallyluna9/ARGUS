@@ -1,8 +1,0 @@
-{
-    "accuracy": 100,
-    "completeness": 100,
-    "reasoning": "The summary and the included key points are highly accurate, reflecting the details of the article precisely. It covers all essential aspects of the study, including the methodology, the specific species involved, the reasoning behind the findings regarding the unique nest structure, and the contrast with modern bird incubation strategies.",
-    "model": "gemma3:12b",
-    "evalModel": "gemini-3.1-flash-lite-preview",
-    "thinking": false
-}

@@ -1,8 +1,0 @@
-{
-    "accuracy": 100,
-    "completeness": 95,
-    "reasoning": "The summary accurately captures the core conflict between Trump's public statement and the denials from former presidential aides. It identifies the key players and the context of the claim. The completeness is high, though it could have specifically noted that representatives for both Democratic and Republican former presidents denied contact to provide a slightly more comprehensive view of the scope of those denials.",
-    "model": "deepseek-r1:14b",
-    "evalModel": "gemini-3.1-flash-lite-preview",
-    "thinking": true
-}

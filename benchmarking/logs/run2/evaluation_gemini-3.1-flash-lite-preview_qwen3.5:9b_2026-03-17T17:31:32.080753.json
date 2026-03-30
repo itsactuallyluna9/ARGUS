@@ -1,8 +1,0 @@
-{
-    "accuracy": 100,
-    "completeness": 90,
-    "reasoning": "The summary is highly accurate and correctly synthesizes the article's main narrative regarding the vervet monkeys. It captures the tension between conservationists, residents, and ecological policies well. It is very complete, though it omits the specific origin story of the monkeys escaping from a biomedical research-cum-zoo in the late 1940s, which provides critical context for why these specific monkeys are in Florida.",
-    "model": "qwen3.5:9b",
-    "evalModel": "gemini-3.1-flash-lite-preview",
-    "thinking": true
-}

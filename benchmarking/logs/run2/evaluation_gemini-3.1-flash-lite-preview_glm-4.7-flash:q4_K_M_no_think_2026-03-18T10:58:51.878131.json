@@ -1,8 +1,0 @@
-{
-    "accuracy": 95,
-    "completeness": 90,
-    "reasoning": "The summary is highly accurate and captures the main points of the event well. However, it contains one slight error: the summary claims the Academy confirmed the 2026 tie as the first 'true' tie since 1995, but the text specifically mentions the 2013 tie (Skyfall/Zero Dark Thirty), which is generally considered a valid tie. Otherwise, it is a very complete and well-structured analysis of the article.",
-    "model": "glm-4.7-flash:q4_K_M",
-    "evalModel": "gemini-3.1-flash-lite-preview",
-    "thinking": false
-}

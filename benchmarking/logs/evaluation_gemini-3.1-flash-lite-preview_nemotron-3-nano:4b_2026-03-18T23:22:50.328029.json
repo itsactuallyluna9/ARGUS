@@ -1,8 +1,0 @@
-{
-    "accuracy": 95,
-    "completeness": 90,
-    "reasoning": "The summary is highly accurate in its representation of the article's core points and scientific explanations. It is mostly complete, though it contains a minor factual error in the final point of the summary, which claims the west will be hot through 'late April' instead of the 'late March' timeline provided in the text. Otherwise, it captures all essential details regarding the East-West weather split, the meteorological causes, and the associated risks.",
-    "model": "nemotron-3-nano:4b",
-    "thinking": false,
-    "evalModel": "gemini-3.1-flash-lite-preview"
-}

@@ -1,8 +1,0 @@
-{
-    "accuracy": 85,
-    "completeness": 90,
-    "reasoning": "The summary is mostly accurate, but it contains a factual error in the articleSummary by attributing Redford's list of films to Streisand's quote rather than the reporter's context, and it incorrectly states Redford died in September 2025 instead of 2025 as a general timeframe context implies, though the text states September 'last year' relative to 2026. The points are clear and capture the core events accurately.",
-    "model": "nemotron-3-nano:4b",
-    "thinking": false,
-    "evalModel": "gemini-3.1-flash-lite-preview"
-}

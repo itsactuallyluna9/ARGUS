@@ -1,8 +1,0 @@
-{
-    "accuracy": 100,
-    "completeness": 95,
-    "reasoning": "The summary is highly accurate and correctly identifies the core findings of the research, the methodology used, and the specific dinosaur species involved. It effectively contrasts the oviraptor's nesting habits with those of modern birds. It is nearly complete, only omitting the specific detail regarding the 11-degree Fahrenheit temperature variance measured during the experiment, though it does mention the outcome of that variance.",
-    "model": "gemma3:4b",
-    "thinking": false,
-    "evalModel": "gemini-3.1-flash-lite-preview"
-}

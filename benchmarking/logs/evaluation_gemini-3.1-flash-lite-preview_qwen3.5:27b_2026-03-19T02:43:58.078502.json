@@ -1,8 +1,0 @@
-{
-    "accuracy": 100,
-    "completeness": 100,
-    "reasoning": "The summary and the included key points are highly accurate, precisely reflecting the technical nature, motivations, and future roadmap of the Ageless Linux project. The summary is also complete, capturing every major detail of the article, including the specific examples of hardware (Milk-V Duo), the legal justification behind the protest, and the planned distribution methods.",
-    "model": "qwen3.5:27b",
-    "thinking": false,
-    "evalModel": "gemini-3.1-flash-lite-preview"
-}

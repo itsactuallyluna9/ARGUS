@@ -1,8 +1,0 @@
-{
-    "accuracy": 100,
-    "completeness": 95,
-    "reasoning": "The summary is highly accurate and correctly reflects the article's core purpose and technical nature. It is very complete, though it misses minor specific details like the mention of the Milk-V Duo hardware device and the plan to use BitTorrent distribution, which are secondary to the primary goal of the project.",
-    "model": "deepseek-r1:14b",
-    "thinking": false,
-    "evalModel": "gemini-3.1-flash-lite-preview"
-}

@@ -1,8 +1,0 @@
-{
-    "accuracy": 100,
-    "completeness": 90,
-    "reasoning": "The summary is highly accurate and captures all the core facts of the event. It is missing the specific detail regarding the 2013 tie mentioned in the text, which is an important piece of historical context for the 'seventh tie' claim, but otherwise covers the event and reaction thoroughly.",
-    "model": "deepseek-r1:14b",
-    "evalModel": "gemini-3.1-flash-lite-preview",
-    "thinking": true
-}

@@ -1,8 +1,0 @@
-{
-    "accuracy": 100,
-    "completeness": 100,
-    "reasoning": "The summary is highly accurate and captures all essential factual details from the article, including Trump's specific claim, the denials from former presidents' representatives, and the context of the political landscape. It is complete, covering the key points provided without omitting significant information or misrepresenting the events described.",
-    "model": "gemma3:12b",
-    "thinking": false,
-    "evalModel": "gemini-3.1-flash-lite-preview"
-}

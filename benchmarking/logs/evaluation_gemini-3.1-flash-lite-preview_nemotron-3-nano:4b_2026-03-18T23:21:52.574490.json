@@ -1,8 +1,0 @@
-{
-    "accuracy": 85,
-    "completeness": 80,
-    "reasoning": "The summary is accurate in capturing the central themes, the conflict between scientific classification and public sentiment, and the specific case of the Dania Beach vervets. However, there are some inaccuracies: it misidentifies the species' scientific name (using a variation not in the text), mentions 'Burghers' monkey' and 'kinkajou' as nonnative species in Florida which were not in the source text, and incorrectly claims the monkey population has 'declined' when the text specifies it is essentially stable/low growth. The summary is generally complete regarding the narrative arc and the arguments presented by both scientists and residents.",
-    "model": "nemotron-3-nano:4b",
-    "thinking": false,
-    "evalModel": "gemini-3.1-flash-lite-preview"
-}

@@ -1,8 +1,0 @@
-{
-    "accuracy": 100,
-    "completeness": 95,
-    "reasoning": "The summary is highly accurate and captures the main essence of the article. It covers the core interaction between Fonda and Streisand well, along with their respective backgrounds with Redford. It is very complete, though it could arguably have mentioned Redford's age or the specific year of his death, but these are minor details in the context of the main story.",
-    "model": "glm-4.7-flash:q4_K_M",
-    "thinking": false,
-    "evalModel": "gemini-3.1-flash-lite-preview"
-}

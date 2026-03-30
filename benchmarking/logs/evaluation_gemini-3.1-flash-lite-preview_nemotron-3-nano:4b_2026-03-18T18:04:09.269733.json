@@ -1,8 +1,0 @@
-{
-    "accuracy": 100,
-    "completeness": 100,
-    "reasoning": "The summary and the included key points are highly accurate and align perfectly with the provided article. All critical information, including the additions and removals from the CDC list, the specific vaccination recommendations for adults, and the context of the Level 2 advisory, is captured thoroughly and correctly.",
-    "model": "nemotron-3-nano:4b",
-    "thinking": false,
-    "evalModel": "gemini-3.1-flash-lite-preview"
-}

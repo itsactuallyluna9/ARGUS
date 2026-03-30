@@ -1,8 +1,0 @@
-{
-    "accuracy": 85,
-    "completeness": 90,
-    "reasoning": "The summary is mostly accurate, but it contains a minor factual error regarding the monkeys' origins; it mentions a 'circus or zoo exhibit,' while the text specifies it was a biomedical research center/zoo founded by a relative of Theodore Roosevelt. It is highly complete, capturing the essential ecological, social, and scientific debates surrounding the colony's existence and future, including the conflicting views of residents and biologists.",
-    "model": "glm-4.7-flash:q4_K_M",
-    "thinking": false,
-    "evalModel": "gemini-3.1-flash-lite-preview"
-}

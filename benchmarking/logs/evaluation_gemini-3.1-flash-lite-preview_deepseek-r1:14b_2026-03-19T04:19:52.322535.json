@@ -1,8 +1,0 @@
-{
-    "accuracy": 100,
-    "completeness": 95,
-    "reasoning": "The summary is highly accurate and captures all essential details of the article, including the role of cocoa market volatility, consumer backlash, and industry responses like reformulation and shrinkflation. It accurately reflects the nuanced expert perspective provided in the text. It misses only minor peripheral details, such as the specific mention of alternative brands like Choco Crossies or the ethical complexities regarding deforestation and labor that are secondary to the main focus of the article.",
-    "model": "deepseek-r1:14b",
-    "thinking": false,
-    "evalModel": "gemini-3.1-flash-lite-preview"
-}

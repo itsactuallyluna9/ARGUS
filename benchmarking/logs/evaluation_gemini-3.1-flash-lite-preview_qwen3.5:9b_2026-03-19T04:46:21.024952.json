@@ -1,8 +1,0 @@
-{
-    "accuracy": 100,
-    "completeness": 95,
-    "reasoning": "The summary and the key points are highly accurate, capturing the essence and specific details of the article's narrative regarding Trump's contradictory stance on the Strait of Hormuz. The completeness is excellent, covering the core conflict, the reactions from allies, and the personal impact on grieving families. It only narrowly misses a perfect completeness score by not explicitly mentioning the specific context of Operation Epic Fury, though this is a minor omission.",
-    "model": "qwen3.5:9b",
-    "thinking": false,
-    "evalModel": "gemini-3.1-flash-lite-preview"
-}

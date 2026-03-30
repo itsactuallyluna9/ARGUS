@@ -1,8 +1,0 @@
-{
-    "accuracy": 100,
-    "completeness": 95,
-    "reasoning": "The summary and points provided are highly accurate and align perfectly with the source text. It captures the essential narrative of cocoa supply chain issues, industry reformulation, regulatory differences, and the consumer backlash led by Brad Reese. It is nearly complete, missing only minor details such as specific mention of the 'ChoViva' alternative brand name (though the concept is covered) and some of the specific historical context about Reese's business history, but these omissions do not detract from the overall quality of the summary.",
-    "model": "nemotron-3-nano:4b",
-    "thinking": false,
-    "evalModel": "gemini-3.1-flash-lite-preview"
-}

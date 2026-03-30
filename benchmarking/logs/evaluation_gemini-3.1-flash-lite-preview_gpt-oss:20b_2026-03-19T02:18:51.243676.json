@@ -1,8 +1,0 @@
-{
-    "accuracy": 100,
-    "completeness": 95,
-    "reasoning": "The summary is highly accurate, correctly identifying the films and the historical context provided in the article. It is nearly complete, missing only the minor technical nuance that the 1932 best actor 'tie' was technically not a true tie due to the specific voting rules of that era, though the summary correctly lists it as part of the historical record.",
-    "model": "gpt-oss:20b",
-    "thinking": false,
-    "evalModel": "gemini-3.1-flash-lite-preview"
-}

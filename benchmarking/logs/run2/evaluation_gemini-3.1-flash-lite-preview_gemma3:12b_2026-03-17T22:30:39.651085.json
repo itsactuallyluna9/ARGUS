@@ -1,8 +1,0 @@
-{
-    "accuracy": 100,
-    "completeness": 100,
-    "reasoning": "The summary accurately captures the core claim of the article and the subsequent contradictions from the representatives of all living former presidents. It also captures the key nuances, such as Trump's refusal to name the individual and the context of his current policy toward Iran, providing a complete overview of the reported events.",
-    "model": "gemma3:12b",
-    "evalModel": "gemini-3.1-flash-lite-preview",
-    "thinking": false
-}

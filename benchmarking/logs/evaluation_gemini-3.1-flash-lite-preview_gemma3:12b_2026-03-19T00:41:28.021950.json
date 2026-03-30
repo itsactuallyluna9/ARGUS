@@ -1,8 +1,0 @@
-{
-    "accuracy": 100,
-    "completeness": 95,
-    "reasoning": "The summary is highly accurate and correctly identifies all key details regarding the 2026 Oscar tie. The completeness score is slightly reduced because the summary only lists three of the six historical ties mentioned in the full list provided at the end of the article, though it captures the essence of the event and the historical context effectively.",
-    "model": "gemma3:12b",
-    "thinking": false,
-    "evalModel": "gemini-3.1-flash-lite-preview"
-}

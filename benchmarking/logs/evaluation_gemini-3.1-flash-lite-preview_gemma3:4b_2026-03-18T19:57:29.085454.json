@@ -1,8 +1,0 @@
-{
-    "accuracy": 90,
-    "completeness": 95,
-    "reasoning": "The summary is highly accurate regarding the main subject and the tone of Fonda's comments. However, there is a minor factual error in the provided points: the article states Redford died in September 'last year' relative to a 2026 date, meaning 2025, while the summary points claim he died in 2026. Additionally, the summary correctly attributes the 'intellectual cowboy' quote to Streisand, but the bulleted points incorrectly imply Fonda said it. Overall, the information is very thorough.",
-    "model": "gemma3:4b",
-    "thinking": false,
-    "evalModel": "gemini-3.1-flash-lite-preview"
-}

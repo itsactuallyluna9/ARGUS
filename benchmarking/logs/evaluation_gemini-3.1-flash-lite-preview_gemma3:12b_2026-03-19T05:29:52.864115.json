@@ -1,8 +1,0 @@
-{
-    "accuracy": 100,
-    "completeness": 95,
-    "reasoning": "The summary is highly accurate and captures the core essence and factual details of the article. It misses a minor detail regarding the specific context of the refueling tanker crash involving Tech Sgt Tyler Simmons, but otherwise effectively covers the major points, including the international backlash, the contradictory statements, the death toll of service members, and the geopolitical tensions regarding China and NATO.",
-    "model": "gemma3:12b",
-    "thinking": false,
-    "evalModel": "gemini-3.1-flash-lite-preview"
-}

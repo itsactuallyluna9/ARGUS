@@ -1,8 +1,0 @@
-{
-    "accuracy": 95,
-    "completeness": 90,
-    "reasoning": "The summary is highly accurate, capturing the core themes and conflict described in the article regarding the Dania Beach vervet monkey population. It correctly identifies the monkeys' origin (escapees from a biomedical research/zoo facility, rather than just 'exotic pets'), their current status, and the tension between public affection and scientific/federal perspectives on invasive species. It is nearly complete, though it misses a few specific details like the mention of the specific species name (Chlorocebus sabaeus), the involvement of Dr. Missy Williams as the primary researcher/advocate, and the specific event of the 1947 escape which the article highlights in detail.",
-    "model": "deepseek-r1:14b",
-    "evalModel": "gemini-3.1-flash-lite-preview",
-    "thinking": false
-}

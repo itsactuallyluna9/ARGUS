@@ -1,8 +1,0 @@
-{
-    "accuracy": 90,
-    "completeness": 85,
-    "reasoning": "The summary accurately captures the main points of the article and the central contradiction in Trump's stance. However, there is a minor factual error in the points section, which identifies Keir Starmer as the Prime Minister of Germany, while the article correctly identifies him as the UK Prime Minister. The summary is otherwise comprehensive regarding the backlash from families and the international diplomatic tensions.",
-    "model": "nemotron-3-nano:4b",
-    "thinking": false,
-    "evalModel": "gemini-3.1-flash-lite-preview"
-}

@@ -1,7 +1,0 @@
-{
-    "accuracy": 100,
-    "completeness": 95,
-    "reasoning": "The summary is highly accurate, correctly synthesizing the meteorological explanations and regional forecasts provided in the article. It captures all key factual claims, including the atmospheric causes of the weather patterns and the contrasting experiences in the East and West. The completeness is excellent, though it slightly oversimplifies the duration of the western heat pattern, which the article notes is expected to last through late March rather than strictly through April.",
-    "model": "qwen3.5:2b",
-    "evalModel": "gemini-3.1-flash-lite-preview"
-}

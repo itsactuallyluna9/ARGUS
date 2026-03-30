@@ -1,8 +1,0 @@
-{
-    "accuracy": 100,
-    "completeness": 100,
-    "reasoning": "The summary and the included key points are highly accurate, strictly adhering to the facts provided in the source text. It covers all essential details, including the nature of Trump's claim, the specific denials from the representatives of all living former presidents, and the context of Trump's past relationships with these individuals.",
-    "model": "gemma3:12b",
-    "thinking": false,
-    "evalModel": "gemini-3.1-flash-lite-preview"
-}

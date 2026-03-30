@@ -1,8 +1,0 @@
-{
-    "accuracy": 100,
-    "completeness": 95,
-    "reasoning": "The summary is highly accurate and captures the core of the article perfectly, including the specific case of Brad Reese and the broader economic context provided by Alexis Villacis. It is very complete, covering the market volatility, corporate strategies, regulatory differences, and future outlooks. It loses a slight bit of completeness only by omitting the specific detail regarding the difference in consumer response between the Reese family members mentioned in Hershey's statement, but this does not detract from the overall quality.",
-    "model": "qwen3.5:9b",
-    "thinking": false,
-    "evalModel": "gemini-3.1-flash-lite-preview"
-}

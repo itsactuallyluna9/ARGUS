@@ -1,8 +1,0 @@
-{
-    "accuracy": 100,
-    "completeness": 100,
-    "reasoning": "The summary accurately captures the core conflict between Trump's claim and the denials from former presidents. It successfully includes all key details, including the context of the Kennedy Center meeting, the specific list of former presidents, and the additional detail about the fraud task force, without introducing any factual errors.",
-    "model": "gpt-oss:20b",
-    "thinking": false,
-    "evalModel": "gemini-3.1-flash-lite-preview"
-}

@@ -1,7 +1,0 @@
-{
-    "accuracy": 100,
-    "completeness": 100,
-    "reasoning": "The summary and the included key points are entirely accurate to the original text. It successfully captures the core narrative of Jane Fonda's remarks, the context of the 2026 Academy Awards, and the specific details regarding the professional histories between the individuals involved, leaving out no significant information.",
-    "model": "qwen3.5:27b",
-    "evalModel": "gemini-3.1-flash-lite-preview"
-}

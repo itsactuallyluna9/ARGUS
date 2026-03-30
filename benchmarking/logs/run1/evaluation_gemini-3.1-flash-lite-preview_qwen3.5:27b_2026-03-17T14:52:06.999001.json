@@ -1,7 +1,0 @@
-{
-    "accuracy": 100,
-    "completeness": 95,
-    "reasoning": "The summary is highly accurate and correctly identifies all major meteorological themes and data points presented in the article. It captures the explanations for both Eastern volatility and Western heatwaves. It is nearly complete, missing only minor details regarding specific impacts like snowmelt acceleration, but captures the essence of the report effectively.",
-    "model": "qwen3.5:27b",
-    "evalModel": "gemini-3.1-flash-lite-preview"
-}

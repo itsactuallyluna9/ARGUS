@@ -1,8 +1,0 @@
-{
-    "accuracy": 95,
-    "completeness": 80,
-    "reasoning": "The summary accurately captures the central conflict and the author's nuanced stance on the monkeys' status as non-native vs. invasive. It is highly accurate regarding the core arguments presented. It lacks some completeness by omitting specific background details like the historical origin of the colony (the 1947 escape from a zoo), the specific efforts of researcher Missy Williams, and the broader context of scientific debate surrounding invasive species management.",
-    "model": "gpt-oss:20b",
-    "evalModel": "gemini-3.1-flash-lite-preview",
-    "thinking": false
-}

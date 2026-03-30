@@ -1,8 +1,0 @@
-{
-    "accuracy": 100,
-    "completeness": 95,
-    "reasoning": "The summary is highly accurate, correctly identifying the core contradiction in Trump's stance on the Strait of Hormuz and the negative public/allied response. It covers the primary factual points effectively. It misses only minor details, such as the specific naming of the operation 'Operation Epic Fury' and the specific mention of the refueling tanker crash, but the summary is otherwise very thorough and provides an excellent overview of the article's content.",
-    "model": "gemma3:12b",
-    "thinking": false,
-    "evalModel": "gemini-3.1-flash-lite-preview"
-}

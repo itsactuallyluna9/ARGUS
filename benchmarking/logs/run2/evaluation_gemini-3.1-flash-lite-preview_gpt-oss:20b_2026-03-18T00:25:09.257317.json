@@ -1,8 +1,0 @@
-{
-    "accuracy": 95,
-    "completeness": 100,
-    "reasoning": "The summary is highly accurate and captures all the essential details of the article. There is a minor discrepancy regarding the date of Robert Redford's death: the summary states September 2025, while the article specifies September of the 'previous year' from a March 2026 date (implying 2025 is correct, though the text says 'September last year'). The summary is comprehensive and covers all key factual claims, including the films, the nature of the tributes, and the context of the Oscars.",
-    "model": "gpt-oss:20b",
-    "evalModel": "gemini-3.1-flash-lite-preview",
-    "thinking": true
-}

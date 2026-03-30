@@ -1,8 +1,0 @@
-{
-    "accuracy": 100,
-    "completeness": 95,
-    "reasoning": "The summary is highly accurate in its reporting of the core conflict between Trump's claims and the denials from former presidents' representatives. It captures all essential factual details, including the refusal to name the predecessor, the denial from all four living presidents, and the unrelated announcement of the fraud task force. The summary is only slightly docked on completeness as it does not explicitly capture the specific detail that Trump ruled out George W. Bush by name during the press interaction, though this is a minor omission in the context of the overall article.",
-    "model": "nemotron-3-nano:4b",
-    "thinking": false,
-    "evalModel": "gemini-3.1-flash-lite-preview"
-}

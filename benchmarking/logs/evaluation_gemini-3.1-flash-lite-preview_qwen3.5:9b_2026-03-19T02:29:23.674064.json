@@ -1,8 +1,0 @@
-{
-    "accuracy": 100,
-    "completeness": 95,
-    "reasoning": "The summary is highly accurate and correctly identifies the key events of the article. It is nearly complete; it captures the main event, the historical context, the presenters' roles, and the reactions of the winners. It omits only minor details like the specific technicality of the 1932 'tie' and the full list of all seven historical ties, which is acceptable for a concise summary.",
-    "model": "qwen3.5:9b",
-    "thinking": false,
-    "evalModel": "gemini-3.1-flash-lite-preview"
-}
