@@ -124,7 +124,7 @@ class ArgusData(pd.DataFrame):
                     "political_score": int(self.fact_check_df["political_score"][i]),
                     "sensationalism_score": int(self.fact_check_df["sensationalism_score"][i]),
                     "emotional_language_score": int(self.fact_check_df["emotional_language_score"][i]),
-                    "finished": self.fact_check_df["finished"][i]
+                    "finished": str(self.fact_check_df["finished"][i])
                 }
 
                 for column in self.fact_check_df["fact_check_metadata"][i].keys():
@@ -167,4 +167,8 @@ if __name__ == "__main__":
 
     data = argus_data.dict()
 
-    print(data["fact_checks"])
+    with open("article_data.json", "w") as f:
+        json.dump(data["articles"], f, indent=4)
+    
+    with open("fact_check_data.json", "w") as f:
+        json.dump(data["fact_checks"], f, indent=4)
