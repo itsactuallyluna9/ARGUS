@@ -143,7 +143,7 @@ def api_status():
     return jsonify({"message": f"No active fact check found for UUID {uuid}."}), 404
 
 
-@app.post("/api/data")
+@app.get("/api/data")
 def api_data():
     # grab args from data loader panel to filter data as needed, forward as csv string, make sure to handle commas in text when relevant
     if (cached_data.timestamp and (datetime.now() - datetime.fromisoformat(cached_data.timestamp)).total_seconds() < 86400):  # if cached data is less than 24 hours old, return it

@@ -98,42 +98,63 @@ function DataSandboxView() {
       // TODO: panic
       return;
     }
-    const data = await response.json();
+    const data: { articles: Record<string, unknown>[] } = await response.json();
 
-    const article_fields = Object.keys(data.articles[0]);
-    const null_replacer = (key, value) => {
-      return value === null ? "" : value;
+    let article_fields: string[] = [];
+    data.articles.forEach((article) => {
+      const c_article_fields = Object.keys(article);
+      const new_fields = c_article_fields.filter((val) => !article_fields.includes(val));
+      article_fields = article_fields.concat(new_fields);
+    });
+
+    // rfc 4180 compliant csv field escaping
+    const escapeCSVField = (value: unknown): string => {
+      if (value === undefined) {
+        return "NA";
+      }
+      if (value === null) {
+        return "";
+      }
+      const str = typeof value === "string" ? value : JSON.stringify(value);
+      // check if the value needs quoting (contains comma, quote, or newline)
+      const needsQuoting = str.includes(",") || str.includes('"') || str.includes("\n") || str.includes("\r");
+      if (needsQuoting) {
+        // escape double quotes by doubling them, then wrap in quotes
+        return '"' + str.replace(/"/g, '""') + '"';
+      }
+      return str;
     };
+
     const article_csv = [
       article_fields.join(","),
       ...data.articles.map((article) =>
         article_fields
-          .map((fieldName) => JSON.stringify(article[fieldName], null_replacer))
+          .map((fieldName) => escapeCSVField(article[fieldName]))
           .join(","),
       ),
     ].join("\n");
 
-    const fact_check_fields = Object.keys(data.fact_checks[0]);
-    const fact_check_csv = [
-      fact_check_fields.join(","),
-      ...data.fact_checks.map((check) =>
-        fact_check_fields
-          .map((fieldName) => JSON.stringify(check[fieldName], null_replacer))
-          .join(","),
-      ),
-    ].join("\n");
+      // const fact_check_fields = Object.keys(data.fact_checks[0]);
+      // const fact_check_csv = [
+      //   fact_check_fields.join(","),
+      //   ...data.fact_checks.map((check) =>
+      //     fact_check_fields
+      //       .map((fieldName) => JSON.stringify(check[fieldName], null_replacer))
+      //       .join(","),
+      //   ),
+      // ].join("\n");
 
     console.log(article_csv);
-    console.log(fact_check_csv);
+    // console.log(fact_check_csv);
 
     await webRRef.current.FS.writeFile(
       "/home/web_user/data/article_data.csv",
       new TextEncoder().encode(article_csv),
     );
-    await webRRef.current.FS.writeFile(
-      "/home/web_user/data/fact_check_data.csv",
-      new TextEncoder().encode(fact_check_csv),
-    );
+    // await webRRef.current.FS.writeFile(
+    //   "/home/web_user/data/fact_check_data.csv",
+    //   new TextEncoder().encode(fact_check_csv),
+    // );
 
     setRWorking(false);
   };
@@ -410,7 +431,7 @@ function DataSandboxView() {
     webRRef.current.writeConsole(
       "source('/tmp/.webRtmp-source', echo = TRUE, max.deparse.length = Inf)",
     );
-    // setRWorking(false)
+    setRWorking(false)
     // we'll set this to false when we get the prompt event, which indicates that r is done processing and waiting for more input
     // we don't really have a great way to know this, unfortunately.
   };
