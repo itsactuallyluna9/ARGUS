@@ -145,10 +145,7 @@ class Completeness_Agent:
                 response = ollama.chat(model=self.evaluation_model, think=self.think, messages=messages)
                 break
 
-        completeness_response = fix_json_formatting(
-            response.message.content,
-            Completeness_Schema,  # type: ignore
-        )
+        completeness_response = fix_json_formatting(response.message.content, Completeness_Schema) # type: ignore
 
         self.completeness_score = int(completeness_response["completeness"])  # type: ignore
         self.completeness_explanation = completeness_response["reasoning"]  # type: ignore

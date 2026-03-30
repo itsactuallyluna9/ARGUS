@@ -150,10 +150,7 @@ class Accuracy_Agent:
                 response = ollama.chat(model=self.evaluation_model, think=self.think, messages=messages)
                 break
 
-        accuracy_response = fix_json_formatting(
-            response.message.content,
-            Accuracy_Schema,  # type: ignore
-        )
+        accuracy_response = fix_json_formatting(response.message.content, Accuracy_Schema)  # type: ignore
 
         self.accuracy_score = accuracy_response["accuracy"]  # type: ignore
         self.accuracy_explanation = accuracy_response["reasoning"]  # type: ignore
