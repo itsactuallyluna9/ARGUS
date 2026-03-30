@@ -552,7 +552,30 @@ function DataSandboxView() {
                 <ButtonGroup>
                   <Tooltip>
                     <TooltipTrigger asChild>
-                      <Button size="icon" variant="outline">
+                      <Button
+                        size="icon"
+                        variant="outline"
+                        onClick={() => {
+                          const input = document.createElement("input");
+                          input.type = "file";
+                          input.accept = ".R,.r,.txt";
+                          input.onchange = async (e) => {
+                            const file = (e.target as HTMLInputElement)
+                              .files?.[0];
+                            if (file && viewRef.current) {
+                              const text = await file.text();
+                              viewRef.current.dispatch({
+                                changes: {
+                                  from: 0,
+                                  to: viewRef.current.state.doc.length,
+                                  insert: text,
+                                },
+                              });
+                            }
+                          };
+                          input.click();
+                        }}
+                      >
                         <Upload />
                       </Button>
                     </TooltipTrigger>
@@ -562,7 +585,23 @@ function DataSandboxView() {
                   </Tooltip>
                   <Tooltip>
                     <TooltipTrigger asChild>
-                      <Button size="icon" variant="outline">
+                      <Button
+                        size="icon"
+                        variant="outline"
+                        onClick={() => {
+                          if (!viewRef.current) return;
+                          const content = viewRef.current.state.doc.toString();
+                          const blob = new Blob([content], {
+                            type: "text/plain",
+                          });
+                          const url = URL.createObjectURL(blob);
+                          const link = document.createElement("a");
+                          link.href = url;
+                          link.download = `ARGUS-DataSandbox-${new Date().toLocaleTimeString().replaceAll(/[:\s]/g, "-")}.R`;
+                          link.click();
+                          URL.revokeObjectURL(url);
+                        }}
+                      >
                         <Download />
                       </Button>
                     </TooltipTrigger>
