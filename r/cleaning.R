@@ -1,10 +1,7 @@
 library(tidyverse)
+library(rjson)
 
-article_data <- read_csv(file.path(getwd(), "data", "article_data.csv"))
-fact_check_data <- read_csv(file.path(getwd(), "data", "fact_check_data.csv"))
+article_data <- fromJSON(file=file.path(getwd(), "article_data.json"))
+fact_check_data <- fromJSON(file.path(getwd(), "data", "fact_check_data.json"))
 
-# article_data <- article_data |> 
-#   mutate(date = as.Date(date))
-
-article_data |> write_csv(file.path(getwd(), "data", "article_data_clean.csv"))
-fact_check_data |> write_csv(file.path(getwd(), "data", "fact_check_data_clean.csv"))
+a

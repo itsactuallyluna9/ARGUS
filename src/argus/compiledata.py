@@ -44,12 +44,31 @@ class ArgusData(pd.DataFrame):
             self.article_df = pd.DataFrame()
 
         try:
-            self.fact_check_df = pd.json_normalize(json.loads(fact_check_docs[0])) # type: ignore
-            for i in range(1, len(fact_check_docs)): # type: ignore
-                doc = fact_check_docs[i] # type: ignore
-                json_doc = json.loads(doc)
-                self.fact_check_df = pd.concat([self.fact_check_df, pd.json_normalize(json_doc)], ignore_index=True) # type: ignore
-
+            self.fact_check_df = pd.DataFrame(
+                {
+                    "url": [json.loads(doc)["url"] for doc in fact_check_docs],  # type: ignore
+                    "id": [json.loads(doc)["id"] for doc in fact_check_docs],  # type: ignore
+                    "article_text": [json.loads(doc)["article_text"] for doc in fact_check_docs], # type: ignore
+                    "summary": [json.loads(doc)["summary"] for doc in fact_check_docs], # type: ignore
+                    "bias_rating": [json.loads(doc)["bias_rating"] for doc in fact_check_docs], # type: ignore
+                    "accuracy_score": [json.loads(doc)["accuracy_score"] for doc in fact_check_docs], # type: ignore
+                    "accuracy_explanation": [json.loads(doc)["accuracy_explanation"] for doc in fact_check_docs], # type: ignore
+                    "sources": [json.loads(doc)["sources"] for doc in fact_check_docs], # type: ignore
+                    "completeness_score": [json.loads(doc)["completeness_score"] for doc in fact_check_docs], # type: ignore
+                    "completeness_explanation": [json.loads(doc)["completeness_explanation"] for doc in fact_check_docs], # type: ignore
+                    "political_bias": [json.loads(doc)["political_bias"] for doc in fact_check_docs], # type: ignore
+                    "sensationalism": [json.loads(doc)["sensationalism"] for doc in fact_check_docs], # type: ignore
+                    "emotional_language": [json.loads(doc)["emotional_language"] for doc in fact_check_docs], # type: ignore
+                    "political_score": [json.loads(doc)["political_score"] for doc in fact_check_docs], # type: ignore
+                    "sensationalism_score": [json.loads(doc)["sensationalism_score"] for doc in fact_check_docs], # type: ignore
+                    "emotional_language_score": [json.loads(doc)["emotional_language_score"] for doc in fact_check_docs], # type: ignore
+                    "finished": [json.loads(doc)["finished"] for doc in fact_check_docs], # type: ignore
+                    "fact_check_metadata": [json.loads(doc)["fact_check_metadata"] for doc in fact_check_docs], # type: ignore
+                    "key_points": [json.loads(doc)["key_points"] for doc in fact_check_docs], # type: ignore
+                    "article_metadata": [json.loads(doc)["article_metadata"] for doc in fact_check_docs], # type: ignore
+                }
+            )
+        
         except:
             self.fact_check_df = pd.DataFrame()
 
@@ -61,8 +80,8 @@ class ArgusData(pd.DataFrame):
 
         articles = []
 
-        try:
-            for i in range(len(self.article_df["url"])):
+        for i in range(len(self.article_df)):
+            try:
 
                 article_dict = {
                     "url": self.article_df["url"][i],
@@ -79,13 +98,13 @@ class ArgusData(pd.DataFrame):
 
                 articles.append(article_dict)
 
-        except:
-            pass
+            except:
+                pass
 
         fact_checks = []
 
-        try:
-            for i in range(len(self.fact_check_df)):
+        for i in range(len(self.fact_check_df)):
+            try:
 
                 fact_check_dict = {
                     "url": self.fact_check_df["url"][i],
@@ -108,19 +127,21 @@ class ArgusData(pd.DataFrame):
                 }
 
                 for column in self.fact_check_df["fact_check_metadata"][i].keys():
-                    fact_check_dict[column] = json.loads(self.fact_check_df["fact_check_metadata"][i])[column]
+                    fact_check_dict[column] = self.fact_check_df["fact_check_metadata"][i][column]
 
                 points = self.fact_check_df["key_points"][i]
                 for j in range(len(points)):
                     fact_check_dict[f"point{j}"] = points[j]
 
                 for column in self.fact_check_df["article_metadata"][i].keys():
-                    fact_check_dict[column] = json.loads(self.fact_check_df["article_metadata"][i])[column]
+                    fact_check_dict[column] = self.fact_check_df["article_metadata"][i][column]
+
+                print(fact_check_dict)
 
                 fact_checks.append(fact_check_dict)
 
-        except:
-            pass
+            except:
+                pass
 
         return {
             "articles": articles,
@@ -139,4 +160,6 @@ if __name__ == "__main__":
     argus_data = ArgusData()
     argus_data.fetch_data(article_collection, fact_check_collection)
 
-    print(argus_data.dict())
+    data = argus_data.dict()
+
+    print(data["fact_checks"])
