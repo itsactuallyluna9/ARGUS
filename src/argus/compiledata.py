@@ -1,5 +1,6 @@
 import chromadb
 import pandas as pd
+import numpy as np
 import json
 from datetime import datetime
 
@@ -112,17 +113,17 @@ class ArgusData(pd.DataFrame):
                     "article_text": self.fact_check_df["article_text"][i],
                     "summary": self.fact_check_df["summary"][i],
                     "bias_rating": self.fact_check_df["bias_rating"][i],
-                    "accuracy_score": self.fact_check_df["accuracy_score"][i],
+                    "accuracy_score": int(self.fact_check_df["accuracy_score"][i]),
                     "accuracy_explanation": self.fact_check_df["accuracy_explanation"][i],
                     "sources": self.fact_check_df["sources"][i],
-                    "completeness_score": self.fact_check_df["completeness_score"][i],
+                    "completeness_score": int(self.fact_check_df["completeness_score"][i]),
                     "completeness_explanation": self.fact_check_df["completeness_explanation"][i],
                     "political_bias": self.fact_check_df["political_bias"][i],
                     "sensationalism": self.fact_check_df["sensationalism"][i],
                     "emotional_language": self.fact_check_df["emotional_language"][i],
-                    "political_score": self.fact_check_df["political_score"][i],
-                    "sensationalism_score": self.fact_check_df["sensationalism_score"][i],
-                    "emotional_language_score": self.fact_check_df["emotional_language_score"][i],
+                    "political_score": int(self.fact_check_df["political_score"][i]),
+                    "sensationalism_score": int(self.fact_check_df["sensationalism_score"][i]),
+                    "emotional_language_score": int(self.fact_check_df["emotional_language_score"][i]),
                     "finished": self.fact_check_df["finished"][i]
                 }
 
@@ -134,6 +135,10 @@ class ArgusData(pd.DataFrame):
                     fact_check_dict[f"point{j}"] = points[j]
 
                 for column in self.fact_check_df["article_metadata"][i].keys():
+                    
+                    if type(self.fact_check_df["article_metadata"][i][column]) == np.int64:
+                        fact_check_dict[column] = int(self.fact_check_df["article_metadata"][i][column])
+                    
                     fact_check_dict[column] = self.fact_check_df["article_metadata"][i][column]
 
                 print(fact_check_dict)
