@@ -7,15 +7,7 @@ import {
 import { Spinner } from "@/components/ui/spinner";
 import { WebR } from "webr";
 import { Button } from "@/components/ui/button";
-import {
-  Play,
-  Square,
-  ChartArea,
-  Download,
-  Upload,
-  Bot,
-  Cat,
-} from "lucide-react";
+import { Play, Square, ChartArea, Download, Upload, Cat } from "lucide-react";
 import { EditorView, basicSetup } from "codemirror";
 import { r } from "codemirror-lang-r";
 import { ButtonGroup } from "@/components/ui/button-group";
@@ -28,11 +20,58 @@ import { Terminal } from "@xterm/xterm";
 import { FitAddon } from "@xterm/addon-fit";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import "@xterm/xterm/css/xterm.css";
-import { Table, TableBody, TableCaption, TableCell, TableHeader, TableRow } from "@/components/ui/table";
+import {
+  Table,
+  TableBody,
+  TableCaption,
+  TableCell,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table";
 
 const ENTER_KEY = 13;
 const BACKSPACE_KEY = 127;
 const FIRST_PRINTABLE_CHAR = 32;
+
+function convertToCSV(data: Record<string, any>[]): string {
+  let fields: string[] = [];
+  data.forEach((entry) => {
+    const current_entry_fields = Object.keys(entry);
+    const new_fields = current_entry_fields.filter(
+      (val) => !fields.includes(val),
+    );
+    fields = fields.concat(new_fields);
+  });
+
+  // rfc 4180 compliant csv field escaping
+  const escapeCSVField = (value: unknown): string => {
+    if (value === undefined) {
+      return "NA";
+    }
+    if (value === null) {
+      return "";
+    }
+    const str = typeof value === "string" ? value : JSON.stringify(value);
+    // check if the value needs quoting (contains comma, quote, or newline)
+    const needsQuoting =
+      str.includes(",") ||
+      str.includes('"') ||
+      str.includes("\n") ||
+      str.includes("\r");
+    if (needsQuoting) {
+      // escape double quotes by doubling them, then wrap in quotes
+      return '"' + str.replace(/"/g, '""') + '"';
+    }
+    return str;
+  };
+
+  return [
+    fields.join(","),
+    ...data.map((entry) =>
+      fields.map((fieldName) => escapeCSVField(entry[fieldName])).join(","),
+    ),
+  ].join("\n");
+}
 
 function DataSandboxView() {
   const [rLoaded, setRLoaded] = useState(false);
@@ -56,10 +95,10 @@ function DataSandboxView() {
   const drawCanvas = useRef<OffscreenCanvas | null>(null);
 
   const [viewData, setViewData] = useState<Record<string, unknown>[]>([]);
-  const [viewTitle, setViewTitle] = useState("")
+  const [viewTitle, setViewTitle] = useState("");
 
   const [pagerContent, setPagerContent] = useState("");
-  const [pagerTitle, setPagerTitle] = useState("")
+  const [pagerTitle, setPagerTitle] = useState("");
 
   const [currentTab, setCurrentTab] = useState("data-loader");
 
@@ -85,11 +124,9 @@ function DataSandboxView() {
     if (rBusy) return;
     setRWorking(true);
 
-    // use download.file("<here>/api/data", "data.csv")
-    // data/article_data.csv
-    // data/fact_check_data.csv
     xtermRef.current.writeln(`# Downloading Data (this may take a while)`);
 
+    // TODO: handle existing files
     // await webRRef.current.FS.unlink("/home/web_user/data");
     await webRRef.current.FS.mkdir("/home/web_user/data");
 
@@ -98,63 +135,20 @@ function DataSandboxView() {
       // TODO: panic
       return;
     }
-    const data: { articles: Record<string, unknown>[] } = await response.json();
-
-    let article_fields: string[] = [];
-    data.articles.forEach((article) => {
-      const c_article_fields = Object.keys(article);
-      const new_fields = c_article_fields.filter((val) => !article_fields.includes(val));
-      article_fields = article_fields.concat(new_fields);
-    });
-
-    // rfc 4180 compliant csv field escaping
-    const escapeCSVField = (value: unknown): string => {
-      if (value === undefined) {
-        return "NA";
-      }
-      if (value === null) {
-        return "";
-      }
-      const str = typeof value === "string" ? value : JSON.stringify(value);
-      // check if the value needs quoting (contains comma, quote, or newline)
-      const needsQuoting = str.includes(",") || str.includes('"') || str.includes("\n") || str.includes("\r");
-      if (needsQuoting) {
-        // escape double quotes by doubling them, then wrap in quotes
-        return '"' + str.replace(/"/g, '""') + '"';
-      }
-      return str;
-    };
-
-    const article_csv = [
-      article_fields.join(","),
-      ...data.articles.map((article) =>
-        article_fields
-          .map((fieldName) => escapeCSVField(article[fieldName]))
-          .join(","),
-      ),
-    ].join("\n");
-
-      // const fact_check_fields = Object.keys(data.fact_checks[0]);
-      // const fact_check_csv = [
-      //   fact_check_fields.join(","),
-      //   ...data.fact_checks.map((check) =>
-      //     fact_check_fields
-      //       .map((fieldName) => JSON.stringify(check[fieldName], null_replacer))
-      //       .join(","),
-      //   ),
-      // ].join("\n");
-
-    console.log(article_csv);
-    // console.log(fact_check_csv);
+    const data = await response.json();
 
     await webRRef.current.FS.writeFile(
       "/home/web_user/data/article_data.csv",
-      new TextEncoder().encode(article_csv),
+      new TextEncoder().encode(convertToCSV(data.articles)),
     );
-    // await webRRef.current.FS.writeFile(
-    //   "/home/web_user/data/fact_check_data.csv",
-    //   new TextEncoder().encode(fact_check_csv),
-    // );
+    await webRRef.current.FS.writeFile(
+      "/home/web_user/data/fact_check_data.csv",
+      new TextEncoder().encode(convertToCSV(data.fact_checks)),
+    );
+
+    xtermRef.current.writeln(
+      "# Downloaded data to ~/data/article_data.csv and ~/data/fact_check_data.csv",
+    );
 
     setRWorking(false);
   };
@@ -314,30 +308,36 @@ function DataSandboxView() {
           if (event.data.deleteFile) {
             await webR.FS.unlink(event.data.path);
           }
-          setCurrentTab("pager")
-          setPagerTitle(event.data.title)
-          setPagerContent(new TextDecoder().decode(pager_file))
+          setCurrentTab("pager");
+          setPagerTitle(event.data.title);
+          setPagerContent(new TextDecoder().decode(pager_file));
           break;
         case "view":
-          setCurrentTab("view")
-          setViewTitle(event.data.title)
-          const to_process = event.data.data
+          setCurrentTab("view");
+          setViewTitle(event.data.title);
+          const to_process = event.data.data;
           // convert Object{col_name: {type: ... names: ... values: []}} to
           // [{col_name: value, ...}, ...]
-          let converted = []
-          for (let i = 0; i < to_process[Object.keys(to_process)[0]].values.length; i++) {
-            let row = {}
+          let converted = [];
+          for (
+            let i = 0;
+            i < to_process[Object.keys(to_process)[0]].values.length;
+            i++
+          ) {
+            let row = {};
             for (const col_name in to_process) {
-              row[col_name] = to_process[col_name].values[i]
+              row[col_name] = to_process[col_name].values[i];
             }
-            converted.push(row)
+            converted.push(row);
           }
-          setViewData(converted)
+          setViewData(converted);
           break;
         case "browse":
           // this isn't supported :(
           console.warn("R browse event received but not supported");
-          xtermRef.current?.writeln("# Browse event received but not supported - sorry :(");
+          xtermRef.current?.writeln(
+            "# Browse event received but not supported - sorry :(",
+          );
           break;
         case "canvas":
           switch (event.data.event) {
@@ -431,7 +431,7 @@ function DataSandboxView() {
     webRRef.current.writeConsole(
       "source('/tmp/.webRtmp-source', echo = TRUE, max.deparse.length = Inf)",
     );
-    setRWorking(false)
+    setRWorking(false);
     // we'll set this to false when we get the prompt event, which indicates that r is done processing and waiting for more input
     // we don't really have a great way to know this, unfortunately.
   };
@@ -547,26 +547,28 @@ function DataSandboxView() {
                     <Cat />
                   </Button>
                 </TabsContent>
-              <TabsContent value="view">
-                <Table>
-                  <TableCaption>{viewTitle} | {viewData.length} rows</TableCaption>
-                  <TableHeader>
-                    <TableRow>
-                      {viewData[0] &&
-                        Object.keys(viewData[0]).map((col_name) => (
-                          <TableCell key={col_name}>{col_name}</TableCell>
-                        ))}
-                    </TableRow>
-                  </TableHeader>
-                <TableBody>
-                  {viewData.map((row, index) => (
-                    <TableRow key={index}>
-                      {Object.values(row).map((value, i) => (
-                        <TableCell key={i}>{String(value)}</TableCell>
+                <TabsContent value="view">
+                  <Table>
+                    <TableCaption>
+                      {viewTitle} | {viewData.length} rows
+                    </TableCaption>
+                    <TableHeader>
+                      <TableRow>
+                        {viewData[0] &&
+                          Object.keys(viewData[0]).map((col_name) => (
+                            <TableCell key={col_name}>{col_name}</TableCell>
+                          ))}
+                      </TableRow>
+                    </TableHeader>
+                    <TableBody>
+                      {viewData.map((row, index) => (
+                        <TableRow key={index}>
+                          {Object.values(row).map((value, i) => (
+                            <TableCell key={i}>{String(value)}</TableCell>
+                          ))}
+                        </TableRow>
                       ))}
-                    </TableRow>
-                  ))}
-                  </TableBody>
+                    </TableBody>
                   </Table>
                 </TabsContent>
                 <TabsContent value="pager">
