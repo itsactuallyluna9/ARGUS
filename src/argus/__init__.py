@@ -153,6 +153,39 @@ def api_data():
         cached_data.fetch_data(articles, past_checks)
         return jsonify(cached_data.dict()), 200
 
+
+@app.post("/api/data")
+def api_data_filter():
+    args = request.get_json()
+    collection = args.get("collection") # collection name as string, either "articles" or "fact_checks"
+    cols = json.loads(args.get("columns")) # list of column names to return, if empty return all columns
+    condition = args.get("condition") # logical expression as string, rows included if eval(condition) is true, e.g. "accuracy_score > 3 and political_bias > -1"
+
+    match collection:
+        case "articles":
+            data = cached_data.dict()["articles"]
+        case "fact_checks":
+            data = cached_data.dict()["fact_checks"]
+        case _:
+            return jsonify({"message": f"Collection {collection} not found."}), 404
+    
+    if cols:
+
+        missing_cols = [col for col in cols if col not in data[0].keys()]
+        if missing_cols:
+            return jsonify({"message": f"Columns {missing_cols} not found in collection {collection}."}), 404
+        
+        data = [{col: item[col] for col in cols} for item in data]
+
+    if condition:
+        try:
+            data = [item for item in data if eval(condition, {}, {col: item[col] for col in item.keys()})] 
+        except Exception as e:
+            return jsonify({"message": f"Error applying condition: {str(e)}"}), 400
+
+    return jsonify(data), 200
+
+
 @app.get("/api/debug/resources")
 def api_debug_resources():
     import psutil
