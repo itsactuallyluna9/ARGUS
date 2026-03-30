@@ -84,7 +84,7 @@ class FactCheck:
             "finished": self.finished,
         }
 
-    def main(self):
+    def main(self, use_long_prompts: bool = True):
         
         self.fact_check_metadata["check_started"] = datetime.now().isoformat()
 
@@ -94,7 +94,7 @@ class FactCheck:
 
         # raw article text |> summarizer |> -> summary, key points |> chromadb (if not present)
         with with_timing(lambda t: self.fact_check_metadata.update({"summary_duration": t.duration_s})):
-            self.summary, self.bias_rating, self.key_points = self.summarize_article(self.article_text)
+            self.summary, self.bias_rating, self.key_points = self.summarize_article(self.article_text, use_long_prompt=use_long_prompts)
 
         print(f"\n\n\nSummary for {self.url}:\n{self.summary}\nBias rating: {self.bias_rating}\nKey points: {self.key_points}\n\n\n")
 
@@ -102,7 +102,7 @@ class FactCheck:
 
         # evidence + article text + related article summaries + bias rating |> fact check model -> accuracy, completeness scores + explanation
         with with_timing(lambda t: self.fact_check_metadata.update({"agents_duration": t.duration_s})):
-            self.fact_check(self.article_text, self.bias_rating, self.key_points)
+            self.fact_check(self.article_text, self.bias_rating, self.key_points, use_long_prompts=use_long_prompts)
 
         print(f"\n\n\nFact check results for {self.url}:\n")
         print(f"\nAccuracy score: {self.accuracy_score}\nExplanation: {self.accuracy_explanation}\nSources: {self.sources}")
@@ -120,9 +120,9 @@ class FactCheck:
         self.fact_check_metadata["check_duration_from_submitted"] = (check_finished - submitted).total_seconds()
 
     @retry(stop=stop_after_attempt(3))
-    def summarize_article(self, article_text: str) -> tuple[str, str, list]:
+    def summarize_article(self, article_text: str, use_long_prompt: bool = True) -> tuple[str, str, list]:
         # returns json with index sentence, key points, summary, bias rating
-        response = summarize_article(article_text, model=self.model, think=self.think)
+        response = summarize_article(article_text, model=self.model, think=self.think, use_long_prompt=use_long_prompt)
 
         description = response["description"]  # type: ignore
         summary = response["articleSummary"]  # type: ignore
@@ -145,6 +145,7 @@ class FactCheck:
         article_text: str,
         bias_rating: str,
         key_points: list[str],
+        use_long_prompts: bool = True,
     ) -> dict[str, Any]:
 
         completeness_agent = Completeness_Agent(
@@ -153,6 +154,7 @@ class FactCheck:
             bias_rating=bias_rating,
             key_points=key_points,
             article_collection=self.article_collection,
+            use_long_prompt=use_long_prompts,
         )
 
         accuracy_agent = Accuracy_Agent(
@@ -161,6 +163,7 @@ class FactCheck:
             bias_rating=bias_rating,
             key_points=key_points,
             article_collection=self.article_collection,
+            use_long_prompt=use_long_prompts,
         )
 
         bias_agent = Bias_Agent(
@@ -168,6 +171,7 @@ class FactCheck:
             article_metadata=self.article_metadata,
             bias_rating=bias_rating,
             article_collection=self.article_collection,
+            use_long_prompt=use_long_prompts,
         )
 
         self.fact_check_metadata["completeness_agent"] = completeness_agent.agent_metadata
