@@ -532,9 +532,10 @@ function DataSandboxView() {
     webRRef.current.writeConsole(
       "source('/tmp/.webRtmp-source', echo = TRUE, max.deparse.length = Inf)",
     );
-    setRWorking(false);
+    // setRWorking(false);
     // we'll set this to false when we get the prompt event, which indicates that r is done processing and waiting for more input
     // we don't really have a great way to know this, unfortunately.
+    // (minus just looking for the prompt to come back. it's not as clean as i'd like, but it's what we have)
   };
 
   const interruptR = () => {
