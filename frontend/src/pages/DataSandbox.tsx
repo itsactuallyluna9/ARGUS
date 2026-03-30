@@ -10,6 +10,7 @@ import { Button } from "@/components/ui/button";
 import { Play, Square, ChartArea, Download, Upload, Cat } from "lucide-react";
 import { EditorView, basicSetup } from "codemirror";
 import { r } from "codemirror-lang-r";
+import { oneDark } from "@codemirror/theme-one-dark";
 import { ButtonGroup } from "@/components/ui/button-group";
 import {
   Tooltip,
@@ -77,6 +78,7 @@ function DataSandboxView() {
   const [rLoaded, setRLoaded] = useState(false);
   const [rInstallingPackages, setRInstallingPackages] = useState(false);
   const [rWorking, setRWorking] = useState(false);
+  const [darkMode, setDarkMode] = useState(false);
 
   const [rBusy, setRBusy] = useState(false);
   const [rBusyMessage, setRBusyMessage] = useState("");
@@ -88,6 +90,21 @@ function DataSandboxView() {
   const editorRef = useRef<HTMLDivElement | null>(null);
   const viewRef = useRef<EditorView | null>(null);
   const consoleRef = useRef<HTMLDivElement | null>(null);
+
+  useEffect(() => {
+    const mediaQuery = window.matchMedia("(prefers-color-scheme: dark)");
+    const handleChange = (e: MediaQueryListEvent) => {
+      setDarkMode(e.matches);
+    };
+
+    setDarkMode(mediaQuery.matches);
+
+    mediaQuery.addEventListener("change", handleChange);
+
+    return () => {
+      mediaQuery.removeEventListener("change", handleChange);
+    };
+  }, []);
 
   const [canvasImages, setCanvasImages] = useState<string[]>([]);
   const [canvasImageIndex, setCanvasImageIndex] = useState(0); // which canvas is the user viewing?
@@ -455,22 +472,28 @@ function DataSandboxView() {
   };
 
   useEffect(() => {
-    if (viewRef.current) return;
     if (!editorRef.current) return;
 
+    // get current content
+    const currentContent = viewRef.current
+      ? viewRef.current.state.doc.toString()
+      : "# hello, world!\n1 + 1\n\nplot(cars)";
+
+    if (viewRef.current) {
+      viewRef.current.destroy();
+      viewRef.current = null;
+    }
+
+    // create new view with current content
     viewRef.current = new EditorView({
-      doc: "# hello, world!\n1 + 1\n\nplot(cars)",
-      extensions: [basicSetup, r()],
+      doc: currentContent,
+      extensions: [basicSetup, r(), darkMode ? oneDark : []],
       parent: editorRef.current,
     });
-    return () => {
-      const view = viewRef.current;
-      if (view) {
-        view.destroy();
-        viewRef.current = null;
-      }
-    };
-  }, []);
+
+    // (re-?)focus the editor
+    viewRef.current?.focus();
+  }, [darkMode]);
 
   const runCode = async () => {
     if (!webRRef.current) return;
