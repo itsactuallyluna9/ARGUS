@@ -4,6 +4,7 @@ import json
 import shutil
 import subprocess
 import threading
+from simpleeval import simple_eval
 
 from flask import Flask, jsonify, request, send_from_directory
 from flask_cors import CORS
@@ -168,20 +169,25 @@ def api_data_filter():
             data = cached_data.dict()["fact_checks"]
         case _:
             return jsonify({"message": f"Collection {collection} not found."}), 404
+
+    if condition:
+        
+        try:
+            data = [item for item in data if simple_eval(condition, names={col: item[col] for col in item.keys()})] 
+        except Exception as e:
+            return jsonify({"message": f"Error applying condition: {str(e)}"}), 400
     
     if cols:
-
-        missing_cols = [col for col in cols if col not in data[0].keys()]
+        
+        try: 
+            missing_cols = [col for col in cols if col not in data[0].keys()]
+        except IndexError:
+            return jsonify({"message": f"No data found in collection {collection} with condition {condition}."}), 404
+        
         if missing_cols:
             return jsonify({"message": f"Columns {missing_cols} not found in collection {collection}."}), 404
         
         data = [{col: item[col] for col in cols} for item in data]
-
-    if condition:
-        try:
-            data = [item for item in data if eval(condition, {}, {col: item[col] for col in item.keys()})] 
-        except Exception as e:
-            return jsonify({"message": f"Error applying condition: {str(e)}"}), 400
 
     return jsonify(data), 200
 

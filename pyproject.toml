@@ -27,6 +27,7 @@ dependencies = [
     "pyexcel-xls>=0.7.1",
     "python-docx>=1.2.0",
     "rich>=14.3.3",
+    "simpleeval>=1.0.7",
     "trafilatura>=2.0.0",
 ]
 
