@@ -348,28 +348,53 @@ function DataSandboxView() {
             html_source,
             "text/html",
           );
-          
-          // TODO: also links (rel=stylesheet)
-          for (let script of root_node.scripts) {
+
+          const htmlDir = event.data.url.substring(
+            0,
+            event.data.url.lastIndexOf("/"),
+          );
+
+          // inline all external scripts
+          for (const script of root_node.scripts) {
             if (script.src) {
               const script_src = new URL(script.src).pathname;
-              script.src = "";
-              console.log(script_src);
-              console.log(`/usr/lib/R/library/plotly/htmlwidgets${script_src}`);
-              script.innerText = new TextDecoder().decode(
-                await webR.FS.readFile(
-                  `/usr/lib/R/library/plotly/htmlwidgets${script_src}`,
-                ),
+              // resolve the script path relative to where we got the html
+              const script_path = script_src.startsWith("/")
+                ? `${htmlDir}${script_src}`
+                : `${htmlDir}/${script_src}`;
+              console.log(`Reading script from: ${script_path}`);
+              script.textContent = new TextDecoder().decode(
+                await webR.FS.readFile(script_path),
               );
+              script.removeAttribute("src");
             }
           }
 
-          html_source = new XMLSerializer().serializeToString(root_node);
-          console.log(html_source);
+          // inline all external stylesheets
+          const links = root_node.querySelectorAll('link[rel="stylesheet"]');
+          for (const link of links) {
+            const href = link.getAttribute("href");
+            if (href) {
+              const css_src = new URL(href, "file:///").pathname;
+              const css_path = css_src.startsWith("/")
+                ? `${htmlDir}${css_src}`
+                : `${htmlDir}/${css_src}`;
+              console.log(`Reading stylesheet from: ${css_path}`);
+              const css_content = new TextDecoder().decode(
+                await webR.FS.readFile(css_path),
+              );
+              // replace the link element with an inline style element
+              const style = root_node.createElement("style");
+              style.textContent = css_content;
+              link.replaceWith(style);
+            }
+          }
+
+          html_source = root_node.documentElement.outerHTML;
 
           setCurrentTab("pager");
           setPagerMethod("browse");
-          setPagerTitle("?");
+          setPagerTitle("Plotly Graph");
           setPagerContent(html_source);
           break;
         case "canvas":
@@ -609,6 +634,7 @@ function DataSandboxView() {
                     <iframe
                       title={pagerTitle}
                       srcDoc={pagerContent}
+                      sandbox="allow-scripts"
                       className="w-full h-96 border"
                     />
                   )}
