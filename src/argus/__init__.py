@@ -135,7 +135,7 @@ def api_status():
                 past_checks.add(
                     ids=[fact_check.id], documents=[json.dumps(fact_check.to_dict())]
                 )  
-
+ 
             return jsonify(fact_check.to_dict()), 202
 
     past_check = past_checks.get(ids=[uuid])  # type: ignore
@@ -146,16 +146,15 @@ def api_status():
     return jsonify({"message": f"No active fact check found for UUID {uuid}."}), 404
 
 
-@app.get("/api/data")
+@app.post("/api/data")
 def api_data():
-
+    # grab args from data loader panel to filter data as needed, forward as csv string, make sure to handle commas in text when relevant
     if cached_data.timestamp and (datetime.now() - datetime.fromisoformat(cached_data.timestamp)).total_seconds() < 86400:  # if cached data is less than 24 hours old, return it
-        return jsonify({"articles": cached_data.article_df.to_dict(orient="records"), "fact_checks": cached_data.fact_check_df.to_dict(orient="records")}), 200
-     
+        return jsonify(cached_data.dict()), 200
+
     else:
         cached_data.fetch_data(articles, past_checks)
-        return jsonify({"articles": cached_data.article_df.to_dict(orient="records"), "fact_checks": cached_data.fact_check_df.to_dict(orient="records")}), 200
-
+        return jsonify(cached_data.dict()), 200
 
 @app.get("/api/debug/resources")
 def api_debug_resources():

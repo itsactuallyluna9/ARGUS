@@ -87,6 +87,7 @@ class FactCheck:
 
 
     def main(self):
+        
         self.fact_check_metadata["check_started"] = datetime.now().isoformat()
 
         # url |> scrape |> clean -> raw article text
