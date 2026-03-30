@@ -13,7 +13,7 @@ import {
   ChartArea,
   Download,
   Upload,
-  Cat,
+  FolderDown,
   Trash2,
 } from "lucide-react";
 import { EditorView, basicSetup } from "codemirror";
@@ -187,6 +187,57 @@ function DataSandboxView() {
     );
 
     setRWorking(false);
+  };
+
+  const downloadData = async () => {
+    if (rBusy) return;
+    setRWorking(true);
+
+    try {
+      const response = await fetch("/api/data");
+      if (!response.ok) {
+        throw new Error(`Failed to fetch data: ${response.status}`);
+      }
+      const data = await response.json();
+
+      // download articles data
+      const articlesCsv = convertToCSV(data.articles);
+      const articlesBlob = new Blob([articlesCsv], { type: "text/csv" });
+      const articlesUrl = URL.createObjectURL(articlesBlob);
+      const articlesLink = document.createElement("a");
+      articlesLink.href = articlesUrl;
+      articlesLink.download = "article_data.csv";
+      document.body.appendChild(articlesLink);
+      articlesLink.click();
+      document.body.removeChild(articlesLink);
+      URL.revokeObjectURL(articlesUrl);
+
+      // download fact checks data
+      const factChecksCsv = convertToCSV(data.fact_checks);
+      const factChecksBlob = new Blob([factChecksCsv], { type: "text/csv" });
+      const factChecksUrl = URL.createObjectURL(factChecksBlob);
+      const factChecksLink = document.createElement("a");
+      factChecksLink.href = factChecksUrl;
+      factChecksLink.download = "fact_check_data.csv";
+      document.body.appendChild(factChecksLink);
+      factChecksLink.click();
+      document.body.removeChild(factChecksLink);
+      URL.revokeObjectURL(factChecksUrl);
+
+      // if we can, show a message
+      if (xtermRef.current) {
+        xtermRef.current.writeln(
+          "# Downloaded article_data.csv and fact_check_data.csv to computer",
+        );
+      }
+    } catch (error) {
+      console.error("Error downloading data:", error);
+      if (xtermRef.current) {
+        xtermRef.current.writeln(`# Error downloading data: ${error.message}`);
+      }
+    } finally {
+      setRWorking(false);
+    }
   };
 
   useEffect(() => {
@@ -674,6 +725,7 @@ function DataSandboxView() {
               >
                 <TabsList>
                   <TabsTrigger value="data-loader">Data Loader</TabsTrigger>
+                  <TabsTrigger value="templates">Templates</TabsTrigger>
                   <TabsTrigger value="documentation">Documentation</TabsTrigger>
                   <TabsTrigger value="view" disabled={viewData.length === 0}>
                     View
@@ -684,9 +736,28 @@ function DataSandboxView() {
                   <TabsTrigger value="settings">Settings</TabsTrigger>
                 </TabsList>
                 <TabsContent value="data-loader">
-                  <Button size="icon" onClick={fetchData}>
-                    <Cat />
-                  </Button>
+                  <Tabs defaultValue="dl-everything">
+                    <TabsList>
+                      <TabsTrigger value="dl-everything">
+                        Everything
+                      </TabsTrigger>
+                      <TabsTrigger value="dl-articles">Articles</TabsTrigger>
+                      <TabsTrigger value="dl-checks">Fact Checks</TabsTrigger>
+                    </TabsList>
+                    <TabsContent value="dl-everything">
+                      <p>This will fetch all the data at once.</p>
+                    </TabsContent>
+                  </Tabs>
+                  <ButtonGroup>
+                    <Button onClick={fetchData}>
+                      <FolderDown />
+                      Fetch Data to Sandbox
+                    </Button>
+                    <Button variant="secondary" onClick={downloadData}>
+                      <Download />
+                      Download Data to Computer
+                    </Button>
+                  </ButtonGroup>
                 </TabsContent>
                 <TabsContent value="view">
                   <Table>
