@@ -7,7 +7,15 @@ import {
 import { Spinner } from "@/components/ui/spinner";
 import { WebR } from "webr";
 import { Button } from "@/components/ui/button";
-import { Play, Square, ChartArea, Download, Upload, Cat } from "lucide-react";
+import {
+  Play,
+  Square,
+  ChartArea,
+  Download,
+  Upload,
+  Cat,
+  Trash2,
+} from "lucide-react";
 import { EditorView, basicSetup } from "codemirror";
 import { r } from "codemirror-lang-r";
 import { oneDark } from "@codemirror/theme-one-dark";
@@ -17,6 +25,14 @@ import {
   TooltipContent,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
+import {
+  Pagination,
+  PaginationContent,
+  PaginationItem,
+  PaginationLink,
+  PaginationNext,
+  PaginationPrevious,
+} from "@/components/ui/pagination";
 import { Terminal } from "@xterm/xterm";
 import { FitAddon } from "@xterm/addon-fit";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
@@ -66,12 +82,14 @@ function convertToCSV(data: Record<string, any>[]): string {
     return str;
   };
 
-  return [
-    fields.join(","),
-    ...data.map((entry) =>
-      fields.map((fieldName) => escapeCSVField(entry[fieldName])).join(","),
-    ),
-  ].join("\n");
+  return (
+    [
+      fields.join(","),
+      ...data.map((entry) =>
+        fields.map((fieldName) => escapeCSVField(entry[fieldName])).join(","),
+      ),
+    ].join("\n") + "\n"
+  ); // trailing newline to avoid R warning
 }
 
 function DataSandboxView() {
@@ -418,12 +436,8 @@ function DataSandboxView() {
           switch (event.data.event) {
             case "canvasNewPage":
               // alright, we have a new plot coming in
-              // if there's an old canvas, save it
               console.debug("R: drawing new canvas page", event.data);
               if (drawCanvas.current) {
-                const blob = await drawCanvas.current.convertToBlob();
-                const url = URL.createObjectURL(blob);
-                setCanvasImages((prev) => [...prev, url]);
                 setCanvasDrawIndex((prev) => {
                   const nextIndex = prev + 1;
                   setCanvasImageIndex(nextIndex);
@@ -450,10 +464,16 @@ function DataSandboxView() {
               // also can't promise we'll actually recieve newpage when we're done, so we'll just update the image as we get it and hope for the best
               const blob = await drawCanvas.current.convertToBlob();
               const url = URL.createObjectURL(blob);
-              setCanvasImages((prev) => {
-                const newImages = [...prev];
-                newImages[canvasDrawIndex] = url;
-                return newImages;
+              setCanvasDrawIndex((currentDrawIndex) => {
+                setCanvasImages((prev) => {
+                  if (currentDrawIndex >= prev.length) {
+                    return [...prev, url];
+                  }
+                  const newImages = [...prev];
+                  newImages[currentDrawIndex] = url;
+                  return newImages;
+                });
+                return currentDrawIndex;
               });
               break;
           }
@@ -679,27 +699,110 @@ function DataSandboxView() {
                     alt={`Canvas ${canvasImageIndex + 1}`}
                     className="mx-auto mb-4 h-7/8 bg-white"
                   />
-                  <ButtonGroup className="justify-center">
-                    <Button
-                      size="icon"
-                      variant="outline"
-                      disabled={canvasImageIndex === 0}
-                      onClick={() => setCanvasImageIndex((prev) => prev - 1)}
-                    >
-                      Previous
-                    </Button>
-                    <Button
-                      size="icon"
-                      variant="outline"
-                      disabled={canvasImageIndex === canvasImages.length - 1}
-                      onClick={() => setCanvasImageIndex((prev) => prev + 1)}
-                    >
-                      Next
-                    </Button>
-                  </ButtonGroup>
+                  <div className="flex items-center justify-center gap-4">
+                    <Pagination>
+                      <PaginationContent>
+                        <PaginationItem>
+                          <PaginationPrevious
+                            onClick={(e) => {
+                              e.preventDefault();
+                              if (canvasImageIndex > 0) {
+                                setCanvasImageIndex((prev) => prev - 1);
+                              }
+                            }}
+                            className={
+                              canvasImageIndex === 0
+                                ? "pointer-events-none opacity-50"
+                                : "cursor-pointer"
+                            }
+                            href="#"
+                          />
+                        </PaginationItem>
+                        {canvasImages.map((_, index) => (
+                          <PaginationItem key={index}>
+                            <PaginationLink
+                              onClick={(e) => {
+                                e.preventDefault();
+                                setCanvasImageIndex(index);
+                              }}
+                              isActive={canvasImageIndex === index}
+                              href="#"
+                              className="cursor-pointer"
+                            >
+                              {index + 1}
+                            </PaginationLink>
+                          </PaginationItem>
+                        ))}
+                        <PaginationItem>
+                          <PaginationNext
+                            onClick={(e) => {
+                              e.preventDefault();
+                              if (canvasImageIndex < canvasImages.length - 1) {
+                                setCanvasImageIndex((prev) => prev + 1);
+                              }
+                            }}
+                            className={
+                              canvasImageIndex === canvasImages.length - 1
+                                ? "pointer-events-none opacity-50"
+                                : "cursor-pointer"
+                            }
+                            href="#"
+                          />
+                        </PaginationItem>
+                      </PaginationContent>
+                    </Pagination>
+                    <ButtonGroup className="pr-2">
+                      <Tooltip>
+                        <TooltipTrigger asChild>
+                          <Button
+                            size="icon"
+                            variant="outline"
+                            onClick={() => {
+                              const link = document.createElement("a");
+                              link.href = canvasImages[canvasImageIndex];
+                              link.download = `plot-${canvasImageIndex + 1}.png`;
+                              link.click();
+                            }}
+                          >
+                            <Download />
+                          </Button>
+                        </TooltipTrigger>
+                        <TooltipContent>
+                          <p>Download Plot</p>
+                        </TooltipContent>
+                      </Tooltip>
+                      <Tooltip>
+                        <TooltipTrigger asChild>
+                          <Button
+                            size="icon"
+                            variant="destructive"
+                            onClick={() => {
+                              const urlToRevoke =
+                                canvasImages[canvasImageIndex];
+                              setCanvasImages((prev) =>
+                                prev.filter((_, i) => i !== canvasImageIndex),
+                              );
+                              setCanvasDrawIndex((prev) =>
+                                Math.max(0, prev - 1),
+                              );
+                              setCanvasImageIndex((prev) =>
+                                Math.min(prev, canvasImages.length - 2),
+                              );
+                              URL.revokeObjectURL(urlToRevoke);
+                            }}
+                          >
+                            <Trash2 />
+                          </Button>
+                        </TooltipTrigger>
+                        <TooltipContent>
+                          <p>Remove Plot</p>
+                        </TooltipContent>
+                      </Tooltip>
+                    </ButtonGroup>
+                  </div>
                 </>
               ) : (
-                <div className="flex flex-col items-center justify-center h-full space-y-4">
+                <div className="flex flex-col items-center justify-center h-full space-y-4 px-4">
                   <ChartArea className="mx-auto mb-4" size={48} />
                   <p>
                     No plots to display. Try using{" "}
@@ -714,16 +817,6 @@ function DataSandboxView() {
                   </p>
                 </div>
               )}
-              <Tooltip>
-                <TooltipTrigger className="flex items-center">
-                  <Button size="icon" variant="outline">
-                    <Download />
-                  </Button>
-                </TooltipTrigger>
-                <TooltipContent>
-                  <p>Download Chart</p>
-                </TooltipContent>
-              </Tooltip>
             </ResizablePanel>
           </ResizablePanelGroup>
         </ResizablePanel>
