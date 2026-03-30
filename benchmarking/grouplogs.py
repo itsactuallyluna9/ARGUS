@@ -16,9 +16,7 @@ def main():
                     first = False
                 writer.writerow(data.values())
 
-    with open(
-        f"logs/consolidated_evaluation_{datetime.now().isoformat()}.csv", "w"
-    ) as f:
+    with open(f"logs/consolidated_evaluation_{datetime.now().isoformat()}.csv", "w") as f:
         writer = csv.writer(f)
         first = True
         for log in Path("logs").glob("evaluation_*.json"):

@@ -8,16 +8,7 @@ from argus.fixjsonformatting import fix_json_formatting, Bias_Schema
 
 
 class Bias_Agent:
-    def __init__(
-        self,
-        article_text: str,
-        article_metadata: dict,
-        bias_rating: str,
-        article_collection: chromadb.Collection,
-        analysis_model: str = "glm-4.7-flash",
-        think: bool = True,
-        use_long_prompt: bool = True
-    ):
+    def __init__(self, article_text: str, article_metadata: dict, bias_rating: str, article_collection: chromadb.Collection, analysis_model: str = "glm-4.7-flash", think: bool = True, use_long_prompt: bool = True):
 
         self.article_text = article_text
         self.title = article_metadata.get("title", "No title found")  # type: ignore
@@ -149,9 +140,7 @@ class Bias_Agent:
                         "content": 'Ensure the response is in the correct JSON format according to the schema. This should include a final bias rating (0-100) for each of the three parts ("political_score", "sensationalism_score", "emotional_language_score"), as well as an explanation for each rating ("political_bias", "sensationalism", "emotional_language").',
                     }
                 )
-                response = ollama.chat(
-                    model=self.evaluation_model, think=self.think, messages=messages
-                )
+                response = ollama.chat(model=self.evaluation_model, think=self.think, messages=messages)
                 break
 
         bias_response = fix_json_formatting(response.message.content, Bias_Schema)  # type: ignore
@@ -186,10 +175,10 @@ class Bias_Agent:
         for i in range(len(search_results["ids"][0])):
             results.append(
                 (
-                    search_results["metadatas"][0][i]["description"], # type: ignore
+                    search_results["metadatas"][0][i]["description"],  # type: ignore
                     search_results["ids"][0][i],
                 )
-            )  
+            )
 
         return results
 
@@ -208,9 +197,7 @@ class Bias_Agent:
 if __name__ == "__main__":
     article_collection = chromadb.HttpClient().get_or_create_collection(name="articles")
 
-    metadata = article_collection.query(query_texts=["Costco"], n_results=1)[
-        "metadatas"
-    ][0][0]  # type: ignore
+    metadata = article_collection.query(query_texts=["Costco"], n_results=1)["metadatas"][0][0]  # type: ignore
 
     bias_agent = Bias_Agent(
         article_text=metadata["article_text"],  # type: ignore

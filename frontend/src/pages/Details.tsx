@@ -21,14 +21,20 @@ import {
 import { useInterval, useTimeout } from "usehooks-ts";
 import prettyMilliseconds from "pretty-ms";
 import { Button } from "@/components/ui/button";
+import {
+  PrettyDuration,
+  PrettyDynamicDuration,
+} from "@/components/PrettyDuration";
 
 interface DetailsResponse {
   url: string;
   id: string;
+  fact_check_metadata: Record<string, any>;
   article_text: string;
   summary: string | null;
   bias_rating: string | null;
   key_points: string[];
+  article_metadata: Record<string, any>;
   accuracy_score: number | null;
   completeness_score: number | null;
   accuracy_explanation: string | null;
@@ -67,12 +73,15 @@ function DetailsView() {
     }
   };
 
+  useEffect(() => {
+    fetchData();
+  }, []);
   useInterval(fetchData, 5000);
 
   return (
     <main className="p-4">
       <h1 className="font-semibold text-2xl text-pretty">
-        placeholder (title)
+        {data?.article_metadata.title}
       </h1>
       <div className="flex items-center text-muted-foreground">
         <img
@@ -80,18 +89,26 @@ function DetailsView() {
           alt="The Guardian Logo"
           className="h-6 mr-2 rounded"
         />
-        <p className="italic text-lg">placeholder (site name)</p>
+        <p className="italic text-lg">{data?.article_metadata.sitename}</p>
         <Separator orientation="vertical" className="mx-4" />
         <Tooltip>
           <TooltipTrigger className="flex items-center">
             <Clock className="mr-2" />
-            <p>
-              Published{" "}
-              {prettyMilliseconds(1000, { verbose: true, compact: true })} ago
-            </p>
+            {data && data.article_metadata && data.article_metadata.date ? (
+              <p>
+                Published{" "}
+                {prettyMilliseconds(
+                  Date.now() - new Date(data?.article_metadata.date),
+                  { verbose: true, compact: true },
+                )}{" "}
+                ago
+              </p>
+            ) : (
+              <></>
+            )}
           </TooltipTrigger>
           <TooltipContent>
-            <p>March 11, 2026 11:00 AM EDT</p>
+            <p>{new Date(data?.article_metadata.date).toLocaleString()}</p>
           </TooltipContent>
         </Tooltip>
         <Separator orientation="vertical" className="mx-4" />
@@ -112,9 +129,17 @@ function DetailsView() {
           </TooltipTrigger>
           <TooltipContent>
             <p>
-              {analysisComplete
-                ? "Analysis complete"
-                : "Analysis in progress..."}
+              {analysisComplete ? (
+                <PrettyDuration
+                  milliseconds={
+                    data?.fact_check_metadata.check_duration_from_start * 1000
+                  }
+                />
+              ) : (
+                <PrettyDynamicDuration
+                  date={new Date(data?.fact_check_metadata.check_started)}
+                />
+              )}
             </p>
           </TooltipContent>
         </Tooltip>

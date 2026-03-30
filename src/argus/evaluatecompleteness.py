@@ -13,23 +13,13 @@ from argus.summarizearticle import summarize_article
 
 
 class Completeness_Agent:
-    def __init__(
-        self,
-        article_text: str,
-        article_metadata: dict,
-        bias_rating: str,
-        key_points: list[str],
-        article_collection: chromadb.Collection,
-        evaluation_model: str = "glm-4.7-flash",
-        think: bool = True,
-        use_long_prompt: bool = True
-    ):
+    def __init__(self, article_text: str, article_metadata: dict, bias_rating: str, key_points: list[str], article_collection: chromadb.Collection, evaluation_model: str = "glm-4.7-flash", think: bool = True, use_long_prompt: bool = True):
 
         self.article_text = article_text
         self.title = article_metadata.get("title", "Title not found")
         self.source_name = article_metadata.get("site_name", "Source not found")
         self.date = article_metadata.get("date", "Date not found")
-        
+
         self.bias_rating = bias_rating
         self.key_points = key_points
         self.article_collection = article_collection
@@ -152,14 +142,13 @@ class Completeness_Agent:
                         "content": "Ensure the response is in the correct JSON format according to the schema. The output should include a completeness score (0-100) and a reasoning for the score.",
                     }
                 )
-                response = ollama.chat(
-                    model=self.evaluation_model, think=self.think, messages=messages
-                )
+                response = ollama.chat(model=self.evaluation_model, think=self.think, messages=messages)
                 break
 
         completeness_response = fix_json_formatting(
-            response.message.content, Completeness_Schema # type: ignore
-        )  
+            response.message.content,
+            Completeness_Schema,  # type: ignore
+        )
 
         self.completeness_score = int(completeness_response["completeness"])  # type: ignore
         self.completeness_explanation = completeness_response["reasoning"]  # type: ignore
@@ -187,10 +176,10 @@ class Completeness_Agent:
         for i in range(len(search_results["ids"][0])):
             results.append(
                 (
-                    search_results["metadatas"][0][i]["description"], # type: ignore
+                    search_results["metadatas"][0][i]["description"],  # type: ignore
                     search_results["ids"][0][i],
                 )
-            )  
+            )
 
         return results
 
@@ -215,9 +204,7 @@ class Completeness_Agent:
         """Args: url (str): The URL of the webpage to summarize."""
 
         if len(self.article_collection.get(ids=[url])["ids"]) == 0:
-            print(
-                f"Article {url} not found in database, summarizing and adding to database..."
-            )
+            print(f"Article {url} not found in database, summarizing and adding to database...")
 
             article_metadata, article_text = get_page(url)
             summary = summarize_article(article_text)
@@ -226,18 +213,7 @@ class Completeness_Agent:
                 self.article_collection.add(
                     ids=[url],
                     documents=[summary["articleSummary"]],
-                    metadatas=[
-                        {
-                            "url": url,
-                            "description": summary["description"],
-                            "summary": summary["articleSummary"],
-                            "bias": summary["biasSummary"],
-                            "points": summary["points"],
-                            "article_text": article_text,
-                            "timestamp": datetime.now().isoformat(),
-                            "metadata": json.dumps(article_metadata)
-                        }
-                    ],
+                    metadatas=[{"url": url, "description": summary["description"], "summary": summary["articleSummary"], "bias": summary["biasSummary"], "points": summary["points"], "article_text": article_text, "timestamp": datetime.now().isoformat(), "metadata": json.dumps(article_metadata)}],
                 )
                 print(f"Article {url} added to database.")
 
@@ -263,9 +239,7 @@ class Completeness_Agent:
 
 if __name__ == "__main__":
     print("starting")
-    article_metadata, article_text = get_page(
-        "https://www.usatoday.com/story/travel/2026/03/23/check-tsa-wait-times-government-shutdown-airports/89282748007/?utm_source=firefox-newtab-en-us"
-    )
+    article_metadata, article_text = get_page("https://www.usatoday.com/story/travel/2026/03/23/check-tsa-wait-times-government-shutdown-airports/89282748007/?utm_source=firefox-newtab-en-us")
     print(article_text)
     bias_rating = ""
     key_points = []
