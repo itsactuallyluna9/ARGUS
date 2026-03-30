@@ -16,7 +16,6 @@ import { useState } from "react";
 import { useInterval } from "usehooks-ts";
 import { ButtonGroup } from "@/components/ui/button-group";
 import { Input } from "@/components/ui/input";
-import { SelectionRange } from "@codemirror/state";
 import {
   Select,
   SelectContent,
@@ -25,7 +24,6 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { useFormAction } from "react-router-dom";
 
 function Debug() {
   const [resources, setResources] = useState({
@@ -422,7 +420,7 @@ function ChromaViewer() {
       {results && (
         <div className="mt-4">
           <h2 className="font-semibold mb-2">Results:</h2>
-          <pre className="bg-gray-50 p-4 rounded overflow-auto">
+          <pre className="bg-gray-50 p-4 rounded overflow-auto dark:bg-gray-950 dark:text-white">
             {JSON.stringify(results, null, 2)}
           </pre>
         </div>
