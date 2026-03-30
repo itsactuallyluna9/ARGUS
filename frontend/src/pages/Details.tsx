@@ -21,6 +21,10 @@ import {
 import { useInterval, useTimeout } from "usehooks-ts";
 import prettyMilliseconds from "pretty-ms";
 import { Button } from "@/components/ui/button";
+import {
+  PrettyDuration,
+  PrettyDynamicDuration,
+} from "@/components/PrettyDuration";
 
 interface DetailsResponse {
   url: string;
@@ -125,9 +129,17 @@ function DetailsView() {
           </TooltipTrigger>
           <TooltipContent>
             <p>
-              {analysisComplete
-                ? "Analysis complete"
-                : "Analysis in progress..."}
+              {analysisComplete ? (
+                <PrettyDuration
+                  milliseconds={
+                    data?.fact_check_metadata.check_duration_from_start * 1000
+                  }
+                />
+              ) : (
+                <PrettyDynamicDuration
+                  date={new Date(data?.fact_check_metadata.check_started)}
+                />
+              )}
             </p>
           </TooltipContent>
         </Tooltip>
