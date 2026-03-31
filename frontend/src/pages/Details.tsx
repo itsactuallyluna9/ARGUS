@@ -96,7 +96,7 @@ function DetailsView() {
             src={`${data && new URL(data?.article_metadata.url).origin}/favicon.ico`}
             alt="The Guardian Logo"
             // TODO: fix above to have sitename
-            className="h-6 mr-2 rounded"
+            className="h-6 mr-2 rounded bg-gray-300/50"
           />
           <p className="italic text-lg">{data?.article_metadata.sitename}</p>
         </a>
@@ -118,7 +118,7 @@ function DetailsView() {
             )}
           </TooltipTrigger>
           <TooltipContent>
-            <p>{new Date(data?.article_metadata.date).toLocaleString()}</p>
+            <p>{new Date(data?.article_metadata.date).toLocaleDateString()}</p>
           </TooltipContent>
         </Tooltip>
         <Separator orientation="vertical" className="mx-4" />
