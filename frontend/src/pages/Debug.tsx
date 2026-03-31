@@ -100,25 +100,24 @@ function Debug() {
           const response = await fetch("/api/createrandom");
           if (!response.ok) {
             // okay, let's check on all of our checks :3
-            activeFactChecks.forEach((factCheckId) => {
+            activeFactChecks.forEach(async (factCheckId) => {
               console.log(`Checking on fact check ${factCheckId}`);
-              fetch(`/api/status`, {
-                method: "POST",
-                headers: {
-                  "Content-Type": "application/json",
-                },
-                body: JSON.stringify({ uuid: factCheckId }),
-              })
-                .then((res) => res.json())
-                .then((data) => {
-                  console.log(`Fact check ${factCheckId} status:`, data);
-                })
-                .catch((err) => {
-                  console.error(
-                    `Error checking status of fact check ${factCheckId}:`,
-                    err,
-                  );
+              try {
+                const statusResponse = await fetch(`/api/status`, {
+                  method: "POST",
+                  headers: {
+                    "Content-Type": "application/json",
+                  },
+                  body: JSON.stringify({ uuid: factCheckId }),
                 });
+                const data = await statusResponse.json();
+                console.log(`Fact check ${factCheckId} status:`, data);
+              } catch (err) {
+                console.error(
+                  `Error checking status of fact check ${factCheckId}:`,
+                  err,
+                );
+              }
             });
             console.error("Auto-roam create random failed", response.status);
           }

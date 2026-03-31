@@ -147,7 +147,13 @@ def api_create_random():
                 page.goto(url, wait_until="networkidle")
                 url = page.url
             except:
-                return jsonify({"message": f"Failed to load URL."}), 400
+                # fallback: load a random article from the database
+                total = articles.count()
+                if total > 0:
+                    url = articles.get(limit=1, offset=random.randint(0, total - 1))["ids"][0]
+                    # TODO: consider checking if we have a fact check for this article already
+
+                # return jsonify({"message": f"Failed to load URL."}), 400
 
     check = FactCheck(url, articles)
     active_fact_checks.append(check)
