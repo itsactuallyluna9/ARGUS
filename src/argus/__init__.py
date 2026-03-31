@@ -155,7 +155,7 @@ def api_create_random():
 
                 # return jsonify({"message": f"Failed to load URL."}), 400
 
-    check = FactCheck(url, articles)
+    check = FactCheck(url, articles) # type: ignore
     active_fact_checks.append(check)
 
     return jsonify(check.to_dict()), 202
