@@ -62,6 +62,7 @@ dependencies = [
     { name = "pyexcel" },
     { name = "pyexcel-ods3" },
     { name = "pyexcel-xls" },
+    { name = "pygooglenews" },
     { name = "python-docx" },
     { name = "rich" },
     { name = "simpleeval" },
@@ -87,6 +88,7 @@ requires-dist = [
     { name = "pyexcel", specifier = ">=0.7.4" },
     { name = "pyexcel-ods3", specifier = ">=0.6.1" },
     { name = "pyexcel-xls", specifier = ">=0.7.1" },
+    { name = "pygooglenews", specifier = ">=0.1.3" },
     { name = "python-docx", specifier = ">=1.2.0" },
     { name = "rich", specifier = ">=14.3.3" },
     { name = "simpleeval", specifier = ">=1.0.7" },
@@ -508,6 +510,18 @@ source = { registry = "https://pypi.org/simple" }
 sdist = { url = "https://files.pythonhosted.org/packages/41/43/948d10bf42735709edb5ae51e23297d034086f17fc7279fef385a7acb473/fake_useragent-2.2.0.tar.gz", hash = "sha256:4e6ab6571e40cc086d788523cf9e018f618d07f9050f822ff409a4dfe17c16b2", size = 158898, upload-time = "2025-04-14T15:32:19.238Z" }
 wheels = [
     { url = "https://files.pythonhosted.org/packages/51/37/b3ea9cd5558ff4cb51957caca2193981c6b0ff30bd0d2630ac62505d99d0/fake_useragent-2.2.0-py3-none-any.whl", hash = "sha256:67f35ca4d847b0d298187443aaf020413746e56acd985a611908c73dba2daa24", size = 161695, upload-time = "2025-04-14T15:32:17.732Z" },
+]
+
+[[package]]
+name = "feedparser"
+version = "6.0.12"
+source = { registry = "https://pypi.org/simple" }
+dependencies = [
+    { name = "sgmllib3k" },
+]
+sdist = { url = "https://files.pythonhosted.org/packages/dc/79/db7edb5e77d6dfbc54d7d9df72828be4318275b2e580549ff45a962f6461/feedparser-6.0.12.tar.gz", hash = "sha256:64f76ce90ae3e8ef5d1ede0f8d3b50ce26bcce71dd8ae5e82b1cd2d4a5f94228", size = 286579, upload-time = "2025-09-10T13:33:59.486Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/4e/eb/c96d64137e29ae17d83ad2552470bafe3a7a915e85434d9942077d7fd011/feedparser-6.0.12-py3-none-any.whl", hash = "sha256:6bbff10f5a52662c00a2e3f86a38928c37c48f77b3c511aedcd51de933549324", size = 81480, upload-time = "2025-09-10T13:33:58.022Z" },
 ]
 
 [[package]]
@@ -1890,6 +1904,21 @@ wheels = [
 ]
 
 [[package]]
+name = "pygooglenews"
+version = "0.1.3"
+source = { registry = "https://pypi.org/simple" }
+dependencies = [
+    { name = "beautifulsoup4" },
+    { name = "dateparser" },
+    { name = "feedparser" },
+    { name = "requests" },
+]
+sdist = { url = "https://files.pythonhosted.org/packages/a3/cf/c49fc92d11e1f275316c8b1bf8be2e82e9dfcae52c46e5b94c59b829b857/pygooglenews-0.1.3.tar.gz", hash = "sha256:2bd9e7678155b684b8906b8e8a4a6d56a1529cec302598f86427a3cf2a3f8ae0", size = 11012, upload-time = "2024-12-09T15:07:29.962Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/3c/95/428881c36b9967ac02ac8e35c9f139c999ae0237216059a07362bcbe8d71/pygooglenews-0.1.3-py3-none-any.whl", hash = "sha256:ae53357f4d1b9a5e476e88a3478e2f89ab5bc8b4a691db3f9271343ac42fb721", size = 10588, upload-time = "2024-12-09T15:07:28.569Z" },
+]
+
+[[package]]
 name = "pypika"
 version = "0.51.1"
 source = { registry = "https://pypi.org/simple" }
@@ -2186,6 +2215,12 @@ sdist = { url = "https://files.pythonhosted.org/packages/c9/d4/4c032f93dd8d198d5
 wheels = [
     { url = "https://files.pythonhosted.org/packages/3f/f8/e46684764161fee7b7d2e0fd9b82d56915438b68e498181dc45183643c82/selenium-2.53.6-py2.py3-none-any.whl", hash = "sha256:5071f43daa2e698d60d5633ab0a6630cc68a852b360be99144f1c4c1ace2746c", size = 884576, upload-time = "2016-06-28T20:34:05.67Z" },
 ]
+
+[[package]]
+name = "sgmllib3k"
+version = "1.0.0"
+source = { registry = "https://pypi.org/simple" }
+sdist = { url = "https://files.pythonhosted.org/packages/9e/bd/3704a8c3e0942d711c1299ebf7b9091930adae6675d7c8f476a7ce48653c/sgmllib3k-1.0.0.tar.gz", hash = "sha256:7868fb1c8bfa764c1ac563d3cf369c381d1325d36124933a726f29fcdaa812e9", size = 5750, upload-time = "2010-08-24T14:33:52.445Z" }
 
 [[package]]
 name = "shellingham"
