@@ -9,7 +9,7 @@ import {
   TooltipContent,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
-import { Bot, Cpu, Database, Eraser, Search } from "lucide-react";
+import { Bot, Cpu, Database, Eraser, Map, Search } from "lucide-react";
 import prettyMilliseconds from "pretty-ms";
 import prettyBytes from "pretty-bytes";
 import { useState } from "react";
@@ -24,6 +24,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { PrettyDynamicDuration } from "@/components/PrettyDuration";
 
 function Debug() {
   const [resources, setResources] = useState({
@@ -45,6 +46,8 @@ function Debug() {
   const [onlySummarize, setOnlySummarize] = useState(false);
   const [bulkImportSubmitting, setBulkImportSubmitting] = useState(false);
   const [activeFactChecks, setActiveFactChecks] = useState<string[]>([]);
+  const [autoRoamState, setAutoRoamState] = useState(false);
+  const [autoRoamStartTime, setAutoRoamStartTime] = useState<Date | null>(null);
 
   // resources
   useInterval(async () => {
@@ -74,6 +77,12 @@ function Debug() {
     if (response.ok) {
       const data = await response.json();
       setLoadedModels(data["models"]);
+    }
+  }, 10000);
+
+  useInterval(async () => {
+    if (autoRoamState) {
+      const response = await fetch("/api/create/random");
     }
   }, 10000);
 
@@ -242,6 +251,36 @@ function Debug() {
                 Submit
               </Button>
             </div>
+          </CardContent>
+        </Card>
+        <Card>
+          <CardHeader>
+            <CardTitle>Auto-Roam</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <p>Roaming: {autoRoamState ? "Yes" : "No"}</p>
+            <p>
+              System State: {activeFactChecks.length === 0 ? "Idle" : "Active"}
+            </p>
+            {autoRoamState && (
+              <p>
+                Running For:{" "}
+                <PrettyDynamicDuration
+                  date={autoRoamStartTime}
+                  msOpts={{ verbose: true, secondsDecimalDigits: 0 }}
+                />
+              </p>
+            )}{" "}
+            <Button
+              onClick={() => {
+                setAutoRoamStartTime(autoRoamState ? null : new Date());
+                setAutoRoamState(!autoRoamState);
+              }}
+              variant={autoRoamState ? "destructive" : "default"}
+            >
+              {autoRoamState ? <Spinner /> : <Map />}
+              {autoRoamState ? "Stop" : "Start"} Auto-Roam
+            </Button>
           </CardContent>
         </Card>
         <Card>
