@@ -6,7 +6,7 @@ export function PrettyDuration({
   msOpts = {},
 }: {
   milliseconds: number;
-  msOpts: Options | undefined;
+  msOpts?: Options;
 }) {
   return <>{prettyMilliseconds(milliseconds, msOpts)}</>;
 }
@@ -28,8 +28,8 @@ export function PrettyDynamicDuration({
   msOpts = {},
 }: {
   date: Date;
-  timeResolution: number;
-  msOpts: Options | undefined;
+  timeResolution?: number;
+  msOpts?: Options;
 }) {
   const time = useTime(timeResolution);
   return <>{prettyMilliseconds(time - date, msOpts)}</>;
