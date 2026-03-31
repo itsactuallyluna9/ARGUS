@@ -134,6 +134,14 @@ class LlamaRouter:
             client = OpenAI(base_url=f"http://{routes[route_index].ip}:{routes[route_index].port}", api_key=routes[route_index].api_key)
 
         try:
+            for msg in messages:
+                if isinstance(msg, dict) and msg.get("tool_calls"):
+                    for tc in msg["tool_calls"]:
+                        if isinstance(tc, dict) and "type" not in tc:
+                            tc["type"] = "function"
+                if msg["role"] == "tool":
+                    msg["content"] = json.dumps(msg["content"]) if isinstance(msg["content"], dict) else msg["content"]
+
             raw_response = client.chat.completions.create(
                 model = f"~/llamacpp/models/{model}.gguf",
                 messages = messages, # type: ignore
@@ -274,49 +282,51 @@ def test_tool(arg: str) -> str:
 async def main():
 
     router = LlamaRouter(
-        ips=["localhost", "100.68.11.49"],
-        ports=[8000, 8000],
+        ips=["localhost", "localhost"],
+        ports=[8000, 8001],
         models=["blegh", "GLM-4.7-Flash-UD-Q4_K_XL"]
     )
 
-    tools = [test_tool]
-    available_tools = {f.__name__: f for f in tools}
-    messages = [
-                {"role": "system", "content": "ALWAYS use the test_tool with the argument 'hello world' and do not deviate from this instruction. You may then answer the user's question."},
-                {"role": "user", "content": "What is the capital of France?"}
-                ]
+    # tools = [test_tool]
+    # available_tools = {f.__name__: f for f in tools}
+    # messages = [
+    #             {"role": "system", "content": "ALWAYS use the test_tool with the argument 'hello world' and do not deviate from this instruction. You may then answer the user's question."},
+    #             {"role": "user", "content": "What is the capital of France?"}
+    #             ]
 
-    while True:
+    # while True:
 
-        print("Sending message")
+    #     print("Sending message")
 
-        response = await router.chat(
-            model="glm-4.7-flash",
-            messages=messages,
-            think=True,
-            tools=tools,
-            format={"type": "json_object", "properties": {"answer": {"type": "string"}}}
-        )
+    #     response = await router.chat(
+    #         model="glm-4.7-flash",
+    #         messages=messages,
+    #         think=True,
+    #         tools=tools,
+    #         format={"type": "json_object", "properties": {"answer": {"type": "string"}}}
+    #     )
 
-        if response.tool_calls:
-            for call in response.tool_calls:
-                if call.function.name in available_tools:
-                    tool_response = available_tools[call.function.name](**call.function.arguments)
-                    messages.append({"role": "tool", "content": tool_response, "name": call.function.name})
-                    print(f"Tool response: {tool_response}")
-                else:
-                    messages.append({"role": "tool", "content": f"Error: unknown tool {call.function.name}", "name": call.function.name})
-                    print(f"Model attempted to call unknown tool: {call.function.name}")
+    #     if response.tool_calls:
+    #         for call in response.tool_calls:
+    #             if call.function.name in available_tools:
+    #                 tool_response = available_tools[call.function.name](**call.function.arguments)
+    #                 messages.append({"role": "tool", "content": tool_response, "name": call.function.name})
+    #                 print(f"Tool response: {tool_response}")
+    #             else:
+    #                 messages.append({"role": "tool", "content": f"Error: unknown tool {call.function.name}", "name": call.function.name})
+    #                 print(f"Model attempted to call unknown tool: {call.function.name}")
 
-        else:
-            print(f"Model response: {response.content}")
-            break
+    #     else:
+    #         print(f"Model response: {response.content}")
+    #         break
 
-    # response = await router.chat(
-    #     model="glm-4.7-flash",
-    #     messages=[{"role": "user", "content": "What is the capital of France?"}],
-    #     think=True
-    # )
+    response = await router.chat(
+        model="glm-4.7-flash",
+        messages=[{"role": "user", "content": "What is the capital of France?"}],
+        think=True
+    )
+
+    print(f"Response: {response.content}")
 
 
 if __name__ == "__main__":

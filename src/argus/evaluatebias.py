@@ -161,14 +161,20 @@ class Bias_Agent:
         return self.notes
 
     def write_notes(self, new_notes: str) -> str:
-        """Writes notes for the bias evaluation process."""
-        """Args: notes (str): A string representation of the notes for the bias evaluation."""
+        """Writes notes for the bias evaluation process.
+
+        Args:
+            new_notes: The notes to append to the bias evaluation notes.
+        """
         self.notes = self.notes + "\n\n" + new_notes
         return "Notes updated."
 
     def search_db_tool(self, query: str) -> list[tuple[str, str]]:
-        """Searches the article collection for relevant information."""
-        """Args: query (str): A string representation of the query to search the article collection."""
+        """Searches the article collection for relevant information.
+
+        Args:
+            query: The search query.
+        """
         search_results = self.article_collection.query(query_texts=[query], n_results=5)
         results = []
 
@@ -183,8 +189,11 @@ class Bias_Agent:
         return results
 
     def page_text_tool(self, url: str) -> str:
-        """Retrieves the full text content of a webpage that has already been summarized given its URL."""
-        """Args: url (str): The URL of the webpage to retrieve text from."""
+        """Retrieves the full text content of a webpage that has already been summarized given its URL.
+
+        Args:
+            url: The URL of the webpage to retrieve text from.
+        """
 
         try:
             page = self.article_collection.get(ids=[url])  # type: ignore

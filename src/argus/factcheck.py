@@ -14,6 +14,7 @@ from argus.evaluateaccuracy import Accuracy_Agent
 from argus.evaluatecompleteness import Completeness_Agent
 from argus.evaluatebias import Bias_Agent
 from argus.timers import with_timing
+from argus.llamarouter import LlamaRouter
 
 
 class FactCheck:
@@ -21,7 +22,8 @@ class FactCheck:
         self,
         url: str,
         article_collection: chromadb.Collection,
-        summarizer_model: str = "gemma3:12b",
+        router: LlamaRouter,
+        summarizer_model: str = "nemotron-3-nano:4b",
         think: bool = False,
     ):
 
@@ -29,6 +31,7 @@ class FactCheck:
         self.id = uuid.uuid3(uuid.NAMESPACE_DNS, url).hex
 
         self.article_collection = article_collection
+        self.router = router
         self.model = summarizer_model
         self.think = think
         self.fact_check_metadata = {}
@@ -59,6 +62,7 @@ class FactCheck:
         self.thread.start()
 
         print(f"Initialized fact check for {self.url} with ID {self.id}")
+
 
     def to_dict(self) -> dict[str, Any]:
         return {
@@ -119,10 +123,11 @@ class FactCheck:
         self.fact_check_metadata["check_duration_from_start"] = (check_finished - started).total_seconds()
         self.fact_check_metadata["check_duration_from_submitted"] = (check_finished - submitted).total_seconds()
 
+
     @retry(stop=stop_after_attempt(3))
-    def summarize_article(self, article_text: str, use_long_prompt: bool = True) -> tuple[str, str, list]:
+    def summarize_article(self, article_text: str, router: LlamaRouter, use_long_prompt: bool = True) -> tuple[str, str, list]:
         # returns json with index sentence, key points, summary, bias rating
-        response = summarize_article(article_text, model=self.model, think=self.think, use_long_prompt=use_long_prompt)
+        response = summarize_article(article_text, router, model=self.model, think=self.think, use_long_prompt=use_long_prompt)
 
         description = response["description"]  # type: ignore
         summary = response["articleSummary"]  # type: ignore
@@ -140,6 +145,7 @@ class FactCheck:
 
         return summary, bias_rating, key_points  # type: ignore
 
+
     def fact_check(
         self,
         article_text: str,
@@ -153,6 +159,7 @@ class FactCheck:
             article_metadata=self.article_metadata,
             bias_rating=bias_rating,
             key_points=key_points,
+            router=self.router,
             article_collection=self.article_collection,
             use_long_prompt=use_long_prompts,
         )
@@ -162,6 +169,7 @@ class FactCheck:
             article_metadata=self.article_metadata,
             bias_rating=bias_rating,
             key_points=key_points,
+            router=self.router,
             article_collection=self.article_collection,
             use_long_prompt=use_long_prompts,
         )
@@ -170,6 +178,7 @@ class FactCheck:
             article_text=article_text,
             article_metadata=self.article_metadata,
             bias_rating=bias_rating,
+            router=self.router,
             article_collection=self.article_collection,
             use_long_prompt=use_long_prompts,
         )
@@ -199,12 +208,13 @@ class FactCheck:
         return self.to_dict()
 
 
-def check_url(url: str) -> bool:
+
+def check_url(url: str, router: LlamaRouter) -> bool:
     # check if url is valid and can be scraped
     try:
         text = get_page(url)
 
-        response = ollama.generate(
+        response = router.generate(
             model="nemotron-3-nano:4b",
             prompt=f'You are a tool that verifies if text scraped from a URL is a valid page or if it is blocked. You will be given the text output of a web scraper, and your task is to decide if the text was successfully scraped or if there was an error. Return "True" if it is a valid page, "False" if it\'s a cookies message or some other error.\n\nScraper output from page {url}: {text}',
             format=URLCheckSchema.model_json_schema(),
@@ -219,7 +229,14 @@ def check_url(url: str) -> bool:
 if __name__ == "__main__":
     chromadb_client = chromadb.HttpClient(host="localhost", port=8000)
     url = "https://www.theguardian.com/tv-and-radio/2026/mar/24/power-the-downfall-of-huw-edwards-review-martin-clunes-is-sickening"
+    model = "glm-4.7-flash"
 
-    check = FactCheck(url, chromadb_client.get_or_create_collection(name="articles"))
+    router = LlamaRouter(
+        ips=["localhost"],
+        ports=[8001],
+        models=[model]
+    )
+
+    check = FactCheck(url, chromadb_client.get_or_create_collection(name="articles"), router, summarizer_model=model, think=True)
 
     check.thread.join()

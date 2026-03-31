@@ -165,14 +165,20 @@ class Accuracy_Agent:
         return self.notes
 
     def write_notes(self, new_notes: str) -> str:
-        """Writes notes for the accuracy evaluation process."""
-        """Args: notes (str): A string representation of the notes for the accuracy evaluation."""
+        """Writes notes for the accuracy evaluation process.
+
+        Args:
+            new_notes: The notes to append to the accuracy evaluation notes.
+        """
         self.notes = self.notes + "\n\n" + new_notes
         return "Notes updated."
 
     def search_db_tool(self, query: str) -> list[tuple[str, str]]:
-        """Searches the article collection database for relevant articles based on a query and returns a list of tuples containing the article title and URL."""
-        """Args: query (str): The search query."""
+        """Searches the article collection database for relevant articles based on a query and returns a list of tuples containing the article title and URL.
+
+        Args:
+            query: The search query.
+        """
         search_results = self.article_collection.query(query_texts=[query], n_results=5)
         results = []
 
@@ -191,8 +197,11 @@ class Accuracy_Agent:
         stop=stop_after_attempt(3),
     )
     def search_internet_tool(self, query: str) -> list[tuple[str, str]]:
-        """Searches for articles related to the query and returns a list of tuples containing the article title and URL."""
-        """Args: query (str): The search query."""
+        """Searches for articles related to the query and returns a list of tuples containing the article title and URL.
+
+        Args:
+            query: The search query.
+        """
 
         search_results = DDGS().text(query, max_results=5)
         results = []
@@ -203,8 +212,11 @@ class Accuracy_Agent:
         return results
 
     def page_summary_tool(self, url: str) -> str:
-        """Summarizes the content of a webpage given its URL."""
-        """Args: url (str): The URL of the webpage to summarize."""
+        """Summarizes the content of a webpage given its URL.
+
+        Args:
+            url: The URL of the webpage to summarize.
+        """
 
         if len(self.article_collection.get(ids=[url])["ids"]) == 0:
             print(f"Article {url} not found in database, summarizing and adding to database...")
@@ -229,8 +241,11 @@ class Accuracy_Agent:
         return self.article_collection.get(ids=[url])["documents"][0]  # type: ignore
 
     def page_text_tool(self, url: str) -> str:
-        """Retrieves the full text content of a webpage that has already been summarized given its URL."""
-        """Args: url (str): The URL of the webpage to retrieve text from."""
+        """Retrieves the full text content of a webpage that has already been summarized given its URL.
+
+        Args:
+            url: The URL of the webpage to retrieve text from.
+        """
 
         try:
             page = self.article_collection.get(ids=[url])  # type: ignore
