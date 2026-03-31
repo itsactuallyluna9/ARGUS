@@ -144,7 +144,7 @@ def api_create_random():
             # wait for redirects to happen
             # print final url
             try:
-                page.goto(url, wait_until="networkidle")
+                page.goto(url, wait_until="networkidle") # type: ignore
                 url = page.url
             except:
                 return jsonify({"message": f"Failed to load URL."}), 400
