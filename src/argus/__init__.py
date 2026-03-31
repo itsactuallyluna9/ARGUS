@@ -5,6 +5,7 @@ import shutil
 import subprocess
 import threading
 from simpleeval import simple_eval
+from pygooglenews import GoogleNews
 
 from flask import Flask, jsonify, request, send_from_directory
 from flask_cors import CORS
@@ -122,6 +123,21 @@ def api_create():
 
     return jsonify(check.to_dict()), 202
 
+@app.get("/api/createrandom")
+def api_create_random():
+    
+    if len(active_fact_checks) > 0:
+       return jsonify({"message": "A fact check is already in progress. Please wait for it to finish before starting a new one."}), 409
+    
+    results = GoogleNews().top_news()
+    r = requests.get(results["entries"][0]["link"], allow_redirects=False) # type: ignore
+    url = r.headers["Location"] # type: ignore
+
+    check = FactCheck(url, articles)
+    active_fact_checks.append(check)
+
+    return jsonify(check.to_dict()), 202
+
 
 @app.post("/api/status")
 def api_status():
@@ -178,7 +194,7 @@ def api_data_filter():
             return jsonify({"message": f"Error applying condition: {str(e)}"}), 400
     
     if cols:
-        
+
         try: 
             missing_cols = [col for col in cols if col not in data[0].keys()]
         except IndexError:
