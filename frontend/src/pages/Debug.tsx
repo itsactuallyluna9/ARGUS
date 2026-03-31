@@ -12,7 +12,7 @@ import {
 import { Bot, Cpu, Database, Eraser, Map, Search } from "lucide-react";
 import prettyMilliseconds from "pretty-ms";
 import prettyBytes from "pretty-bytes";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useInterval } from "usehooks-ts";
 import { ButtonGroup } from "@/components/ui/button-group";
 import { Input } from "@/components/ui/input";
@@ -80,11 +80,70 @@ function Debug() {
     }
   }, 10000);
 
-  useInterval(async () => {
-    if (autoRoamState) {
-      const response = await fetch("/api/create/random");
+  // TODO: look into making this /api/create/random
+  useEffect(() => {
+    if (!autoRoamState) {
+      return;
     }
-  }, 10000);
+
+    let cancelled = false;
+    let sleepTimeout: ReturnType<typeof setTimeout> | null = null;
+
+    const sleep = (ms: number) =>
+      new Promise<void>((resolve) => {
+        sleepTimeout = setTimeout(resolve, ms);
+      });
+
+    const runAutoRoam = async () => {
+      while (!cancelled) {
+        try {
+          const response = await fetch("/api/createrandom");
+          if (!response.ok) {
+            // okay, let's check on all of our checks :3
+            activeFactChecks.forEach(async (factCheckId) => {
+              console.log(`Checking on fact check ${factCheckId}`);
+              try {
+                const statusResponse = await fetch(`/api/status`, {
+                  method: "POST",
+                  headers: {
+                    "Content-Type": "application/json",
+                  },
+                  body: JSON.stringify({ uuid: factCheckId }),
+                });
+                const data = await statusResponse.json();
+                console.log(`Fact check ${factCheckId} status:`, data);
+              } catch (err) {
+                console.error(
+                  `Error checking status of fact check ${factCheckId}:`,
+                  err,
+                );
+              }
+            });
+            console.error("Auto-roam create random failed", response.status);
+          }
+        } catch (error) {
+          if (!cancelled) {
+            console.error("Auto-roam create random failed", error);
+          }
+        }
+
+        if (cancelled) {
+          break;
+        }
+
+        await sleep(30000);
+      }
+    };
+
+    runAutoRoam();
+
+    return () => {
+      cancelled = true;
+      if (sleepTimeout) {
+        clearTimeout(sleepTimeout);
+      }
+    };
+  }, [autoRoamState]);
 
   const handleBulkImport = async () => {
     setBulkImportSubmitting(true);
@@ -262,11 +321,12 @@ function Debug() {
             <p>
               System State: {activeFactChecks.length === 0 ? "Idle" : "Active"}
             </p>
-            {autoRoamState && (
+            {autoRoamState && autoRoamStartTime && (
               <p>
                 Running For:{" "}
                 <PrettyDynamicDuration
                   date={autoRoamStartTime}
+                  timeResolution={1000}
                   msOpts={{ verbose: true, secondsDecimalDigits: 0 }}
                 />
               </p>
