@@ -4,6 +4,9 @@ import json
 import shutil
 import subprocess
 import threading
+import random
+from playwright.sync_api import sync_playwright
+from playwright_stealth import Stealth
 from simpleeval import simple_eval
 from pygooglenews import GoogleNews
 
@@ -130,8 +133,21 @@ def api_create_random():
        return jsonify({"message": "A fact check is already in progress. Please wait for it to finish before starting a new one."}), 409
     
     results = GoogleNews().top_news()
-    r = requests.get(results["entries"][0]["link"], allow_redirects=False) # type: ignore
-    url = r.headers["Location"] # type: ignore
+
+    url = random.choice(results["entries"])["link"]
+
+    with Stealth().use_sync(sync_playwright()) as p:
+        with p.chromium.launch(headless=True) as browser:
+            page = browser.new_page()
+
+            # go to url
+            # wait for redirects to happen
+            # print final url
+            try:
+                page.goto(url, wait_until="networkidle")
+                url = page.url
+            except:
+                return jsonify({"message": f"Failed to load URL."}), 400
 
     check = FactCheck(url, articles)
     active_fact_checks.append(check)
