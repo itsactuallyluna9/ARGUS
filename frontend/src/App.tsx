@@ -4,7 +4,8 @@ import About from "@/pages/About";
 import NotFound from "@/pages/NotFound";
 import DetailsView from "@/pages/Details";
 import Debug from "./pages/Debug";
-import DataSandboxView from "./pages/DataSandbox";
+import BasicDataSandboxView from "./pages/BasicDataSandbox";
+import AdvancedDataSandboxView from "./pages/AdvancedDataSandbox";
 
 function App() {
   return (
@@ -20,7 +21,8 @@ function App() {
         <Route path="/" element={<Home />} />
         <Route path="/details/:id" element={<DetailsView />} />
         <Route path="/about" element={<About />} />
-        <Route path="/sandbox" element={<DataSandboxView />} />
+        <Route path="/sandbox" element={<BasicDataSandboxView />} />
+        <Route path="/sandbox/advanced" element={<AdvancedDataSandboxView />} />
         <Route path="/debug" element={<Debug />} />
         <Route path="*" element={<NotFound />} />
       </Routes>
