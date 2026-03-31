@@ -3,28 +3,31 @@ import { Separator } from "@/components/ui/separator";
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Clock, Bot, Flag } from "lucide-react";
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useState } from "react";
 import { Spinner } from "@/components/ui/spinner";
 import {
   Tooltip,
   TooltipContent,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "@/components/ui/table";
-import { useInterval, useTimeout } from "usehooks-ts";
+import { useInterval } from "usehooks-ts";
 import prettyMilliseconds from "pretty-ms";
 import { Button } from "@/components/ui/button";
 import {
   PrettyDuration,
   PrettyDynamicDuration,
 } from "@/components/PrettyDuration";
+import {
+  Dialog,
+  DialogClose,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
+import { Textarea } from "@/components/ui/textarea";
 
 interface DetailsResponse {
   url: string;
@@ -81,15 +84,22 @@ function DetailsView() {
   return (
     <main className="p-4">
       <h1 className="font-semibold text-2xl text-pretty">
-        {data?.article_metadata.title}
+        <a href={data?.article_metadata.url} className="hover:underline">
+          {data?.article_metadata.title}
+        </a>
       </h1>
       <div className="flex items-center text-muted-foreground">
-        <img
-          src="https://placehold.co/24"
-          alt="The Guardian Logo"
-          className="h-6 mr-2 rounded"
-        />
-        <p className="italic text-lg">{data?.article_metadata.sitename}</p>
+        <a
+          href={(data && new URL(data?.article_metadata.url).origin) || ""}
+          className="flex items-center hover:underline"
+        >
+          <img
+            src={`${data && new URL(data?.article_metadata.url).origin}/favicon.ico`}
+            alt={`${data?.article_metadata.sitename || "ARGUS"} Logo`}
+            className="h-6 mr-2 rounded bg-gray-300/50"
+          />
+          <p className="italic text-lg">{data?.article_metadata.sitename}</p>
+        </a>
         <Separator orientation="vertical" className="mx-4" />
         <Tooltip>
           <TooltipTrigger className="flex items-center">
@@ -108,7 +118,7 @@ function DetailsView() {
             )}
           </TooltipTrigger>
           <TooltipContent>
-            <p>{new Date(data?.article_metadata.date).toLocaleString()}</p>
+            <p>{new Date(data?.article_metadata.date).toLocaleDateString()}</p>
           </TooltipContent>
         </Tooltip>
         <Separator orientation="vertical" className="mx-4" />
@@ -130,22 +140,31 @@ function DetailsView() {
           <TooltipContent>
             <p>
               {analysisComplete ? (
-                <PrettyDuration
-                  milliseconds={
-                    data?.fact_check_metadata.check_duration_from_start * 1000
-                  }
-                />
+                <>
+                  <span>Duration: </span>
+                  <PrettyDuration
+                    milliseconds={
+                      data?.fact_check_metadata.check_duration_from_start * 1000
+                    }
+                  />
+                </>
               ) : (
-                <PrettyDynamicDuration
-                  date={new Date(data?.fact_check_metadata.check_started)}
-                />
+                <>
+                  <span>Elapsed: </span>
+                  <PrettyDynamicDuration
+                    date={new Date(data?.fact_check_metadata.check_started)}
+                    msOpts={{
+                      secondsDecimalDigits: 0,
+                    }}
+                  />
+                </>
               )}
             </p>
           </TooltipContent>
         </Tooltip>
       </div>
-      <Separator className="my-4" />
-      <div className="grid grid-cols-1 gap-4">
+      <Separator className="mt-4 mb-2" />
+      <div className="grid grid-cols-1 gap-4 py-2">
         <Card>
           <CardHeader>
             <CardTitle>Article Summary</CardTitle>
@@ -185,7 +204,7 @@ function DetailsView() {
           </CardContent>
         </Card>
       </div>
-      <div className="grid grid-cols-2 gap-4 py-4">
+      <div className="grid grid-cols-2 gap-4 py-2">
         <Card>
           <CardHeader>
             <CardTitle>Completeness Assessment</CardTitle>
@@ -224,6 +243,8 @@ function DetailsView() {
             )}
           </CardContent>
         </Card>
+      </div>
+      <div className="grid grid-cols-3 gap-4 py-2">
         <Card>
           <CardHeader>
             <CardTitle>Political Assessment</CardTitle>
@@ -288,12 +309,92 @@ function DetailsView() {
         respones.
       </div>
       <div className="flex items-center justify-center p-2">
+        <ReportAConcern />
+      </div>
+    </main>
+  );
+}
+
+function ReportAConcern() {
+  const { id } = useParams();
+  const [dialogOpen, setDialogOpen] = useState(false);
+  const [reportText, setReportText] = useState("");
+
+  const [submitting, setSubmitting] = useState(false);
+  const [retrying, setRetrying] = useState(false);
+
+  const submitReport = async () => {
+    await fetch("/api/report", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        report: reportText,
+        fact_check_id: id,
+      }),
+    });
+    await new Promise((resolve) => setTimeout(resolve, 1000));
+  };
+
+  const retryArticle = async () => {
+    // TODO: just call the regular submission endpoint, just get another check
+  };
+
+  return (
+    <Dialog open={dialogOpen} onOpenChange={(open) => setDialogOpen(open)}>
+      <DialogTrigger className="w-full">
         <Button variant="destructive" className="w-[50%]">
           <Flag />
           Report a Concern
         </Button>
-      </div>
-    </main>
+      </DialogTrigger>
+      <DialogContent>
+        <DialogHeader>
+          <DialogTitle>Report a Concern</DialogTitle>
+          <DialogDescription>
+            If you believe there is an issue with the analysis of this article,
+            please let us know! We will review the report, and use it to help
+            improve ARGUS.
+          </DialogDescription>
+        </DialogHeader>
+        <Textarea
+          placeholder="What's wrong with the analysis of this article?"
+          className="w-full h-32 mb-4"
+          value={reportText}
+          onChange={(e) => setReportText(e.target.value)}
+        />
+        <DialogFooter>
+          <DialogClose />
+          <Button
+            variant="destructive"
+            disabled={submitting || retrying}
+            onClick={async (e) => {
+              setRetrying(true);
+              await submitReport();
+              await retryArticle();
+              setRetrying(false);
+            }}
+          >
+            {retrying ? <Spinner /> : <></>}
+            Submit & Retry
+          </Button>
+          <Button
+            variant="destructive"
+            disabled={submitting || retrying}
+            onClick={async (e) => {
+              setSubmitting(true);
+              await submitReport();
+              setSubmitting(false);
+              setDialogOpen(false);
+            }}
+          >
+            {submitting ? <Spinner /> : <></>}
+            Submit Report
+          </Button>
+        </DialogFooter>
+      </DialogContent>
+    </Dialog>
   );
 }
 
