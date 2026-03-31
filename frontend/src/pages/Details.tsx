@@ -27,6 +27,7 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
+import { Textarea } from "@/components/ui/textarea";
 
 interface DetailsResponse {
   url: string;
@@ -94,8 +95,7 @@ function DetailsView() {
         >
           <img
             src={`${data && new URL(data?.article_metadata.url).origin}/favicon.ico`}
-            alt="The Guardian Logo"
-            // TODO: fix above to have sitename
+            alt={`${data?.article_metadata.sitename || "ARGUS"} Logo`}
             className="h-6 mr-2 rounded bg-gray-300/50"
           />
           <p className="italic text-lg">{data?.article_metadata.sitename}</p>
@@ -316,8 +316,33 @@ function DetailsView() {
 }
 
 function ReportAConcern() {
+  const { id } = useParams();
+  const [dialogOpen, setDialogOpen] = useState(false);
+  const [reportText, setReportText] = useState("");
+
+  const [submitting, setSubmitting] = useState(false);
+  const [retrying, setRetrying] = useState(false);
+
+  const submitReport = async () => {
+    await fetch("/api/report", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        report: reportText,
+        fact_check_id: id,
+      }),
+    });
+    await new Promise((resolve) => setTimeout(resolve, 1000));
+  };
+
+  const retryArticle = async () => {
+    // TODO: just call the regular submission endpoint, just get another check
+  };
+
   return (
-    <Dialog>
+    <Dialog open={dialogOpen} onOpenChange={(open) => setDialogOpen(open)}>
       <DialogTrigger className="w-full">
         <Button variant="destructive" className="w-[50%]">
           <Flag />
@@ -328,13 +353,45 @@ function ReportAConcern() {
         <DialogHeader>
           <DialogTitle>Report a Concern</DialogTitle>
           <DialogDescription>
-            flavor text placeholder wow this is cool
+            If you believe there is an issue with the analysis of this article,
+            please let us know! We will review the report, and use it to help
+            improve ARGUS.
           </DialogDescription>
         </DialogHeader>
-        // TODO: what's wrong text field
+        <Textarea
+          placeholder="What's wrong with the analysis of this article?"
+          className="w-full h-32 mb-4"
+          value={reportText}
+          onChange={(e) => setReportText(e.target.value)}
+        />
         <DialogFooter>
-          <DialogClose render={<Button>Cancel</Button>} />
-          <Button variant="destructive">Submit Report</Button>
+          <DialogClose />
+          <Button
+            variant="destructive"
+            disabled={submitting || retrying}
+            onClick={async (e) => {
+              setRetrying(true);
+              await submitReport();
+              await retryArticle();
+              setRetrying(false);
+            }}
+          >
+            {retrying ? <Spinner /> : <></>}
+            Submit & Retry
+          </Button>
+          <Button
+            variant="destructive"
+            disabled={submitting || retrying}
+            onClick={async (e) => {
+              setSubmitting(true);
+              await submitReport();
+              setSubmitting(false);
+              setDialogOpen(false);
+            }}
+          >
+            {submitting ? <Spinner /> : <></>}
+            Submit Report
+          </Button>
         </DialogFooter>
       </DialogContent>
     </Dialog>
