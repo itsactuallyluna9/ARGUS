@@ -109,5 +109,5 @@ scores_by_time <- function(sources = NULL, start_date=NULL, end_date=NULL, data=
   
   data |> 
     pivot_longer(!date, names_to = "type", values_to = "score") |>
-    ggplot(aes(x=date, y=type)) + geom_density() + scale_x_date(date_breaks = "1 week", date_labels = "%d-%b")
+    ggplot(aes(x=score, y=type, color=date)) + geom_density() + scale_x_date(date_breaks = "1 week", date_labels = "%d-%b")
 }
