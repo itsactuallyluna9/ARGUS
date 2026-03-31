@@ -1,8 +1,8 @@
+import asyncio
 import json
 import os
 import chromadb
 from datetime import datetime
-import ollama
 from ddgs import DDGS, exceptions
 from tenacity import retry, retry_if_exception_type, stop_after_attempt
 from threading import Thread
@@ -10,10 +10,13 @@ from threading import Thread
 from argus.fixjsonformatting import fix_json_formatting, Completeness_Schema
 from argus.scraper import get_page
 from argus.summarizearticle import summarize_article
+from argus.llamarouter import LlamaRouter
 
 
 class Completeness_Agent:
-    def __init__(self, article_text: str, article_metadata: dict, bias_rating: str, key_points: list[str], article_collection: chromadb.Collection, evaluation_model: str = "glm-4.7-flash", think: bool = True, use_long_prompt: bool = True):
+
+
+    def __init__(self, article_text: str, article_metadata: dict, bias_rating: str, key_points: list[str], router: LlamaRouter, article_collection: chromadb.Collection, evaluation_model: str = "glm-4.7-flash", think: bool = True, use_long_prompt: bool = True):
 
         self.article_text = article_text
         self.title = article_metadata.get("title", "Title not found")
@@ -22,7 +25,10 @@ class Completeness_Agent:
 
         self.bias_rating = bias_rating
         self.key_points = key_points
+
+        self.router = router
         self.article_collection = article_collection
+
         self.evaluation_model = evaluation_model
         self.think = think
         self.agent_metadata = {}
@@ -61,10 +67,10 @@ class Completeness_Agent:
         else:
             self.prompt = self.default_prompt
 
-        self.thread = Thread(target=self.evaluate_completeness)
+        self.thread = Thread(target=lambda: asyncio.run(self.evaluate_completeness()))
         self.thread.start()
 
-    def evaluate_completeness(self) -> tuple[int, str]:  # type: ignore
+    async def evaluate_completeness(self) -> tuple[int, str]:  # type: ignore
         self.agent_metadata["started"] = datetime.now().isoformat()
         self.agent_metadata["total_tool_calls"] = 0
         self.agent_metadata["tool_calls"] = {}
@@ -88,7 +94,7 @@ class Completeness_Agent:
         while True:
             print("Sending message to completeness model...")
 
-            response = ollama.chat(
+            response = await self.router.chat(
                 model=self.evaluation_model,
                 think=self.think,
                 messages=messages,
@@ -101,18 +107,18 @@ class Completeness_Agent:
                     self.page_text_tool,
                 ],
             )
-            messages.append(response.message.model_dump())
+            messages.append(response.model_dump())
 
-            print(f"Completeness model reasoning: {response.message.thinking}")
-            print(f"Completeness model response: {response.message.content}")
+            print(f"Completeness model reasoning: {response.thinking}")
+            print(f"Completeness model response: {response.content}")
 
-            if response.message.tool_calls:
-                for call in response.message.tool_calls:
+            if response.tool_calls:
+                for call in response.tool_calls:
                     tool_name = call.function.name
                     tool_args = call.function.arguments
 
                     if tool_name in available_tools:
-                        tool_response = available_tools[tool_name](**tool_args)
+                        tool_response = await available_tools[tool_name](**tool_args)
                         messages.append(
                             {
                                 "role": "tool",
@@ -142,31 +148,38 @@ class Completeness_Agent:
                         "content": "Ensure the response is in the correct JSON format according to the schema. The output should include a completeness score (0-100) and a reasoning for the score.",
                     }
                 )
-                response = ollama.chat(model=self.evaluation_model, think=self.think, messages=messages)
+                response = json.loads(await self.router.chat(model=self.evaluation_model, think=self.think, messages=messages, format=json.dumps(Completeness_Schema.model_json_schema())))  # type: ignore
                 break
 
-        completeness_response = fix_json_formatting(response.message.content, Completeness_Schema) # type: ignore
-
-        self.completeness_score = int(completeness_response["completeness"])  # type: ignore
-        self.completeness_explanation = completeness_response["reasoning"]  # type: ignore
+        self.completeness_score = int(response["completeness"])  # type: ignore
+        self.completeness_explanation = response["reasoning"]  # type: ignore
 
         self.agent_metadata["finished"] = datetime.now().isoformat()
 
         return self.completeness_score, self.completeness_explanation  # type: ignore
 
-    def read_notes(self) -> str:
+
+    async def read_notes(self) -> str:
         """Reads the notes for the completeness evaluation process."""
         return self.notes
 
-    def write_notes(self, new_notes: str) -> str:
-        """Writes notes for the completeness evaluation process."""
-        """Args: notes (str): A string representation of the notes for the completeness evaluation."""
+
+    async def write_notes(self, new_notes: str) -> str:
+        """Writes notes for the completeness evaluation process.
+
+        Args:
+            new_notes: The notes to append to the completeness evaluation notes.
+        """
         self.notes = self.notes + "\n\n" + new_notes
         return "Notes updated."
 
-    def search_db_tool(self, query: str) -> list[tuple[str, str]]:
-        """Searches the article collection database for relevant articles based on a query and returns a list of tuples containing the article title and URL."""
-        """Args: query (str): The search query."""
+
+    async def search_db_tool(self, query: str) -> list[tuple[str, str]]:
+        """Searches the article collection database for relevant articles based on a query and returns a list of tuples containing the article title and URL.
+
+        Args:
+            query: The search query.
+        """
         search_results = self.article_collection.query(query_texts=[query], n_results=5)
         results = []
 
@@ -180,13 +193,17 @@ class Completeness_Agent:
 
         return results
 
+
     @retry(
         retry=retry_if_exception_type(exceptions.DDGSException),
         stop=stop_after_attempt(3),
     )
-    def search_internet_tool(self, query: str) -> list[tuple[str, str]]:
-        """Searches for articles related to the query and returns a list of tuples containing the article title and URL."""
-        """Args: query (str): The search query."""
+    async def search_internet_tool(self, query: str) -> list[tuple[str, str]]:
+        """Searches for articles related to the query and returns a list of tuples containing the article title and URL.
+
+        Args:
+            query: The search query.
+        """
 
         search_results = DDGS().text(query, max_results=5)
         results = []
@@ -196,21 +213,34 @@ class Completeness_Agent:
 
         return results
 
-    def page_summary_tool(self, url: str) -> str:
-        """Summarizes the content of a webpage given its URL."""
-        """Args: url (str): The URL of the webpage to summarize."""
+
+    async def page_summary_tool(self, url: str) -> str:
+        """Summarizes the content of a webpage given its URL.
+
+        Args:
+            url: The URL of the webpage to summarize.
+        """
 
         if len(self.article_collection.get(ids=[url])["ids"]) == 0:
             print(f"Article {url} not found in database, summarizing and adding to database...")
 
             article_metadata, article_text = get_page(url)
-            summary = summarize_article(article_text)
+            summary = await summarize_article(article_text, self.router)
 
             try:
                 self.article_collection.add(
                     ids=[url],
                     documents=[summary["articleSummary"]],
-                    metadatas=[{"url": url, "description": summary["description"], "summary": summary["articleSummary"], "bias": summary["biasSummary"], "points": summary["points"], "article_text": article_text, "timestamp": datetime.now().isoformat(), "metadata": json.dumps(article_metadata)}],
+                    metadatas=[{
+                        "url": url, 
+                        "description": summary["description"], 
+                        "summary": summary["articleSummary"], 
+                        "bias": summary["biasSummary"], 
+                        "points": summary["points"], 
+                        "article_text": article_text, 
+                        "timestamp": datetime.now().isoformat(), 
+                        "metadata": json.dumps(article_metadata)
+                    }],
                 )
                 print(f"Article {url} added to database.")
 
@@ -222,9 +252,13 @@ class Completeness_Agent:
 
         return self.article_collection.get(ids=[url])["documents"][0]  # type: ignore
 
-    def page_text_tool(self, url: str) -> str:
-        """Retrieves the full text content of a webpage that has already been summarized given its URL."""
-        """Args: url (str): The URL of the webpage to retrieve text from."""
+
+    async def page_text_tool(self, url: str) -> str:
+        """Retrieves the full text content of a webpage that has already been summarized given its URL.
+
+        Args:
+            url: The URL of the webpage to retrieve text from.
+        """
 
         try:
             page = self.article_collection.get(ids=[url])  # type: ignore
@@ -232,6 +266,7 @@ class Completeness_Agent:
 
         except:
             return f"Error: Article {url} not found in database. Please use the page_summary_tool to summarize the article and add it to the database before retrieving the full text."
+
 
 
 if __name__ == "__main__":
@@ -249,9 +284,11 @@ if __name__ == "__main__":
         article_metadata,
         bias_rating,
         key_points,
-        collection,
+        router=LlamaRouter(ips=["localhost"], ports=[8001], models=["glm-4.7-flash"]),
+        article_collection=collection,
         evaluation_model="glm-4.7-flash",
         think=True,
+        use_long_prompt=False
     )
 
     completeness_agent.thread.join()

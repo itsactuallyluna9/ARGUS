@@ -1,3 +1,4 @@
+import asyncio
 from datetime import datetime
 from pathlib import Path
 import json
@@ -16,6 +17,7 @@ from flask_cors import CORS
 import chromadb
 import requests
 
+from argus.llamarouter import LlamaRouter
 from argus.factcheck import FactCheck, check_url
 from argus.compiledata import ArgusData
 
@@ -24,6 +26,13 @@ FRONTEND_DIST = PROJECT_ROOT / "frontend" / "dist"
 
 app = Flask(__name__, static_folder=str(FRONTEND_DIST), static_url_path="/")
 CORS(app, resources={r"/api/*": {"origins": "*"}})
+
+router = LlamaRouter(
+    #ips=["100.68.11.49"],
+    ips=["localhost"],
+    ports=[8001],
+    models=["glm-4.7-flash"]
+)
 
 chromaclient = chromadb.HttpClient(host="localhost", port=8000)
 
@@ -362,6 +371,7 @@ def serve_frontend(path: str):
             "api": "/api/hello",
         }
     )
+
 
 
 def main() -> None:
