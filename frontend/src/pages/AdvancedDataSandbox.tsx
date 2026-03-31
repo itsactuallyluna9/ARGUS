@@ -15,6 +15,7 @@ import {
   Upload,
   FolderDown,
   Trash2,
+  FlaskConicalOff,
 } from "lucide-react";
 import { EditorView, basicSetup } from "codemirror";
 import { r } from "codemirror-lang-r";
@@ -45,6 +46,8 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
+import { Separator } from "@/components/ui/separator";
+import { Link } from "react-router-dom";
 
 const ENTER_KEY = 13;
 const BACKSPACE_KEY = 127;
@@ -162,9 +165,24 @@ function DataSandboxView() {
 
     xtermRef.current.writeln(`# Downloading Data (this may take a while)`);
 
-    // TODO: handle existing files
+    try {
+      await webRRef.current.FS.unlink("/home/web_user/data/article_data.csv");
+    } catch {
+      // File doesn't exist, that's fine
+    }
+    try {
+      await webRRef.current.FS.unlink(
+        "/home/web_user/data/fact_check_data.csv",
+      );
+    } catch {
+      // File doesn't exist, that's fine
+    }
     // await webRRef.current.FS.unlink("/home/web_user/data");
-    await webRRef.current.FS.mkdir("/home/web_user/data");
+    try {
+      await webRRef.current.FS.mkdir("/home/web_user/data");
+    } catch {
+      // Directory already exists, that's fine
+    }
 
     const response = await fetch("/api/data");
     if (!response.ok) {
@@ -277,39 +295,39 @@ function DataSandboxView() {
         removeFocusListener = () => {
           consoleElement.removeEventListener("click", focusTerminal);
         };
-         terminalInstance.onData((data) => {
-           if (!webRRef.current) return;
+        terminalInstance.onData((data) => {
+          if (!webRRef.current) return;
 
-           const code = data.charCodeAt(0);
+          const code = data.charCodeAt(0);
 
-           // enter: submit the buffered command to webr console.
-           if (code === ENTER_KEY) {
-             const command = terminalInputBufferRef.current;
-             terminalInstance.writeln("");
-             terminalInputBufferRef.current = "";
-             setRWorking(true);
-             webRRef.current.writeConsole(command);
-             terminalInstance.scrollToBottom();
-             return;
-           }
+          // enter: submit the buffered command to webr console.
+          if (code === ENTER_KEY) {
+            const command = terminalInputBufferRef.current;
+            terminalInstance.writeln("");
+            terminalInputBufferRef.current = "";
+            setRWorking(true);
+            webRRef.current.writeConsole(command);
+            terminalInstance.scrollToBottom();
+            return;
+          }
 
-           // backspace: remove one char from local buffer and terminal view.
-           if (code === BACKSPACE_KEY) {
-             if (terminalInputBufferRef.current.length > 0) {
-               terminalInputBufferRef.current =
-                 terminalInputBufferRef.current.slice(0, -1);
-               terminalInstance.write("\b \b"); // actually delete the character
-               terminalInstance.scrollToBottom();
-             }
-             return;
-           }
+          // backspace: remove one char from local buffer and terminal view.
+          if (code === BACKSPACE_KEY) {
+            if (terminalInputBufferRef.current.length > 0) {
+              terminalInputBufferRef.current =
+                terminalInputBufferRef.current.slice(0, -1);
+              terminalInstance.write("\b \b"); // actually delete the character
+              terminalInstance.scrollToBottom();
+            }
+            return;
+          }
 
-           // ignore control characters; print and buffer regular characters.
-           if (code < FIRST_PRINTABLE_CHAR) return;
-           terminalInputBufferRef.current += data;
-           terminalInstance.write(data);
-           terminalInstance.scrollToBottom();
-         });
+          // ignore control characters; print and buffer regular characters.
+          if (code < FIRST_PRINTABLE_CHAR) return;
+          terminalInputBufferRef.current += data;
+          terminalInstance.write(data);
+          terminalInstance.scrollToBottom();
+        });
         xtermRef.current = terminalInstance;
 
         setRBusyMessage("R is loading...");
@@ -599,6 +617,17 @@ function DataSandboxView() {
 
   return (
     <main className="w-full h-screen">
+      <div className="flex justify-bottom items-bottom">
+        <h1 className="font-semibold text-2xl">Data Sandbox</h1>
+        <div className="grow"></div>
+        <Link to="/sandbox">
+          <Button variant="link">
+            <FlaskConicalOff />
+            Basic
+          </Button>
+        </Link>
+      </div>
+      <Separator className="my-2" />
       <ResizablePanelGroup orientation="horizontal">
         <ResizablePanel>
           <ResizablePanelGroup orientation="vertical">
@@ -778,9 +807,14 @@ function DataSandboxView() {
                     <TableBody>
                       {viewData.map((row, index) => (
                         <TableRow key={index}>
-{Object.values(row).map((value, i) => (
-  <TableCell key={i} className="max-w-[200px] overflow-hidden text-ellipsis">{String(value)}</TableCell>
-))}
+                          {Object.values(row).map((value, i) => (
+                            <TableCell
+                              key={i}
+                              className="max-w-[200px] overflow-hidden text-ellipsis"
+                            >
+                              {String(value)}
+                            </TableCell>
+                          ))}
                         </TableRow>
                       ))}
                     </TableBody>
