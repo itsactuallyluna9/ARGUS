@@ -277,36 +277,39 @@ function DataSandboxView() {
         removeFocusListener = () => {
           consoleElement.removeEventListener("click", focusTerminal);
         };
-        terminalInstance.onData((data) => {
-          if (!webRRef.current) return;
+         terminalInstance.onData((data) => {
+           if (!webRRef.current) return;
 
-          const code = data.charCodeAt(0);
+           const code = data.charCodeAt(0);
 
-          // enter: submit the buffered command to webr console.
-          if (code === ENTER_KEY) {
-            const command = terminalInputBufferRef.current;
-            terminalInstance.writeln("");
-            terminalInputBufferRef.current = "";
-            setRWorking(true);
-            webRRef.current.writeConsole(command);
-            return;
-          }
+           // enter: submit the buffered command to webr console.
+           if (code === ENTER_KEY) {
+             const command = terminalInputBufferRef.current;
+             terminalInstance.writeln("");
+             terminalInputBufferRef.current = "";
+             setRWorking(true);
+             webRRef.current.writeConsole(command);
+             terminalInstance.scrollToBottom();
+             return;
+           }
 
-          // backspace: remove one char from local buffer and terminal view.
-          if (code === BACKSPACE_KEY) {
-            if (terminalInputBufferRef.current.length > 0) {
-              terminalInputBufferRef.current =
-                terminalInputBufferRef.current.slice(0, -1);
-              terminalInstance.write("\b \b"); // actually delete the character
-            }
-            return;
-          }
+           // backspace: remove one char from local buffer and terminal view.
+           if (code === BACKSPACE_KEY) {
+             if (terminalInputBufferRef.current.length > 0) {
+               terminalInputBufferRef.current =
+                 terminalInputBufferRef.current.slice(0, -1);
+               terminalInstance.write("\b \b"); // actually delete the character
+               terminalInstance.scrollToBottom();
+             }
+             return;
+           }
 
-          // ignore control characters; print and buffer regular characters.
-          if (code < FIRST_PRINTABLE_CHAR) return;
-          terminalInputBufferRef.current += data;
-          terminalInstance.write(data);
-        });
+           // ignore control characters; print and buffer regular characters.
+           if (code < FIRST_PRINTABLE_CHAR) return;
+           terminalInputBufferRef.current += data;
+           terminalInstance.write(data);
+           terminalInstance.scrollToBottom();
+         });
         xtermRef.current = terminalInstance;
 
         setRBusyMessage("R is loading...");
@@ -775,9 +778,9 @@ function DataSandboxView() {
                     <TableBody>
                       {viewData.map((row, index) => (
                         <TableRow key={index}>
-                          {Object.values(row).map((value, i) => (
-                            <TableCell key={i}>{String(value)}</TableCell>
-                          ))}
+{Object.values(row).map((value, i) => (
+  <TableCell key={i} className="max-w-[200px] overflow-hidden text-ellipsis">{String(value)}</TableCell>
+))}
                         </TableRow>
                       ))}
                     </TableBody>
