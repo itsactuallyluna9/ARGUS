@@ -3,28 +3,30 @@ import { Separator } from "@/components/ui/separator";
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Clock, Bot, Flag } from "lucide-react";
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useState } from "react";
 import { Spinner } from "@/components/ui/spinner";
 import {
   Tooltip,
   TooltipContent,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "@/components/ui/table";
-import { useInterval, useTimeout } from "usehooks-ts";
+import { useInterval } from "usehooks-ts";
 import prettyMilliseconds from "pretty-ms";
 import { Button } from "@/components/ui/button";
 import {
   PrettyDuration,
   PrettyDynamicDuration,
 } from "@/components/PrettyDuration";
+import {
+  Dialog,
+  DialogClose,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
 
 interface DetailsResponse {
   url: string;
@@ -81,15 +83,23 @@ function DetailsView() {
   return (
     <main className="p-4">
       <h1 className="font-semibold text-2xl text-pretty">
-        {data?.article_metadata.title}
+        <a href={data?.article_metadata.url} className="hover:underline">
+          {data?.article_metadata.title}
+        </a>
       </h1>
       <div className="flex items-center text-muted-foreground">
-        <img
-          src="https://placehold.co/24"
-          alt="The Guardian Logo"
-          className="h-6 mr-2 rounded"
-        />
-        <p className="italic text-lg">{data?.article_metadata.sitename}</p>
+        <a
+          href={(data && new URL(data?.article_metadata.url).origin) || ""}
+          className="flex items-center hover:underline"
+        >
+          <img
+            src={`${data && new URL(data?.article_metadata.url).origin}/favicon.ico`}
+            alt="The Guardian Logo"
+            // TODO: fix above to have sitename
+            className="h-6 mr-2 rounded"
+          />
+          <p className="italic text-lg">{data?.article_metadata.sitename}</p>
+        </a>
         <Separator orientation="vertical" className="mx-4" />
         <Tooltip>
           <TooltipTrigger className="flex items-center">
@@ -130,22 +140,31 @@ function DetailsView() {
           <TooltipContent>
             <p>
               {analysisComplete ? (
-                <PrettyDuration
-                  milliseconds={
-                    data?.fact_check_metadata.check_duration_from_start * 1000
-                  }
-                />
+                <>
+                  <span>Duration: </span>
+                  <PrettyDuration
+                    milliseconds={
+                      data?.fact_check_metadata.check_duration_from_start * 1000
+                    }
+                  />
+                </>
               ) : (
-                <PrettyDynamicDuration
-                  date={new Date(data?.fact_check_metadata.check_started)}
-                />
+                <>
+                  <span>Elapsed: </span>
+                  <PrettyDynamicDuration
+                    date={new Date(data?.fact_check_metadata.check_started)}
+                    msOpts={{
+                      secondsDecimalDigits: 0,
+                    }}
+                  />
+                </>
               )}
             </p>
           </TooltipContent>
         </Tooltip>
       </div>
-      <Separator className="my-4" />
-      <div className="grid grid-cols-1 gap-4">
+      <Separator className="mt-4 mb-2" />
+      <div className="grid grid-cols-1 gap-4 py-2">
         <Card>
           <CardHeader>
             <CardTitle>Article Summary</CardTitle>
@@ -185,7 +204,7 @@ function DetailsView() {
           </CardContent>
         </Card>
       </div>
-      <div className="grid grid-cols-2 gap-4 py-4">
+      <div className="grid grid-cols-2 gap-4 py-2">
         <Card>
           <CardHeader>
             <CardTitle>Completeness Assessment</CardTitle>
@@ -224,6 +243,8 @@ function DetailsView() {
             )}
           </CardContent>
         </Card>
+      </div>
+      <div className="grid grid-cols-3 gap-4 py-2">
         <Card>
           <CardHeader>
             <CardTitle>Political Assessment</CardTitle>
@@ -288,12 +309,35 @@ function DetailsView() {
         respones.
       </div>
       <div className="flex items-center justify-center p-2">
+        <ReportAConcern />
+      </div>
+    </main>
+  );
+}
+
+function ReportAConcern() {
+  return (
+    <Dialog>
+      <DialogTrigger className="w-full">
         <Button variant="destructive" className="w-[50%]">
           <Flag />
           Report a Concern
         </Button>
-      </div>
-    </main>
+      </DialogTrigger>
+      <DialogContent>
+        <DialogHeader>
+          <DialogTitle>Report a Concern</DialogTitle>
+          <DialogDescription>
+            flavor text placeholder wow this is cool
+          </DialogDescription>
+        </DialogHeader>
+        // TODO: what's wrong text field
+        <DialogFooter>
+          <DialogClose render={<Button>Cancel</Button>} />
+          <Button variant="destructive">Submit Report</Button>
+        </DialogFooter>
+      </DialogContent>
+    </Dialog>
   );
 }
 
