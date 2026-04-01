@@ -24,7 +24,7 @@ JSON schema: {
 """
 
 
-async def summarize_article(article_text: str, router: LlamaRouter, model: str = "glm-4.7-flash", think: bool = False, use_long_prompt: bool = True, keep_alive=360):
+async def summarize_article(article_text: str, router: LlamaRouter, model: str = "nemotron-3-nano:4b", think: bool = False, use_long_prompt: bool = True, keep_alive=360):
 
     if use_long_prompt:
         with open(os.path.join(os.getcwd(), "prompts", "summarizeprompt.md"), "r") as f:

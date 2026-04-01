@@ -191,7 +191,7 @@ class FactCheck:
         accuracy_future = accuracy_agent.evaluate_accuracy()
         bias_future = bias_agent.analyze_bias()
 
-        asyncio.gather(
+        await asyncio.gather(
             completeness_future, accuracy_future, bias_future
         )
 
@@ -213,12 +213,12 @@ class FactCheck:
 
 
 
-def check_url(url: str, router: LlamaRouter) -> bool:
+async def check_url(url: str, router: LlamaRouter) -> bool:
     # check if url is valid and can be scraped
     try:
         text = get_page(url)
 
-        response = router.generate(
+        response = await router.generate(
             model="nemotron-3-nano:4b",
             prompt=f'You are a tool that verifies if text scraped from a URL is a valid page or if it is blocked. You will be given the text output of a web scraper, and your task is to decide if the text was successfully scraped or if there was an error. Return "True" if it is a valid page, "False" if it\'s a cookies message or some other error.\n\nScraper output from page {url}: {text}',
             format=URLCheckSchema.model_json_schema(),
@@ -233,11 +233,10 @@ def check_url(url: str, router: LlamaRouter) -> bool:
 if __name__ == "__main__":
     chromadb_client = chromadb.HttpClient(host="localhost", port=8000)
     url = "https://www.theguardian.com/tv-and-radio/2026/mar/24/power-the-downfall-of-huw-edwards-review-martin-clunes-is-sickening"
-    model = "glm-4.7-flash"
 
     router=LlamaRouter(["cs-cluster-1", "localhost"], [8080, 8080], ["GLM-4.7-Flash-UD-Q4_K_XL", "NVIDIA-Nemotron3-Nano-4B-Q4_K_M"])
 
-    check = FactCheck(url, chromadb_client.get_or_create_collection(name="articles"), router, summarizer_model=model, think=True)
+    check = FactCheck(url, chromadb_client.get_or_create_collection(name="articles"), router, think=True)
 
     asyncio.run(check.main(use_long_prompts=False))
 
