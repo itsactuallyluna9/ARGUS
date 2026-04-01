@@ -88,7 +88,7 @@ function DetailsView() {
           {data?.article_metadata.title}
         </a>
       </h1>
-      <div className="flex items-center text-muted-foreground">
+      <div className="sm:flex items-center text-muted-foreground">
         <a
           href={(data && new URL(data?.article_metadata.url).origin) || ""}
           className="flex items-center hover:underline"
@@ -204,7 +204,7 @@ function DetailsView() {
           </CardContent>
         </Card>
       </div>
-      <div className="grid grid-cols-2 gap-4 py-2">
+      <div className="grid sm:grid-cols-2 gap-4 py-2">
         <Card>
           <CardHeader>
             <CardTitle>Completeness Assessment</CardTitle>
@@ -244,7 +244,7 @@ function DetailsView() {
           </CardContent>
         </Card>
       </div>
-      <div className="grid grid-cols-3 gap-4 py-2">
+      <div className="grid sm:grid-cols-3 gap-4 py-2">
         <Card>
           <CardHeader>
             <CardTitle>Political Assessment</CardTitle>
