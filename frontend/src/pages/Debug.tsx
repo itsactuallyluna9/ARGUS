@@ -349,13 +349,20 @@ function Debug() {
           </CardHeader>
           <CardContent>
             {activeFactChecks.length === 0 ? (
-              <p>None</p>
+              <p className="text-muted-foreground">None</p>
             ) : (
-              activeFactChecks.map((factCheckId) => (
-                <a key={factCheckId} href={`/details/${factCheckId}`}>
-                  {factCheckId}
-                </a>
-              ))
+              <ul className="space-y-2">
+                {activeFactChecks.map((factCheckId) => (
+                  <li key={factCheckId}>
+                    <a 
+                      href={`/details/${factCheckId}`} 
+                      className="underline hover:no-underline text-primary hover:text-primary/80 transition-colors"
+                    >
+                      {factCheckId}
+                    </a>
+                  </li>
+                ))}
+              </ul>
             )}
           </CardContent>
         </Card>
