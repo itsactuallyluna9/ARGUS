@@ -1,7 +1,7 @@
 library(tidyverse)
 library(ggdensity)
 
-fact_checks <- read_csv("data/fact_check_data.csv")
+fact_checks <- read_csv("~/data/fact_check_data.csv")
 
 bias_scores_by_source <- function(sources=NULL, start_date=NULL, end_date=NULL, data=fact_checks) {
   
@@ -109,5 +109,16 @@ scores_by_time <- function(sources = NULL, start_date=NULL, end_date=NULL, data=
   
   data |> 
     pivot_longer(!date, names_to = "type", values_to = "score") |>
-    ggplot(aes(x=score, y=type, color=date)) + geom_density() + scale_x_date(date_breaks = "1 week", date_labels = "%d-%b")
+    ggplot(aes(x=date, y=score, color=type)) + 
+    geom_line() + 
+    geom_point() +
+    scale_x_date(date_breaks = "1 week", date_labels = "%d-%b") +
+    labs(
+      title = "Scores Over Time",
+      subtitle = "As evaluated by ARGUS",
+      x = "Date", 
+      y = "Score"
+    ) + 
+    scale_color_discrete(name = "Metric") +
+    ylim(0, 100)
 }
