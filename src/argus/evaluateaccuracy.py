@@ -1,7 +1,7 @@
+import asyncio
 import os
 import chromadb
 from datetime import datetime
-import ollama
 from ddgs import DDGS, exceptions
 from tenacity import retry, retry_if_exception_type, stop_after_attempt
 from threading import Thread
@@ -10,10 +10,11 @@ import json
 from argus.fixjsonformatting import fix_json_formatting, Accuracy_Schema
 from argus.scraper import get_page
 from argus.summarizearticle import summarize_article
+from argus.llamarouter import LlamaRouter
 
 
 class Accuracy_Agent:
-    def __init__(self, article_text: str, article_metadata: dict, bias_rating: str, key_points: list[str], article_collection: chromadb.Collection, evaluation_model: str = "glm-4.7-flash", think: bool = True, use_long_prompt: bool = True):
+    def __init__(self, article_text: str, article_metadata: dict, bias_rating: str, key_points: list[str], router: LlamaRouter, article_collection: chromadb.Collection, evaluation_model: str = "glm-4.7-flash", think: bool = True, use_long_prompt: bool = True):
 
         self.article_text = article_text
         self.title = article_metadata.get("title", "Title not found")
@@ -22,6 +23,7 @@ class Accuracy_Agent:
 
         self.bias_rating = bias_rating
         self.key_points = key_points
+        self.router = router
         self.article_collection = article_collection
         self.evaluation_model = evaluation_model
         self.think = think
@@ -64,12 +66,10 @@ class Accuracy_Agent:
                 self.prompt = f.read()
         else:
             self.prompt = self.default_prompt
-
-        self.thread = Thread(target=self.evaluate_accuracy)
-        self.thread.start()
+            
 
     # initiates agentic model to evaluate articles accuracy, will use tool calls to research and take notes, coerces to structured output, returns accuracy score, reasoning, and sources used in evaluation
-    def evaluate_accuracy(self) -> tuple[int, str, list[str]]:  # type: ignore
+    async def evaluate_accuracy(self) -> tuple[int, str, list[str]]:  # type: ignore
         self.agent_metadata["started"] = datetime.now().isoformat()
         self.agent_metadata["total_tool_calls"] = 0
         self.agent_metadata["tool_calls"] = {}
@@ -93,7 +93,7 @@ class Accuracy_Agent:
         while True:
             print("Sending message to accuracy model...")
 
-            response = ollama.chat(
+            response = await self.router.chat(
                 model=self.evaluation_model,
                 think=self.think,
                 messages=messages,
@@ -104,20 +104,20 @@ class Accuracy_Agent:
                     self.search_internet_tool,
                     self.page_summary_tool,
                     self.page_text_tool,
-                ],
+                ]
             )
-            messages.append(response.message.model_dump())
+            messages.append(response.model_dump())
 
-            print(f"Accuracy model reasoning: {response.message.thinking}")
-            print(f"Accuracy model response: {response.message.content}")
+            print(f"Accuracy model reasoning: {response.thinking}")
+            print(f"Accuracy model response: {response.content}")
 
-            if response.message.tool_calls:
-                for call in response.message.tool_calls:
+            if response.tool_calls:
+                for call in response.tool_calls:
                     tool_name = call.function.name
                     tool_args = call.function.arguments
 
                     if tool_name in available_tools:
-                        tool_response = available_tools[tool_name](**tool_args)
+                        tool_response = await available_tools[tool_name](**tool_args)
                         messages.append(
                             {
                                 "role": "tool",
@@ -147,24 +147,24 @@ class Accuracy_Agent:
                         "content": "Ensure the response is in the correct JSON format according to the schema. The output should include an accuracy score (0-100), reasoning, and the URLs for sources used in the evaluation.",
                     }
                 )
-                response = ollama.chat(model=self.evaluation_model, think=self.think, messages=messages)
+                response = await self.router.chat(model=self.evaluation_model, think=self.think, messages=messages, format=json.dumps(Accuracy_Schema.model_json_schema()))  # type: ignore
                 break
 
-        accuracy_response = fix_json_formatting(response.message.content, Accuracy_Schema)  # type: ignore
-
-        self.accuracy_score = accuracy_response["accuracy"]  # type: ignore
-        self.accuracy_explanation = accuracy_response["reasoning"]  # type: ignore
-        self.sources = accuracy_response["sources"]  # type: ignore
+        self.accuracy_score = response["accuracy"]  # type: ignore
+        self.accuracy_explanation = response["reasoning"]  # type: ignore
+        self.sources = response["sources"]  # type: ignore
 
         self.agent_metadata["finished"] = datetime.now().isoformat()
 
         return self.accuracy_score, self.accuracy_explanation, self.sources  # type: ignore
 
-    def read_notes(self) -> str:
+
+    async def read_notes(self) -> str:
         """Reads the notes for the accuracy evaluation process."""
         return self.notes
 
-    def write_notes(self, new_notes: str) -> str:
+
+    async def write_notes(self, new_notes: str) -> str:
         """Writes notes for the accuracy evaluation process.
 
         Args:
@@ -173,7 +173,8 @@ class Accuracy_Agent:
         self.notes = self.notes + "\n\n" + new_notes
         return "Notes updated."
 
-    def search_db_tool(self, query: str) -> list[tuple[str, str]]:
+
+    async def search_db_tool(self, query: str) -> list[tuple[str, str]]:
         """Searches the article collection database for relevant articles based on a query and returns a list of tuples containing the article title and URL.
 
         Args:
@@ -192,11 +193,12 @@ class Accuracy_Agent:
 
         return results
 
+
     @retry(
         retry=retry_if_exception_type(exceptions.DDGSException),
         stop=stop_after_attempt(3),
     )
-    def search_internet_tool(self, query: str) -> list[tuple[str, str]]:
+    async def search_internet_tool(self, query: str) -> list[tuple[str, str]]:
         """Searches for articles related to the query and returns a list of tuples containing the article title and URL.
 
         Args:
@@ -211,7 +213,8 @@ class Accuracy_Agent:
 
         return results
 
-    def page_summary_tool(self, url: str) -> str:
+
+    async def page_summary_tool(self, url: str) -> str:
         """Summarizes the content of a webpage given its URL.
 
         Args:
@@ -222,7 +225,7 @@ class Accuracy_Agent:
             print(f"Article {url} not found in database, summarizing and adding to database...")
 
             article_metadata, article_text = get_page(url)
-            summary = summarize_article(article_text)
+            summary = await summarize_article(article_text, self.router)
 
             try:
                 self.article_collection.add(
@@ -240,7 +243,8 @@ class Accuracy_Agent:
 
         return self.article_collection.get(ids=[url])["documents"][0]  # type: ignore
 
-    def page_text_tool(self, url: str) -> str:
+
+    async def page_text_tool(self, url: str) -> str:
         """Retrieves the full text content of a webpage that has already been summarized given its URL.
 
         Args:
@@ -255,13 +259,13 @@ class Accuracy_Agent:
             return f"Error: Article {url} not found in database. Please use the page_summary_tool to summarize the article and add it to the database before retrieving the full text."
 
 
-if __name__ == "__main__":
+
+async def main():
     print("starting")
     article_metadata, article_text = get_page("https://www.usatoday.com/story/travel/2026/03/23/check-tsa-wait-times-government-shutdown-airports/89282748007/?utm_source=firefox-newtab-en-us")
     print(article_text)
     bias_rating = ""
     key_points = []
-    related_summaries = []
 
     collection = chromadb.HttpClient().get_or_create_collection(name="articles")
 
@@ -270,9 +274,16 @@ if __name__ == "__main__":
         article_metadata,
         bias_rating,
         key_points,
-        collection,
+        router=LlamaRouter(["cs-cluster-1", "localhost"], [8080, 8080], ["GLM-4.7-Flash-UD-Q4_K_XL", "NVIDIA-Nemotron3-Nano-4B-Q4_K_M"]),
+        article_collection=collection,
         evaluation_model="glm-4.7-flash",
         think=True,
+        use_long_prompt=False
     )
+    val = await accuracy_agent.evaluate_accuracy()
+    print(val)
 
-    print(accuracy_agent.evaluate_accuracy())
+
+
+if __name__ == "__main__":
+    asyncio.run(main())

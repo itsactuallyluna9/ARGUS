@@ -7,7 +7,7 @@ from ddgs import DDGS, exceptions
 from tenacity import retry, retry_if_exception_type, stop_after_attempt
 from threading import Thread
 
-from argus.fixjsonformatting import fix_json_formatting, Completeness_Schema
+from argus.fixjsonformatting import Completeness_Schema
 from argus.scraper import get_page
 from argus.summarizearticle import summarize_article
 from argus.llamarouter import LlamaRouter
@@ -67,8 +67,6 @@ class Completeness_Agent:
         else:
             self.prompt = self.default_prompt
 
-        self.thread = Thread(target=lambda: asyncio.run(self.evaluate_completeness()))
-        self.thread.start()
 
     async def evaluate_completeness(self) -> tuple[int, str]:  # type: ignore
         self.agent_metadata["started"] = datetime.now().isoformat()
@@ -290,8 +288,8 @@ if __name__ == "__main__":
         think=True,
         use_long_prompt=False
     )
-
-    completeness_agent.thread.join()
+    
+    scores = asyncio.gather(completeness_agent.evaluate_completeness())
 
     print(completeness_agent.completeness_score)
     print(completeness_agent.completeness_explanation)

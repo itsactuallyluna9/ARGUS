@@ -21,20 +21,25 @@ class LlamaRouter:
 
         for ip, port, model in zip(ips, ports, models):
 
-            for model in models:
-                if model in self.model_aliases:
-                    model = self.model_aliases[model]
+            if model in self.model_aliases:
+                model = self.model_aliases[model]
 
             self.add_route(Route(model=model, ip=ip, port=port))
 
 
     def add_route(self, route: Route):
+
         if route.model not in self.routes:
             self.routes[route.model] = []
+
         self.routes[route.model].append(route)
 
 
     def get_route(self, model: str) -> list[Route]:
+
+        if model in self.model_aliases:
+            model = self.model_aliases[model]
+
         return self.routes.get(model, [])
     
 
@@ -142,6 +147,8 @@ class LlamaRouter:
                 if msg["role"] == "tool":
                     msg["content"] = json.dumps(msg["content"]) if isinstance(msg["content"], dict) else msg["content"]
 
+            print(f"sending messages to model {model} at {routes[route_index].ip}:{routes[route_index].port} with tools {tools} and think={think}")
+
             raw_response = client.chat.completions.create(
                 model = f"~/llamacpp/models/{model}.gguf",
                 messages = messages, # type: ignore
@@ -178,7 +185,7 @@ class LlamaRouter:
             return response
         
         except Exception as e:
-            raise e
+            print(f"Error during chat with model {model} at {routes[route_index].ip}:{routes[route_index].port}: {e}")
         
         finally:
             routes[route_index].active_conversations -= 1

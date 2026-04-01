@@ -1,14 +1,19 @@
+import asyncio
+
 import chromadb
 from datetime import datetime
-import ollama
 from threading import Thread
 import os
+import json
 
-from argus.fixjsonformatting import fix_json_formatting, Bias_Schema
+from argus.fixjsonformatting import Bias_Schema
+from argus.llamarouter import LlamaRouter
 
 
 class Bias_Agent:
-    def __init__(self, article_text: str, article_metadata: dict, bias_rating: str, article_collection: chromadb.Collection, analysis_model: str = "glm-4.7-flash", think: bool = True, use_long_prompt: bool = True):
+
+
+    def __init__(self, article_text: str, article_metadata: dict, bias_rating: str, router: LlamaRouter, article_collection: chromadb.Collection, analysis_model: str = "glm-4.7-flash", think: bool = True, use_long_prompt: bool = True):
 
         self.article_text = article_text
         self.title = article_metadata.get("title", "No title found")  # type: ignore
@@ -16,9 +21,11 @@ class Bias_Agent:
         self.date = article_metadata.get("date", "No date found")  # type: ignore
         self.intial_bias = bias_rating
 
+        self.router = router
         self.article_collection = article_collection
         self.evaluation_model = analysis_model
         self.think = think
+
         self.agent_metadata = {}
         self.agent_metadata["scheduled"] = datetime.now().isoformat()
 
@@ -63,10 +70,8 @@ class Bias_Agent:
         else:
             self.prompt = self.default_prompt
 
-        self.thread = Thread(target=self.analyze_bias)
-        self.thread.start()
 
-    def analyze_bias(self) -> dict[str, str | int]:
+    async def analyze_bias(self) -> dict[str, str | int]:
         self.agent_metadata["started"] = datetime.now().isoformat()
         self.agent_metadata["total_tool_calls"] = 0
         self.agent_metadata["tool_calls"] = {}
@@ -88,7 +93,7 @@ class Bias_Agent:
         while True:
             print("Sending message to bias model...")
 
-            response = ollama.chat(
+            response = await self.router.chat(
                 model=self.evaluation_model,
                 think=self.think,
                 messages=messages,
@@ -99,13 +104,13 @@ class Bias_Agent:
                     self.page_text_tool,
                 ],
             )
-            messages.append(response.message.model_dump())
+            messages.append(response.model_dump())
 
-            print(f"Bias model reasoning: {response.message.thinking}")
-            print(f"Bias model response: {response.message.content}")
+            print(f"Bias model reasoning: {response.thinking}")
+            print(f"Bias model response: {response.content}")
 
-            if response.message.tool_calls:
-                for call in response.message.tool_calls:
+            if response.tool_calls:
+                for call in response.tool_calls:
                     tool_name = call.function.name
                     tool_args = call.function.arguments
 
@@ -140,7 +145,7 @@ class Bias_Agent:
                         "content": 'Ensure the response is in the correct JSON format according to the schema. This should include a final bias rating (0-100) for each of the three parts ("political_score", "sensationalism_score", "emotional_language_score"), as well as an explanation for each rating ("political_bias", "sensationalism", "emotional_language").',
                     }
                 )
-                response = ollama.chat(model=self.evaluation_model, think=self.think, messages=messages)
+                response = await self.router.chat(model=self.evaluation_model, think=self.think, messages=messages, format=json.dumps(Bias_Schema.model_json_schema()))  # type: ignore
                 break
 
         bias_response = fix_json_formatting(response.message.content, Bias_Schema)  # type: ignore
@@ -156,11 +161,13 @@ class Bias_Agent:
 
         return self.bias_rating
 
-    def read_notes(self) -> str:
+    
+    async def read_notes(self) -> str:
         """Reads notes for the bias evaluation process."""
         return self.notes
 
-    def write_notes(self, new_notes: str) -> str:
+    
+    async def write_notes(self, new_notes: str) -> str:
         """Writes notes for the bias evaluation process.
 
         Args:
@@ -169,7 +176,8 @@ class Bias_Agent:
         self.notes = self.notes + "\n\n" + new_notes
         return "Notes updated."
 
-    def search_db_tool(self, query: str) -> list[tuple[str, str]]:
+    
+    async def search_db_tool(self, query: str) -> list[tuple[str, str]]:
         """Searches the article collection for relevant information.
 
         Args:
@@ -188,7 +196,8 @@ class Bias_Agent:
 
         return results
 
-    def page_text_tool(self, url: str) -> str:
+    
+    async def page_text_tool(self, url: str) -> str:
         """Retrieves the full text content of a webpage that has already been summarized given its URL.
 
         Args:
@@ -207,12 +216,16 @@ if __name__ == "__main__":
     article_collection = chromadb.HttpClient().get_or_create_collection(name="articles")
 
     metadata = article_collection.query(query_texts=["Costco"], n_results=1)["metadatas"][0][0]  # type: ignore
+    article_metadata = {"title": "costco article", "source": "costco news", "date": "2024-01-01"}
 
     bias_agent = Bias_Agent(
         article_text=metadata["article_text"],  # type: ignore
         bias_rating=metadata["bias"],  # type: ignore
+        article_metadata=article_metadata,  # type: ignore
         article_collection=article_collection,
+        router=LlamaRouter(["cs-cluster-1", "localhost"], [8080, 8080], ["GLM-4.7-Flash-UD-Q4_K_XL", "NVIDIA-Nemotron3-Nano-4B-Q4_K_M"]),
+        use_long_prompt=False
     )
 
-    bias_evaluation = bias_agent.analyze_bias()
+    bias_evaluation = asyncio.run(bias_agent.analyze_bias())
     print(bias_evaluation)
