@@ -305,8 +305,10 @@ function DetailsView() {
       </div>
       <div className="flex text-muted-foreground items-center justify-center">
         <Bot />
-        ARGUS is built on top of LLMs and can make mistakes. Please double-check
-        respones.
+        <span className="max-w-4/5">
+          ARGUS is built on top of LLMs and can make mistakes. Please
+          double-check responses.
+        </span>
       </div>
       <div className="flex items-center justify-center p-2">
         <ReportAConcern />
