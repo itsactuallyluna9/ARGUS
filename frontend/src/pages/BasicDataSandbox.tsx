@@ -324,7 +324,7 @@ export default function BasicDataSandboxView() {
 
   const loadRScript = async (webR: WebR) => {
     try {
-      const response = await fetch("/graphfunctions.R");
+      const response = await fetch("/r/graphfunctions.R");
       if (!response.ok) {
         throw new Error("Failed to fetch R script");
       }
