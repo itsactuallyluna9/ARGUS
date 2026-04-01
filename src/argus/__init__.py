@@ -343,6 +343,11 @@ def debug_chromadb():
         return jsonify(result)
 
 
+@app.get("/r/<path:path>")
+def serve_r_scripts(path: str):
+    return send_from_directory(PROJECT_ROOT / "r", path, mimetype="text/plain")
+
+
 @app.get("/", defaults={"path": ""})
 @app.get("/<path:path>")
 def serve_frontend(path: str):
