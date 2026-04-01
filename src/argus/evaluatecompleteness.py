@@ -289,7 +289,7 @@ if __name__ == "__main__":
         use_long_prompt=False
     )
     
-    scores = asyncio.gather(completeness_agent.evaluate_completeness())
+    scores = asyncio.run(completeness_agent.evaluate_completeness())
 
     print(completeness_agent.completeness_score)
     print(completeness_agent.completeness_explanation)

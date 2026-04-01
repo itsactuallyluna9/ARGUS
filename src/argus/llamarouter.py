@@ -4,7 +4,7 @@ import json
 import re
 from typing import Callable, get_type_hints
 
-from openai import OpenAI
+from openai import AsyncOpenAI
 from dataclasses import dataclass
 from ollama import Message
 
@@ -67,12 +67,15 @@ class LlamaRouter:
         self.routes[model][route_index] = routes[route_index]
 
         if override_url:
-            client = OpenAI(base_url=override_url, api_key=routes[route_index].api_key)
+            client = AsyncOpenAI(base_url=override_url, api_key=routes[route_index].api_key)
         else:
-            client = OpenAI(base_url=f"http://{routes[route_index].ip}:{routes[route_index].port}", api_key=routes[route_index].api_key)
+            client = AsyncOpenAI(base_url=f"http://{routes[route_index].ip}:{routes[route_index].port}", api_key=routes[route_index].api_key)
 
         try:
-            raw_response = client.chat.completions.create(
+
+            print(f"sending prompt to model {model} at {routes[route_index].ip}:{routes[route_index].port} with think={think}")
+
+            raw_response = await client.chat.completions.create(
                 model = f"~/llamacpp/models/{model}.gguf",
                 messages = [{
                     "role": "user",
@@ -134,9 +137,9 @@ class LlamaRouter:
         self.routes[model][route_index] = routes[route_index]
 
         if override_url:
-            client = OpenAI(base_url=override_url, api_key=routes[route_index].api_key)
+            client = AsyncOpenAI(base_url=override_url, api_key=routes[route_index].api_key)
         else:
-            client = OpenAI(base_url=f"http://{routes[route_index].ip}:{routes[route_index].port}", api_key=routes[route_index].api_key)
+            client = AsyncOpenAI(base_url=f"http://{routes[route_index].ip}:{routes[route_index].port}", api_key=routes[route_index].api_key)
 
         try:
             for msg in messages:
@@ -147,9 +150,9 @@ class LlamaRouter:
                 if msg["role"] == "tool":
                     msg["content"] = json.dumps(msg["content"]) if isinstance(msg["content"], dict) else msg["content"]
 
-            print(f"sending messages to model {model} at {routes[route_index].ip}:{routes[route_index].port} with tools {tools} and think={think}")
+            print(f"sending messages to model {model} at {routes[route_index].ip}:{routes[route_index].port} with tools {len(tools)} and think={think}")
 
-            raw_response = client.chat.completions.create(
+            raw_response = await client.chat.completions.create(
                 model = f"~/llamacpp/models/{model}.gguf",
                 messages = messages, # type: ignore
                 tool_choice="auto" if tools else None, # type: ignore

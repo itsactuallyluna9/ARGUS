@@ -27,12 +27,7 @@ FRONTEND_DIST = PROJECT_ROOT / "frontend" / "dist"
 app = Flask(__name__, static_folder=str(FRONTEND_DIST), static_url_path="/")
 CORS(app, resources={r"/api/*": {"origins": "*"}})
 
-router = LlamaRouter(
-    #ips=["100.68.11.49"],
-    ips=["localhost"],
-    ports=[8001],
-    models=["glm-4.7-flash"]
-)
+router = LlamaRouter(["100.67.68.111", "localhost"], [8080, 8080], ["GLM-4.7-Flash-UD-Q4_K_XL", "NVIDIA-Nemotron3-Nano-4B-Q4_K_M"])
 
 chromaclient = chromadb.HttpClient(host="localhost", port=8000)
 
@@ -113,11 +108,11 @@ def get_gpu_metrics() -> dict[str, float | int | bool | None]:
 
 
 @app.post("/api/create")
-def api_create():
+async def api_create():
     data = request.get_json()
     url = data.get("url")
 
-    if not check_url(url):
+    if not check_url(url, router):
         return jsonify({"message": f"URL {url} is not valid or cannot be scraped."}), 400
 
     found = False
@@ -130,7 +125,7 @@ def api_create():
             break
 
     if not found:
-        check = FactCheck(url, articles)
+        check = FactCheck(url, articles, router)
         active_fact_checks.append(check)
 
     return jsonify(check.to_dict()), 202
@@ -164,7 +159,7 @@ def api_create_random():
 
                 # return jsonify({"message": f"Failed to load URL."}), 400
 
-    check = FactCheck(url, articles) # type: ignore
+    check = FactCheck(url, articles, router) # type: ignore
     active_fact_checks.append(check)
 
     return jsonify(check.to_dict()), 202
@@ -277,15 +272,17 @@ def api_debug_loaded_models():
 
 
 @app.post("/api/debug/import")
-def api_debug_import():
+async def api_debug_import():
     data = request.get_json()
     urls = data.get("urls")
     summarize_only = data.get("summarizeOnly", False)
 
-    valid_urls = [url for url in urls if check_url(url)]
+    valid_urls = [url for url in urls if check_url(url, router)]
 
     # we're gonna do this async in the background, so we can return immediately
-    threading.Thread(target=bulk_import_articles, args=(valid_urls, summarize_only)).start()
+    loop = asyncio.get_event_loop()
+    t = threading.Thread(target=bulk_import_articles, args=(loop, valid_urls, summarize_only))
+    t.start()
 
     # invalid_urls = urls not in valid_urls
     invalid_urls = [url for url in urls if url not in valid_urls]
@@ -298,14 +295,14 @@ def api_debug_import():
     ), 202
 
 
-def bulk_import_articles(urls, summarize_only):
+async def bulk_import_articles(urls, summarize_only, use_long_prompts=True):
     from argus.scraper import get_page
     from argus.summarizearticle import summarize_article
 
     for url in urls:
         if summarize_only:
             article_metadata, article_text = get_page(url)
-            response = summarize_article(article_text, model="gemma3:12b", think=False)
+            response = await summarize_article(article_text, router, model="gemma3:12b", think=False, use_long_prompt=use_long_prompts)
             description = response["description"]  # type: ignore
             summary = response["articleSummary"]  # type: ignore
             key_points = response["points"]  # type: ignore
@@ -321,9 +318,11 @@ def bulk_import_articles(urls, summarize_only):
                 pass
 
         else:
-            check = FactCheck(url, articles)
+            check = FactCheck(url, articles, router)
             active_fact_checks.append(check)
-            check.thread.join()  # wait for the fact check to finish before starting the next one
+
+            await check.main(use_long_prompts=use_long_prompts)
+
             active_fact_checks.remove(check)
             past_checks.add(ids=[check.id], documents=[json.dumps(check.to_dict())])
 
