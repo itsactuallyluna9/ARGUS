@@ -5,7 +5,6 @@ import chromadb
 from datetime import datetime
 from tenacity import retry, stop_after_attempt
 import uuid
-from threading import Thread
 
 from argus.fixjsonformatting import URLCheckSchema
 from argus.summarizearticle import summarize_article
@@ -23,7 +22,7 @@ class FactCheck:
         url: str,
         article_collection: chromadb.Collection,
         router: LlamaRouter,
-        summarizer_model: str = "NVIDIA-Nemotron3-Nano-4B-Q4_K_M",
+        summarizer_model: str = "nemotron-3-nano:4b",
         think: bool = False,
     ):
 
@@ -85,7 +84,7 @@ class FactCheck:
             "finished": self.finished,
         }
 
-    async def main(self, use_long_prompts: bool = True):
+    async def main(self, use_long_prompts: bool = False):
         
         self.fact_check_metadata["check_started"] = datetime.now().isoformat()
 
@@ -97,16 +96,17 @@ class FactCheck:
 
         print("Beginning summary and bias analysis...\nThis may take a few minutes...\n")
         # raw article text |> summarizer |> -> summary, key points |> chromadb (if not present)
-        with with_timing(lambda t: self.fact_check_metadata.update({"summary_duration": t.duration_s})):
-            self.summary, self.bias_rating, self.key_points = await self.summarize_article(self.article_text, router=self.router, use_long_prompt=use_long_prompts)
+        # TODO: fucking fix this
+        # async with with_timing(lambda t: self.fact_check_metadata.update({"summary_duration": t.duration_s})):
+        self.summary, self.bias_rating, self.key_points = await self.summarize_article(self.article_text, router=self.router, use_long_prompt=use_long_prompts)
 
         print(f"\n\n\nSummary for {self.url}:\n{self.summary}\nBias rating: {self.bias_rating}\nKey points: {self.key_points}\n\n\n")
 
         print("\nResearching article accuracy, completeness, and bias...\nThis may take a few minutes...\n")
 
         # evidence + article text + related article summaries + bias rating |> fact check model -> accuracy, completeness scores + explanation
-        with with_timing(lambda t: self.fact_check_metadata.update({"agents_duration": t.duration_s})):
-            await (self.fact_check(self.article_text, self.bias_rating, self.key_points, use_long_prompts=use_long_prompts))
+        # async with with_timing(lambda t: self.fact_check_metadata.update({"agents_duration": t.duration_s})):
+        await (self.fact_check(self.article_text, self.bias_rating, self.key_points, use_long_prompts=use_long_prompts))
 
         print(f"\n\n\nFact check results for {self.url}:\n")
         print(f"\nAccuracy score: {self.accuracy_score}\nExplanation: {self.accuracy_explanation}\nSources: {self.sources}")
@@ -215,18 +215,28 @@ class FactCheck:
 
 async def check_url(url: str, router: LlamaRouter) -> bool:
     # check if url is valid and can be scraped
+    import logging
+
+    logger = logging.getLogger(__name__)
+
+    logger.info(f"Checking URL: {url}")
     try:
         text = get_page(url)
+
+        logger.info("got page!!")
 
         response = await router.generate(
             model="nemotron-3-nano:4b",
             prompt=f'You are a tool that verifies if text scraped from a URL is a valid page or if it is blocked. You will be given the text output of a web scraper, and your task is to decide if the text was successfully scraped or if there was an error. Return "True" if it is a valid page, "False" if it\'s a cookies message or some other error.\n\nScraper output from page {url}: {text}',
-            format=URLCheckSchema.model_json_schema(),
+            format=json.dumps(URLCheckSchema.model_json_schema()),
         )
 
-        return json.loads(response.response)["isValid"]  # type: ignore
+        logger.info("got response from model!!!!!")
+
+        return response.content == "True"  # type: ignore
 
     except:
+        logger.exception("Error checking URL")
         return False
 
 

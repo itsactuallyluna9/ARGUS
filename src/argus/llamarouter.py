@@ -7,6 +7,9 @@ from typing import Callable, get_type_hints
 from openai import AsyncOpenAI
 from dataclasses import dataclass
 from ollama import Message
+import httpx
+
+_LLAMA_TIMEOUT = httpx.Timeout(timeout=1800.0, connect=10.0)
 
 class LlamaRouter:
     
@@ -43,7 +46,7 @@ class LlamaRouter:
         return self.routes.get(model, [])
     
 
-    async def generate(self, model: str, prompt: str, think: bool = False, format: dict = None, override_url: str = None) -> Message: # type: ignore
+    async def generate(self, model: str, prompt: str, think: bool = False, format: str = None, override_url: str = None) -> Message: # type: ignore
 
         if model in self.model_aliases:
             model = self.model_aliases[model]
@@ -67,13 +70,16 @@ class LlamaRouter:
         self.routes[model][route_index] = routes[route_index]
 
         if override_url:
-            client = AsyncOpenAI(base_url=override_url, api_key=routes[route_index].api_key)
+            client = AsyncOpenAI(base_url=override_url, api_key=routes[route_index].api_key, timeout=_LLAMA_TIMEOUT)
         else:
-            client = AsyncOpenAI(base_url=f"http://{routes[route_index].ip}:{routes[route_index].port}", api_key=routes[route_index].api_key)
+            client = AsyncOpenAI(base_url=f"http://{routes[route_index].ip}:{routes[route_index].port}", api_key=routes[route_index].api_key, timeout=_LLAMA_TIMEOUT)
 
         try:
 
             print(f"sending prompt to model {model} at {routes[route_index].ip}:{routes[route_index].port} with think={think}")
+
+            print(format)
+            print(type(format))
 
             raw_response = await client.chat.completions.create(
                 model = f"~/llamacpp/models/{model}.gguf",
@@ -104,7 +110,7 @@ class LlamaRouter:
                 return response
 
             raise RuntimeError("Model returned no final output content.")
-        
+
         finally:
             routes[route_index].active_conversations -= 1
             self.routes[model][route_index] = routes[route_index]
@@ -137,9 +143,9 @@ class LlamaRouter:
         self.routes[model][route_index] = routes[route_index]
 
         if override_url:
-            client = AsyncOpenAI(base_url=override_url, api_key=routes[route_index].api_key)
+            client = AsyncOpenAI(base_url=override_url, api_key=routes[route_index].api_key, timeout=_LLAMA_TIMEOUT)
         else:
-            client = AsyncOpenAI(base_url=f"http://{routes[route_index].ip}:{routes[route_index].port}", api_key=routes[route_index].api_key)
+            client = AsyncOpenAI(base_url=f"http://{routes[route_index].ip}:{routes[route_index].port}", api_key=routes[route_index].api_key, timeout=_LLAMA_TIMEOUT)
 
         try:
             for msg in messages:

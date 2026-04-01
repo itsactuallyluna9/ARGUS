@@ -5,7 +5,6 @@ import chromadb
 from datetime import datetime
 from ddgs import DDGS, exceptions
 from tenacity import retry, retry_if_exception_type, stop_after_attempt
-from threading import Thread
 
 from argus.fixjsonformatting import Completeness_Schema
 from argus.scraper import get_page

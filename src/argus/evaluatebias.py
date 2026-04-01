@@ -1,8 +1,6 @@
 import asyncio
-
 import chromadb
 from datetime import datetime
-from threading import Thread
 import os
 import json
 
@@ -148,14 +146,12 @@ class Bias_Agent:
                 response = await self.router.chat(model=self.evaluation_model, think=self.think, messages=messages, format=json.dumps(Bias_Schema.model_json_schema()))  # type: ignore
                 break
 
-        bias_response = fix_json_formatting(response.message.content, Bias_Schema)  # type: ignore
-
-        self.bias_rating["political_bias"] = bias_response["political_bias_explanation"]
-        self.bias_rating["sensationalism"] = bias_response["sensationalism_explanation"]
-        self.bias_rating["emotional_language"] = bias_response["emotional_language_explanation"]
-        self.bias_rating["political_score"] = bias_response["political_score"]
-        self.bias_rating["sensationalism_score"] = bias_response["sensationalism_score"]
-        self.bias_rating["emotional_language_score"] = bias_response["emotional_language_score"]
+        self.bias_rating["political_bias"] = response["political_bias_explanation"]
+        self.bias_rating["sensationalism"] = response["sensationalism_explanation"]
+        self.bias_rating["emotional_language"] = response["emotional_language_explanation"]
+        self.bias_rating["political_score"] = response["political_score"]
+        self.bias_rating["sensationalism_score"] = response["sensationalism_score"]
+        self.bias_rating["emotional_language_score"] = response["emotional_language_score"]
 
         self.agent_metadata["finished"] = datetime.now().isoformat()
 
