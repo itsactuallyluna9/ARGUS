@@ -4,10 +4,9 @@ import chromadb
 from datetime import datetime
 from ddgs import DDGS, exceptions
 from tenacity import retry, retry_if_exception_type, stop_after_attempt
-from threading import Thread
 import json
 
-from argus.fixjsonformatting import fix_json_formatting, Accuracy_Schema
+from argus.fixjsonformatting import Accuracy_Schema
 from argus.scraper import get_page
 from argus.summarizearticle import summarize_article
 from argus.llamarouter import LlamaRouter
@@ -66,7 +65,7 @@ class Accuracy_Agent:
                 self.prompt = f.read()
         else:
             self.prompt = self.default_prompt
-            
+
 
     # initiates agentic model to evaluate articles accuracy, will use tool calls to research and take notes, coerces to structured output, returns accuracy score, reasoning, and sources used in evaluation
     async def evaluate_accuracy(self) -> tuple[int, str, list[str]]:  # type: ignore

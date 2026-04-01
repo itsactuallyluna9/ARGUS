@@ -48,11 +48,16 @@ def ttl_cache(ttl_seconds):
 
 
 def get_page(url: str) -> tuple[dict[str, str], str]:
+    import logging
+
+    logger = logging.getLogger(__name__)
     metadata = {}
     content_type, content, used_fallback = get_source(url)
     metadata["content_type"] = content_type
     metadata["content_length"] = len(content)
     metadata["used_fallback"] = used_fallback
+
+    logger.info(f"Fetched content from {url} with content type {content_type} and length {len(content)} (used fallback: {used_fallback})")
 
     match content_type:
         case "text/html" | "application/xhtml+xml":

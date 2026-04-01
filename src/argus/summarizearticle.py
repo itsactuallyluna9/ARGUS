@@ -1,6 +1,5 @@
 import asyncio
 import os
-import ollama
 import json
 
 from argus.fixjsonformatting import SummarizeArticleSchema
@@ -32,13 +31,13 @@ async def summarize_article(article_text: str, router: LlamaRouter, model: str =
     else:
         prompt = default_prompt
 
-    r = await asyncio.gather(router.generate(
+    r = await router.generate(
         model=model,
         prompt=f"{prompt}\nArticle text: {article_text}",
         think=think,
         format=json.dumps(SummarizeArticleSchema.model_json_schema()) # type: ignore
-    ))
-    response = json.loads(r[0].content) # type: ignore
+    )
+    response = json.loads(r.content) # type: ignore
 
     return response
 

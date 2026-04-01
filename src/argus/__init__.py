@@ -1,10 +1,10 @@
 import asyncio
+import threading
 from datetime import datetime
 from pathlib import Path
 import json
 import shutil
 import subprocess
-import threading
 import random
 from playwright.sync_api import sync_playwright
 from playwright_stealth import Stealth
@@ -27,7 +27,14 @@ FRONTEND_DIST = PROJECT_ROOT / "frontend" / "dist"
 app = Flask(__name__, static_folder=str(FRONTEND_DIST), static_url_path="/")
 CORS(app, resources={r"/api/*": {"origins": "*"}})
 
-router = LlamaRouter(["cs-cluster-1", "localhost"], [8080, 8080], ["GLM-4.7-Flash-UD-Q4_K_XL", "NVIDIA-Nemotron3-Nano-4B-Q4_K_M"])
+router = LlamaRouter(["cs-cluster-1", "localhost"], [8080, 8080], ["GLM-4.7-Flash-UD-Q4_K_XL", "nemotron-3-nano:4b"])
+
+# Persistent event loop for background async tasks.
+# Flask's WSGI server tears down its per-request event loop when a handler
+# returns, which cancels any tasks created with asyncio.create_task().
+_bg_loop = asyncio.new_event_loop()
+_bg_thread = threading.Thread(target=_bg_loop.run_forever, daemon=True, name="argus-bg-loop")
+_bg_thread.start()
 
 chromaclient = chromadb.HttpClient(host="localhost", port=8000)
 
@@ -126,6 +133,7 @@ async def api_create():
 
     if not found:
         check = FactCheck(url, articles, router)
+        asyncio.run_coroutine_threadsafe(check.main(), _bg_loop)
         active_fact_checks.append(check)
 
     return jsonify(check.to_dict()), 202
@@ -160,13 +168,14 @@ def api_create_random():
                 # return jsonify({"message": f"Failed to load URL."}), 400
 
     check = FactCheck(url, articles, router) # type: ignore
+    asyncio.run_coroutine_threadsafe(check.main(), _bg_loop)
     active_fact_checks.append(check)
 
     return jsonify(check.to_dict()), 202
 
 
 @app.post("/api/status")
-def api_status():
+async def api_status():
     data = request.get_json()
     uuid = data.get("uuid")
 
@@ -183,7 +192,7 @@ def api_status():
     if past_check["ids"]:
         return jsonify(json.loads(past_checks.get(ids=[uuid])["documents"][0])), 200  # type: ignore
 
-    return jsonify({"message": f"No active fact check found for UUID {uuid}."}), 404
+    return jsonify({"message": f"No fact check found for UUID {uuid}."}), 404
 
 
 @app.get("/api/data")
@@ -281,7 +290,7 @@ async def api_debug_import():
     valid_urls = [url for url, is_valid in zip(urls, url_checks) if is_valid]
 
     # we're gonna do this async in the background, so we can return immediately
-    asyncio.create_task(bulk_import_articles(valid_urls, summarize_only))
+    asyncio.run_coroutine_threadsafe(bulk_import_articles(valid_urls, summarize_only), _bg_loop)
 
     # invalid_urls = urls not in valid_urls
     invalid_urls = [url for url, is_valid in zip(urls, url_checks) if not is_valid]
@@ -373,9 +382,8 @@ def serve_frontend(path: str):
 
 
 def main() -> None:
-    app.run(host="0.0.0.0", port=5000, debug=True)
+    app.run(host="0.0.0.0", port=5000, debug=False)
 
 
 if __name__ == "__main__":
-    pass
-    # main()
+    main()
