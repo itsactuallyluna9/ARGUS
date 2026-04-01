@@ -324,11 +324,19 @@ export default function BasicDataSandboxView() {
 
   const loadRScript = async (webR: WebR) => {
     try {
-      const response = await fetch("/r/graphfunctions.R");
+      const response = await fetch("/r/graphfunctions.R", {
+        cache: "no-cache",
+      });
       if (!response.ok) {
         throw new Error("Failed to fetch R script");
       }
       const script = await response.text();
+      
+      if (!script || script.trim().length === 0) {
+        throw new Error("R script is empty - possibly a caching issue");
+      }
+      
+      console.log("Loading R script, length:", script.length);
 
       await webR.evalRVoid(script);
     } catch (error) {
