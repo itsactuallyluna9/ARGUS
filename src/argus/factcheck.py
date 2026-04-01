@@ -1,8 +1,8 @@
+import asyncio
 import json
 from typing import Any
 import chromadb
 from datetime import datetime
-import ollama
 from tenacity import retry, stop_after_attempt
 import uuid
 from threading import Thread
@@ -23,7 +23,7 @@ class FactCheck:
         url: str,
         article_collection: chromadb.Collection,
         router: LlamaRouter,
-        summarizer_model: str = "nemotron-3-nano:4b",
+        summarizer_model: str = "NVIDIA-Nemotron3-Nano-4B-Q4_K_M",
         think: bool = False,
     ):
 
@@ -58,9 +58,6 @@ class FactCheck:
 
         self.finished = False
 
-        self.thread = Thread(target=self.main)
-        self.thread.start()
-
         print(f"Initialized fact check for {self.url} with ID {self.id}")
 
 
@@ -88,17 +85,20 @@ class FactCheck:
             "finished": self.finished,
         }
 
-    def main(self, use_long_prompts: bool = True):
+    async def main(self, use_long_prompts: bool = True):
         
         self.fact_check_metadata["check_started"] = datetime.now().isoformat()
 
+
+        print("Scraping article and extracting text...\nThis may take a minute...\n")
         # url |> scrape |> clean -> raw article text
         with with_timing(lambda t: self.fact_check_metadata.update({"scraper_duration": t.duration_s})):
             self.article_metadata, self.article_text = get_page(self.url)
 
+        print("Beginning summary and bias analysis...\nThis may take a few minutes...\n")
         # raw article text |> summarizer |> -> summary, key points |> chromadb (if not present)
         with with_timing(lambda t: self.fact_check_metadata.update({"summary_duration": t.duration_s})):
-            self.summary, self.bias_rating, self.key_points = self.summarize_article(self.article_text, use_long_prompt=use_long_prompts)
+            self.summary, self.bias_rating, self.key_points = await self.summarize_article(self.article_text, router=self.router, use_long_prompt=use_long_prompts)
 
         print(f"\n\n\nSummary for {self.url}:\n{self.summary}\nBias rating: {self.bias_rating}\nKey points: {self.key_points}\n\n\n")
 
@@ -106,7 +106,7 @@ class FactCheck:
 
         # evidence + article text + related article summaries + bias rating |> fact check model -> accuracy, completeness scores + explanation
         with with_timing(lambda t: self.fact_check_metadata.update({"agents_duration": t.duration_s})):
-            self.fact_check(self.article_text, self.bias_rating, self.key_points, use_long_prompts=use_long_prompts)
+            await (self.fact_check(self.article_text, self.bias_rating, self.key_points, use_long_prompts=use_long_prompts))
 
         print(f"\n\n\nFact check results for {self.url}:\n")
         print(f"\nAccuracy score: {self.accuracy_score}\nExplanation: {self.accuracy_explanation}\nSources: {self.sources}")
@@ -125,9 +125,9 @@ class FactCheck:
 
 
     @retry(stop=stop_after_attempt(3))
-    def summarize_article(self, article_text: str, router: LlamaRouter, use_long_prompt: bool = True) -> tuple[str, str, list]:
+    async def summarize_article(self, article_text: str, router: LlamaRouter, use_long_prompt: bool = True) -> tuple[str, str, list]:
         # returns json with index sentence, key points, summary, bias rating
-        response = summarize_article(article_text, router, model=self.model, think=self.think, use_long_prompt=use_long_prompt)
+        response = await summarize_article(article_text, router, model=self.model, think=self.think, use_long_prompt=use_long_prompt)
 
         description = response["description"]  # type: ignore
         summary = response["articleSummary"]  # type: ignore
@@ -146,7 +146,7 @@ class FactCheck:
         return summary, bias_rating, key_points  # type: ignore
 
 
-    def fact_check(
+    async def fact_check(
         self,
         article_text: str,
         bias_rating: str,
@@ -187,9 +187,13 @@ class FactCheck:
         self.fact_check_metadata["accuracy_agent"] = accuracy_agent.agent_metadata
         self.fact_check_metadata["bias_agent"] = bias_agent.agent_metadata
 
-        completeness_agent.thread.join()
-        accuracy_agent.thread.join()
-        bias_agent.thread.join()
+        completeness_future = completeness_agent.evaluate_completeness()
+        accuracy_future = accuracy_agent.evaluate_accuracy()
+        bias_future = bias_agent.analyze_bias()
+
+        asyncio.gather(
+            completeness_future, accuracy_future, bias_future
+        )
 
         self.accuracy_score = accuracy_agent.accuracy_score
         self.accuracy_explanation = accuracy_agent.accuracy_explanation
@@ -231,12 +235,10 @@ if __name__ == "__main__":
     url = "https://www.theguardian.com/tv-and-radio/2026/mar/24/power-the-downfall-of-huw-edwards-review-martin-clunes-is-sickening"
     model = "glm-4.7-flash"
 
-    router = LlamaRouter(
-        ips=["localhost"],
-        ports=[8001],
-        models=[model]
-    )
+    router=LlamaRouter(["100.67.68.111", "localhost"], [8080, 8080], ["GLM-4.7-Flash-UD-Q4_K_XL", "NVIDIA-Nemotron3-Nano-4B-Q4_K_M"])
 
     check = FactCheck(url, chromadb_client.get_or_create_collection(name="articles"), router, summarizer_model=model, think=True)
 
-    check.thread.join()
+    asyncio.run(check.main(use_long_prompts=False))
+
+    
