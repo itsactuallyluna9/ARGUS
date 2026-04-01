@@ -112,7 +112,7 @@ async def api_create():
     data = request.get_json()
     url = data.get("url")
 
-    if not check_url(url, router):
+    if not await check_url(url, router):
         return jsonify({"message": f"URL {url} is not valid or cannot be scraped."}), 400
 
     found = False
@@ -277,15 +277,14 @@ async def api_debug_import():
     urls = data.get("urls")
     summarize_only = data.get("summarizeOnly", False)
 
-    valid_urls = [url for url in urls if check_url(url, router)]
+    url_checks = await asyncio.gather(*(check_url(url, router) for url in urls))
+    valid_urls = [url for url, is_valid in zip(urls, url_checks) if is_valid]
 
     # we're gonna do this async in the background, so we can return immediately
-    loop = asyncio.get_event_loop()
-    t = threading.Thread(target=bulk_import_articles, args=(loop, valid_urls, summarize_only))
-    t.start()
+    asyncio.create_task(bulk_import_articles(valid_urls, summarize_only))
 
     # invalid_urls = urls not in valid_urls
-    invalid_urls = [url for url in urls if url not in valid_urls]
+    invalid_urls = [url for url, is_valid in zip(urls, url_checks) if not is_valid]
 
     return jsonify(
         {
