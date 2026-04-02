@@ -27,7 +27,8 @@ FRONTEND_DIST = PROJECT_ROOT / "frontend" / "dist"
 app = Flask(__name__, static_folder=str(FRONTEND_DIST), static_url_path="/")
 CORS(app, resources={r"/api/*": {"origins": "*"}})
 
-router = LlamaRouter(["cs-cluster-1", "localhost", "luna"], [8080, 8080, 8080], ["GLM-4.7-Flash-UD-Q4_K_XL", "GLM-4.7-Flash-UD-Q4_K_XL", "nemotron-3-nano:4b"])
+#router = LlamaRouter(["cs-cluster-1", "localhost", "luna"], [8080, 8080, 8080], ["GLM-4.7-Flash-UD-Q4_K_XL", "GLM-4.7-Flash-UD-Q4_K_XL", "nemotron-3-nano:4b"])
+router = LlamaRouter(["cs-cluster-1", "localhost"], [8080, 8080], ["glm-4.7-flash", "nemotron-3-nano:4b"])
 
 # Persistent event loop for background async tasks.
 # Flask's WSGI server tears down its per-request event loop when a handler
