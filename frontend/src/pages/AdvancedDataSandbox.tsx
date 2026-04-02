@@ -16,6 +16,7 @@ import {
   FolderDown,
   Trash2,
   FlaskConicalOff,
+  ExternalLink,
 } from "lucide-react";
 import { EditorView, basicSetup } from "codemirror";
 import { r } from "codemirror-lang-r";
@@ -48,6 +49,15 @@ import {
 } from "@/components/ui/table";
 import { Separator } from "@/components/ui/separator";
 import { Link } from "react-router-dom";
+import {
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectLabel,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 
 const ENTER_KEY = 13;
 const BACKSPACE_KEY = 127;
@@ -757,7 +767,6 @@ function DataSandboxView() {
               >
                 <TabsList>
                   <TabsTrigger value="data-loader">Data Loader</TabsTrigger>
-                  <TabsTrigger value="templates">Templates</TabsTrigger>
                   <TabsTrigger value="documentation">Documentation</TabsTrigger>
                   <TabsTrigger value="view" disabled={viewData.length === 0}>
                     View
@@ -790,6 +799,9 @@ function DataSandboxView() {
                       Download Data to Computer
                     </Button>
                   </ButtonGroup>
+                </TabsContent>
+                <TabsContent value="documentation">
+                  <DocumentationTab />
                 </TabsContent>
                 <TabsContent value="view">
                   <Table>
@@ -970,6 +982,57 @@ function DataSandboxView() {
         </ResizablePanel>
       </ResizablePanelGroup>
     </main>
+  );
+}
+
+function DocumentationTab() {
+  const [currentDocumentation, setCurrentDocumentation] =
+    useState("data-reference");
+
+  // /docs/data-reference
+  // /docs/advanced-data
+  // https://cran.r-project.org/doc/manuals/r-release/R-intro.html
+  // https://ggplot2.tidyverse.org/reference/index.html
+  // https://ggplot2-book.org/
+  // https://jrnold.github.io/ggthemes
+  // https://plotly.com/r/
+  // https://r-graphics.org/
+
+  return (
+    <>
+      <div className="flex">
+        <Select
+          value={currentDocumentation}
+          onValueChange={setCurrentDocumentation}
+        >
+          <SelectTrigger className="w-full">
+            <SelectValue />
+          </SelectTrigger>
+          <SelectContent>
+            <SelectGroup>
+              <SelectItem value="data_reference">Data Reference</SelectItem>
+              <SelectItem value="advanced_data_sandbox">
+                Advanced Data Sandbox
+              </SelectItem>
+              <SelectItem value="r-intro">An Introduction to R</SelectItem>
+              <SelectItem value="ggplot_reference">
+                ggplot2 Reference
+              </SelectItem>
+              <SelectItem value="ggplot_reference">
+                ggplot2: Elegant Graphics for Data Analysis
+              </SelectItem>
+              <SelectItem value="ggthemes">ggthemes</SelectItem>
+              <SelectItem value="plotly">plotly</SelectItem>
+              <SelectItem value="r-graphics">R Graphics Cookbook</SelectItem>
+            </SelectGroup>
+          </SelectContent>
+        </Select>
+        <Button variant="outline">
+          <ExternalLink />
+        </Button>
+      </div>
+      <iframe className="w-full h-full" src="https://example.com"></iframe>
+    </>
   );
 }
 
