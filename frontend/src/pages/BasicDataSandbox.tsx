@@ -1,3 +1,4 @@
+import { useTheme } from "@/components/theme-provider";
 import { Button } from "@/components/ui/button";
 import { ButtonGroup } from "@/components/ui/button-group";
 import { Calendar } from "@/components/ui/calendar";
@@ -105,12 +106,10 @@ export function TernaryDarkModeButton({
     | "destructive"
     | "link";
 }) {
-  const { ternaryDarkMode, toggleTernaryDarkMode } = useTernaryDarkMode({
-    localStorageKey: "argus-theme",
-  });
+  const { theme, toggleTheme } = useTheme();
 
   const buttonIcon = () => {
-    switch (ternaryDarkMode) {
+    switch (theme) {
       case "system":
         return <SunMoon />;
       case "dark":
@@ -123,12 +122,12 @@ export function TernaryDarkModeButton({
   return (
     <Tooltip>
       <TooltipTrigger>
-        <Button onClick={toggleTernaryDarkMode} variant={variant}>
+        <Button onClick={toggleTheme} variant={variant}>
           {buttonIcon()}
         </Button>
       </TooltipTrigger>
       <TooltipContent>
-        {ternaryDarkMode.replace(/\w/, (char) => char.toUpperCase())}
+        {theme.replace(/\w/, (char) => char.toUpperCase())}
       </TooltipContent>
     </Tooltip>
   );
@@ -150,6 +149,7 @@ export default function BasicDataSandboxView() {
   const [rBusy, setRBusy] = useState(false);
   const [busyMessage, setBusyMessage] = useState("");
   const [plotImage, setPlotImage] = useState<string | null>(null);
+  const [plotTheme, setPlotTheme] = useState<string>("auto_light_dark");
 
   const webRRef = useRef<WebR | null>(null);
   const drawCanvas = useRef<OffscreenCanvas | null>(null);
@@ -331,11 +331,11 @@ export default function BasicDataSandboxView() {
         throw new Error("Failed to fetch R script");
       }
       const script = await response.text();
-      
+
       if (!script || script.trim().length === 0) {
         throw new Error("R script is empty - possibly a caching issue");
       }
-      
+
       console.log("Loading R script, length:", script.length);
 
       await webR.evalRVoid(script);
@@ -502,7 +502,7 @@ export default function BasicDataSandboxView() {
               </div>
             </ResizablePanel>
             <ResizableHandle withHandle={true} />
-            <ResizablePanel className="pl-2 overflow-y-auto">
+            <ResizablePanel className="pl-2 overflow-y-auto" defaultSize="20%">
               <Field>
                 <FieldLabel htmlFor="chart-type">Plot Type</FieldLabel>
                 <Select
@@ -598,6 +598,70 @@ export default function BasicDataSandboxView() {
                     </ComboboxList>
                   </ComboboxContent>
                 </Combobox>
+              </Field>
+              <Field>
+                <FieldLabel htmlFor="chart-type">Plot Theme</FieldLabel>
+                <Select
+                  value={plotTheme}
+                  onValueChange={setPlotTheme}
+                  disabled={!rLoaded}
+                >
+                  <SelectTrigger className="w-full">
+                    <SelectValue placeholder="Select a Theme" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectGroup>
+                      <SelectLabel>Automatic</SelectLabel>
+                      <SelectItem value="auto_light_dark">
+                        Light/Dark
+                      </SelectItem>
+                      <SelectItem value="auto_gray_inverse">
+                        Gray/Gray (Inverse)
+                      </SelectItem>
+                      <SelectItem value="auto_solarized">
+                        Solarized Light/Dark
+                      </SelectItem>
+                    </SelectGroup>
+                    <SelectGroup>
+                      <SelectLabel>ggplot2</SelectLabel>
+                      <SelectItem value="theme_gray">Gray</SelectItem>
+                      <SelectItem value="theme_bw">Black & White</SelectItem>
+                      <SelectItem value="theme_linedraw">Line Draw</SelectItem>
+                      <SelectItem value="theme_light">Light</SelectItem>
+                      <SelectItem value="theme_dark">Dark</SelectItem>
+                      <SelectItem value="theme_minimal">Minimal</SelectItem>
+                      <SelectItem value="theme_classic">Classic</SelectItem>
+                    </SelectGroup>
+                    <SelectGroup>
+                      <SelectLabel>ggthemes</SelectLabel>
+                      <SelectItem value="theme_calc">Calc</SelectItem>
+                      <SelectItem value="theme_clean">Clean</SelectItem>
+                      <SelectItem value="theme_economist">Economist</SelectItem>
+                      <SelectItem value="theme_excel">Excel</SelectItem>
+                      <SelectItem value="theme_excel_new">
+                        Excel (New)
+                      </SelectItem>
+                      <SelectItem value="theme_igray">
+                        Gray (Inverse)
+                      </SelectItem>
+                      <SelectItem value="theme_fivethirtyeight">
+                        FiveThirtyEight
+                      </SelectItem>
+                      <SelectItem value="theme_few">Few</SelectItem>
+                      <SelectItem value="theme_solarized_light">
+                        Solarized Light
+                      </SelectItem>
+                      <SelectItem value="theme_solarized_dark">
+                        Solarized Dark
+                      </SelectItem>
+                      <SelectItem value="theme_tufte">Tufte</SelectItem>
+                      <SelectItem value="theme_wsj">
+                        Wall Street Journal
+                      </SelectItem>
+                      <SelectItem value="theme_tableau">Tableau</SelectItem>
+                    </SelectGroup>
+                  </SelectContent>
+                </Select>
               </Field>
             </ResizablePanel>
           </ResizablePanelGroup>
