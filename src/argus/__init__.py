@@ -120,6 +120,7 @@ async def api_create():
     url = data.get("url")
 
     if not await check_url(url, router):
+        print("URL is not valid or cannot be scraped.")
         return jsonify({"message": f"URL {url} is not valid or cannot be scraped."}), 400
 
     found = False

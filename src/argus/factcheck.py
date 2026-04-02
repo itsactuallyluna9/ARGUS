@@ -129,9 +129,9 @@ class FactCheck:
         response = await summarize_article(article_text, router, model=self.model, think=self.think, use_long_prompt=use_long_prompt)
 
         description = response["description"]  # type: ignore
-        summary = response["articleSummary"]  # type: ignore
+        summary = response["summary"]  # type: ignore
         key_points = response["points"]  # type: ignore
-        bias_rating = response["biasSummary"]  # type: ignore
+        bias_rating = response["bias"]  # type: ignore
 
         try:
             self.article_collection.add(
@@ -224,7 +224,7 @@ async def check_url(url: str, router: LlamaRouter) -> bool:
 
     logger.info(f"Checking URL: {url}")
     try:
-        text = get_page(url)
+        text = await get_page(url)
 
         logger.info("got page!!")
 
