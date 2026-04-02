@@ -134,6 +134,7 @@ export function TernaryDarkModeButton({
 }
 
 export default function BasicDataSandboxView() {
+  const { isDarkMode } = useTheme();
   const [currentGraph, setCurrentGraph] = useState("");
   const [date, setDate] = useState<DateRange | undefined>({
     from: undefined,
@@ -150,6 +151,31 @@ export default function BasicDataSandboxView() {
   const [busyMessage, setBusyMessage] = useState("");
   const [plotImage, setPlotImage] = useState<string | null>(null);
   const [plotTheme, setPlotTheme] = useState<string>("auto_light_dark");
+  const [actualTheme, setActualTheme] = useState<string>("");
+
+  useEffect(() => {
+    switch (plotTheme) {
+      case "auto_light_dark":
+        setActualTheme(isDarkMode ? "theme_dark()" : "theme_light()");
+        break;
+      case "auto_gray_inverse":
+        setActualTheme(isDarkMode ? "theme_igray()" : "theme_gray()");
+        break;
+      case "auto_solarized":
+        setActualTheme(
+          isDarkMode ? "theme_solarized(light=FALSE)" : "theme_solarized()",
+        );
+        break;
+      case "theme_solarized_light":
+        setActualTheme("theme_solarized()");
+        break;
+      case "theme_solarized_dark":
+        setActualTheme("theme_solarized(light=FALSE)");
+        break;
+      default:
+        setActualTheme(`${plotTheme}()`);
+    }
+  }, [plotTheme, isDarkMode]);
 
   const webRRef = useRef<WebR | null>(null);
   const drawCanvas = useRef<OffscreenCanvas | null>(null);
@@ -367,6 +393,10 @@ export default function BasicDataSandboxView() {
         ? `"${date.to.toISOString().split("T")[0]}"`
         : "NULL";
 
+      await webRRef.current.evalRVoid(
+        `library("ggplot2")\nlibrary("ggthemes")\ntheme_set(${actualTheme})`,
+      );
+
       switch (currentGraph) {
         case "accuracy_completeness_scores_by_source":
           rCommand = `print(accuracy_completeness_scores_by_source(sources=${sourcesArg}))`;
@@ -418,7 +448,7 @@ export default function BasicDataSandboxView() {
 
       return () => clearTimeout(timer);
     }
-  }, [date, selectedSources]);
+  }, [date, selectedSources, actualTheme]);
 
   const downloadPlot = () => {
     if (!plotImage) return;
