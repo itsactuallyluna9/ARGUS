@@ -3,6 +3,8 @@ library(ggdensity)
 
 fact_checks <- read_csv("~/data/fact_check_data.csv")
 
+theme_set(theme_minimal())
+
 bias_scores_by_source <- function(sources=NULL, start_date=NULL, end_date=NULL, data=fact_checks) {
   
   data <- data |> select(

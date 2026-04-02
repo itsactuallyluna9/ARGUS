@@ -49,9 +49,9 @@ class Bias_Agent:
         self.notes = ""
 
         self.bias_rating = {
-            "political_bias": "Empty for now!",
-            "sensationalism": "Empty for now!",
-            "emotional_language": "Empty for now!",
+            "political_bias": "",
+            "sensationalism": "",
+            "emotional_language": "",
             "political_score": 0,
             "sensationalism_score": 0,
             "emotional_language_score": 0,
