@@ -2,6 +2,7 @@ library(tidyverse)
 library(ggdensity)
 
 fact_checks <- read_csv("~/data/fact_check_data.csv")
+articles <- read_csv("~/data/article_data.csv")
 
 theme_set(theme_minimal())
 
@@ -123,4 +124,31 @@ scores_by_time <- function(sources = NULL, start_date=NULL, end_date=NULL, data=
     ) + 
     scale_color_discrete(name = "Metric") +
     ylim(0, 100)
+}
+
+gathered_articles_by_time <- function(start_date=NULL, end_date=NULL, data=articles) {
+  data <- data |> select(timestamp) |> mutate(timestamp = as.POSIXct(timestamp))
+  
+  if(!is.null(start_date)) {data <- data |> filter(timestamp >= as.POSIXct(start_date))}
+  if(!is.null(end_date)) {data <- data |> filter(timestamp <= as.POSIXct(end_date))}
+
+  data <- data |> 
+    mutate(timestamp = as.POSIXct(format(timestamp, "%Y-%m-%d %H:00:00"))) |> 
+    group_by(timestamp) |> 
+    summarize(count = n()) |> 
+    arrange(timestamp) |> 
+    mutate(count = cumsum(count))
+
+  data |> 
+    ggplot(aes(x=timestamp, y=count)) + 
+    geom_line() + 
+    geom_point() +
+    scale_x_datetime(date_breaks = "1 day", date_labels = "%d-%b %H:%M") +
+    labs(
+      title = "Articles Gathered Over Time",
+      subtitle = "By ARGUS",
+      x = "Date", 
+      y = "Number of Articles"
+    ) + 
+    ylim(0, NA)
 }

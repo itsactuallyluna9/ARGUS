@@ -408,6 +408,8 @@ export default function BasicDataSandboxView() {
           rCommand = `print(scores_by_time(sources=${sourcesArg}, start_date=${startDateArg}, end_date=${endDateArg}))`;
           break;
         case "gathered_articles_by_time":
+          rCommand = `print(gathered_articles_by_time(start_date=${startDateArg}, end_date=${endDateArg}))`;
+          break;
         case "fact_check_time_breakdown":
           // these plot types are not implemented yet
           setBusyMessage("This plot type is not implemented yet");
