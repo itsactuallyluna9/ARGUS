@@ -205,6 +205,8 @@ class LlamaRouter:
         
         except Exception as e:
             print(f"Error during chat with model {model} at {routes[route_index].ip}:{routes[route_index].port}: {e}")
+            print(type(e))
+            raise e
         
         finally:
             routes[route_index].active_conversations -= 1
