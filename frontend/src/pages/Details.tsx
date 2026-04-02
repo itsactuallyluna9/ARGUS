@@ -1,4 +1,4 @@
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { Separator } from "@/components/ui/separator";
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
@@ -56,6 +56,7 @@ function DetailsView() {
   const { id } = useParams();
   const [analysisComplete, setAnalysisComplete] = useState(false);
   const [data, setData] = useState<DetailsResponse | null>(null);
+  const [notFound, setNotFound] = useState(false);
 
   const fetchData = async () => {
     if (!analysisComplete) {
@@ -68,6 +69,13 @@ function DetailsView() {
         },
         method: "POST",
       });
+      if (!response.ok) {
+        if (response.status === 404) {
+          setNotFound(true);
+        } else {
+          // we'll just try again on the next interval, so do nothing for now
+        }
+      }
       const data = await response.json();
       if (data.finished) {
         setAnalysisComplete(true);
@@ -81,24 +89,46 @@ function DetailsView() {
   }, []);
   useInterval(fetchData, 5000);
 
+  if (notFound) {
+    return (
+      <main className="p-4">
+        <h1 className="font-semibold text-2xl text-pretty">
+          Article Not Found
+        </h1>
+        <p className="text-muted-foreground">
+          We couldn't find an analysis for this article. It may have been
+          removed, or the URL may be incorrect.
+        </p>
+      </main>
+    );
+  }
+
   return (
     <main className="p-4">
       <h1 className="font-semibold text-2xl text-pretty">
-        <a href={data?.article_metadata.url} className="hover:underline">
-          {data?.article_metadata.title}
+        <a href={data?.article_metadata?.url || ""} className="hover:underline">
+          {data?.article_metadata?.title || "TBD"}
         </a>
       </h1>
       <div className="sm:flex items-center text-muted-foreground">
         <a
-          href={(data && new URL(data?.article_metadata.url).origin) || ""}
+          href={
+            (data &&
+              data.article_metadata &&
+              data.article_metadata.url &&
+              new URL(data?.article_metadata?.url).origin) ||
+            ""
+          }
           className="flex items-center hover:underline"
         >
           <img
-            src={`${data && new URL(data?.article_metadata.url).origin}/favicon.ico`}
-            alt={`${data?.article_metadata.sitename || "ARGUS"} Logo`}
+            src={`${data && data.article_metadata && data.article_metadata.url && new URL(data?.article_metadata.url).origin}/favicon.ico`}
+            alt={`${data?.article_metadata?.sitename || "ARGUS"} Logo`}
             className="h-6 mr-2 rounded bg-gray-300/50"
           />
-          <p className="italic text-lg">{data?.article_metadata.sitename}</p>
+          <p className="italic text-lg">
+            {data?.article_metadata?.sitename || "ARGUS"}
+          </p>
         </a>
         <Separator orientation="vertical" className="mx-4" />
         <Tooltip>
@@ -118,7 +148,7 @@ function DetailsView() {
             )}
           </TooltipTrigger>
           <TooltipContent>
-            <p>{new Date(data?.article_metadata.date).toLocaleDateString()}</p>
+            <p>{new Date(data?.article_metadata?.date).toLocaleDateString()}</p>
           </TooltipContent>
         </Tooltip>
         <Separator orientation="vertical" className="mx-4" />
@@ -340,7 +370,18 @@ function ReportAConcern() {
   };
 
   const retryArticle = async () => {
-    // TODO: just call the regular submission endpoint, just get another check
+    const response = await fetch("/api/retry", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        uuid: id,
+      }),
+    });
+    if (response.ok) {
+      window.location.reload();
+    }
   };
 
   return (
