@@ -100,6 +100,9 @@ class LlamaRouter:
             # for models that use literal <think> tags to indicate reasoning, we can remove them from the final output if think is True
             response_text = re.sub(r"<think>.*?</think>", "", response_text, flags=re.DOTALL).strip()
 
+            if format and len(response_text.split("```json")) > 1:
+                response_text = response_text.split("```json")[-1].strip("```json").strip("```")
+
             response = Message(
                 role="assistant",
                 content=response_text,
@@ -156,7 +159,11 @@ class LlamaRouter:
                 if msg["role"] == "tool":
                     msg["content"] = json.dumps(msg["content"]) if isinstance(msg["content"], dict) else msg["content"]
 
-            print(f"sending messages to model {model} at {routes[route_index].ip}:{routes[route_index].port} with tools {len(tools)} and think={think}")
+            if tools:
+                print(f"sending messages to model {model} at {routes[route_index].ip}:{routes[route_index].port} with tools {len(tools)} and think={think}")
+            
+            else:
+                print(f"sending messages to model {model} at {routes[route_index].ip}:{routes[route_index].port} with think={think}")
 
             raw_response = await client.chat.completions.create(
                 model = f"~/llamacpp/models/{model}.gguf",
@@ -175,6 +182,9 @@ class LlamaRouter:
 
             # for models that use literal <think> tags to indicate reasoning, we can remove them from the final output if think is True
             response_text = re.sub(r"<think>.*?</think>", "", response_text, flags=re.DOTALL).strip()
+
+            if format and len(response_text.split("```json")) > 1:
+                response_text = response_text.split("```json")[-1].strip("```json").strip("```")
 
             response = Message(
                 role="assistant",
