@@ -191,11 +191,12 @@ def api_retry_check():
 
     past_check = past_checks.get(ids=[uuid])
     if past_check["ids"]:
-        fact_check = json.loads(past_checks.get(ids=[uuid])["documents"][0])
+        fact_check = json.loads(past_checks.get(ids=[uuid])["documents"][0]) # type: ignore
         url = fact_check["article_metadata"]["url"]
         past_checks.delete(ids=[uuid])
 
-    check = FactCheck(url, articles)
+    check = FactCheck(url, articles, router) # type: ignore
+    asyncio.run_coroutine_threadsafe(check.main(), _bg_loop)
     active_fact_checks.append(check)
     return jsonify(check.to_dict()), 202
 
