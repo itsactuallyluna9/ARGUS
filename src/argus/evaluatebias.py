@@ -113,7 +113,7 @@ class Bias_Agent:
                     tool_args = call.function.arguments
 
                     if tool_name in available_tools:
-                        tool_response = available_tools[tool_name](**tool_args)
+                        tool_response = await available_tools[tool_name](**tool_args)
                         messages.append(
                             {
                                 "role": "tool",
