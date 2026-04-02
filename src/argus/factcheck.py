@@ -1,4 +1,5 @@
 import asyncio
+from concurrent.futures import ThreadPoolExecutor
 import json
 from typing import Any
 import chromadb
@@ -56,8 +57,6 @@ class FactCheck:
         self.emotional_language_score = None
 
         self.finished = False
-
-        print(f"Initialized fact check for {self.url} with ID {self.id}")
 
 
     def to_dict(self) -> dict[str, Any]:
@@ -187,13 +186,17 @@ class FactCheck:
         self.fact_check_metadata["accuracy_agent"] = accuracy_agent.agent_metadata
         self.fact_check_metadata["bias_agent"] = bias_agent.agent_metadata
 
-        completeness_future = completeness_agent.evaluate_completeness()
-        accuracy_future = accuracy_agent.evaluate_accuracy()
-        bias_future = bias_agent.analyze_bias()
+        with ThreadPoolExecutor(max_workers=3) as executor:
 
-        await asyncio.gather(
-            completeness_future, accuracy_future, bias_future
-        )
+            executor.submit(asyncio.run, completeness_agent.evaluate_completeness())
+            executor.submit(asyncio.run, accuracy_agent.evaluate_accuracy())
+            executor.submit(asyncio.run, bias_agent.analyze_bias())
+
+            executor.shutdown(wait=True)
+
+        # completeness_future = asyncio.run_coroutine_threadsafe(completeness_agent.evaluate_completeness(), asyncio.get_event_loop())
+        # accuracy_future = asyncio.run_coroutine_threadsafe(accuracy_agent.evaluate_accuracy(), asyncio.get_event_loop())
+        # bias_future = asyncio.run_coroutine_threadsafe(bias_agent.analyze_bias(), asyncio.get_event_loop())
 
         self.accuracy_score = accuracy_agent.accuracy_score
         self.accuracy_explanation = accuracy_agent.accuracy_explanation
