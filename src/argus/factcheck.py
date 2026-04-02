@@ -91,7 +91,7 @@ class FactCheck:
         print("Scraping article and extracting text...\nThis may take a minute...\n")
         # url |> scrape |> clean -> raw article text
         with with_timing(lambda t: self.fact_check_metadata.update({"scraper_duration": t.duration_s})):
-            self.article_metadata, self.article_text = get_page(self.url)
+            self.article_metadata, self.article_text = await get_page(self.url)
 
         print("Beginning summary and bias analysis...\nThis may take a few minutes...\n")
         # raw article text |> summarizer |> -> summary, key points |> chromadb (if not present)

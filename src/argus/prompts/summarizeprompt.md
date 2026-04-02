@@ -45,11 +45,11 @@ Return your response in strictly valid JSON format:
 {
   "description": "string",
   "summary": "string",
-  "keyPoints": [
+  "points": [
     "string",
     "string"
   ],
-  "biasAnalysis": "string"
+  "bias": "string"
 }
 ```
 

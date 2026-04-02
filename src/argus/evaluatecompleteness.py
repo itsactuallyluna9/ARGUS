@@ -90,7 +90,6 @@ class Completeness_Agent:
 
         while True:
             print("Sending message to completeness model...")
-
             response = await self.router.chat(
                 model=self.evaluation_model,
                 think=self.think,
@@ -139,17 +138,25 @@ class Completeness_Agent:
 
             else:
                 print("No tool calls detected, finalizing completeness evaluation...")
+                messages = [messages[-1]]
                 messages.append(
                     {
                         "role": "system",
                         "content": "Ensure the response is in the correct JSON format according to the schema. The output should include a completeness score (0-100) and a reasoning for the score.",
                     }
                 )
-                response = json.loads(await self.router.chat(model=self.evaluation_model, think=self.think, messages=messages, format=json.dumps(Completeness_Schema.model_json_schema())))  # type: ignore
+                response = await self.router.chat(model=self.evaluation_model, think=self.think, messages=messages, format=json.dumps(Completeness_Schema.model_json_schema())) # type: ignore
                 break
 
-        self.completeness_score = int(response["completeness"])  # type: ignore
-        self.completeness_explanation = response["reasoning"]  # type: ignore
+        response = json.loads(response.content.split("```json")[-1].strip("```json").strip("```")) #type: ignore
+
+        try: 
+            response = response["properties"]
+        except KeyError:
+            pass
+
+        self.completeness_score = int(response.get("completeness", 0))  # type: ignore
+        self.completeness_explanation = response.get("reasoning", "")  # type: ignore
 
         self.agent_metadata["finished"] = datetime.now().isoformat()
 
@@ -221,18 +228,18 @@ class Completeness_Agent:
         if len(self.article_collection.get(ids=[url])["ids"]) == 0:
             print(f"Article {url} not found in database, summarizing and adding to database...")
 
-            article_metadata, article_text = get_page(url)
+            article_metadata, article_text = await get_page(url)
             summary = await summarize_article(article_text, self.router)
 
             try:
                 self.article_collection.add(
                     ids=[url],
-                    documents=[summary["articleSummary"]],
+                    documents=[summary["summary"]],
                     metadatas=[{
                         "url": url, 
                         "description": summary["description"], 
-                        "summary": summary["articleSummary"], 
-                        "bias": summary["biasSummary"], 
+                        "summary": summary["summary"], 
+                        "bias": summary["bias"], 
                         "points": summary["points"], 
                         "article_text": article_text, 
                         "timestamp": datetime.now().isoformat(), 
@@ -245,7 +252,9 @@ class Completeness_Agent:
                 print(f"Error adding article {url} to database.")
                 pass
 
-            return summary["articleSummary"]  # type: ignore
+            print(f"\n\n\nSummary of article {url}: {summary['summary']}\n\n\n")
+
+            return summary["summary"]  # type: ignore
 
         return self.article_collection.get(ids=[url])["documents"][0]  # type: ignore
 
@@ -268,7 +277,7 @@ class Completeness_Agent:
 
 if __name__ == "__main__":
     print("starting")
-    article_metadata, article_text = get_page("https://www.usatoday.com/story/travel/2026/03/23/check-tsa-wait-times-government-shutdown-airports/89282748007/?utm_source=firefox-newtab-en-us")
+    article_metadata, article_text = asyncio.run(get_page("https://www.usatoday.com/story/travel/2026/03/23/check-tsa-wait-times-government-shutdown-airports/89282748007/?utm_source=firefox-newtab-en-us"))
     print(article_text)
     bias_rating = ""
     key_points = []

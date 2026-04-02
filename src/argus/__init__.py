@@ -27,7 +27,7 @@ FRONTEND_DIST = PROJECT_ROOT / "frontend" / "dist"
 app = Flask(__name__, static_folder=str(FRONTEND_DIST), static_url_path="/")
 CORS(app, resources={r"/api/*": {"origins": "*"}})
 
-router = LlamaRouter(["cs-cluster-1", "localhost"], [8080, 8080], ["GLM-4.7-Flash-UD-Q4_K_XL", "nemotron-3-nano:4b"])
+router = LlamaRouter(["cs-cluster-1", "localhost", "luna"], [8080, 8080, 8080], ["GLM-4.7-Flash-UD-Q4_K_XL", "GLM-4.7-Flash-UD-Q4_K_XL", "nemotron-3-nano:4b"])
 
 # Persistent event loop for background async tasks.
 # Flask's WSGI server tears down its per-request event loop when a handler
@@ -309,7 +309,7 @@ async def bulk_import_articles(urls, summarize_only, use_long_prompts=True):
 
     for url in urls:
         if summarize_only:
-            article_metadata, article_text = get_page(url)
+            article_metadata, article_text = await get_page(url)
             response = await summarize_article(article_text, router, model="gemma3:12b", think=False, use_long_prompt=use_long_prompts)
             description = response["description"]  # type: ignore
             summary = response["articleSummary"]  # type: ignore

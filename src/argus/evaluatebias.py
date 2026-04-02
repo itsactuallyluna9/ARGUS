@@ -137,7 +137,7 @@ class Bias_Agent:
 
             else:
                 print("No tool calls detected, finalizing bias evaluation...")
-                messages = [messages[-1]]  # remove the last model response that contained no tool calls
+                messages = [messages[-1]]
                 messages.append(
                     {
                         "role": "system",
@@ -148,6 +148,11 @@ class Bias_Agent:
                 break
 
         response = json.loads(response.content.split("```json")[-1].strip("```json").strip("```")) #type: ignore
+
+        try: 
+            response = response["properties"]
+        except KeyError:
+            pass
 
         self.bias_rating["political_bias"] = response["political_bias_explanation"]
         self.bias_rating["sensationalism"] = response["sensationalism_explanation"]

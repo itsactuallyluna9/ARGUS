@@ -46,9 +46,9 @@ class Bias_Schema(BaseModel):
 
 class SummarizeArticleSchema(BaseModel):
     description: str
-    articleSummary: str
+    summary: str
     points: list[str]
-    biasSummary: str
+    bias: str
 
 
 class URLCheckSchema(BaseModel):

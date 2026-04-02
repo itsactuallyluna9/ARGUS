@@ -140,6 +140,7 @@ class Accuracy_Agent:
 
             else:
                 print("No tool calls detected, finalizing accuracy evaluation...")
+                messages = [messages[-1]]
                 messages.append(
                     {
                         "role": "system",
@@ -149,9 +150,16 @@ class Accuracy_Agent:
                 response = await self.router.chat(model=self.evaluation_model, think=self.think, messages=messages, format=json.dumps(Accuracy_Schema.model_json_schema()))  # type: ignore
                 break
 
-        self.accuracy_score = response["accuracy"]  # type: ignore
-        self.accuracy_explanation = response["reasoning"]  # type: ignore
-        self.sources = response["sources"]  # type: ignore
+        response = json.loads(response.content.split("```json")[-1].strip("```json").strip("```")) #type: ignore
+
+        try: 
+            response = response["properties"]
+        except KeyError:
+            pass
+
+        self.accuracy_score = response.get("accuracy")
+        self.accuracy_explanation = response.get("reasoning")
+        self.sources = response.get("sources")
 
         self.agent_metadata["finished"] = datetime.now().isoformat()
 
@@ -223,14 +231,18 @@ class Accuracy_Agent:
         if len(self.article_collection.get(ids=[url])["ids"]) == 0:
             print(f"Article {url} not found in database, summarizing and adding to database...")
 
-            article_metadata, article_text = get_page(url)
-            summary = await summarize_article(article_text, self.router)
+            try:
+                article_metadata, article_text = await get_page(url)
+                summary = await summarize_article(article_text, self.router)
+            except:
+                print(f"Error summarizing article {url}.")
+                return f"Error summarizing article {url}."
 
             try:
                 self.article_collection.add(
                     ids=[url],
-                    documents=[summary["articleSummary"]],
-                    metadatas=[{"url": url, "description": summary["description"], "summary": summary["articleSummary"], "bias": summary["biasSummary"], "points": summary["points"], "article_text": article_text, "timestamp": datetime.now().isoformat(), "metadata": json.dumps(article_metadata)}],
+                    documents=[summary["summary"]],
+                    metadatas=[{"url": url, "description": summary["description"], "summary": summary["summary"], "bias": summary["bias"], "points": summary["points"], "article_text": article_text, "timestamp": datetime.now().isoformat(), "metadata": json.dumps(article_metadata)}],
                 )
                 print(f"Article {url} added to database.")
 
@@ -238,7 +250,7 @@ class Accuracy_Agent:
                 print(f"Error adding article {url} to database.")
                 pass
 
-            return summary["articleSummary"]  # type: ignore
+            return summary["summary"]  # type: ignore
 
         return self.article_collection.get(ids=[url])["documents"][0]  # type: ignore
 
@@ -261,7 +273,7 @@ class Accuracy_Agent:
 
 async def main():
     print("starting")
-    article_metadata, article_text = get_page("https://www.usatoday.com/story/travel/2026/03/23/check-tsa-wait-times-government-shutdown-airports/89282748007/?utm_source=firefox-newtab-en-us")
+    article_metadata, article_text = await get_page("https://www.usatoday.com/story/travel/2026/03/23/check-tsa-wait-times-government-shutdown-airports/89282748007/?utm_source=firefox-newtab-en-us")
     print(article_text)
     bias_rating = ""
     key_points = []
@@ -277,7 +289,6 @@ async def main():
         article_collection=collection,
         evaluation_model="glm-4.7-flash",
         think=True,
-        use_long_prompt=False
     )
     val = await accuracy_agent.evaluate_accuracy()
     print(val)
