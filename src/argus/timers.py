@@ -31,6 +31,12 @@ class with_timing(ContextDecorator):
             self._cb(self)
         return self
 
+    async def __aenter__(self):
+        return self.__enter__()
+
+    async def __aexit__(self, *exc):
+        return self.__exit__(*exc)
+
     @property
     def duration_s(self) -> float:
         return (self._exit_time - self._enter_time).total_seconds()

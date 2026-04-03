@@ -96,17 +96,16 @@ class FactCheck:
 
         print("Beginning summary and bias analysis...\nThis may take a few minutes...\n")
         # raw article text |> summarizer |> -> summary, key points |> chromadb (if not present)
-        # TODO: fucking fix this
-        # async with with_timing(lambda t: self.fact_check_metadata.update({"summary_duration": t.duration_s})):
-        self.summary, self.bias_rating, self.key_points = await self.summarize_article(self.article_text, router=self.router, use_long_prompt=use_long_prompts)
+        async with with_timing(lambda t: self.fact_check_metadata.update({"summary_duration": t.duration_s})):
+            self.summary, self.bias_rating, self.key_points = await self.summarize_article(self.article_text, router=self.router, use_long_prompt=use_long_prompts)
 
         print(f"\n\n\nSummary for {self.url}:\n{self.summary}\nBias rating: {self.bias_rating}\nKey points: {self.key_points}\n\n\n")
 
         print("\nResearching article accuracy, completeness, and bias...\nThis may take a few minutes...\n")
 
         # evidence + article text + related article summaries + bias rating |> fact check model -> accuracy, completeness scores + explanation
-        # async with with_timing(lambda t: self.fact_check_metadata.update({"agents_duration": t.duration_s})):
-        await (self.fact_check(self.article_text, self.bias_rating, self.key_points, use_long_prompts=use_long_prompts, evaluator_model=self.evaluator_model))
+        async with with_timing(lambda t: self.fact_check_metadata.update({"agents_duration": t.duration_s})):
+            await self.fact_check(self.article_text, self.bias_rating, self.key_points, use_long_prompts=use_long_prompts, evaluator_model=self.evaluator_model)
 
         print(f"\n\n\nFact check results for {self.url}:\n")
         print(f"\nAccuracy score: {self.accuracy_score}\nExplanation: {self.accuracy_explanation}\nSources: {self.sources}")
