@@ -21,7 +21,7 @@ from argus.config import Config, load_config
 from argus.llamarouter import LlamaRouter
 from argus.factcheck import FactCheck, check_url
 from argus.compiledata import ArgusData
-from argus.logging import setup_logging
+from argus.log_setup import setup_logging
 from loguru import logger
 
 PROJECT_ROOT = Path(__file__).resolve().parents[2]
@@ -509,7 +509,9 @@ def serve_frontend(path: str):
 
 
 def main() -> None:
-    app.run(host=str(config.host), port=config.port, debug=False)
+    # Config host is an IPvAnyInterface (e.g. 0.0.0.0/32); Flask expects only the IP.
+    host = str(getattr(config.host, "ip", config.host))
+    app.run(host=host, port=config.port, debug=False)
 
 
 if __name__ == "__main__":
