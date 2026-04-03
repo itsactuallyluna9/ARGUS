@@ -2,8 +2,26 @@ import tomllib
 from pathlib import Path
 from typing import Literal
 
-from pydantic import BaseModel, HttpUrl, IPvAnyInterface, PositiveInt, Field
-from pydantic.dataclasses import dataclass
+from pydantic import BaseModel, Field, HttpUrl, IPvAnyInterface, PositiveInt
+
+
+class StderrSink(BaseModel):
+    level: str = "INFO"
+    filter: str | None = None
+
+
+class FileSink(BaseModel):
+    path: Path
+    level: str = "DEBUG"
+    filter: str | None = None
+    rotation: str = "100 MB"
+    compression: str = "gz"
+    retention: int = 5
+
+
+class LoggingConfig(BaseModel):
+    stderr: StderrSink = Field(default_factory=StderrSink)
+    file: FileSink | None = None
 
 
 class Agent(BaseModel):
@@ -41,6 +59,7 @@ class Config(BaseModel):
     model_routes: list[ModelRoute]
     chroma: ChromaConfig
     webhooks: list[HttpUrl] = []
+    logging: LoggingConfig = Field(default_factory=LoggingConfig)
 
 
 def load_config(path: Path) -> Config:
