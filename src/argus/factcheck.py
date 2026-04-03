@@ -23,6 +23,7 @@ class FactCheck:
         article_collection: chromadb.Collection,
         router: LlamaRouter,
         summarizer_model: str = "nemotron-3-nano:4b",
+        evaluator_model: str = "glm-4.7-flash",
         think: bool = False,
     ):
 
@@ -31,7 +32,8 @@ class FactCheck:
 
         self.article_collection = article_collection
         self.router = router
-        self.model = summarizer_model
+        self.summarizer_model = summarizer_model
+        self.evaluator_model = evaluator_model
         self.think = think
         self.fact_check_metadata = {}
         self.fact_check_metadata["check_submitted"] = datetime.now().isoformat()
@@ -104,7 +106,7 @@ class FactCheck:
 
         # evidence + article text + related article summaries + bias rating |> fact check model -> accuracy, completeness scores + explanation
         # async with with_timing(lambda t: self.fact_check_metadata.update({"agents_duration": t.duration_s})):
-        await (self.fact_check(self.article_text, self.bias_rating, self.key_points, use_long_prompts=use_long_prompts))
+        await (self.fact_check(self.article_text, self.bias_rating, self.key_points, use_long_prompts=use_long_prompts, evaluator_model=self.evaluator_model))
 
         print(f"\n\n\nFact check results for {self.url}:\n")
         print(f"\nAccuracy score: {self.accuracy_score}\nExplanation: {self.accuracy_explanation}\nSources: {self.sources}")
@@ -125,7 +127,7 @@ class FactCheck:
     @retry(stop=stop_after_attempt(3))
     async def summarize_article(self, article_text: str, router: LlamaRouter, use_long_prompt: bool = True) -> tuple[str, str, list]:
         # returns json with index sentence, key points, summary, bias rating
-        response = await summarize_article(article_text, router, model=self.model, think=self.think, use_long_prompt=use_long_prompt)
+        response = await summarize_article(article_text, router, model=self.summarizer_model, think=self.think, use_long_prompt=use_long_prompt)
 
         description = response["description"]  # type: ignore
         summary = response["summary"]  # type: ignore
@@ -150,6 +152,7 @@ class FactCheck:
         bias_rating: str,
         key_points: list[str],
         use_long_prompts: bool = True,
+        evaluator_model: str = "glm-4.7-flash",
     ) -> dict[str, Any]:
 
         completeness_agent = Completeness_Agent(
@@ -160,6 +163,7 @@ class FactCheck:
             router=self.router,
             article_collection=self.article_collection,
             use_long_prompt=use_long_prompts,
+            evaluation_model=evaluator_model,
         )
 
         accuracy_agent = Accuracy_Agent(
@@ -170,6 +174,7 @@ class FactCheck:
             router=self.router,
             article_collection=self.article_collection,
             use_long_prompt=use_long_prompts,
+            evaluation_model=evaluator_model,
         )
 
         bias_agent = Bias_Agent(
@@ -179,6 +184,7 @@ class FactCheck:
             router=self.router,
             article_collection=self.article_collection,
             use_long_prompt=use_long_prompts,
+            analysis_model=evaluator_model,
         )
 
         self.fact_check_metadata["completeness_agent"] = completeness_agent.agent_metadata
