@@ -12,11 +12,15 @@ type ThemeProviderProps = {
 type ThemeProviderState = {
   theme: Theme;
   setTheme: (theme: Theme) => void;
+  isDarkMode: boolean;
+  toggleTheme: () => void;
 };
 
 const initialState: ThemeProviderState = {
   theme: "system",
   setTheme: () => null,
+  isDarkMode: false,
+  toggleTheme: () => null,
 };
 
 const ThemeProviderContext = createContext<ThemeProviderState>(initialState);
@@ -27,12 +31,16 @@ export function ThemeProvider({
   storageKey = "vite-ui-theme",
   ...props
 }: ThemeProviderProps) {
-  const { isDarkMode, ternaryDarkMode, setTernaryDarkMode } =
-    useTernaryDarkMode({
-      defaultValue: defaultTheme,
-      localStorageKey: storageKey,
-      initializeWithValue: true,
-    });
+  const {
+    isDarkMode,
+    ternaryDarkMode,
+    setTernaryDarkMode,
+    toggleTernaryDarkMode,
+  } = useTernaryDarkMode({
+    defaultValue: defaultTheme,
+    localStorageKey: storageKey,
+    initializeWithValue: true,
+  });
 
   useEffect(() => {
     const root = window.document.documentElement;
@@ -43,6 +51,8 @@ export function ThemeProvider({
   const value = {
     theme: ternaryDarkMode,
     setTheme: setTernaryDarkMode,
+    isDarkMode,
+    toggleTheme: toggleTernaryDarkMode,
   };
 
   return (
@@ -50,4 +60,14 @@ export function ThemeProvider({
       {children}
     </ThemeProviderContext.Provider>
   );
+}
+
+export function useTheme() {
+  const context = useContext(ThemeProviderContext);
+
+  if (context === undefined) {
+    throw new Error("useTheme must be used within a ThemeProvider");
+  }
+
+  return context;
 }

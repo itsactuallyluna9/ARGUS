@@ -110,7 +110,7 @@ function DetailsView() {
           {data?.article_metadata?.title || "TBD"}
         </a>
       </h1>
-      <div className="flex items-center text-muted-foreground">
+      <div className="sm:flex items-center text-muted-foreground">
         <a
           href={
             (data &&
@@ -234,7 +234,7 @@ function DetailsView() {
           </CardContent>
         </Card>
       </div>
-      <div className="grid grid-cols-2 gap-4 py-2">
+      <div className="grid sm:grid-cols-2 gap-4 py-2">
         <Card>
           <CardHeader>
             <CardTitle>Completeness Assessment</CardTitle>
@@ -274,7 +274,7 @@ function DetailsView() {
           </CardContent>
         </Card>
       </div>
-      <div className="grid grid-cols-3 gap-4 py-2">
+      <div className="grid sm:grid-cols-3 gap-4 py-2">
         <Card>
           <CardHeader>
             <CardTitle>Political Assessment</CardTitle>
@@ -335,8 +335,10 @@ function DetailsView() {
       </div>
       <div className="flex text-muted-foreground items-center justify-center">
         <Bot />
-        ARGUS is built on top of LLMs and can make mistakes. Please double-check
-        respones.
+        <span className="max-w-4/5">
+          ARGUS is built on top of LLMs and can make mistakes. Please
+          double-check responses.
+        </span>
       </div>
       <div className="flex items-center justify-center p-2">
         <ReportAConcern />

@@ -1,7 +1,10 @@
 library(tidyverse)
 library(ggdensity)
 
-fact_checks <- read_csv("data/fact_check_data.csv")
+fact_checks <- read_csv("~/data/fact_check_data.csv")
+articles <- read_csv("~/data/article_data.csv")
+
+theme_set(theme_minimal())
 
 bias_scores_by_source <- function(sources=NULL, start_date=NULL, end_date=NULL, data=fact_checks) {
   
@@ -109,5 +112,43 @@ scores_by_time <- function(sources = NULL, start_date=NULL, end_date=NULL, data=
   
   data |> 
     pivot_longer(!date, names_to = "type", values_to = "score") |>
-    ggplot(aes(x=score, y=type, color=date)) + geom_density() + scale_x_date(date_breaks = "1 week", date_labels = "%d-%b")
+    ggplot(aes(x=date, y=score, color=type)) + 
+    geom_line() + 
+    geom_point() +
+    scale_x_date(date_breaks = "1 week", date_labels = "%d-%b") +
+    labs(
+      title = "Scores Over Time",
+      subtitle = "As evaluated by ARGUS",
+      x = "Date", 
+      y = "Score"
+    ) + 
+    scale_color_discrete(name = "Metric") +
+    ylim(0, 100)
+}
+
+gathered_articles_by_time <- function(start_date=NULL, end_date=NULL, data=articles) {
+  data <- data |> select(timestamp) |> mutate(timestamp = as.POSIXct(timestamp))
+  
+  if(!is.null(start_date)) {data <- data |> filter(timestamp >= as.POSIXct(start_date))}
+  if(!is.null(end_date)) {data <- data |> filter(timestamp <= as.POSIXct(end_date))}
+
+  data <- data |> 
+    mutate(timestamp = as.POSIXct(format(timestamp, "%Y-%m-%d %H:00:00"))) |> 
+    group_by(timestamp) |> 
+    summarize(count = n()) |> 
+    arrange(timestamp) |> 
+    mutate(count = cumsum(count))
+
+  data |> 
+    ggplot(aes(x=timestamp, y=count)) + 
+    geom_line() + 
+    geom_point() +
+    scale_x_datetime(date_breaks = "1 day", date_labels = "%d-%b %H:%M") +
+    labs(
+      title = "Articles Gathered Over Time",
+      subtitle = "By ARGUS",
+      x = "Date", 
+      y = "Number of Articles"
+    ) + 
+    ylim(0, NA)
 }
