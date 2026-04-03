@@ -1,4 +1,5 @@
 import asyncio
+from datetime import datetime
 import inspect
 import json
 import re
@@ -8,6 +9,7 @@ from openai import AsyncOpenAI
 from dataclasses import dataclass
 from ollama import Message
 import httpx
+import openai
 
 _LLAMA_TIMEOUT = httpx.Timeout(timeout=1800.0, connect=10.0)
 
@@ -48,6 +50,8 @@ class LlamaRouter:
 
     async def generate(self, model: str, prompt: str, think: bool = False, format: str = None, override_url: str = None) -> Message: # type: ignore
 
+        id = datetime.now().isoformat()
+
         if model in self.model_aliases:
             model = self.model_aliases[model]
 
@@ -59,6 +63,14 @@ class LlamaRouter:
         route_index = -1
 
         for i in range(len(routes)):
+            if routes[i].max_tokens < len(prompt) / 4 + 100 + (1000 if think else 0):
+                routes.pop(i)
+                i -= 1
+
+        if not routes:
+            raise ValueError(f"No routes available for model {model} that can handle the prompt length")
+
+        for i in range(len(routes)):
 
             route = routes[i]
 
@@ -66,7 +78,7 @@ class LlamaRouter:
                 min_load = route.active_conversations
                 route_index = i
 
-        
+
         routes[route_index].active_conversations += 1
         self.routes[model][route_index] = routes[route_index]
 
@@ -134,6 +146,15 @@ class LlamaRouter:
         
         min_load = float('inf')
         route_index = -1
+
+        for i in range(len(routes)):
+            length = len("".join(message["content"] for message in messages if "content" in message)) + len("".join(message["role"] for message in messages if "role" in message)) + (len(str(format)) if format else 0) + (len(str(tools)) if tools else 0) + (1000 if think else 0)
+            if routes[i].max_tokens < length / 4 + 100:
+                routes.pop(i)
+                i -= 1
+
+        if not routes:
+            raise ValueError(f"No routes available for model {model} that can handle the prompt length")
 
         for i in range(len(routes)):
 
