@@ -1,5 +1,4 @@
 import asyncio
-from datetime import datetime
 import inspect
 import json
 import re
@@ -9,7 +8,6 @@ from openai import AsyncOpenAI
 from dataclasses import dataclass
 from ollama import Message
 import httpx
-import openai
 
 _LLAMA_TIMEOUT = httpx.Timeout(timeout=1800.0, connect=10.0)
 
@@ -49,8 +47,6 @@ class LlamaRouter:
     
 
     async def generate(self, model: str, prompt: str, think: bool = False, format: str = None, override_url: str = None) -> Message: # type: ignore
-
-        id = datetime.now().isoformat()
 
         if model in self.model_aliases:
             model = self.model_aliases[model]
