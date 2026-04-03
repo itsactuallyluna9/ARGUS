@@ -3,8 +3,6 @@ import threading
 from datetime import datetime
 from pathlib import Path
 import json
-import shutil
-import subprocess
 import random
 from playwright.async_api import async_playwright
 from playwright_stealth import Stealth
@@ -15,7 +13,6 @@ from flask import Flask, jsonify, request, send_from_directory
 from flask_cors import CORS
 
 import chromadb
-import requests
 
 from argus.config import Config, load_config
 from argus.llamarouter import LlamaRouter
@@ -113,74 +110,6 @@ def _finalize_fact_check(check: FactCheck, future: object | None = None) -> None
             completed_fact_check_ids.discard(check.id)
             if check not in active_fact_checks:
                 active_fact_checks.append(check)
-
-
-def get_gpu_metrics() -> dict[str, float | int | bool | None]:
-    """Return GPU utilization and memory stats when nvidia-smi is available."""
-    if shutil.which("nvidia-smi") is None:
-        return {
-            "gpu": None,
-            "gpu_memory_used": None,
-            "gpu_memory_total": None,
-            "gpu_available": False,
-        }
-
-    try:
-        result = subprocess.run(
-            [
-                "nvidia-smi",
-                "--query-gpu=utilization.gpu,memory.used,memory.total",
-                "--format=csv,noheader,nounits",
-            ],
-            check=True,
-            capture_output=True,
-            text=True,
-            timeout=2,
-        )
-    except (subprocess.SubprocessError, OSError):
-        return {
-            "gpu": None,
-            "gpu_memory_used": None,
-            "gpu_memory_total": None,
-            "gpu_available": False,
-        }
-
-    utilization_values: list[float] = []
-    memory_used_mib_values: list[int] = []
-    memory_total_mib_values: list[int] = []
-
-    for line in result.stdout.splitlines():
-        line = line.strip()
-        if not line:
-            continue
-
-        parts = [part.strip() for part in line.split(",")]
-        if len(parts) != 3:
-            continue
-
-        try:
-            utilization_values.append(float(parts[0]))
-            memory_used_mib_values.append(int(parts[1]))
-            memory_total_mib_values.append(int(parts[2]))
-        except ValueError:
-            continue
-
-    if not utilization_values:
-        return {
-            "gpu": None,
-            "gpu_memory_used": None,
-            "gpu_memory_total": None,
-            "gpu_available": False,
-        }
-
-    mib_to_bytes = 1024 * 1024
-
-    return {
-        "gpu": sum(utilization_values) / len(utilization_values),
-        "gpu_memory_used": sum(memory_used_mib_values) * mib_to_bytes,
-        "gpu_memory_total": sum(memory_total_mib_values) * mib_to_bytes,
-        "gpu_available": True,
-    }
 
 
 @app.post("/api/create")
@@ -352,21 +281,6 @@ def api_data_filter():
     return jsonify(data), 200
 
 
-@app.get("/api/debug/resources")
-def api_debug_resources():
-    import psutil
-
-    gpu_metrics = get_gpu_metrics()
-    return jsonify(
-        {
-            "cpu": psutil.cpu_percent(),
-            "memory_used": psutil.virtual_memory().used,
-            "memory_total": psutil.virtual_memory().total,
-            **gpu_metrics,
-        }
-    )
-
-
 @app.get("/api/debug/statistics")
 def api_debug_statistics():
     logger.info("hewwo??")
@@ -388,15 +302,6 @@ def api_debug_active_checks():
         active_check_ids = [check.id for check in active_fact_checks]
 
     return jsonify(active_check_ids), 200
-
-
-@app.get("/api/debug/models")
-def api_debug_loaded_models():
-    try:
-        res = requests.get("http://localhost:11434/api/ps")
-        return res.content, res.status_code
-    except requests.exceptions.ConnectionError:
-        return jsonify({"error": "Ollama is not running"}), 503
 
 
 @app.post("/api/debug/import")

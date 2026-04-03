@@ -27,38 +27,17 @@ import {
 import { PrettyDynamicDuration } from "@/components/PrettyDuration";
 
 function Debug() {
-  const [resources, setResources] = useState({
-    cpu: 0,
-    memory_used: 0,
-    memory_total: 0,
-    gpu: null as number | null,
-    gpu_memory_used: null as number | null,
-    gpu_memory_total: null as number | null,
-    gpu_available: false,
-  });
   const [statistics, setStatistics] = useState({
     factChecks: 0,
     activeFactChecks: 0,
     articlesInDatabase: 0,
   });
-  const [loadedModels, setLoadedModels] = useState([]);
   const [articleURLs, setArticleURLs] = useState("");
   const [onlySummarize, setOnlySummarize] = useState(false);
   const [bulkImportSubmitting, setBulkImportSubmitting] = useState(false);
   const [activeFactChecks, setActiveFactChecks] = useState<string[]>([]);
   const [autoRoamState, setAutoRoamState] = useState(false);
   const [autoRoamStartTime, setAutoRoamStartTime] = useState<Date | null>(null);
-
-  // resources
-  useInterval(async () => {
-    const response = await fetch("/api/debug/resources");
-    if (response.ok) {
-      const data = await response.json();
-      setResources(data);
-    } else {
-      console.error("Failed to fetch debug data");
-    }
-  }, 5000);
 
   // statistics
   useInterval(async () => {
@@ -68,15 +47,6 @@ function Debug() {
       setStatistics(data);
     } else {
       console.error("Failed to fetch debug data");
-    }
-  }, 10000);
-
-  // models
-  useInterval(async () => {
-    const response = await fetch("/api/debug/models");
-    if (response.ok) {
-      const data = await response.json();
-      setLoadedModels(data["models"]);
     }
   }, 10000);
 
@@ -186,37 +156,6 @@ function Debug() {
           <CardHeader>
             <CardTitle>
               <div className="flex items-center gap-2">
-                <Cpu />
-                Resources
-              </div>
-            </CardTitle>
-          </CardHeader>
-          <CardContent>
-            <p>CPU Usage: {resources.cpu}%</p>
-            <p>
-              Memory Usage: {prettyBytes(resources.memory_used)} /{" "}
-              {prettyBytes(resources.memory_total)}
-            </p>
-            <p>
-              GPU Usage:{" "}
-              {resources.gpu_available && resources.gpu !== null
-                ? `${resources.gpu}%`
-                : "N/A"}
-            </p>
-            <p>
-              GPU Memory Usage:{" "}
-              {resources.gpu_available &&
-              resources.gpu_memory_used !== null &&
-              resources.gpu_memory_total !== null
-                ? `${prettyBytes(resources.gpu_memory_used)} / ${prettyBytes(resources.gpu_memory_total)}`
-                : "N/A"}
-            </p>
-          </CardContent>
-        </Card>
-        <Card className="w-1/2">
-          <CardHeader>
-            <CardTitle>
-              <div className="flex items-center gap-2">
                 <Database />
                 Statistics
               </div>
@@ -226,53 +165,6 @@ function Debug() {
             <p>FactChecks: {statistics.factChecks}</p>
             <p>Active FactChecks: {statistics.activeFactChecks}</p>
             <p>Articles in Database: {statistics.articlesInDatabase}</p>
-          </CardContent>
-        </Card>
-        <Card className="w-1/2">
-          <CardHeader>
-            <CardTitle>
-              <div className="flex items-center gap-2">
-                <Bot />
-                Loaded Models
-              </div>
-            </CardTitle>
-          </CardHeader>
-          <CardContent>
-            {loadedModels.map((model: any) => (
-              <div key={model.name}>
-                <p className="font-semibold">{model.name}</p>
-                <p>Size: {(model.size / (1024 * 1024 * 1024)).toFixed(2)} GB</p>
-                <p>
-                  VRAM Usage:{" "}
-                  {(model.size_vram / (1024 * 1024 * 1024)).toFixed(2)} GB
-                </p>
-                <p>
-                  CPU/GPU Split:{" "}
-                  {(
-                    ((model.size - model.size_vram) / model.size) *
-                    100
-                  ).toFixed(2)}
-                  % / {((model.size_vram / model.size) * 100).toFixed(2)}%
-                </p>
-                <p>Context Length: {model.context_length}</p>
-                <Tooltip>
-                  <TooltipTrigger>
-                    <p>
-                      Unloads In:{" "}
-                      {prettyMilliseconds(
-                        new Date(model.expires_at).getTime() - Date.now(),
-                        {
-                          verbose: true,
-                        },
-                      )}
-                    </p>
-                  </TooltipTrigger>
-                  <TooltipContent>
-                    <p>{new Date(model.expires_at).toLocaleString()}</p>
-                  </TooltipContent>
-                </Tooltip>
-              </div>
-            ))}
           </CardContent>
         </Card>
       </div>
@@ -354,8 +246,8 @@ function Debug() {
               <ul className="space-y-2">
                 {activeFactChecks.map((factCheckId) => (
                   <li key={factCheckId}>
-                    <a 
-                      href={`/details/${factCheckId}`} 
+                    <a
+                      href={`/details/${factCheckId}`}
                       className="underline hover:no-underline text-primary hover:text-primary/80 transition-colors"
                     >
                       {factCheckId}
