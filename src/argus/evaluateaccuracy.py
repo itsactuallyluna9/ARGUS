@@ -13,7 +13,7 @@ from argus.llamarouter import LlamaRouter
 
 
 class Accuracy_Agent:
-    def __init__(self, article_text: str, article_metadata: dict, bias_rating: str, key_points: list[str], router: LlamaRouter, article_collection: chromadb.Collection, evaluation_model: str = "glm-4.7-flash", think: bool = True, use_long_prompt: bool = True):
+    def __init__(self, article_text: str, article_metadata: dict, bias_rating: str, key_points: list[str], router: LlamaRouter, article_collection: chromadb.Collection, evaluation_model: str = "glm-4.7-flash", think: bool = True, use_long_prompt: bool = True, max_tool_calls: int = 15):
 
         self.article_text = article_text
         self.title = article_metadata.get("title", "Title not found")
@@ -55,6 +55,8 @@ class Accuracy_Agent:
         }
         """
 
+        self.max_tool_calls = max_tool_calls
+
         self.notes = ""
 
         self.accuracy_score = 0
@@ -86,7 +88,7 @@ class Accuracy_Agent:
         messages = [
             {
                 "role": "user",
-                "content": f"Instructions: {self.prompt}\nText of {self.title} from {self.source_name} on {self.date}: {self.article_text}\nBias rating: {self.bias_rating}\nKey points: {self.key_points}\nCurrent date:{datetime.now().strftime('%Y-%m-%d')}",
+                "content": f"Instructions: {self.prompt}\nText of {self.title} from {self.source_name} on {self.date}: {self.article_text}\nBias rating: {self.bias_rating}\nKey points: {self.key_points}\nCurrent date:{datetime.now().strftime('%Y-%m-%d')}\nPlease keep the number of tool calls under {self.max_tool_calls} and be as efficient as possible with your tool calls.",
             }
         ]
 

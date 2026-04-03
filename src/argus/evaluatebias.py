@@ -11,7 +11,7 @@ from argus.llamarouter import LlamaRouter
 class Bias_Agent:
 
 
-    def __init__(self, article_text: str, article_metadata: dict, bias_rating: str, router: LlamaRouter, article_collection: chromadb.Collection, analysis_model: str = "glm-4.7-flash", think: bool = True, use_long_prompt: bool = True):
+    def __init__(self, article_text: str, article_metadata: dict, bias_rating: str, router: LlamaRouter, article_collection: chromadb.Collection, analysis_model: str = "glm-4.7-flash", think: bool = True, use_long_prompt: bool = True, max_tool_calls: int = 15):
 
         self.article_text = article_text
         self.title = article_metadata.get("title", "No title found")  # type: ignore
@@ -51,6 +51,8 @@ class Bias_Agent:
         }
         """
 
+        self.max_tool_calls = max_tool_calls
+
         self.notes = ""
 
         self.bias_rating = {
@@ -84,7 +86,7 @@ class Bias_Agent:
         messages = [
             {
                 "role": "user",
-                "content": f"Instructions: {self.prompt}\n\nText of {self.title} from {self.source_name} on {self.date}: {self.article_text}\n\nInitial Bias Rating: {self.intial_bias}\n\nCurrent date: {datetime.now().strftime('%Y-%m-%d')}",
+                "content": f"Instructions: {self.prompt}\n\nText of {self.title} from {self.source_name} on {self.date}: {self.article_text}\n\nInitial Bias Rating: {self.intial_bias}\n\nCurrent date: {datetime.now().strftime('%Y-%m-%d')}\nPlease keep the number of tool calls under {self.max_tool_calls} and be as efficient as possible with your tool calls.",
             }
         ]
 
