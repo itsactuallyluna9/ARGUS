@@ -3,6 +3,7 @@ import chromadb
 from datetime import datetime
 import os
 import json
+from loguru import logger
 
 from argus.fixjsonformatting import Bias_Schema
 from argus.llamarouter import LlamaRouter
@@ -91,7 +92,7 @@ class Bias_Agent:
         ]
 
         while True:
-            print("Sending message to bias model...")
+            logger.info("Sending message to bias model...")
 
             response = await self.router.chat(
                 model=self.evaluation_model,
@@ -107,8 +108,8 @@ class Bias_Agent:
             )
             messages.append(response.model_dump())
 
-            print(f"Bias model reasoning: {response.thinking}")
-            print(f"Bias model response: {response.content}")
+            logger.info(f"Bias model reasoning: {response.thinking}")
+            logger.info(f"Bias model response: {response.content}")
 
             if response.tool_calls and len(messages) < self.max_tool_calls*4:
                 for call in response.tool_calls:
@@ -123,7 +124,7 @@ class Bias_Agent:
                                 "content": f"Tool name: {tool_name}\nTool response: {tool_response}",
                             }
                         )
-                        print(f"Tool name: {tool_name}\nTool response: {tool_response}")
+                        logger.info(f"Tool name: {tool_name}\nTool response: {tool_response}")
                         self.agent_metadata["total_tool_calls"] += 1
                         if tool_name in self.agent_metadata["tool_calls"]:
                             self.agent_metadata["tool_calls"][tool_name] += 1
@@ -136,27 +137,30 @@ class Bias_Agent:
                                 "content": f"Tool name: {tool_name}\nTool response: Tool not found.",
                             }
                         )
-                        print(f"Tool name: {tool_name}\nTool response: Tool not found.")
+                        logger.info(f"Tool name: {tool_name}\nTool response: Tool not found.")
 
             else:
-                print("No tool calls detected, finalizing accuracy evaluation...")
+
+                done = False
+                logger.info("No tool calls detected, finalizing accuracy evaluation...")
 
                 try:
                     response = json.loads(response.content.split("```json")[-1].strip("```json").strip("```")) #type: ignore
                     if "properties" in response:
                         response = response["properties"]
-                    break
+                    done = True
                 
                 except:
                     pass
 
-                messages.append(
-                    {
-                        "role": "system",
-                        "content": 'I need to finalize my response and ensure the response is in the correct JSON format according to the schema. This should include a final bias rating (0-100) for each of the three parts ("political_score", "sensationalism_score", "emotional_language_score"), as well as an explanation for each rating ("political_bias", "sensationalism", "emotional_language").',
-                    }
-                )
-                response = await self.router.chat(model=self.evaluation_model, think=self.think, messages=messages, format=json.dumps(Bias_Schema.model_json_schema()))  # type: ignore
+                if not done:
+                    messages.append(
+                        {
+                            "role": "system",
+                            "content": 'I need to finalize my response and ensure the response is in the correct JSON format according to the schema. This should include a final bias rating (0-100) for each of the three parts ("political_score", "sensationalism_score", "emotional_language_score"), as well as an explanation for each rating ("political_bias", "sensationalism", "emotional_language").',
+                        }
+                    )
+                    response = await self.router.chat(model=self.evaluation_model, think=self.think, messages=messages, format=json.dumps(Bias_Schema.model_json_schema()))  # type: ignore
                 break
 
         response = json.loads(response.content.split("```json")[-1].strip("```json").strip("```")) #type: ignore
@@ -244,4 +248,4 @@ if __name__ == "__main__":
     )
 
     bias_evaluation = asyncio.run(bias_agent.analyze_bias())
-    print(bias_evaluation)
+    logger.info(bias_evaluation)

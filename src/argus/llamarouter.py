@@ -5,6 +5,7 @@ import json
 from pyexpat.errors import messages
 import re
 from typing import Callable, get_type_hints
+from loguru import logger
 
 from openai import AsyncOpenAI
 from dataclasses import dataclass, field
@@ -79,9 +80,9 @@ class LlamaRouter:
         routes[route_index].active_conversations += 1   
         self.routes[model][route_index] = routes[route_index]
 
-        print(f"Selected route {routes[route_index].ip}:{routes[route_index].port} waiting for model {model} with current load {routes[route_index].active_conversations}")
+        logger.info(f"Selected route {routes[route_index].ip}:{routes[route_index].port} waiting for model {model} with current load {routes[route_index].active_conversations}")
         await routes[route_index].request_lock.acquire()
-        print(f"Acquired lock for route {routes[route_index].ip}:{routes[route_index].port} and model {model}")
+        logger.info(f"Acquired lock for route {routes[route_index].ip}:{routes[route_index].port} and model {model}")
 
         override_client = None
         if override_url:
@@ -90,10 +91,7 @@ class LlamaRouter:
 
         try:
 
-            print(f"sending prompt to model {model} at {routes[route_index].ip}:{routes[route_index].port} with think={think}")
-
-            print(format)
-            print(type(format))
+            logger.info(f"Sending prompt to model {model} at {routes[route_index].ip}:{routes[route_index].port} with think={think}")
 
             raw_response = await client.chat.completions.create(
                 model = f"~/llamacpp/models/{model}.gguf",
@@ -133,8 +131,8 @@ class LlamaRouter:
                 )
             
         except Exception as e:
-            print(f"Error during generate with model {model} at {routes[route_index].ip}:{routes[route_index].port}: {e}")
-            print(type(e))
+            logger.info(f"Error during generate with model {model} at {routes[route_index].ip}:{routes[route_index].port}: {e}")
+            logger.info(f"Error type: {type(e)}")
             return Message(
                 role="assistant",
                 content=f"Error: {str(e)}"
@@ -182,9 +180,9 @@ class LlamaRouter:
         routes[route_index].active_conversations += 1
         self.routes[model][route_index] = routes[route_index]
 
-        print(f"Selected route {routes[route_index].ip}:{routes[route_index].port} waiting for model {model} with current load {routes[route_index].active_conversations}")
+        logger.info(f"Selected route {routes[route_index].ip}:{routes[route_index].port} waiting for model {model} with current load {routes[route_index].active_conversations}")
         await routes[route_index].request_lock.acquire()
-        print(f"Acquired lock for route {routes[route_index].ip}:{routes[route_index].port} and model {model}")
+        logger.info(f"Acquired lock for route {routes[route_index].ip}:{routes[route_index].port} and model {model}")
 
         override_client = None
         if override_url:
@@ -201,10 +199,10 @@ class LlamaRouter:
                     msg["content"] = json.dumps(msg["content"]) if isinstance(msg["content"], dict) else msg["content"]
 
             if tools:
-                print(f"sending messages to model {model} at {routes[route_index].ip}:{routes[route_index].port} with tools {len(tools)} and think={think}")
+                logger.info(f"Sending messages to model {model} at {routes[route_index].ip}:{routes[route_index].port} with tools {len(tools)} and think={think}")
             
             else:
-                print(f"sending messages to model {model} at {routes[route_index].ip}:{routes[route_index].port} with think={think}")
+                logger.info(f"Sending messages to model {model} at {routes[route_index].ip}:{routes[route_index].port} with think={think}")
 
             raw_response = await client.chat.completions.create(
                 model = f"~/llamacpp/models/{model}.gguf",
@@ -245,8 +243,8 @@ class LlamaRouter:
             return response
         
         except Exception as e:
-            print(f"Error during chat with model {model} at {routes[route_index].ip}:{routes[route_index].port}: {e}")
-            print(type(e))
+            logger.info(f"Error during chat with model {model} at {routes[route_index].ip}:{routes[route_index].port}: {e}")
+            logger.info(f"Error type: {type(e)}")
             return Message(
                 role="assistant",
                 content=f"Error: {str(e)}"
@@ -381,7 +379,7 @@ async def main():
 
     # while True:
 
-    #     print("Sending message")
+    #     logger.info("Sending message")
 
     #     response = await router.chat(
     #         model="glm-4.7-flash",
@@ -396,13 +394,13 @@ async def main():
     #             if call.function.name in available_tools:
     #                 tool_response = available_tools[call.function.name](**call.function.arguments)
     #                 messages.append({"role": "tool", "content": tool_response, "name": call.function.name})
-    #                 print(f"Tool response: {tool_response}")
+    #                 logger.info(f"Tool response: {tool_response}")
     #             else:
     #                 messages.append({"role": "tool", "content": f"Error: unknown tool {call.function.name}", "name": call.function.name})
-    #                 print(f"Model attempted to call unknown tool: {call.function.name}")
+    #                 logger.info(f"Model attempted to call unknown tool: {call.function.name}")
 
     #     else:
-    #         print(f"Model response: {response.content}")
+    #         logger.info(f"Model response: {response.content}")
     #         break
 
     response = await router.chat(
@@ -411,7 +409,7 @@ async def main():
         think=True
     )
 
-    print(f"Response: {response.content}")
+    logger.info(f"Response: {response.content}")
 
 
 if __name__ == "__main__":

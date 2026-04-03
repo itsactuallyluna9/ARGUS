@@ -4,6 +4,7 @@ import chromadb
 from datetime import datetime
 from ddgs import DDGS
 import json
+from loguru import logger
 
 from argus.fixjsonformatting import Accuracy_Schema
 from argus.scraper import get_page
@@ -92,7 +93,7 @@ class Accuracy_Agent:
         ]
 
         while True:
-            print("Sending message to accuracy model...")
+            logger.info("Sending message to accuracy model...")
 
             response = await self.router.chat(
                 model=self.evaluation_model,
@@ -110,8 +111,8 @@ class Accuracy_Agent:
             )
             messages.append(response.model_dump())
 
-            print(f"Accuracy model reasoning: {response.thinking}")
-            print(f"Accuracy model response: {response.content}")
+            logger.info(f"Accuracy model reasoning: {response.thinking}")
+            logger.info(f"Accuracy model response: {response.content}")
 
             if response.tool_calls and len(messages) < self.max_tool_calls*4:
                 for call in response.tool_calls:
@@ -123,14 +124,14 @@ class Accuracy_Agent:
                             tool_response = await available_tools[tool_name](**tool_args)
                         except Exception as e:
                             tool_response = f"Error calling {tool_name}: {e}"
-                            print(f"Tool call error: {tool_name}({tool_args}): {e}")
+                            logger.info(f"Tool call error: {tool_name}({tool_args}): {e}")
                         messages.append(
                             {
                                 "role": "tool",
                                 "content": f"Tool name: {tool_name}\nTool response: {tool_response}",
                             }
                         )
-                        print(f"Tool name: {tool_name}\nTool response: {tool_response}")
+                        logger.info(f"Tool name: {tool_name}\nTool response: {tool_response}")
                         self.agent_metadata["total_tool_calls"] += 1
                         if tool_name in self.agent_metadata["tool_calls"]:
                             self.agent_metadata["tool_calls"][tool_name] += 1
@@ -143,27 +144,31 @@ class Accuracy_Agent:
                                 "content": f"Tool name: {tool_name}\nTool response: Tool not found.",
                             }
                         )
-                        print(f"Tool name: {tool_name}\nTool response: Tool not found.")
+                        logger.info(f"Tool name: {tool_name}\nTool response: Tool not found.")
 
             else:
-                print("No tool calls detected, finalizing accuracy evaluation...")
+                
+                done = False
+                logger.info("No tool calls detected, finalizing accuracy evaluation...")
 
                 try:
                     response = json.loads(response.content.split("```json")[-1].strip("```json").strip("```")) #type: ignore
                     if "properties" in response:
                         response = response["properties"]
-                    break
+                    done = True
                 
                 except:
                     pass
 
-                messages.append(
-                    {
-                        "role": "system",
-                        "content": "I need to finalize my response and ensure the response is in the correct JSON format according to the schema. The output should include an accuracy score (0-100), reasoning, and the URLs for sources used in the evaluation.",
-                    }
-                )
-                response = await self.router.chat(model=self.evaluation_model, think=self.think, messages=messages, format=json.dumps(Accuracy_Schema.model_json_schema()))  # type: ignore
+                if not done:
+                    messages.append(
+                        {
+                            "role": "system",
+                            "content": "I need to finalize my response and ensure the response is in the correct JSON format according to the schema. The output should include an accuracy score (0-100), reasoning, and the URLs for sources used in the evaluation.",
+                        }
+                    )
+                    response = await self.router.chat(model=self.evaluation_model, think=self.think, messages=messages, format=json.dumps(Accuracy_Schema.model_json_schema()))  # type: ignore
+                
                 break
 
         response = json.loads(response.content.split("```json")[-1].strip("```json").strip("```")) #type: ignore
@@ -234,7 +239,7 @@ class Accuracy_Agent:
             return results
         
         except:
-            print(f"Error searching the internet for query: {query}")
+            logger.info(f"Error searching the internet for query: {query}")
             return []
 
 
@@ -246,13 +251,13 @@ class Accuracy_Agent:
         """
 
         if len(self.article_collection.get(ids=[url])["ids"]) == 0:
-            print(f"Article {url} not found in database, summarizing and adding to database...")
+            logger.info(f"Article {url} not found in database, summarizing and adding to database...")
 
             try:
                 article_metadata, article_text = await get_page(url)
                 summary = await summarize_article(article_text, self.router, use_long_prompt=self.use_long_prompt)
             except:
-                print(f"Error summarizing article {url}.")
+                logger.info(f"Error summarizing article {url}.")
                 return f"Error summarizing article {url}."
 
             try:
@@ -261,10 +266,10 @@ class Accuracy_Agent:
                     documents=[summary["summary"]],
                     metadatas=[{"url": url, "description": summary["description"], "summary": summary["summary"], "bias": summary["bias"], "points": summary["points"], "article_text": article_text, "timestamp": datetime.now().isoformat(), "metadata": json.dumps(article_metadata)}],
                 )
-                print(f"Article {url} added to database.")
+                logger.info(f"Article {url} added to database.")
 
             except:
-                print(f"Error adding article {url} to database.")
+                logger.info(f"Error adding article {url} to database.")
                 pass
 
             return summary["summary"]  # type: ignore
@@ -284,14 +289,15 @@ class Accuracy_Agent:
             return page["metadatas"][0]["article_text"]  # type: ignore
 
         except:
+            logger.info(f"Error: Article {url} not found in database. Please use the page_summary_tool to summarize the article and add it to the database before retrieving the full text.")
             return f"Error: Article {url} not found in database. Please use the page_summary_tool to summarize the article and add it to the database before retrieving the full text."
 
 
 
 async def main():
-    print("starting")
+    logger.info("starting")
     article_metadata, article_text = await get_page("https://www.usatoday.com/story/travel/2026/03/23/check-tsa-wait-times-government-shutdown-airports/89282748007/?utm_source=firefox-newtab-en-us")
-    print(article_text)
+    logger.info(article_text)
     bias_rating = ""
     key_points = []
 
@@ -308,7 +314,7 @@ async def main():
         think=True,
     )
     val = await accuracy_agent.evaluate_accuracy()
-    print(val)
+    logger.info(val)
 
 
 

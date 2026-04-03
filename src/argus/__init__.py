@@ -118,7 +118,7 @@ async def api_create():
     url = data.get("url")
 
     if not await check_url(url, router):
-        print("URL is not valid or cannot be scraped.")
+        logger.info("URL is not valid or cannot be scraped.")
         return jsonify({"message": f"URL {url} is not valid or cannot be scraped."}), 400
 
     found = False
@@ -203,6 +203,7 @@ def api_retry_check():
         past_checks.delete(ids=[uuid])
 
     if url is None:
+        logger.info(f"No fact check found for UUID {uuid}.")
         return jsonify({"message": f"No fact check found for UUID {uuid}."}), 404
 
     check = FactCheck(url, articles, router, config) # type: ignore
@@ -283,7 +284,6 @@ def api_data_filter():
 
 @app.get("/api/debug/statistics")
 def api_debug_statistics():
-    logger.info("hewwo??")
     with active_fact_checks_lock:
         active_fact_checks_count = len(active_fact_checks)
 
