@@ -29,7 +29,7 @@ CORS(app, resources={r"/api/*": {"origins": "*"}})
 
 #router = LlamaRouter(["100.67.68.111", "localhost", "100.100.137.64"], [8080, 8080, 8080], ["GLM-4.7-Flash-UD-Q4_K_XL", "GLM-4.7-Flash-UD-Q4_K_XL", "nemotron-3-nano:4b"])
 #router = LlamaRouter(["100.67.68.111", "localhost"], [8080, 8080], ["glm-4.7-flash", "nemotron-3-nano:4b"])
-router = LlamaRouter(["localhost", "100.67.68.111", "100.100.137.64"], [8080 for _ in range(3)], ["nemotron-3-nano:4b" for _ in range(3)])
+router = LlamaRouter(["100.119.149.15", "localhost", "100.100.137.64"], [8080 for _ in range(3)], ["glm-4.7-flash", "glm-4.7-flash", "nemotron-3-nano:4b"])
 
 # Persistent event loop for background async tasks.
 # Flask's WSGI server tears down its per-request event loop when a handler
@@ -193,7 +193,7 @@ async def api_create():
             break
 
     if not found:
-        check = FactCheck(url, articles, router, evaluator_model="nemotron-3-nano:4b") # CHANGE BACK TO OLD DEFAULT LATER
+        check = FactCheck(url, articles, router, evaluator_model="glm-4.7-flash") 
         _add_active_fact_check(check)
         future = asyncio.run_coroutine_threadsafe(check.main(), _bg_loop)
         future.add_done_callback(lambda future, check=check: _finalize_fact_check(check, future))
@@ -229,7 +229,7 @@ def api_create_random():
 
                 # return jsonify({"message": f"Failed to load URL."}), 400
 
-    check = FactCheck(url, articles, router, evaluator_model="nemotron-3-nano:4b") # CHANGE BACK TO OLD DEFAULT LATER # type: ignore
+    check = FactCheck(url, articles, router, evaluator_model="glm-4.7-flash") # type: ignore
     _add_active_fact_check(check)
     future = asyncio.run_coroutine_threadsafe(check.main(), _bg_loop)
     future.add_done_callback(lambda future, check=check: _finalize_fact_check(check, future))
@@ -408,7 +408,7 @@ async def bulk_import_articles(urls, summarize_only, use_long_prompts=True):
     for url in urls:
         if summarize_only:
             article_metadata, article_text = await get_page(url)
-            response = await summarize_article(article_text, router, model="gemma3:12b", think=False, use_long_prompt=use_long_prompts)
+            response = await summarize_article(article_text, router, model="nemotron-3-nano:4b", think=False, use_long_prompt=use_long_prompts)
             description = response["description"]  # type: ignore
             summary = response["articleSummary"]  # type: ignore
             key_points = response["points"]  # type: ignore
