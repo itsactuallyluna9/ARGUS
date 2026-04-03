@@ -193,7 +193,7 @@ async def api_create():
             break
 
     if not found:
-        check = FactCheck(url, articles, router)
+        check = FactCheck(url, articles, router, evaluator_model="nemotron-3-nano:4b") # CHANGE BACK TO OLD DEFAULT LATER
         _add_active_fact_check(check)
         future = asyncio.run_coroutine_threadsafe(check.main(), _bg_loop)
         future.add_done_callback(lambda future, check=check: _finalize_fact_check(check, future))
@@ -229,7 +229,7 @@ def api_create_random():
 
                 # return jsonify({"message": f"Failed to load URL."}), 400
 
-    check = FactCheck(url, articles, router) # type: ignore
+    check = FactCheck(url, articles, router, evaluator_model="nemotron-3-nano:4b") # CHANGE BACK TO OLD DEFAULT LATER # type: ignore
     _add_active_fact_check(check)
     future = asyncio.run_coroutine_threadsafe(check.main(), _bg_loop)
     future.add_done_callback(lambda future, check=check: _finalize_fact_check(check, future))
