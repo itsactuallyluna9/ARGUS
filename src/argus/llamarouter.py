@@ -121,7 +121,19 @@ class LlamaRouter:
             if response_text:
                 return response
 
-            raise RuntimeError("Model returned no final output content.")
+            else:
+                return Message(
+                    role="assistant",
+                    content=f"Error: model returned empty response"
+                )
+            
+        except Exception as e:
+            print(f"Error during generate with model {model} at {routes[route_index].ip}:{routes[route_index].port}: {e}")
+            print(type(e))
+            return Message(
+                role="assistant",
+                content=f"Error: {str(e)}"
+            )
 
         finally:
             routes[route_index].active_conversations -= 1
@@ -224,7 +236,10 @@ class LlamaRouter:
         except Exception as e:
             print(f"Error during chat with model {model} at {routes[route_index].ip}:{routes[route_index].port}: {e}")
             print(type(e))
-            raise e
+            return Message(
+                role="assistant",
+                content=f"Error: {str(e)}"
+            )
         
         finally:
             routes[route_index].active_conversations -= 1
