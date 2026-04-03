@@ -149,8 +149,9 @@ class Bias_Agent:
                     if "properties" in response:
                         response = response["properties"]
                     done = True
-                
-                except:
+                except json.JSONDecodeError as e:
+                    logger.info(f"Error decoding JSON response: {e}")
+                except KeyError:
                     pass
 
                 if not done:
@@ -164,19 +165,21 @@ class Bias_Agent:
                 break
 
         if not isinstance(response, dict):
-            response = json.loads(response.content.split("```json")[-1].strip("```json").strip("```")) #type: ignore
-
             try: 
-                response = response["properties"]
+                response = json.loads(response.content.split("```json")[-1].strip("```json").strip("```")) #type: ignore
+                if "properties" in response:
+                    response = response["properties"]
+            except json.JSONDecodeError as e:
+                logger.info(f"Error decoding JSON response: {e}")  
             except KeyError:
                 pass
 
-        self.bias_rating["political_bias"] = response["political_bias_explanation"]
-        self.bias_rating["sensationalism"] = response["sensationalism_explanation"]
-        self.bias_rating["emotional_language"] = response["emotional_language_explanation"]
-        self.bias_rating["political_score"] = response["political_score"]
-        self.bias_rating["sensationalism_score"] = response["sensationalism_score"]
-        self.bias_rating["emotional_language_score"] = response["emotional_language_score"]
+        self.bias_rating["political_bias"] = response.get("political_bias_explanation", "Political bias explanation not found")
+        self.bias_rating["sensationalism"] = response.get("sensationalism_explanation", "Sensationalism explanation not found")
+        self.bias_rating["emotional_language"] = response.get("emotional_language_explanation", "Emotional language explanation not found")
+        self.bias_rating["political_score"] = int(response.get("political_score", 0))
+        self.bias_rating["sensationalism_score"] = int(response.get("sensationalism_score", 0))
+        self.bias_rating["emotional_language_score"] = int(response.get("emotional_language_score", 0))
 
         self.agent_metadata["finished"] = datetime.now().isoformat()
 

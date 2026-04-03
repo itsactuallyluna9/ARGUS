@@ -172,16 +172,18 @@ class Accuracy_Agent:
                 break
 
         if not isinstance(response, dict):
-            response = json.loads(response.content.split("```json")[-1].strip("```json").strip("```")) #type: ignore
-
             try: 
-                response = response["properties"]
+                response = json.loads(response.content.split("```json")[-1].strip("```json").strip("```")) #type: ignore
+                if "properties" in response:
+                    response = response["properties"]
+            except json.JSONDecodeError as e:
+                logger.info(f"Error decoding JSON response: {e}")
             except KeyError:
                 pass
 
-        self.accuracy_score = response.get("accuracy")
-        self.accuracy_explanation = response.get("reasoning")
-        self.sources = response.get("sources")
+        self.accuracy_score = int(response.get("accuracy", 0))
+        self.accuracy_explanation = response.get("reasoning", "Accuracy reasoning not found")
+        self.sources = response.get("sources", "Sources not found")
 
         self.agent_metadata["finished"] = datetime.now().isoformat()
 

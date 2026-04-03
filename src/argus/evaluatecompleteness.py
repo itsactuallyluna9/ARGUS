@@ -149,13 +149,13 @@ class Completeness_Agent:
                 done = False
                 logger.info("No tool calls detected, finalizing accuracy evaluation...")
 
-                try:
+                try: 
                     response = json.loads(response.content.split("```json")[-1].strip("```json").strip("```")) #type: ignore
                     if "properties" in response:
                         response = response["properties"]
-                    done = True
-                
-                except:
+                except json.JSONDecodeError as e:
+                    logger.info(f"Error decoding JSON response: {e}")
+                except KeyError:
                     pass
 
                 if not done:
@@ -170,15 +170,17 @@ class Completeness_Agent:
                 break
 
         if not isinstance(response, dict):
-            response = json.loads(response.content.split("```json")[-1].strip("```json").strip("```")) #type: ignore
-
             try: 
-                response = response["properties"]
+                response = json.loads(response.content.split("```json")[-1].strip("```json").strip("```")) #type: ignore
+                if "properties" in response:
+                    response = response["properties"]
+            except json.JSONDecodeError as e:
+                logger.info(f"Error decoding JSON response: {e}")
             except KeyError:
                 pass
 
         self.completeness_score = int(response.get("completeness", 0))  # type: ignore
-        self.completeness_explanation = response.get("reasoning", "")  # type: ignore
+        self.completeness_explanation = response.get("reasoning", "Completeness reasoning not found")  # type: ignore
 
         self.agent_metadata["finished"] = datetime.now().isoformat()
 
