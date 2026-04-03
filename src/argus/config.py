@@ -40,6 +40,7 @@ class Config(BaseModel):
     agents: Agents
     model_routes: list[ModelRoute]
     chroma: ChromaConfig
+    webhooks: list[HttpUrl] = []
 
 
 def load_config(path: Path) -> Config:

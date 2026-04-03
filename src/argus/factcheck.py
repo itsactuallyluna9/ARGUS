@@ -14,6 +14,8 @@ from argus.evaluatecompleteness import Completeness_Agent
 from argus.evaluatebias import Bias_Agent
 from argus.timers import with_timing
 from argus.llamarouter import LlamaRouter
+from argus.webhooks import process_webhooks
+from argus.config import Config
 
 
 class FactCheck:
@@ -22,6 +24,7 @@ class FactCheck:
         url: str,
         article_collection: chromadb.Collection,
         router: LlamaRouter,
+        config: Config,
         summarizer_model: str = "nemotron-3-nano:4b",
         evaluator_model: str = "glm-4.7-flash",
         think: bool = False,
@@ -32,6 +35,7 @@ class FactCheck:
 
         self.article_collection = article_collection
         self.router = router
+        self.config = config
         self.summarizer_model = summarizer_model
         self.evaluator_model = evaluator_model
         self.think = think
@@ -121,6 +125,9 @@ class FactCheck:
         submitted = datetime.fromisoformat(self.fact_check_metadata["check_submitted"])
         self.fact_check_metadata["check_duration_from_start"] = (check_finished - started).total_seconds()
         self.fact_check_metadata["check_duration_from_submitted"] = (check_finished - submitted).total_seconds()
+
+        # handle webooks
+        await process_webhooks(self, self.config)
 
 
     @retry(stop=stop_after_attempt(3))

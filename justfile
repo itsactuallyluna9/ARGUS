@@ -10,6 +10,8 @@ dev:
     npx concurrently \
         --names "chroma,flask,node" \
         --prefix-colors "yellow,red,blue" \
+        --kill-others \
+        --kill-timeout 1000 \
         "just --justfile '{{justfile()}}' dev-chroma" \
         "just --justfile '{{justfile()}}' dev-flask" \
         "just --justfile '{{justfile()}}' dev-node"
