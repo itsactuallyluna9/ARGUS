@@ -38,8 +38,6 @@ async def summarize_article(article_text: str, router: LlamaRouter, model: str =
         format=json.dumps(SummarizeArticleSchema.model_json_schema()) # type: ignore
     )
 
-    print(f"Raw response: {r.content}")
-
     response = json.loads(r.content.split("json```")[-1].strip("json```").strip("```")) # type: ignore
 
     try:

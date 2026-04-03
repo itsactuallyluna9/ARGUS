@@ -5,6 +5,7 @@ import chromadb
 from datetime import datetime
 from tenacity import retry, stop_after_attempt
 import uuid
+from loguru import logger
 
 from argus.fixjsonformatting import URLCheckSchema
 from argus.summarizearticle import summarize_article
@@ -93,30 +94,30 @@ class FactCheck:
         self.fact_check_metadata["check_started"] = datetime.now().isoformat()
 
 
-        print("Scraping article and extracting text...\nThis may take a minute...\n")
+        logger.info("Scraping article and extracting text...\nThis may take a minute...\n")
         # url |> scrape |> clean -> raw article text
         with with_timing(lambda t: self.fact_check_metadata.update({"scraper_duration": t.duration_s})):
             self.article_metadata, self.article_text = await get_page(self.url)
 
-        print("Beginning summary and bias analysis...\nThis may take a few minutes...\n")
+        logger.info("Beginning summary and bias analysis...\nThis may take a few minutes...\n")
         # raw article text |> summarizer |> -> summary, key points |> chromadb (if not present)
         async with with_timing(lambda t: self.fact_check_metadata.update({"summary_duration": t.duration_s})):
             self.summary, self.bias_rating, self.key_points = await self.summarize_article(self.article_text, router=self.router, use_long_prompt=use_long_prompts)
 
-        print(f"\n\n\nSummary for {self.url}:\n{self.summary}\nBias rating: {self.bias_rating}\nKey points: {self.key_points}\n\n\n")
+        logger.info(f"\n\n\nSummary for {self.url}:\n{self.summary}\nBias rating: {self.bias_rating}\nKey points: {self.key_points}\n\n\n")
 
-        print("\nResearching article accuracy, completeness, and bias...\nThis may take a few minutes...\n")
+        logger.info("\nResearching article accuracy, completeness, and bias...\nThis may take a few minutes...\n")
 
         # evidence + article text + related article summaries + bias rating |> fact check model -> accuracy, completeness scores + explanation
         async with with_timing(lambda t: self.fact_check_metadata.update({"agents_duration": t.duration_s})):
             await self.fact_check(self.article_text, self.bias_rating, self.key_points, use_long_prompts=use_long_prompts, evaluator_model=self.evaluator_model)
 
-        print(f"\n\n\nFact check results for {self.url}:\n")
-        print(f"\nAccuracy score: {self.accuracy_score}\nExplanation: {self.accuracy_explanation}\nSources: {self.sources}")
-        print(f"\nCompleteness score: {self.completeness_score}\nExplanation: {self.completeness_explanation}")
-        print(f"\nPolitical bias: {self.political_bias}\nPolitical bias score: {self.political_score}")
-        print(f"\nSensationalism: {self.sensationalism}\nSensationalism score: {self.sensationalism_score}")
-        print(f"\nEmotional language: {self.emotional_language}\nEmotional language score: {self.emotional_language_score}")
+        logger.info(f"\n\n\nFact check results for {self.url}:\n")
+        logger.info(f"\nAccuracy score: {self.accuracy_score}\nExplanation: {self.accuracy_explanation}\nSources: {self.sources}")
+        logger.info(f"\nCompleteness score: {self.completeness_score}\nExplanation: {self.completeness_explanation}")
+        logger.info(f"\nPolitical bias: {self.political_bias}\nPolitical bias score: {self.political_score}")
+        logger.info(f"\nSensationalism: {self.sensationalism}\nSensationalism score: {self.sensationalism_score}")
+        logger.info(f"\nEmotional language: {self.emotional_language}\nEmotional language score: {self.emotional_language_score}")
 
         self.finished = True
         check_finished = datetime.now()
@@ -207,7 +208,7 @@ class FactCheck:
         for i, result in enumerate(agent_results):
             if isinstance(result, Exception):
                 agent_name = ["completeness", "accuracy", "bias"][i]
-                print(f"ERROR: {agent_name} agent failed with exception: {result}")
+                logger.exception(f"ERROR: {agent_name} agent failed with exception: {result}")
 
         self.fact_check_metadata["agent_results"] = [
             str(result) if isinstance(result, Exception) else result
