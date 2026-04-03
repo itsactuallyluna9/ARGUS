@@ -1,1 +1,2 @@
-line-length = 320
+ignore = ["E501"]
+lines-after-imports = 3
