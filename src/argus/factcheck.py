@@ -1,6 +1,7 @@
 import asyncio
 import json
 from typing import Any
+from pathlib import Path
 import chromadb
 from datetime import datetime
 from tenacity import retry, stop_after_attempt
@@ -8,6 +9,7 @@ import uuid
 from loguru import logger
 
 from argus.fixjsonformatting import URLCheckSchema
+from argus.log_config import setup_logging
 from argus.summarizearticle import summarize_article
 from argus.scraper import get_page
 from argus.evaluateaccuracy import Accuracy_Agent
@@ -15,8 +17,8 @@ from argus.evaluatecompleteness import Completeness_Agent
 from argus.evaluatebias import Bias_Agent
 from argus.timers import with_timing
 from argus.llamarouter import LlamaRouter
+from argus.config import Config, load_config
 from argus.webhooks import process_webhooks
-from argus.config import Config
 
 
 class FactCheck:
@@ -266,7 +268,13 @@ if __name__ == "__main__":
 
     router=LlamaRouter(["cs-cluster-1", "localhost"], [8080, 8080], ["GLM-4.7-Flash-UD-Q4_K_XL", "NVIDIA-Nemotron3-Nano-4B-Q4_K_M"])
 
-    check = FactCheck(url, chromadb_client.get_or_create_collection(name="articles"), router, think=True)
+    PROJECT_ROOT = Path(__file__).resolve().parents[2]
+    CONFIG_PATH = PROJECT_ROOT / "config.toml"
+
+    config = load_config(CONFIG_PATH)
+    setup_logging(config)
+
+    check = FactCheck(url, chromadb_client.get_or_create_collection(name="articles"), router, think=True, config=config)
 
     asyncio.run(check.main(use_long_prompts=False))
 
