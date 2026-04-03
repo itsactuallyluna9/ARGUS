@@ -13,7 +13,7 @@ _LLAMA_TIMEOUT = httpx.Timeout(timeout=1800.0, connect=10.0)
 
 class LlamaRouter:
     
-    def __init__(self, ips: list[str], ports: list[int], models: list[str]):
+    def __init__(self, ips: list[str], ports: list[int], models: list[str], api_keys: list[str] = None, temperatures: list[float] = None, max_tokens_list: list[int] = None): # type: ignore
 
         self.routes = {}
 
@@ -22,12 +22,12 @@ class LlamaRouter:
             "nemotron-3-nano:4b": "NVIDIA-Nemotron3-Nano-4B-Q4_K_M"
         }
 
-        for ip, port, model in zip(ips, ports, models):
+        for i in range(len(ips)):
 
-            if model in self.model_aliases:
-                model = self.model_aliases[model]
+            if models[i] in self.model_aliases:
+                models[i] = self.model_aliases[models[i]]
 
-            self.add_route(Route(model=model, ip=ip, port=port))
+            self.add_route(Route(model=models[i], ip=ips[i], port=ports[i], api_key=api_keys[i] if api_keys else "", temperature=temperatures[i] if temperatures else 0.7, max_tokens=max_tokens_list[i] if max_tokens_list else 4096))
 
 
     def add_route(self, route: Route):
@@ -65,6 +65,7 @@ class LlamaRouter:
             if route.active_conversations < min_load:
                 min_load = route.active_conversations
                 route_index = i
+
         
         routes[route_index].active_conversations += 1
         self.routes[model][route_index] = routes[route_index]

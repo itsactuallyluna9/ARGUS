@@ -33,6 +33,7 @@ class Completeness_Agent:
         self.agent_metadata = {}
         self.agent_metadata["scheduled"] = datetime.now().isoformat()
 
+        self.use_long_prompt = use_long_prompt
         self.default_prompt = """
         You are a completeness checker for news articles. You will be given the full text of an article, a bias rating, and a list of key points.
         Your task is to evaluate how complete the reporting of the article is compared to the information in other articles on the same topic. You should return a completeness score between 0 and 100 evaluating how complete the article's reporting is based on the information in the other articles and if they left out any important details, and a few sentences justification for the value you chose for completeness.
@@ -138,7 +139,6 @@ class Completeness_Agent:
 
             else:
                 print("No tool calls detected, finalizing completeness evaluation...")
-                messages = [messages[-1]]
                 messages.append(
                     {
                         "role": "system",
@@ -229,7 +229,7 @@ class Completeness_Agent:
             print(f"Article {url} not found in database, summarizing and adding to database...")
 
             article_metadata, article_text = await get_page(url)
-            summary = await summarize_article(article_text, self.router)
+            summary = await summarize_article(article_text, self.router, use_long_prompt=self.use_long_prompt)
 
             try:
                 self.article_collection.add(

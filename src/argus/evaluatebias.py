@@ -137,7 +137,6 @@ class Bias_Agent:
 
             else:
                 print("No tool calls detected, finalizing bias evaluation...")
-                messages = [messages[-1]]
                 messages.append(
                     {
                         "role": "system",
