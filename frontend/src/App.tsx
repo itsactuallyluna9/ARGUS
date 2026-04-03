@@ -6,16 +6,62 @@ import DetailsView from "@/pages/Details";
 import Debug from "./pages/Debug";
 import BasicDataSandboxView from "./pages/BasicDataSandbox";
 import AdvancedDataSandboxView from "./pages/AdvancedDataSandbox";
+import TernaryThemeButton from "./components/TernaryThemeButton";
+import {
+  NavigationMenu,
+  NavigationMenuContent,
+  NavigationMenuItem,
+  NavigationMenuLink,
+  NavigationMenuList,
+  NavigationMenuTrigger,
+  navigationMenuTriggerStyle,
+} from "./components/ui/navigation-menu";
 
 function App() {
   return (
     <>
-      <nav className="p-4">
-        <Link to="/" className="mr-4">
-          Home
-        </Link>
-        <Link to="/sandbox">Data Sandbox</Link>
-      </nav>
+      <NavigationMenu className="w-full">
+        <NavigationMenuList>
+          <NavigationMenuItem>
+            <NavigationMenuLink
+              asChild
+              className={navigationMenuTriggerStyle()}
+            >
+              <Link to="/">ARGUS</Link>
+            </NavigationMenuLink>
+          </NavigationMenuItem>
+          <NavigationMenuItem>
+            <NavigationMenuTrigger>
+              <NavigationMenuLink
+                asChild
+                className={navigationMenuTriggerStyle()}
+              >
+                <Link to="/sandbox">Data Sandbox</Link>
+              </NavigationMenuLink>
+            </NavigationMenuTrigger>
+            <NavigationMenuContent>
+              <ul className="w-64">
+                <NavigationMenuLink asChild>
+                  <Link to="/sandbox">Basic</Link>
+                </NavigationMenuLink>
+                <NavigationMenuLink asChild>
+                  <Link to="/sandbox/advanced">Advanced</Link>
+                </NavigationMenuLink>
+              </ul>
+            </NavigationMenuContent>
+          </NavigationMenuItem>
+          <NavigationMenuItem>
+            <NavigationMenuLink
+              asChild
+              className={navigationMenuTriggerStyle()}
+            >
+              <Link to="/debug">Debug</Link>
+            </NavigationMenuLink>
+          </NavigationMenuItem>
+        </NavigationMenuList>
+        <div className="w-screen"></div>
+        <TernaryThemeButton variant="ghost" />
+      </NavigationMenu>
 
       <Routes>
         <Route path="/" element={<Home />} />
