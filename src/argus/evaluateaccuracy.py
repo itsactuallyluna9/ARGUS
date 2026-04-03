@@ -29,6 +29,7 @@ class Accuracy_Agent:
         self.agent_metadata = {}
         self.agent_metadata["scheduled"] = datetime.now().isoformat()
 
+        self.use_long_prompt = use_long_prompt
         self.default_prompt = """
         You are an accuracy checker for news articles. You will be given the full text of an article, a bias rating, and a list of key points from the article. 
         Your task is to evaluate how factually accurate the article is based on the information provided and any additional information you can gather using the tools at your disposal. You should return an accuracy score between 0 and 100 evaluating how factually accurate the article is based on the evidence gathered, and a few sentences justification for the value you chose for accuracy. Additionally, return a list of the source URLs that were used to make your decision. This should include all of the sources that you considered, both those from the related articles and from your own research, but should exclude sources on irrelevant topics.
@@ -140,7 +141,6 @@ class Accuracy_Agent:
 
             else:
                 print("No tool calls detected, finalizing accuracy evaluation...")
-                messages = [messages[-1]]
                 messages.append(
                     {
                         "role": "system",
@@ -233,7 +233,7 @@ class Accuracy_Agent:
 
             try:
                 article_metadata, article_text = await get_page(url)
-                summary = await summarize_article(article_text, self.router)
+                summary = await summarize_article(article_text, self.router, use_long_prompt=self.use_long_prompt)
             except:
                 print(f"Error summarizing article {url}.")
                 return f"Error summarizing article {url}."
