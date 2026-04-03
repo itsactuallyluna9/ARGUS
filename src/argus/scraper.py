@@ -109,7 +109,12 @@ async def get_page(url: str) -> tuple[dict[str, str], str]:
 
 # @ttl_cache(5 * 60)
 async def get_source(url: str) -> tuple[str, bytes, bool]:
-    resp = requests.get(url)
+    try:
+        # TODO: swap this out with async!
+        resp = requests.get(url, timeout=60)
+    except requests.RequestException:
+        return *await get_source_chrome(url), True
+
     content_type = resp.headers.get("Content-Type", "").lower().split(";")[0].strip()
 
     if not resp.ok:
