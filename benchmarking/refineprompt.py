@@ -36,42 +36,44 @@ class PromptRefiner:
 
         self.notes = ""
 
-    def refine_prompt(self, max_iterations: int = 5) -> str:  # type: ignore
+    def refine_prompt(self, iteration_num=1, feedback: str = "") -> str:  # type: ignore
         """Refines the prompt based on feedback from the model and tool calls."""
 
         iteration_count = 0
         available_tools = {"write_notes": self.write_notes, "read_notes": self.read_notes}
 
-        for _ in range(max_iterations):
-            messages = [{"role": "system", "content": self.system_prompt}, {"role": "user", "content": f"Refine the prompt to better achieve the goal of {self.goal_description}. Current prompt: {self.refined_prompt}"}]
-            iteration_count += 1
+        messages = [{"role": "system", "content": self.system_prompt}, {"role": "user", "content": f"Refine the prompt to better achieve the goal of {self.goal_description}. Current prompt: {self.refined_prompt}"}]
 
-            while True:
-                print(f"[Iteration {iteration_count}] Sending prompt to model for refinement...")
+        while True:
+            print(f"[Iteration {iteration_num}] Sending prompt to model for refinement...")
 
-                response = ollama.chat(model=self.model, think=self.think, messages=messages, tools=[self.write_notes, self.read_notes])
+            response = ollama.chat(model=self.model, think=self.think, messages=messages) #, tools=[self.write_notes, self.read_notes])
 
-                messages.append(response.message.model_dump())
+            messages.append(response.message.model_dump())
 
-                if response.message.tool_calls:
-                    for call in response.message.tool_calls:
-                        tool_name = call.function.name
-                        tool_args = call.function.arguments
+            if response.message.tool_calls:
+                for call in response.message.tool_calls:
+                    tool_name = call.function.name
+                    tool_args = call.function.arguments
 
-                        if tool_name in available_tools:
-                            tool_response = available_tools[tool_name](**tool_args)
-                            messages.append({"role": "tool", "content": f"Tool {tool_name} called with args {tool_args} and returned {tool_response}"})
-                            print(f"[Tool Call] {tool_name} called with args {tool_args} and returned {tool_response}")
-                        else:
-                            messages.append({"role": "tool", "content": f"Unknown tool, did not execute: {tool_name} called with args {tool_args}"})
-                            print(f"[Tool Call] Unknown tool, did not execute: {tool_name} called with args {tool_args}")
+                    if tool_name in available_tools:
+                        tool_response = available_tools[tool_name](**tool_args)
+                        messages.append({"role": "tool", "content": f"Tool {tool_name} called with args {tool_args} and returned {tool_response}"})
+                        print(f"[Tool Call] {tool_name} called with args {tool_args} and returned {tool_response}")
+                    else:
+                        messages.append({"role": "tool", "content": f"Unknown tool, did not execute: {tool_name} called with args {tool_args}"})
+                        print(f"[Tool Call] Unknown tool, did not execute: {tool_name} called with args {tool_args}")
 
-                else:
-                    self.refined_prompt = response.message.content
-                    print(f"[Iteration {iteration_count}] Refined Prompt: {self.refined_prompt}")
-                    break
+            else:
+                self.refined_prompt = response.message.content
+                print(f"[Iteration {iteration_num}] Refined Prompt: {self.refined_prompt}\n\n")
+                feedback = input("Please enter any feedback for the refined prompt (press enter to skip): ")
+                break
         try:
-            final_prompt = self.gemini_feedback()
+            if len(feedback) > 0:
+                final_prompt = self.refine_prompt(feedback=feedback, iteration_num=iteration_num+1)
+            else:
+                final_prompt = self.refined_prompt
 
         except RetryError as e:
             print(f"[Error] ServerError encountered: {e}, returning last refined prompt without Gemini feedback.")
@@ -80,13 +82,13 @@ class PromptRefiner:
         return final_prompt  # type: ignore
 
     @retry(retry=retry_if_exception_type(ServerError), wait=wait_exponential(1, 60), stop=stop_after_attempt(5))
-    def gemini_feedback(self) -> str:
+    def gemini_feedback(self, feedback: str) -> str:
 
         chat = self.gemini_client.chats.create(model=self.gemini_model, config=gemini.types.GenerateContentConfig(thinking_config=gemini.types.ThinkingConfig(include_thoughts=self.gemini_think)))
 
         print(f"[Gemini Feedback] Sending refined prompt to Gemini for feedback...")
 
-        gemini_response = chat.send_message(self.system_prompt + f"\n\nRefine the prompt to better achieve the goal of {self.goal_description}. Current prompt: {self.refined_prompt}")
+        gemini_response = chat.send_message(self.system_prompt + f"\n\nRefine the prompt to better achieve the goal of {self.goal_description}. Current prompt: {self.refined_prompt}\n User feedback: {feedback}")
 
         print(f"[Gemini Feedback] {gemini_response.text}")  # type: ignore
 
@@ -116,30 +118,30 @@ if __name__ == "__main__":
         {
             "prompt_name": "accuracy_prompt",
             "initial_prompt": """
-            You are an accuracy checker for news articles. You will be given the full text of an article, a bias rating, and a list of key points from the article. 
-            Your task is to evaluate how factually accurate the article is based on the information provided and any additional information you can gather using the tools at your disposal. You should return an accuracy score between 0 and 100 evaluating how factually accurate the article is based on the evidence gathered, and a few sentences justification for the value you chose for accuracy. Additionally, return a list of the source URLs that were used to make your decision. This should include all of the sources that you considered, both those from the related articles and from your own research, but should exclude sources on irrelevant topics.
+        You are an accuracy checker for news articles. You will be given the full text of an article, a bias rating, and a list of key points from the article. 
+        Your task is to evaluate how factually accurate the article is based on the information provided and any additional information you can gather using the tools at your disposal. You should return an accuracy score between 0 and 100 evaluating how factually accurate the article is based on the evidence gathered, and a few sentences justification for the value you chose for accuracy. Additionally, return a list of the source URLs that were used to make your decision. This should include all of the sources that you considered, both those from the related articles and from your own research, but should exclude sources on irrelevant topics.
 
-            You have access to several tools to help you with this task:
-            1. A notes tool where you can write out the steps you plan to take to evaluate the article's accuracy. You can read these notes with a read_notes function and write to them with a write_notes function. You should use this tool extremely frequently to keep track of your progress and ensure that you are being thorough in your evaluation.
-            2. A search_db_tool that takes a query and returns a list of relevant articles and their URLs from a database of articles. You should use this tool to find more information about the topic of the article and to gather evidence for or against the key points in the article.
-            3. A search_internet_tool that takes a query and returns a list of relevant articles and their URLs from an internet search. You should prefer using the search_db_tool to find sources that are already in the database, but you can use the search_internet_tool to find additional sources if needed.
-            4. A page_summary_tool that takes a URL and returns a summary of the article at that URL. You should use this tool to quickly gather information from sources that you find with the search_db_tool and search_internet_tool without having to read through the full text of each article.
-            5. A page_text_tool that takes a URL and returns the full text of the article at that URL, but only for articles that have already been summarized and added to the database. You should use this tool to get more detailed information from sources that you find with the search_db_tool and search_internet_tool if the summary provided by the page_summary_tool does not give you enough information to evaluate the accuracy of the article.
-            
-            When evaluating the accuracy of the article, you should follow the steps below:
-            1. Read through the article text and the bias rating and key points to get a general understanding of the article and its context.
-            2. Use the notes tool to write out a plan for how you will evaluate the article's accuracy. This plan should include the specific claims or key points in the article that you will investigate, the tools you will use to investigate each claim, and the order in which you will investigate them.
-            3. Follow the plan you have laid out, using the tools at your disposal to gather evidence for or against the claims in the article. Be thorough in investigating your claims, but dont spend too long on any one part in particular. Be sure to keep detailed notes of the evidence you gather and how it relates to each claim.
-            4. If/when you find a discrepancy between the claims in the article and the evidence you have gathered, check the original article again to make sure you did not misinterpret the claim. 
-            
-            When you feel that you have gathered enough evidence to make a judgment about the article's accuracy, use the notes tool to write out your final reasoning for the accuracy score you will give the article. Then, return a JSON object with the following format:
-            JSON schema: {
-                "accuracy": int,
-                "reasoning": str,
-                "sources": list[str]
-            }
-            """,
-            "goal_description": "To evaluate the factual accuracy of a news article based on the information provided and additional research, returning a score from 0-100, an explanation for the score, and a list of sources used in the evaluation. Do not remove the tool definitions, only refine them, if necessary.",
+        You have access to several tools to help you with this task:
+        1. A notes tool where you can write out the steps you plan to take to evaluate the article's accuracy. You can read these notes with a read_notes function and write to them with a write_notes function. You should use this tool extremely frequently to keep track of your progress and ensure that you are being thorough in your evaluation.
+        2. A search_db_tool that takes a query and returns a list of relevant articles and their URLs from a database of articles. You should use this tool to find more information about the topic of the article and to gather evidence for or against the key points in the article.
+        3. A search_internet_tool that takes a query and returns a list of relevant articles and their URLs from an internet search. You should prefer using the search_db_tool to find sources that are already in the database, but you can use the search_internet_tool to find additional sources if needed.
+        4. A page_summary_tool that takes a URL and returns a summary of the article at that URL. You should use this tool to quickly gather information from sources that you find with the search_db_tool and search_internet_tool without having to read through the full text of each article.
+        5. A page_text_tool that takes a URL and returns the full text of the article at that URL, but only for articles that have already been summarized and added to the database. You should use this tool to get more detailed information from sources that you find with the search_db_tool and search_internet_tool if the summary provided by the page_summary_tool does not give you enough information to evaluate the accuracy of the article.
+        
+        When evaluating the accuracy of the article, you should follow the steps below:
+        1. Read through the article text and the bias rating and key points to get a general understanding of the article and its context.
+        2. Use the notes tool to write out a plan for how you will evaluate the article's accuracy. This plan should include the specific claims or key points in the article that you will investigate, the tools you will use to investigate each claim, and the order in which you will investigate them.
+        3. Follow the plan you have laid out, using the tools at your disposal to gather evidence for or against the claims in the article. Be thorough in investigating your claims, but dont spend too long on any one part in particular. Be sure to keep detailed notes of the evidence you gather and how it relates to each claim.
+        4. If/when you find a discrepancy between the claims in the article and the evidence you have gathered, check the original article again to make sure you did not misinterpret the claim. 
+        
+        When you feel that you have gathered enough evidence to make a judgment about the article's accuracy, use the notes tool to write out your final reasoning for the accuracy score you will give the article. Then, return a JSON object with the following format:
+        JSON schema: {
+            "accuracy": int,
+            "reasoning": str,
+            "sources": list[str]
+        }
+        """,
+            "goal_description": "evaluating factual accuracy of articles, maintaining all tools and returning final accuracy score, explanation, and ALWAYS cited sources in the specified JSON schema",
         }
     ]
 
