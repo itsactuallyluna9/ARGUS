@@ -103,6 +103,7 @@ class Bias_Agent:
                     self.search_db_tool,
                     self.page_text_tool,
                 ],
+                format=json.dumps(Bias_Schema.model_json_schema())  # type: ignore
             )
             messages.append(response.model_dump())
 
@@ -138,11 +139,21 @@ class Bias_Agent:
                         print(f"Tool name: {tool_name}\nTool response: Tool not found.")
 
             else:
-                print("No tool calls detected, finalizing bias evaluation...")
+                print("No tool calls detected, finalizing accuracy evaluation...")
+
+                try:
+                    response = json.loads(response.content.split("```json")[-1].strip("```json").strip("```")) #type: ignore
+                    if "properties" in response:
+                        response = response["properties"]
+                    break
+                
+                except:
+                    pass
+
                 messages.append(
                     {
                         "role": "system",
-                        "content": 'Ensure the response is in the correct JSON format according to the schema. This should include a final bias rating (0-100) for each of the three parts ("political_score", "sensationalism_score", "emotional_language_score"), as well as an explanation for each rating ("political_bias", "sensationalism", "emotional_language").',
+                        "content": 'I need to finalize my response and ensure the response is in the correct JSON format according to the schema. This should include a final bias rating (0-100) for each of the three parts ("political_score", "sensationalism_score", "emotional_language_score"), as well as an explanation for each rating ("political_bias", "sensationalism", "emotional_language").',
                     }
                 )
                 response = await self.router.chat(model=self.evaluation_model, think=self.think, messages=messages, format=json.dumps(Bias_Schema.model_json_schema()))  # type: ignore

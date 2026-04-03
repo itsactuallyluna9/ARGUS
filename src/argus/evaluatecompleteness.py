@@ -104,6 +104,7 @@ class Completeness_Agent:
                     self.page_summary_tool,
                     self.page_text_tool,
                 ],
+                format=json.dumps(Completeness_Schema.model_json_schema())  # type: ignore
             )
             messages.append(response.model_dump())
 
@@ -143,11 +144,21 @@ class Completeness_Agent:
                         print(f"Tool name: {tool_name}\nTool response: Tool not found.")
 
             else:
-                print("No tool calls detected, finalizing completeness evaluation...")
+                print("No tool calls detected, finalizing accuracy evaluation...")
+
+                try:
+                    response = json.loads(response.content.split("```json")[-1].strip("```json").strip("```")) #type: ignore
+                    if "properties" in response:
+                        response = response["properties"]
+                    break
+                
+                except:
+                    pass
+
                 messages.append(
                     {
                         "role": "system",
-                        "content": "Ensure the response is in the correct JSON format according to the schema. The output should include a completeness score (0-100) and a reasoning for the score.",
+                        "content": "I need to finalize my response and ensure the response is in the correct JSON format according to the schema. The output should include a completeness score (0-100) and a reasoning for the score.",
                     }
                 )
                 response = await self.router.chat(model=self.evaluation_model, think=self.think, messages=messages, format=json.dumps(Completeness_Schema.model_json_schema())) # type: ignore

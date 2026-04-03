@@ -105,7 +105,8 @@ class Accuracy_Agent:
                     self.search_internet_tool,
                     self.page_summary_tool,
                     self.page_text_tool,
-                ]
+                ],
+                format=json.dumps(Accuracy_Schema.model_json_schema())  # type: ignore
             )
             messages.append(response.model_dump())
 
@@ -146,10 +147,20 @@ class Accuracy_Agent:
 
             else:
                 print("No tool calls detected, finalizing accuracy evaluation...")
+
+                try:
+                    response = json.loads(response.content.split("```json")[-1].strip("```json").strip("```")) #type: ignore
+                    if "properties" in response:
+                        response = response["properties"]
+                    break
+                
+                except:
+                    pass
+
                 messages.append(
                     {
                         "role": "system",
-                        "content": "Ensure the response is in the correct JSON format according to the schema. The output should include an accuracy score (0-100), reasoning, and the URLs for sources used in the evaluation.",
+                        "content": "I need to finalize my response and ensure the response is in the correct JSON format according to the schema. The output should include an accuracy score (0-100), reasoning, and the URLs for sources used in the evaluation.",
                     }
                 )
                 response = await self.router.chat(model=self.evaluation_model, think=self.think, messages=messages, format=json.dumps(Accuracy_Schema.model_json_schema()))  # type: ignore
