@@ -1,0 +1,52 @@
+import tomllib
+from pathlib import Path
+from typing import Literal
+
+from pydantic import BaseModel, HttpUrl, IPvAnyInterface, PositiveInt, Field
+from pydantic.dataclasses import dataclass
+
+
+class Agent(BaseModel):
+    model: str  # TODO: our default
+    thinking: bool  # TODO: true for all but summarizer default
+    use_long_prompts: bool = True
+    max_tool_calls: PositiveInt = 512
+
+
+class Agents(BaseModel):
+    summarizer: Agent = Field(default_factory=lambda: Agent("nemotron-3-nano:4b", False))
+    accuracy: Agent = Field(default_factory=lambda: Agent("glm-4.7-flash", True))
+    bias: Agent = Field(default_factory=lambda: Agent("glm-4.7-flash", True))
+    completeness: Agent = Field(default_factory=lambda: Agent("glm-4.7-flash", True))
+
+
+class ModelRoute(BaseModel):
+    url: HttpUrl
+    model_name: str
+    api_key: str = ""
+    temperature: float = 0.7
+    max_tokens: int = 1024 * 16
+
+
+class ChromaConfig(BaseModel):
+    backend: Literal["memory", "persistent", "http"]
+    path: Path | None = None
+    url: HttpUrl | None = None
+
+
+class Config(BaseModel):
+    host: IPvAnyInterface
+    port: PositiveInt
+    agents: Agents
+    model_routes: list[ModelRoute]
+    chroma: ChromaConfig
+
+
+def load_config(path: Path) -> Config:
+    with path.open("rb") as f:
+        config = tomllib.load(f)
+    return Config.model_validate(config)
+
+
+if __name__ == "__main__":
+    print(load_config(Path("config.toml")))
