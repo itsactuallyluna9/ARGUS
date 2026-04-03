@@ -5,7 +5,7 @@ import re
 from typing import Callable, get_type_hints
 
 from openai import AsyncOpenAI
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 from ollama import Message
 import httpx
 
@@ -74,14 +74,17 @@ class LlamaRouter:
                 min_load = route.active_conversations
                 route_index = i
 
-
-        routes[route_index].active_conversations += 1
+        routes[route_index].active_conversations += 1   
         self.routes[model][route_index] = routes[route_index]
 
+        print(f"Selected route {routes[route_index].ip}:{routes[route_index].port} waiting for model {model} with current load {routes[route_index].active_conversations}")
+        await routes[route_index].request_lock.acquire()
+        print(f"Acquired lock for route {routes[route_index].ip}:{routes[route_index].port} and model {model}")
+
+        override_client = None
         if override_url:
-            client = AsyncOpenAI(base_url=override_url, api_key=routes[route_index].api_key, timeout=_LLAMA_TIMEOUT)
-        else:
-            client = AsyncOpenAI(base_url=f"http://{routes[route_index].ip}:{routes[route_index].port}", api_key=routes[route_index].api_key, timeout=_LLAMA_TIMEOUT)
+            override_client = AsyncOpenAI(base_url=override_url, api_key=routes[route_index].api_key, timeout=_LLAMA_TIMEOUT)
+        client = override_client or routes[route_index].client
 
         try:
 
@@ -136,7 +139,10 @@ class LlamaRouter:
             )
 
         finally:
+            if override_client:
+                await override_client.close()
             routes[route_index].active_conversations -= 1
+            routes[route_index].request_lock.release()
             self.routes[model][route_index] = routes[route_index]
 
         
@@ -175,10 +181,14 @@ class LlamaRouter:
         routes[route_index].active_conversations += 1
         self.routes[model][route_index] = routes[route_index]
 
+        print(f"Selected route {routes[route_index].ip}:{routes[route_index].port} waiting for model {model} with current load {routes[route_index].active_conversations}")
+        await routes[route_index].request_lock.acquire()
+        print(f"Acquired lock for route {routes[route_index].ip}:{routes[route_index].port} and model {model}")
+
+        override_client = None
         if override_url:
-            client = AsyncOpenAI(base_url=override_url, api_key=routes[route_index].api_key, timeout=_LLAMA_TIMEOUT)
-        else:
-            client = AsyncOpenAI(base_url=f"http://{routes[route_index].ip}:{routes[route_index].port}", api_key=routes[route_index].api_key, timeout=_LLAMA_TIMEOUT)
+            override_client = AsyncOpenAI(base_url=override_url, api_key=routes[route_index].api_key, timeout=_LLAMA_TIMEOUT)
+        client = override_client or routes[route_index].client
 
         try:
             for msg in messages:
@@ -242,7 +252,10 @@ class LlamaRouter:
             )
         
         finally:
+            if override_client:
+                await override_client.close()
             routes[route_index].active_conversations -= 1
+            routes[route_index].request_lock.release()
             self.routes[model][route_index] = routes[route_index]
 
 
@@ -255,7 +268,17 @@ class Route:
     api_key: str = ""
     temperature: float = 0.7
     max_tokens: int = 4096
+    request_lock: asyncio.Lock = field(default_factory=asyncio.Lock)
     active_conversations: int = 0
+    client: AsyncOpenAI = field(default=None, init=False, repr=False)  # type: ignore[assignment]
+
+    def __post_init__(self) -> None:
+        self.client = AsyncOpenAI(
+            base_url=f"http://{self.ip}:{self.port}",
+            api_key=self.api_key,
+            timeout=_LLAMA_TIMEOUT,
+        )
+
 
 
 PYTHON_TYPE_TO_JSON = {
