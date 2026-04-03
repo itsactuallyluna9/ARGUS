@@ -163,12 +163,13 @@ class Bias_Agent:
                     response = await self.router.chat(model=self.evaluation_model, think=self.think, messages=messages, format=json.dumps(Bias_Schema.model_json_schema()))  # type: ignore
                 break
 
-        response = json.loads(response.content.split("```json")[-1].strip("```json").strip("```")) #type: ignore
+        if not isinstance(response, dict):
+            response = json.loads(response.content.split("```json")[-1].strip("```json").strip("```")) #type: ignore
 
-        try: 
-            response = response["properties"]
-        except KeyError:
-            pass
+            try: 
+                response = response["properties"]
+            except KeyError:
+                pass
 
         self.bias_rating["political_bias"] = response["political_bias_explanation"]
         self.bias_rating["sensationalism"] = response["sensationalism_explanation"]

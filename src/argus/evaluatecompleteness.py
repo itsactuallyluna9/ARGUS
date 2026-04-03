@@ -145,7 +145,7 @@ class Completeness_Agent:
                         logger.info(f"Tool name: {tool_name}\nTool response: Tool not found.")
 
             else:
-                
+
                 done = False
                 logger.info("No tool calls detected, finalizing accuracy evaluation...")
 
@@ -169,12 +169,13 @@ class Completeness_Agent:
                 
                 break
 
-        response = json.loads(response.content.split("```json")[-1].strip("```json").strip("```")) #type: ignore
+        if not isinstance(response, dict):
+            response = json.loads(response.content.split("```json")[-1].strip("```json").strip("```")) #type: ignore
 
-        try: 
-            response = response["properties"]
-        except KeyError:
-            pass
+            try: 
+                response = response["properties"]
+            except KeyError:
+                pass
 
         self.completeness_score = int(response.get("completeness", 0))  # type: ignore
         self.completeness_explanation = response.get("reasoning", "")  # type: ignore

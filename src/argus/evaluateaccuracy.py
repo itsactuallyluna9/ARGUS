@@ -147,7 +147,7 @@ class Accuracy_Agent:
                         logger.info(f"Tool name: {tool_name}\nTool response: Tool not found.")
 
             else:
-                
+
                 done = False
                 logger.info("No tool calls detected, finalizing accuracy evaluation...")
 
@@ -171,12 +171,13 @@ class Accuracy_Agent:
                 
                 break
 
-        response = json.loads(response.content.split("```json")[-1].strip("```json").strip("```")) #type: ignore
+        if not isinstance(response, dict):
+            response = json.loads(response.content.split("```json")[-1].strip("```json").strip("```")) #type: ignore
 
-        try: 
-            response = response["properties"]
-        except KeyError:
-            pass
+            try: 
+                response = response["properties"]
+            except KeyError:
+                pass
 
         self.accuracy_score = response.get("accuracy")
         self.accuracy_explanation = response.get("reasoning")
