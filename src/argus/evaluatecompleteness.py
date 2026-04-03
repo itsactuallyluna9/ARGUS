@@ -3,8 +3,7 @@ import json
 import os
 import chromadb
 from datetime import datetime
-from ddgs import DDGS, exceptions
-from tenacity import retry, retry_if_exception_type, stop_after_attempt
+from ddgs import DDGS
 
 from argus.fixjsonformatting import Completeness_Schema
 from argus.scraper import get_page
@@ -111,13 +110,17 @@ class Completeness_Agent:
             print(f"Completeness model reasoning: {response.thinking}")
             print(f"Completeness model response: {response.content}")
 
-            if response.tool_calls:
+            if response.tool_calls and len(messages) < self.max_tool_calls*4:
                 for call in response.tool_calls:
                     tool_name = call.function.name
                     tool_args = call.function.arguments
 
                     if tool_name in available_tools:
-                        tool_response = await available_tools[tool_name](**tool_args)
+                        try:
+                            tool_response = await available_tools[tool_name](**tool_args)
+                        except Exception as e:
+                            tool_response = f"Error calling {tool_name}: {e}"
+                            print(f"Tool call error: {tool_name}({tool_args}): {e}")
                         messages.append(
                             {
                                 "role": "tool",
@@ -200,10 +203,6 @@ class Completeness_Agent:
         return results
 
 
-    @retry(
-        retry=retry_if_exception_type(exceptions.DDGSException),
-        stop=stop_after_attempt(3),
-    )
     async def search_internet_tool(self, query: str) -> list[tuple[str, str]]:
         """Searches for articles related to the query and returns a list of tuples containing the article title and URL.
 
@@ -211,14 +210,19 @@ class Completeness_Agent:
             query: The search query.
         """
 
-        search_results = DDGS().text(query, max_results=5)
-        results = []
+        try:
+            search_results = DDGS().text(query, max_results=5)
+            results = []
 
-        for result in search_results:
-            results.append((result["title"], result["href"]))
+            for result in search_results:
+                results.append((result["title"], result["href"]))
 
-        return results
-
+            return results
+    
+        except:
+            print(f"Error searching the internet for query: {query}")
+            return []
+        
 
     async def page_summary_tool(self, url: str) -> str:
         """Summarizes the content of a webpage given its URL.
@@ -230,8 +234,12 @@ class Completeness_Agent:
         if len(self.article_collection.get(ids=[url])["ids"]) == 0:
             print(f"Article {url} not found in database, summarizing and adding to database...")
 
-            article_metadata, article_text = await get_page(url)
-            summary = await summarize_article(article_text, self.router, use_long_prompt=self.use_long_prompt)
+            try:
+                article_metadata, article_text = await get_page(url)
+                summary = await summarize_article(article_text, self.router, use_long_prompt=self.use_long_prompt)
+            except:
+                print(f"Error summarizing article {url}.")
+                return f"Error summarizing article {url}."
 
             try:
                 self.article_collection.add(

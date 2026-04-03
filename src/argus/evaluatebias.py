@@ -109,7 +109,7 @@ class Bias_Agent:
             print(f"Bias model reasoning: {response.thinking}")
             print(f"Bias model response: {response.content}")
 
-            if response.tool_calls:
+            if response.tool_calls and len(messages) < self.max_tool_calls*4:
                 for call in response.tool_calls:
                     tool_name = call.function.name
                     tool_args = call.function.arguments

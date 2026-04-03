@@ -198,6 +198,11 @@ class FactCheck:
             return_exceptions=True,
         )
 
+        for i, result in enumerate(agent_results):
+            if isinstance(result, Exception):
+                agent_name = ["completeness", "accuracy", "bias"][i]
+                print(f"ERROR: {agent_name} agent failed with exception: {result}")
+
         self.fact_check_metadata["agent_results"] = [
             str(result) if isinstance(result, Exception) else result
             for result in agent_results

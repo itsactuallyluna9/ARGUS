@@ -2,8 +2,7 @@ import asyncio
 import os
 import chromadb
 from datetime import datetime
-from ddgs import DDGS, exceptions
-from tenacity import retry, retry_if_exception_type, stop_after_attempt
+from ddgs import DDGS
 import json
 
 from argus.fixjsonformatting import Accuracy_Schema
@@ -113,13 +112,17 @@ class Accuracy_Agent:
             print(f"Accuracy model reasoning: {response.thinking}")
             print(f"Accuracy model response: {response.content}")
 
-            if response.tool_calls:
+            if response.tool_calls and len(messages) < self.max_tool_calls*4:
                 for call in response.tool_calls:
                     tool_name = call.function.name
                     tool_args = call.function.arguments
 
                     if tool_name in available_tools:
-                        tool_response = await available_tools[tool_name](**tool_args)
+                        try:
+                            tool_response = await available_tools[tool_name](**tool_args)
+                        except Exception as e:
+                            tool_response = f"Error calling {tool_name}: {e}"
+                            print(f"Tool call error: {tool_name}({tool_args}): {e}")
                         messages.append(
                             {
                                 "role": "tool",
@@ -203,10 +206,6 @@ class Accuracy_Agent:
         return results
 
 
-    @retry(
-        retry=retry_if_exception_type(exceptions.DDGSException),
-        stop=stop_after_attempt(3),
-    )
     async def search_internet_tool(self, query: str) -> list[tuple[str, str]]:
         """Searches for articles related to the query and returns a list of tuples containing the article title and URL.
 
@@ -214,13 +213,18 @@ class Accuracy_Agent:
             query: The search query.
         """
 
-        search_results = DDGS().text(query, max_results=5)
-        results = []
+        try:
+            search_results = DDGS().text(query, max_results=5)
+            results = []
 
-        for result in search_results:
-            results.append((result["title"], result["href"]))
+            for result in search_results:
+                results.append((result["title"], result["href"]))
 
-        return results
+            return results
+        
+        except:
+            print(f"Error searching the internet for query: {query}")
+            return []
 
 
     async def page_summary_tool(self, url: str) -> str:

@@ -6,7 +6,7 @@ import json
 import shutil
 import subprocess
 import random
-from playwright.sync_api import sync_playwright
+from playwright.async_api import async_playwright
 from playwright_stealth import Stealth
 from simpleeval import simple_eval
 from pygooglenews import GoogleNews
@@ -201,7 +201,7 @@ async def api_create():
     return jsonify(check.to_dict()), 202
 
 @app.get("/api/createrandom")
-def api_create_random():
+async def api_create_random():
     with active_fact_checks_lock:
         if active_fact_checks:
             return jsonify({"message": "A fact check is already in progress. Please wait for it to finish before starting a new one."}), 409
@@ -210,24 +210,28 @@ def api_create_random():
 
     url = random.choice(results["entries"])["link"]
 
-    with Stealth().use_sync(sync_playwright()) as p:
-        with p.chromium.launch(headless=True) as browser:
-            page = browser.new_page()
+    async with Stealth().use_async(async_playwright()) as p:
+        browser = await p.chromium.launch(headless=True)
+        page = await browser.new_page()
 
-            # go to url
-            # wait for redirects to happen
-            # print final url
-            try:
-                page.goto(url, wait_until="networkidle") # type: ignore
-                url = page.url
-            except:
-                # fallback: load a random article from the database
-                total = articles.count()
-                if total > 0:
-                    url = articles.get(limit=1, offset=random.randint(0, total - 1))["ids"][0]
-                    # TODO: consider checking if we have a fact check for this article already
+        # go to url
+        # wait for redirects to happen
+        # print final url
+        try:
+            await page.goto(url, wait_until="networkidle") # type: ignore
+            url = page.url
 
-                # return jsonify({"message": f"Failed to load URL."}), 400
+        except:
+            # fallback: load a random article from the database
+            total = articles.count()
+            if total > 0:
+                url = articles.get(limit=1, offset=random.randint(0, total - 1))["ids"][0]
+                # TODO: consider checking if we have a fact check for this article already
+
+            # return jsonify({"message": f"Failed to load URL."}), 400
+        
+        finally:
+            await browser.close()
 
     check = FactCheck(url, articles, router, evaluator_model="glm-4.7-flash") # type: ignore
     _add_active_fact_check(check)
@@ -235,6 +239,7 @@ def api_create_random():
     future.add_done_callback(lambda future, check=check: _finalize_fact_check(check, future))
 
     return jsonify(check.to_dict()), 202
+
 
 
 @app.post("/api/retry")
@@ -374,8 +379,11 @@ def api_debug_active_checks():
 
 @app.get("/api/debug/models")
 def api_debug_loaded_models():
-    res = requests.get("http://localhost:11434/api/ps")
-    return res.content, res.status_code
+    try:
+        res = requests.get("http://localhost:11434/api/ps")
+        return res.content, res.status_code
+    except requests.exceptions.ConnectionError:
+        return jsonify({"error": "Ollama is not running"}), 503
 
 
 @app.post("/api/debug/import")
