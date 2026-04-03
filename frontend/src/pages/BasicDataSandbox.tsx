@@ -121,7 +121,7 @@ export function TernaryDarkModeButton({
 
   return (
     <Tooltip>
-      <TooltipTrigger>
+      <TooltipTrigger asChild>
         <Button onClick={toggleTheme} variant={variant}>
           {buttonIcon()}
         </Button>
@@ -485,7 +485,7 @@ export default function BasicDataSandboxView() {
             <ResizablePanel className="pr-2 overflow-hidden">
               <ButtonGroup>
                 <Tooltip>
-                  <TooltipTrigger>
+                  <TooltipTrigger asChild>
                     <Button
                       variant="secondary"
                       disabled={plotType === "none"}
@@ -498,7 +498,7 @@ export default function BasicDataSandboxView() {
                 </Tooltip>
                 <TernaryDarkModeButton variant="secondary" />
                 <Tooltip>
-                  <TooltipTrigger>
+                  <TooltipTrigger asChild>
                     <Button
                       variant="secondary"
                       disabled={!rLoaded || !currentGraph}
