@@ -61,11 +61,9 @@ class LlamaRouter:
         route_index = -1
 
         length = len(prompt) + (len(str(format)) if format else 0) + (1000 if think else 0)
+        tokens = length / 4 + 100
 
-        for i in range(len(routes)):
-            if routes[i].max_tokens < length / 4 + 100:
-                routes.pop(i)
-                i -= 1
+        routes = list(filter(lambda route: route.max_tokens >= tokens))
 
         if not routes:
             raise ValueError(f"No routes available for model {model} that can handle the prompt length")
@@ -166,11 +164,9 @@ class LlamaRouter:
         route_index = -1
 
         length = len("".join(message["content"] for message in messages if "content" in message)) + len("".join(message["role"] for message in messages if "role" in message)) + (len(str(format)) if format else 0) + (len(str(tools)) if tools else 0) + (1000 if think else 0)
+        tokens = length / 4 + 100
 
-        for i in range(len(routes)):
-            if routes[i].max_tokens < length / 4 + 100:
-                routes.pop(i)
-                i -= 1
+        routes = list(filter(lambda route: route.max_tokens >= tokens))
 
         if not routes:
             raise ValueError(f"No routes available for model {model} that can handle the prompt length")
