@@ -16,6 +16,7 @@ import {
   FolderDown,
   Trash2,
   FlaskConicalOff,
+  ExternalLink,
 } from "lucide-react";
 import { EditorView, basicSetup } from "codemirror";
 import { r } from "codemirror-lang-r";
@@ -48,52 +49,20 @@ import {
 } from "@/components/ui/table";
 import { Separator } from "@/components/ui/separator";
 import { Link } from "react-router-dom";
+import {
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectLabel,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import { convertToCSV } from "./convertToCSV";
 
 const ENTER_KEY = 13;
 const BACKSPACE_KEY = 127;
 const FIRST_PRINTABLE_CHAR = 32;
-
-function convertToCSV(data: Record<string, any>[]): string {
-  let fields: string[] = [];
-  data.forEach((entry) => {
-    const current_entry_fields = Object.keys(entry);
-    const new_fields = current_entry_fields.filter(
-      (val) => !fields.includes(val),
-    );
-    fields = fields.concat(new_fields);
-  });
-
-  // rfc 4180 compliant csv field escaping
-  const escapeCSVField = (value: unknown): string => {
-    if (value === undefined) {
-      return "NA";
-    }
-    if (value === null) {
-      return "";
-    }
-    const str = typeof value === "string" ? value : JSON.stringify(value);
-    // check if the value needs quoting (contains comma, quote, or newline)
-    const needsQuoting =
-      str.includes(",") ||
-      str.includes('"') ||
-      str.includes("\n") ||
-      str.includes("\r");
-    if (needsQuoting) {
-      // escape double quotes by doubling them, then wrap in quotes
-      return '"' + str.replace(/"/g, '""') + '"';
-    }
-    return str;
-  };
-
-  return (
-    [
-      fields.join(","),
-      ...data.map((entry) =>
-        fields.map((fieldName) => escapeCSVField(entry[fieldName])).join(","),
-      ),
-    ].join("\n") + "\n"
-  ); // trailing newline to avoid R warning
-}
 
 function DataSandboxView() {
   const [rLoaded, setRLoaded] = useState(false);
@@ -757,7 +726,6 @@ function DataSandboxView() {
               >
                 <TabsList>
                   <TabsTrigger value="data-loader">Data Loader</TabsTrigger>
-                  <TabsTrigger value="templates">Templates</TabsTrigger>
                   <TabsTrigger value="documentation">Documentation</TabsTrigger>
                   <TabsTrigger value="view" disabled={viewData.length === 0}>
                     View
@@ -790,6 +758,9 @@ function DataSandboxView() {
                       Download Data to Computer
                     </Button>
                   </ButtonGroup>
+                </TabsContent>
+                <TabsContent value="documentation">
+                  <DocumentationTab />
                 </TabsContent>
                 <TabsContent value="view">
                   <Table>
@@ -970,6 +941,57 @@ function DataSandboxView() {
         </ResizablePanel>
       </ResizablePanelGroup>
     </main>
+  );
+}
+
+function DocumentationTab() {
+  const [currentDocumentation, setCurrentDocumentation] =
+    useState("data-reference");
+
+  // /docs/data-reference
+  // /docs/advanced-data
+  // https://cran.r-project.org/doc/manuals/r-release/R-intro.html
+  // https://ggplot2.tidyverse.org/reference/index.html
+  // https://ggplot2-book.org/
+  // https://jrnold.github.io/ggthemes
+  // https://plotly.com/r/
+  // https://r-graphics.org/
+
+  return (
+    <>
+      <div className="flex">
+        <Select
+          value={currentDocumentation}
+          onValueChange={setCurrentDocumentation}
+        >
+          <SelectTrigger className="w-full">
+            <SelectValue />
+          </SelectTrigger>
+          <SelectContent>
+            <SelectGroup>
+              <SelectItem value="data_reference">Data Reference</SelectItem>
+              <SelectItem value="advanced_data_sandbox">
+                Advanced Data Sandbox
+              </SelectItem>
+              <SelectItem value="r-intro">An Introduction to R</SelectItem>
+              <SelectItem value="ggplot_reference">
+                ggplot2 Reference
+              </SelectItem>
+              <SelectItem value="ggplot_reference">
+                ggplot2: Elegant Graphics for Data Analysis
+              </SelectItem>
+              <SelectItem value="ggthemes">ggthemes</SelectItem>
+              <SelectItem value="plotly">plotly</SelectItem>
+              <SelectItem value="r-graphics">R Graphics Cookbook</SelectItem>
+            </SelectGroup>
+          </SelectContent>
+        </Select>
+        <Button variant="outline">
+          <ExternalLink />
+        </Button>
+      </div>
+      <iframe className="w-full h-full" src="https://example.com"></iframe>
+    </>
   );
 }
 
