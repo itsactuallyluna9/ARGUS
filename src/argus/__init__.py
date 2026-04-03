@@ -17,19 +17,31 @@ from flask_cors import CORS
 import chromadb
 import requests
 
+from argus.config import Config, load_config
 from argus.llamarouter import LlamaRouter
 from argus.factcheck import FactCheck, check_url
 from argus.compiledata import ArgusData
+from argus.logging import setup_logging
+from loguru import logger
 
 PROJECT_ROOT = Path(__file__).resolve().parents[2]
 FRONTEND_DIST = PROJECT_ROOT / "frontend" / "dist"
+CONFIG_PATH = PROJECT_ROOT / "config.toml"
+
+config = load_config(CONFIG_PATH)
+setup_logging(config)
 
 app = Flask(__name__, static_folder=str(FRONTEND_DIST), static_url_path="/")
 CORS(app, resources={r"/api/*": {"origins": "*"}})
 
-#router = LlamaRouter(["cs-cluster-1", "localhost", "luna"], [8080, 8080, 8080], ["GLM-4.7-Flash-UD-Q4_K_XL", "GLM-4.7-Flash-UD-Q4_K_XL", "nemotron-3-nano:4b"])
-#router = LlamaRouter(["cs-cluster-1", "localhost"], [8080, 8080], ["glm-4.7-flash", "nemotron-3-nano:4b"])
-router = LlamaRouter(["cs-cluster-1", "localhost", "luna"], [8080 for _ in range(3)], ["glm-4.7-flash", "glm-4.7-flash", "nemotron-3-nano:4b"], max_tokens_list=[64000, 32000, 16384])
+router = LlamaRouter(
+    ips=[str(route.url.host) for route in config.model_routes],
+    ports=[int(route.url.port or 8080) for route in config.model_routes],
+    models=[route.model_name for route in config.model_routes],
+    api_keys=[route.api_key for route in config.model_routes],
+    temperatures=[route.temperature for route in config.model_routes],
+    max_tokens_list=[route.max_tokens for route in config.model_routes],
+)
 
 # Persistent event loop for background async tasks.
 # Flask's WSGI server tears down its per-request event loop when a handler
@@ -193,7 +205,7 @@ async def api_create():
             break
 
     if not found:
-        check = FactCheck(url, articles, router, evaluator_model="glm-4.7-flash") 
+        check = FactCheck(url, articles, router, config, evaluator_model="glm-4.7-flash") 
         _add_active_fact_check(check)
         future = asyncio.run_coroutine_threadsafe(check.main(), _bg_loop)
         future.add_done_callback(lambda future, check=check: _finalize_fact_check(check, future))
@@ -233,7 +245,7 @@ async def api_create_random():
         finally:
             await browser.close()
 
-    check = FactCheck(url, articles, router, evaluator_model="glm-4.7-flash") # type: ignore
+    check = FactCheck(url, articles, router, config, evaluator_model="glm-4.7-flash") # type: ignore
     _add_active_fact_check(check)
     future = asyncio.run_coroutine_threadsafe(check.main(), _bg_loop)
     future.add_done_callback(lambda future, check=check: _finalize_fact_check(check, future))
@@ -264,7 +276,7 @@ def api_retry_check():
     if url is None:
         return jsonify({"message": f"No fact check found for UUID {uuid}."}), 404
 
-    check = FactCheck(url, articles, router) # type: ignore
+    check = FactCheck(url, articles, router, config) # type: ignore
     _add_active_fact_check(check)
     future = asyncio.run_coroutine_threadsafe(check.main(), _bg_loop)
     future.add_done_callback(lambda future, check=check: _finalize_fact_check(check, future))
@@ -357,6 +369,7 @@ def api_debug_resources():
 
 @app.get("/api/debug/statistics")
 def api_debug_statistics():
+    logger.info("hewwo??")
     with active_fact_checks_lock:
         active_fact_checks_count = len(active_fact_checks)
 
@@ -432,7 +445,7 @@ async def bulk_import_articles(urls, summarize_only, use_long_prompts=True):
                 pass
 
         else:
-            check = FactCheck(url, articles, router)
+            check = FactCheck(url, articles, router, config)
             _add_active_fact_check(check)
 
             try:
@@ -496,7 +509,7 @@ def serve_frontend(path: str):
 
 
 def main() -> None:
-    app.run(host="0.0.0.0", port=5000, debug=False)
+    app.run(host=str(config.host), port=config.port, debug=False)
 
 
 if __name__ == "__main__":

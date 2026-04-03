@@ -14,6 +14,8 @@ from argus.evaluatecompleteness import Completeness_Agent
 from argus.evaluatebias import Bias_Agent
 from argus.timers import with_timing
 from argus.llamarouter import LlamaRouter
+from argus.webhooks import process_webhooks
+from argus.config import Config
 
 
 class FactCheck:
@@ -22,6 +24,7 @@ class FactCheck:
         url: str,
         article_collection: chromadb.Collection,
         router: LlamaRouter,
+        config: Config,
         summarizer_model: str = "nemotron-3-nano:4b",
         evaluator_model: str = "glm-4.7-flash",
         think: bool = False,
@@ -32,6 +35,7 @@ class FactCheck:
 
         self.article_collection = article_collection
         self.router = router
+        self.config = config
         self.summarizer_model = summarizer_model
         self.evaluator_model = evaluator_model
         self.think = think
@@ -96,17 +100,16 @@ class FactCheck:
 
         print("Beginning summary and bias analysis...\nThis may take a few minutes...\n")
         # raw article text |> summarizer |> -> summary, key points |> chromadb (if not present)
-        # TODO: fucking fix this
-        # async with with_timing(lambda t: self.fact_check_metadata.update({"summary_duration": t.duration_s})):
-        self.summary, self.bias_rating, self.key_points = await self.summarize_article(self.article_text, router=self.router, use_long_prompt=use_long_prompts)
+        async with with_timing(lambda t: self.fact_check_metadata.update({"summary_duration": t.duration_s})):
+            self.summary, self.bias_rating, self.key_points = await self.summarize_article(self.article_text, router=self.router, use_long_prompt=use_long_prompts)
 
         print(f"\n\n\nSummary for {self.url}:\n{self.summary}\nBias rating: {self.bias_rating}\nKey points: {self.key_points}\n\n\n")
 
         print("\nResearching article accuracy, completeness, and bias...\nThis may take a few minutes...\n")
 
         # evidence + article text + related article summaries + bias rating |> fact check model -> accuracy, completeness scores + explanation
-        # async with with_timing(lambda t: self.fact_check_metadata.update({"agents_duration": t.duration_s})):
-        await (self.fact_check(self.article_text, self.bias_rating, self.key_points, use_long_prompts=use_long_prompts, evaluator_model=self.evaluator_model))
+        async with with_timing(lambda t: self.fact_check_metadata.update({"agents_duration": t.duration_s})):
+            await self.fact_check(self.article_text, self.bias_rating, self.key_points, use_long_prompts=use_long_prompts, evaluator_model=self.evaluator_model)
 
         print(f"\n\n\nFact check results for {self.url}:\n")
         print(f"\nAccuracy score: {self.accuracy_score}\nExplanation: {self.accuracy_explanation}\nSources: {self.sources}")
@@ -122,6 +125,9 @@ class FactCheck:
         submitted = datetime.fromisoformat(self.fact_check_metadata["check_submitted"])
         self.fact_check_metadata["check_duration_from_start"] = (check_finished - started).total_seconds()
         self.fact_check_metadata["check_duration_from_submitted"] = (check_finished - submitted).total_seconds()
+
+        # handle webooks
+        await process_webhooks(self, self.config)
 
 
     @retry(stop=stop_after_attempt(3))
