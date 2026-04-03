@@ -1,6 +1,8 @@
 import asyncio
+from asyncio import tools
 import inspect
 import json
+from pyexpat.errors import messages
 import re
 from typing import Callable, get_type_hints
 
@@ -58,8 +60,10 @@ class LlamaRouter:
         min_load = float('inf')
         route_index = -1
 
+        length = len(prompt) + (len(str(format)) if format else 0) + (1000 if think else 0)
+
         for i in range(len(routes)):
-            if routes[i].max_tokens < len(prompt) / 4 + 100 + (1000 if think else 0):
+            if routes[i].max_tokens < length / 4 + 100:
                 routes.pop(i)
                 i -= 1
 
@@ -161,8 +165,9 @@ class LlamaRouter:
         min_load = float('inf')
         route_index = -1
 
+        length = len("".join(message["content"] for message in messages if "content" in message)) + len("".join(message["role"] for message in messages if "role" in message)) + (len(str(format)) if format else 0) + (len(str(tools)) if tools else 0) + (1000 if think else 0)
+
         for i in range(len(routes)):
-            length = len("".join(message["content"] for message in messages if "content" in message)) + len("".join(message["role"] for message in messages if "role" in message)) + (len(str(format)) if format else 0) + (len(str(tools)) if tools else 0) + (1000 if think else 0)
             if routes[i].max_tokens < length / 4 + 100:
                 routes.pop(i)
                 i -= 1
