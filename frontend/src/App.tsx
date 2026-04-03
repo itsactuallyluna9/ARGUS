@@ -20,13 +20,16 @@ import {
 function App() {
   return (
     <>
-      <NavigationMenu>
-        <NavigationMenuItem>
-          <NavigationMenuLink asChild className={navigationMenuTriggerStyle()}>
-            <Link to="/">ARGUS</Link>
-          </NavigationMenuLink>
-        </NavigationMenuItem>
+      <NavigationMenu className="w-full">
         <NavigationMenuList>
+          <NavigationMenuItem>
+            <NavigationMenuLink
+              asChild
+              className={navigationMenuTriggerStyle()}
+            >
+              <Link to="/">ARGUS</Link>
+            </NavigationMenuLink>
+          </NavigationMenuItem>
           <NavigationMenuItem>
             <NavigationMenuTrigger>
               <NavigationMenuLink
@@ -37,22 +40,27 @@ function App() {
               </NavigationMenuLink>
             </NavigationMenuTrigger>
             <NavigationMenuContent>
-              <NavigationMenuLink asChild>
-                <Link to="/sandbox">Basic</Link>
-              </NavigationMenuLink>
-              <NavigationMenuLink asChild>
-                <Link to="/sandbox/advanced">Advanced</Link>
-              </NavigationMenuLink>
+              <ul className="w-64">
+                <NavigationMenuLink asChild>
+                  <Link to="/sandbox">Basic</Link>
+                </NavigationMenuLink>
+                <NavigationMenuLink asChild>
+                  <Link to="/sandbox/advanced">Advanced</Link>
+                </NavigationMenuLink>
+              </ul>
             </NavigationMenuContent>
           </NavigationMenuItem>
+          <NavigationMenuItem>
+            <NavigationMenuLink
+              asChild
+              className={navigationMenuTriggerStyle()}
+            >
+              <Link to="/debug">Debug</Link>
+            </NavigationMenuLink>
+          </NavigationMenuItem>
         </NavigationMenuList>
-        <NavigationMenuItem>
-          <NavigationMenuLink asChild className={navigationMenuTriggerStyle()}>
-            <Link to="/debug">Debug</Link>
-          </NavigationMenuLink>
-        </NavigationMenuItem>
         <div className="w-screen"></div>
-        <TernaryThemeButton variant="outline" />
+        <TernaryThemeButton variant="ghost" />
       </NavigationMenu>
 
       <Routes>
