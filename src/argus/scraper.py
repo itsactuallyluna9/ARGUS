@@ -7,7 +7,7 @@ import ollama
 import requests
 import trafilatura
 from trafilatura.readability_lxml import is_probably_readerable
-from playwright.sync_api import Error, sync_playwright
+from playwright.async_api import Error, async_playwright
 from playwright_stealth import Stealth
 from pdf_oxide import PdfDocument
 from tempfile import NamedTemporaryFile
@@ -24,6 +24,7 @@ class UnsupportedContentTypeError(ScraperError):
 
 
 def ttl_cache(ttl_seconds):
+    # TODO: async support
     def decorator(func):
         cache = {}
 
@@ -47,12 +48,17 @@ def ttl_cache(ttl_seconds):
     return decorator
 
 
-def get_page(url: str) -> tuple[dict[str, str], str]:
+async def get_page(url: str) -> tuple[dict[str, str], str]:
+    import logging
+
+    logger = logging.getLogger(__name__)
     metadata = {}
-    content_type, content, used_fallback = get_source(url)
+    content_type, content, used_fallback = await get_source(url)
     metadata["content_type"] = content_type
     metadata["content_length"] = len(content)
     metadata["used_fallback"] = used_fallback
+
+    logger.info(f"Fetched content from {url} with content type {content_type} and length {len(content)} (used fallback: {used_fallback})")
 
     match content_type:
         case "text/html" | "application/xhtml+xml":
@@ -101,80 +107,89 @@ def get_page(url: str) -> tuple[dict[str, str], str]:
     raise ScraperError(f"Failed to extract content from page with content type: {content_type}")
 
 
-@ttl_cache(5 * 60)
-def get_source(url: str) -> tuple[str, bytes, bool]:
-    resp = requests.get(url)
+# @ttl_cache(5 * 60)
+async def get_source(url: str) -> tuple[str, bytes, bool]:
+    try:
+        # TODO: swap this out with async!
+        resp = requests.get(url, timeout=60)
+    except requests.RequestException:
+        return *await get_source_chrome(url), True
+
     content_type = resp.headers.get("Content-Type", "").lower().split(";")[0].strip()
 
     if not resp.ok:
-        return *get_source_chrome(url), True
+        return *await get_source_chrome(url), True
 
     return content_type, resp.content, False
 
 
-def get_source_chrome(url: str) -> tuple[str, bytes]:
+async def get_source_chrome(url: str) -> tuple[str, bytes]:
     # this should beat the "the simplest of bot detection methods."
     # it does work on cornell.
     # this is probably a commentary on something, but i'm not sure what.
-    with Stealth().use_sync(sync_playwright()) as p:
-        with p.chromium.launch(headless=True) as browser:
-            page = browser.new_page()
+    async with Stealth().use_async(async_playwright()) as p:
+        browser = await p.chromium.launch(headless=True)
+        page = await browser.new_page()
 
-            downloads = []
-            page.on("download", lambda download: downloads.append(download))
+        downloads = []
+        page.on("download", lambda download: downloads.append(download))
 
-            response = None
+        response = None
+        try:
+            # okay. here we have a couple of possibilities.
+            # 1) this is a normal page.
+            # 2) this is actually a pdf or something, and chrome being chrome will do its in-browser pdf rendering thing.
+            # 3) we'll get a download
+            # 4) something will go wrong, and we can load the page, but its worthless
+            # 5) something will go wrong, and we cant actually load the page
+
+            # do we get a download?
             try:
-                # okay. here we have a couple of possibilities.
-                # 1) this is a normal page.
-                # 2) this is actually a pdf or something, and chrome being chrome will do its in-browser pdf rendering thing.
-                # 3) we'll get a download
-                # 4) something will go wrong, and we can load the page, but its worthless
-                # 5) something will go wrong, and we cant actually load the page
+                response = await page.goto(url)
+            except Error as e:
+                # alright: we might have something?
+                if "Download is starting" in str(e):
+                    # yay! the browser signalled a download is starting.
+                    # wait briefly for the download event so we can capture it
+                    try:
+                        download = await page.wait_for_event("download", timeout=10000)
+                        downloads.append(download)
+                    except Exception:
+                        # if waiting fails, fall through and let the later
+                        # `if downloads:` check handle any downloads that arrived.
+                        pass
+                else:
+                    raise
+            if downloads:
+                # yay! we got something (after page load... what??)
+                download = downloads[0]
+                download_path = download.path()
+                if not download_path:
+                    raise ScraperError("Browser download completed but file path was not available.")
 
-                # do we get a download?
-                try:
-                    response = page.goto(url)
-                except Error as e:
-                    # alright: we might have something?
-                    if "Download is starting" in str(e):
-                        # yay! the browser signalled a download is starting.
-                        # wait briefly for the download event so we can capture it
-                        try:
-                            download = page.wait_for_event("download", timeout=10000)
-                            downloads.append(download)
-                        except Exception:
-                            # if waiting fails, fall through and let the later
-                            # `if downloads:` check handle any downloads that arrived.
-                            pass
-                    else:
-                        raise
-                if downloads:
-                    # yay! we got something (after page load... what??)
-                    download = downloads[0]
-                    download_path = download.path()
-                    if not download_path:
-                        raise ScraperError("Browser download completed but file path was not available.")
+                with open(download_path, "rb") as f:
+                    content = f.read()
 
-                    with open(download_path, "rb") as f:
-                        content = f.read()
-
-                    content_type = ""
-                    if response:
-                        content_type = response.headers.get("content-type", ";").lower().split(";")[0].strip()
-                    content_type = content_type or mimetypes.guess_type(download.suggested_filename)[0] or "application/octet-stream"
-                    return content_type, content
-
-                # get the content type from response headers (handles redirects automatically via page.goto)
-                content_type = "text/html"
+                content_type = ""
                 if response:
-                    content_type = response.headers.get("content-type", "text/html").lower().split(";")[0].strip()
+                    content_type = response.headers.get("content-type", ";").lower().split(";")[0].strip()
+                content_type = content_type or mimetypes.guess_type(download.suggested_filename)[0] or "application/octet-stream"
+                return content_type, content
 
-                # always get bytes from rendered page content
-                content = page.content().encode("utf-8")
+            # get the content type from response headers (handles redirects automatically via page.goto)
+            content_type = "text/html"
+            if response:
+                content_type = response.headers.get("content-type", "text/html").lower().split(";")[0].strip()
 
-            except Exception as e:
-                raise ScraperError(f"Failed to fetch source with headless browser: {e}")
+            # always get bytes from rendered page content
+            content = (await page.content()).encode("utf-8")
+
+        except Exception as e:
+            # raise ScraperError(f"Failed to fetch source with headless browser: {e}")
+            return "text/plain", f"Failed to fetch source with headless browser: {e}".encode()
+        
+        finally:
+            await browser.close()
 
     return content_type, content
 

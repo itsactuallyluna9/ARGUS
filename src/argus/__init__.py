@@ -1,9 +1,10 @@
+import asyncio
+import threading
 from datetime import datetime
 from pathlib import Path
 import json
 import shutil
 import subprocess
-import threading
 import random
 from playwright.sync_api import sync_playwright
 from playwright_stealth import Stealth
@@ -16,6 +17,7 @@ from flask_cors import CORS
 import chromadb
 import requests
 
+from argus.llamarouter import LlamaRouter
 from argus.factcheck import FactCheck, check_url
 from argus.compiledata import ArgusData
 
@@ -25,14 +27,80 @@ FRONTEND_DIST = PROJECT_ROOT / "frontend" / "dist"
 app = Flask(__name__, static_folder=str(FRONTEND_DIST), static_url_path="/")
 CORS(app, resources={r"/api/*": {"origins": "*"}})
 
+#router = LlamaRouter(["cs-cluster-1", "localhost", "luna"], [8080, 8080, 8080], ["GLM-4.7-Flash-UD-Q4_K_XL", "GLM-4.7-Flash-UD-Q4_K_XL", "nemotron-3-nano:4b"])
+#router = LlamaRouter(["cs-cluster-1", "localhost"], [8080, 8080], ["glm-4.7-flash", "nemotron-3-nano:4b"])
+router = LlamaRouter(["cs-cluster-1", "localhost", "luna"], [8080 for _ in range(3)], ["glm-4.7-flash", "glm-4.7-flash", "nemotron-3-nano:4b"], max_tokens_list=[64000, 32000, 16384])
+
+# Persistent event loop for background async tasks.
+# Flask's WSGI server tears down its per-request event loop when a handler
+# returns, which cancels any tasks created with asyncio.create_task().
+_bg_loop = asyncio.new_event_loop()
+_bg_thread = threading.Thread(target=_bg_loop.run_forever, daemon=True, name="argus-bg-loop")
+_bg_thread.start()
+
 chromaclient = chromadb.HttpClient(host="localhost", port=8000)
 
 articles = chromaclient.get_or_create_collection(name="articles")
 past_checks = chromaclient.get_or_create_collection(name="fact_checks")
 
 active_fact_checks = []
+active_fact_checks_lock = threading.Lock()
+completed_fact_check_ids: set[str] = set()
 cached_data = ArgusData()
 cached_data.fetch_data(articles, past_checks)
+
+
+def _add_active_fact_check(check: FactCheck) -> None:
+    with active_fact_checks_lock:
+        active_fact_checks.append(check)
+
+
+def _remove_active_fact_check(uuid: str) -> FactCheck | None:
+    with active_fact_checks_lock:
+        for index, fact_check in enumerate(active_fact_checks):
+            if fact_check.id == uuid:
+                return active_fact_checks.pop(index)
+
+    return None
+
+
+def _get_active_fact_check(uuid: str) -> FactCheck | None:
+    with active_fact_checks_lock:
+        for fact_check in active_fact_checks:
+            if fact_check.id == uuid:
+                return fact_check
+
+    return None
+
+
+def _finalize_fact_check(check: FactCheck, future: object | None = None) -> None:
+    if future is not None:
+        try:
+            future.result()  # type: ignore[attr-defined]
+        except Exception as exc:
+            check.fact_check_metadata["check_error"] = str(exc)
+            check.finished = True
+
+    if not check.finished:
+        return
+
+    with active_fact_checks_lock:
+        if check.id in completed_fact_check_ids:
+            return
+
+        completed_fact_check_ids.add(check.id)
+        if check in active_fact_checks:
+            active_fact_checks.remove(check)
+
+    try:
+        past_checks.add(ids=[check.id], documents=[json.dumps(check.to_dict())])
+    except Exception as exc:
+        check.fact_check_metadata["check_error"] = str(exc)
+        check.finished = True
+        with active_fact_checks_lock:
+            completed_fact_check_ids.discard(check.id)
+            if check not in active_fact_checks:
+                active_fact_checks.append(check)
 
 
 def get_gpu_metrics() -> dict[str, float | int | bool | None]:
@@ -104,34 +172,40 @@ def get_gpu_metrics() -> dict[str, float | int | bool | None]:
 
 
 @app.post("/api/create")
-def api_create():
+async def api_create():
     data = request.get_json()
     url = data.get("url")
 
-    if not check_url(url):
+    if not await check_url(url, router):
+        print("URL is not valid or cannot be scraped.")
         return jsonify({"message": f"URL {url} is not valid or cannot be scraped."}), 400
 
     found = False
     check: FactCheck = None  # type: ignore
 
-    for fact_check in active_fact_checks:
+    with active_fact_checks_lock:
+        active_checks = list(active_fact_checks)
+
+    for fact_check in active_checks:
         if fact_check.url == url:
             found = True
             check = fact_check
             break
 
     if not found:
-        check = FactCheck(url, articles)
-        active_fact_checks.append(check)
+        check = FactCheck(url, articles, router, evaluator_model="glm-4.7-flash") 
+        _add_active_fact_check(check)
+        future = asyncio.run_coroutine_threadsafe(check.main(), _bg_loop)
+        future.add_done_callback(lambda future, check=check: _finalize_fact_check(check, future))
 
     return jsonify(check.to_dict()), 202
 
 @app.get("/api/createrandom")
 def api_create_random():
-    
-    if len(active_fact_checks) > 0:
-       return jsonify({"message": "A fact check is already in progress. Please wait for it to finish before starting a new one."}), 409
-    
+    with active_fact_checks_lock:
+        if active_fact_checks:
+            return jsonify({"message": "A fact check is already in progress. Please wait for it to finish before starting a new one."}), 409
+
     results = GoogleNews().top_news()
 
     url = random.choice(results["entries"])["link"]
@@ -155,8 +229,10 @@ def api_create_random():
 
                 # return jsonify({"message": f"Failed to load URL."}), 400
 
-    check = FactCheck(url, articles) # type: ignore
-    active_fact_checks.append(check)
+    check = FactCheck(url, articles, router, evaluator_model="glm-4.7-flash") # type: ignore
+    _add_active_fact_check(check)
+    future = asyncio.run_coroutine_threadsafe(check.main(), _bg_loop)
+    future.add_done_callback(lambda future, check=check: _finalize_fact_check(check, future))
 
     return jsonify(check.to_dict()), 202
 
@@ -167,43 +243,48 @@ def api_retry_check():
     uuid = data.get("uuid")
     url = None
 
-    for fact_check in filter(lambda check: check.id == uuid, active_fact_checks):
+    fact_check = _remove_active_fact_check(uuid)
+    if fact_check is not None:
+        url = fact_check.url
         if not fact_check.finished:
             # what do we do here..?
             pass
-        url = fact_check.url
-        active_fact_checks.remove(fact_check)
 
     past_check = past_checks.get(ids=[uuid])
     if past_check["ids"]:
-        fact_check = json.loads(past_checks.get(ids=[uuid])["documents"][0])
+        fact_check = json.loads(past_checks.get(ids=[uuid])["documents"][0]) # type: ignore
         url = fact_check["article_metadata"]["url"]
         past_checks.delete(ids=[uuid])
 
-    check = FactCheck(url, articles)
-    active_fact_checks.append(check)
+    if url is None:
+        return jsonify({"message": f"No fact check found for UUID {uuid}."}), 404
+
+    check = FactCheck(url, articles, router) # type: ignore
+    _add_active_fact_check(check)
+    future = asyncio.run_coroutine_threadsafe(check.main(), _bg_loop)
+    future.add_done_callback(lambda future, check=check: _finalize_fact_check(check, future))
     return jsonify(check.to_dict()), 202
 
 
 @app.post("/api/status")
-def api_status():
+async def api_status():
     data = request.get_json()
     uuid = data.get("uuid")
 
-    for fact_check in active_fact_checks:
-        if fact_check.id == uuid:
-            if fact_check.finished:
-                active_fact_checks.remove(fact_check)
-                past_checks.add(ids=[fact_check.id], documents=[json.dumps(fact_check.to_dict())])
+    fact_check = _get_active_fact_check(uuid)
+    if fact_check is not None:
+        if fact_check.finished:
+            _finalize_fact_check(fact_check)
+            return jsonify(fact_check.to_dict()), 200
 
-            return jsonify(fact_check.to_dict()), 202
+        return jsonify(fact_check.to_dict()), 202
 
     past_check = past_checks.get(ids=[uuid])  # type: ignore
 
     if past_check["ids"]:
         return jsonify(json.loads(past_checks.get(ids=[uuid])["documents"][0])), 200  # type: ignore
 
-    return jsonify({"message": f"No active fact check found for UUID {uuid}."}), 404
+    return jsonify({"message": f"No fact check found for UUID {uuid}."}), 404
 
 
 @app.get("/api/data")
@@ -271,10 +352,13 @@ def api_debug_resources():
 
 @app.get("/api/debug/statistics")
 def api_debug_statistics():
+    with active_fact_checks_lock:
+        active_fact_checks_count = len(active_fact_checks)
+
     return jsonify(
         {
             "factChecks": past_checks.count(),
-            "activeFactChecks": len(active_fact_checks),
+            "activeFactChecks": active_fact_checks_count,
             "articlesInDatabase": articles.count(),
         }
     ), 200
@@ -282,7 +366,10 @@ def api_debug_statistics():
 
 @app.get("/api/debug/active_checks")
 def api_debug_active_checks():
-    return jsonify([check.id for check in active_fact_checks]), 200
+    with active_fact_checks_lock:
+        active_check_ids = [check.id for check in active_fact_checks]
+
+    return jsonify(active_check_ids), 200
 
 
 @app.get("/api/debug/models")
@@ -292,18 +379,19 @@ def api_debug_loaded_models():
 
 
 @app.post("/api/debug/import")
-def api_debug_import():
+async def api_debug_import():
     data = request.get_json()
     urls = data.get("urls")
     summarize_only = data.get("summarizeOnly", False)
 
-    valid_urls = [url for url in urls if check_url(url)]
+    url_checks = await asyncio.gather(*(check_url(url, router) for url in urls))
+    valid_urls = [url for url, is_valid in zip(urls, url_checks) if is_valid]
 
     # we're gonna do this async in the background, so we can return immediately
-    threading.Thread(target=bulk_import_articles, args=(valid_urls, summarize_only)).start()
+    asyncio.run_coroutine_threadsafe(bulk_import_articles(valid_urls, summarize_only), _bg_loop)
 
     # invalid_urls = urls not in valid_urls
-    invalid_urls = [url for url in urls if url not in valid_urls]
+    invalid_urls = [url for url, is_valid in zip(urls, url_checks) if not is_valid]
 
     return jsonify(
         {
@@ -313,14 +401,14 @@ def api_debug_import():
     ), 202
 
 
-def bulk_import_articles(urls, summarize_only):
+async def bulk_import_articles(urls, summarize_only, use_long_prompts=True):
     from argus.scraper import get_page
     from argus.summarizearticle import summarize_article
 
     for url in urls:
         if summarize_only:
-            article_metadata, article_text = get_page(url)
-            response = summarize_article(article_text, model="gemma3:12b", think=False)
+            article_metadata, article_text = await get_page(url)
+            response = await summarize_article(article_text, router, model="nemotron-3-nano:4b", think=False, use_long_prompt=use_long_prompts)
             description = response["description"]  # type: ignore
             summary = response["articleSummary"]  # type: ignore
             key_points = response["points"]  # type: ignore
@@ -336,11 +424,16 @@ def bulk_import_articles(urls, summarize_only):
                 pass
 
         else:
-            check = FactCheck(url, articles)
-            active_fact_checks.append(check)
-            check.thread.join()  # wait for the fact check to finish before starting the next one
-            active_fact_checks.remove(check)
-            past_checks.add(ids=[check.id], documents=[json.dumps(check.to_dict())])
+            check = FactCheck(url, articles, router)
+            _add_active_fact_check(check)
+
+            try:
+                await check.main(use_long_prompts=use_long_prompts)
+            except Exception as exc:
+                check.fact_check_metadata["check_error"] = str(exc)
+                check.finished = True
+            finally:
+                _finalize_fact_check(check)
 
 
 @app.post("/api/debug/chroma")
@@ -393,10 +486,10 @@ def serve_frontend(path: str):
     )
 
 
+
 def main() -> None:
-    app.run(host="0.0.0.0", port=5000, debug=True)
+    app.run(host="0.0.0.0", port=5000, debug=False)
 
 
 if __name__ == "__main__":
-    pass
-    # main()
+    main()

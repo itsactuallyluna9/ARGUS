@@ -1,16 +1,21 @@
 import asyncio
+from asyncio import tools
 import inspect
 import json
+from pyexpat.errors import messages
 import re
 from typing import Callable, get_type_hints
 
-from openai import OpenAI
-from dataclasses import dataclass
+from openai import AsyncOpenAI
+from dataclasses import dataclass, field
 from ollama import Message
+import httpx
+
+_LLAMA_TIMEOUT = httpx.Timeout(timeout=1800.0, connect=10.0)
 
 class LlamaRouter:
     
-    def __init__(self, ips: list[str], ports: list[int], models: list[str]):
+    def __init__(self, ips: list[str], ports: list[int], models: list[str], api_keys: list[str] = None, temperatures: list[float] = None, max_tokens_list: list[int] = None): # type: ignore
 
         self.routes = {}
 
@@ -19,26 +24,31 @@ class LlamaRouter:
             "nemotron-3-nano:4b": "NVIDIA-Nemotron3-Nano-4B-Q4_K_M"
         }
 
-        for ip, port, model in zip(ips, ports, models):
+        for i in range(len(ips)):
 
-            for model in models:
-                if model in self.model_aliases:
-                    model = self.model_aliases[model]
+            if models[i] in self.model_aliases:
+                models[i] = self.model_aliases[models[i]]
 
-            self.add_route(Route(model=model, ip=ip, port=port))
+            self.add_route(Route(model=models[i], ip=ips[i], port=ports[i], api_key=api_keys[i] if api_keys else "", temperature=temperatures[i] if temperatures else 0.7, max_tokens=max_tokens_list[i] if max_tokens_list else 4096))
 
 
     def add_route(self, route: Route):
+
         if route.model not in self.routes:
             self.routes[route.model] = []
+
         self.routes[route.model].append(route)
 
 
     def get_route(self, model: str) -> list[Route]:
+
+        if model in self.model_aliases:
+            model = self.model_aliases[model]
+
         return self.routes.get(model, [])
     
 
-    async def generate(self, model: str, prompt: str, think: bool = False, format: dict = None, override_url: str = None) -> Message: # type: ignore
+    async def generate(self, model: str, prompt: str, think: bool = False, format: str = None, override_url: str = None) -> Message: # type: ignore
 
         if model in self.model_aliases:
             model = self.model_aliases[model]
@@ -50,6 +60,14 @@ class LlamaRouter:
         min_load = float('inf')
         route_index = -1
 
+        length = len(prompt) + (len(str(format)) if format else 0) + (1000 if think else 0)
+        tokens = length / 4 + 100
+
+        routes = [route for route in routes if route.max_tokens >= tokens]
+
+        if not routes:
+            raise ValueError(f"No routes available for model {model} that can handle the prompt length")
+
         for i in range(len(routes)):
 
             route = routes[i]
@@ -57,17 +75,27 @@ class LlamaRouter:
             if route.active_conversations < min_load:
                 min_load = route.active_conversations
                 route_index = i
-        
-        routes[route_index].active_conversations += 1
+
+        routes[route_index].active_conversations += 1   
         self.routes[model][route_index] = routes[route_index]
 
+        print(f"Selected route {routes[route_index].ip}:{routes[route_index].port} waiting for model {model} with current load {routes[route_index].active_conversations}")
+        await routes[route_index].request_lock.acquire()
+        print(f"Acquired lock for route {routes[route_index].ip}:{routes[route_index].port} and model {model}")
+
+        override_client = None
         if override_url:
-            client = OpenAI(base_url=override_url, api_key=routes[route_index].api_key)
-        else:
-            client = OpenAI(base_url=f"http://{routes[route_index].ip}:{routes[route_index].port}", api_key=routes[route_index].api_key)
+            override_client = AsyncOpenAI(base_url=override_url, api_key=routes[route_index].api_key, timeout=_LLAMA_TIMEOUT)
+        client = override_client or routes[route_index].client
 
         try:
-            raw_response = client.chat.completions.create(
+
+            print(f"sending prompt to model {model} at {routes[route_index].ip}:{routes[route_index].port} with think={think}")
+
+            print(format)
+            print(type(format))
+
+            raw_response = await client.chat.completions.create(
                 model = f"~/llamacpp/models/{model}.gguf",
                 messages = [{
                     "role": "user",
@@ -86,6 +114,9 @@ class LlamaRouter:
             # for models that use literal <think> tags to indicate reasoning, we can remove them from the final output if think is True
             response_text = re.sub(r"<think>.*?</think>", "", response_text, flags=re.DOTALL).strip()
 
+            if format and len(response_text.split("```json")) > 1:
+                response_text = response_text.split("```json")[-1].strip("```json").strip("```")
+
             response = Message(
                 role="assistant",
                 content=response_text,
@@ -95,10 +126,25 @@ class LlamaRouter:
             if response_text:
                 return response
 
-            raise RuntimeError("Model returned no final output content.")
-        
+            else:
+                return Message(
+                    role="assistant",
+                    content=f"Error: model returned empty response"
+                )
+            
+        except Exception as e:
+            print(f"Error during generate with model {model} at {routes[route_index].ip}:{routes[route_index].port}: {e}")
+            print(type(e))
+            return Message(
+                role="assistant",
+                content=f"Error: {str(e)}"
+            )
+
         finally:
+            if override_client:
+                await override_client.close()
             routes[route_index].active_conversations -= 1
+            routes[route_index].request_lock.release()
             self.routes[model][route_index] = routes[route_index]
 
         
@@ -117,6 +163,14 @@ class LlamaRouter:
         min_load = float('inf')
         route_index = -1
 
+        length = len("".join(message["content"] for message in messages if "content" in message)) + len("".join(message["role"] for message in messages if "role" in message)) + (len(str(format)) if format else 0) + (len(str(tools)) if tools else 0) + (1000 if think else 0)
+        tokens = length / 4 + 100
+
+        routes = [route for route in routes if route.max_tokens >= tokens]
+
+        if not routes:
+            raise ValueError(f"No routes available for model {model} that can handle the prompt length")
+
         for i in range(len(routes)):
 
             route = routes[i]
@@ -128,13 +182,31 @@ class LlamaRouter:
         routes[route_index].active_conversations += 1
         self.routes[model][route_index] = routes[route_index]
 
+        print(f"Selected route {routes[route_index].ip}:{routes[route_index].port} waiting for model {model} with current load {routes[route_index].active_conversations}")
+        await routes[route_index].request_lock.acquire()
+        print(f"Acquired lock for route {routes[route_index].ip}:{routes[route_index].port} and model {model}")
+
+        override_client = None
         if override_url:
-            client = OpenAI(base_url=override_url, api_key=routes[route_index].api_key)
-        else:
-            client = OpenAI(base_url=f"http://{routes[route_index].ip}:{routes[route_index].port}", api_key=routes[route_index].api_key)
+            override_client = AsyncOpenAI(base_url=override_url, api_key=routes[route_index].api_key, timeout=_LLAMA_TIMEOUT)
+        client = override_client or routes[route_index].client
 
         try:
-            raw_response = client.chat.completions.create(
+            for msg in messages:
+                if isinstance(msg, dict) and msg.get("tool_calls"):
+                    for tc in msg["tool_calls"]:
+                        if isinstance(tc, dict) and "type" not in tc:
+                            tc["type"] = "function"
+                if msg["role"] == "tool":
+                    msg["content"] = json.dumps(msg["content"]) if isinstance(msg["content"], dict) else msg["content"]
+
+            if tools:
+                print(f"sending messages to model {model} at {routes[route_index].ip}:{routes[route_index].port} with tools {len(tools)} and think={think}")
+            
+            else:
+                print(f"sending messages to model {model} at {routes[route_index].ip}:{routes[route_index].port} with think={think}")
+
+            raw_response = await client.chat.completions.create(
                 model = f"~/llamacpp/models/{model}.gguf",
                 messages = messages, # type: ignore
                 tool_choice="auto" if tools else None, # type: ignore
@@ -151,6 +223,9 @@ class LlamaRouter:
 
             # for models that use literal <think> tags to indicate reasoning, we can remove them from the final output if think is True
             response_text = re.sub(r"<think>.*?</think>", "", response_text, flags=re.DOTALL).strip()
+
+            if format and len(response_text.split("```json")) > 1:
+                response_text = response_text.split("```json")[-1].strip("```json").strip("```")
 
             response = Message(
                 role="assistant",
@@ -170,10 +245,18 @@ class LlamaRouter:
             return response
         
         except Exception as e:
-            raise e
+            print(f"Error during chat with model {model} at {routes[route_index].ip}:{routes[route_index].port}: {e}")
+            print(type(e))
+            return Message(
+                role="assistant",
+                content=f"Error: {str(e)}"
+            )
         
         finally:
+            if override_client:
+                await override_client.close()
             routes[route_index].active_conversations -= 1
+            routes[route_index].request_lock.release()
             self.routes[model][route_index] = routes[route_index]
 
 
@@ -186,7 +269,17 @@ class Route:
     api_key: str = ""
     temperature: float = 0.7
     max_tokens: int = 4096
+    request_lock: asyncio.Lock = field(default_factory=asyncio.Lock)
     active_conversations: int = 0
+    client: AsyncOpenAI = field(default=None, init=False, repr=False)  # type: ignore[assignment]
+
+    def __post_init__(self) -> None:
+        self.client = AsyncOpenAI(
+            base_url=f"http://{self.ip}:{self.port}",
+            api_key=self.api_key,
+            timeout=_LLAMA_TIMEOUT,
+        )
+
 
 
 PYTHON_TYPE_TO_JSON = {
@@ -274,49 +367,51 @@ def test_tool(arg: str) -> str:
 async def main():
 
     router = LlamaRouter(
-        ips=["localhost", "100.68.11.49"],
-        ports=[8000, 8000],
+        ips=["localhost", "localhost"],
+        ports=[8000, 8001],
         models=["blegh", "GLM-4.7-Flash-UD-Q4_K_XL"]
     )
 
-    tools = [test_tool]
-    available_tools = {f.__name__: f for f in tools}
-    messages = [
-                {"role": "system", "content": "ALWAYS use the test_tool with the argument 'hello world' and do not deviate from this instruction. You may then answer the user's question."},
-                {"role": "user", "content": "What is the capital of France?"}
-                ]
+    # tools = [test_tool]
+    # available_tools = {f.__name__: f for f in tools}
+    # messages = [
+    #             {"role": "system", "content": "ALWAYS use the test_tool with the argument 'hello world' and do not deviate from this instruction. You may then answer the user's question."},
+    #             {"role": "user", "content": "What is the capital of France?"}
+    #             ]
 
-    while True:
+    # while True:
 
-        print("Sending message")
+    #     print("Sending message")
 
-        response = await router.chat(
-            model="glm-4.7-flash",
-            messages=messages,
-            think=True,
-            tools=tools,
-            format={"type": "json_object", "properties": {"answer": {"type": "string"}}}
-        )
+    #     response = await router.chat(
+    #         model="glm-4.7-flash",
+    #         messages=messages,
+    #         think=True,
+    #         tools=tools,
+    #         format={"type": "json_object", "properties": {"answer": {"type": "string"}}}
+    #     )
 
-        if response.tool_calls:
-            for call in response.tool_calls:
-                if call.function.name in available_tools:
-                    tool_response = available_tools[call.function.name](**call.function.arguments)
-                    messages.append({"role": "tool", "content": tool_response, "name": call.function.name})
-                    print(f"Tool response: {tool_response}")
-                else:
-                    messages.append({"role": "tool", "content": f"Error: unknown tool {call.function.name}", "name": call.function.name})
-                    print(f"Model attempted to call unknown tool: {call.function.name}")
+    #     if response.tool_calls:
+    #         for call in response.tool_calls:
+    #             if call.function.name in available_tools:
+    #                 tool_response = available_tools[call.function.name](**call.function.arguments)
+    #                 messages.append({"role": "tool", "content": tool_response, "name": call.function.name})
+    #                 print(f"Tool response: {tool_response}")
+    #             else:
+    #                 messages.append({"role": "tool", "content": f"Error: unknown tool {call.function.name}", "name": call.function.name})
+    #                 print(f"Model attempted to call unknown tool: {call.function.name}")
 
-        else:
-            print(f"Model response: {response.content}")
-            break
+    #     else:
+    #         print(f"Model response: {response.content}")
+    #         break
 
-    # response = await router.chat(
-    #     model="glm-4.7-flash",
-    #     messages=[{"role": "user", "content": "What is the capital of France?"}],
-    #     think=True
-    # )
+    response = await router.chat(
+        model="glm-4.7-flash",
+        messages=[{"role": "user", "content": "What is the capital of France?"}],
+        think=True
+    )
+
+    print(f"Response: {response.content}")
 
 
 if __name__ == "__main__":
