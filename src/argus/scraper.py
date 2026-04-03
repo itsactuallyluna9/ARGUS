@@ -185,7 +185,11 @@ async def get_source_chrome(url: str) -> tuple[str, bytes]:
             content = (await page.content()).encode("utf-8")
 
         except Exception as e:
-            raise ScraperError(f"Failed to fetch source with headless browser: {e}")
+            # raise ScraperError(f"Failed to fetch source with headless browser: {e}")
+            return "text/plain", f"Failed to fetch source with headless browser: {e}".encode()
+        
+        finally:
+            await browser.close()
 
     return content_type, content
 
