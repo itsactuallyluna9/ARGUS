@@ -185,11 +185,17 @@ class FactCheck:
         self.fact_check_metadata["accuracy_agent"] = accuracy_agent.agent_metadata
         self.fact_check_metadata["bias_agent"] = bias_agent.agent_metadata
 
-        await asyncio.gather(
+        agent_results = await asyncio.gather(
             completeness_agent.evaluate_completeness(),
             accuracy_agent.evaluate_accuracy(),
             bias_agent.analyze_bias(),
+            return_exceptions=True,
         )
+
+        self.fact_check_metadata["agent_results"] = [
+            str(result) if isinstance(result, Exception) else result
+            for result in agent_results
+        ]
 
         self.accuracy_score = accuracy_agent.accuracy_score
         self.accuracy_explanation = accuracy_agent.accuracy_explanation
