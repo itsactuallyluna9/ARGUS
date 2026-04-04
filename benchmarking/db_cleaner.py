@@ -10,7 +10,7 @@ def clean_collection(col: chromadb.Collection) -> None:
             item = json.loads(col.get(ids=[id])['documents'][0])
             if item["finished"] == True:
                 if "accuracy_explanation" in item and "completeness_explanation" in item and "political_bias" in item and "sensationalism" in item and "emotional_language" in item:
-                    if item["accuracy_explanation"] == '' or item["completeness_explanation"] == '' or item["political_bias"] == '' or item["sensationalism"] == '' or item["emotional_language"] == '':
+                    if item["accuracy_explanation"] in ['', 'Accuracy reasoning not found'] or item["completeness_explanation"] in ['', 'Completeness reasoning not found'] or item["political_bias"] in ['', 'Political bias explanation not found'] or item["sensationalism"] in ['', 'Sensationalism explanation not found'] or item["emotional_language"] in ['', 'Emotional language explanation not found']:
                         print(f"Deleting {id} because it is marked finished but has empty explanations")
                         col.delete(ids=[id])
                 else:

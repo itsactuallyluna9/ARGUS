@@ -117,7 +117,7 @@ scores_by_time <- function(sources = NULL, start_date=NULL, end_date=NULL, data=
     geom_point() +
     scale_x_date(date_breaks = "1 week", date_labels = "%d-%b") +
     labs(
-      title = "Scores Over Time",
+      title = "Average Daily Scores Over Time",
       subtitle = "As evaluated by ARGUS",
       x = "Date", 
       y = "Score"
@@ -143,9 +143,9 @@ gathered_articles_by_time <- function(start_date=NULL, end_date=NULL, data=artic
     ggplot(aes(x=timestamp, y=count)) + 
     geom_line() + 
     geom_point() +
-    scale_x_datetime(date_breaks = "1 day", date_labels = "%d-%b %H:%M") +
+    scale_x_datetime(date_breaks = "1 day", date_labels = "%m %d") +
     labs(
-      title = "Articles Gathered Over Time",
+      title = "Total Articles Gathered Over Time",
       subtitle = "By ARGUS",
       x = "Date", 
       y = "Number of Articles"
