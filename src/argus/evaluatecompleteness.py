@@ -6,7 +6,7 @@ from datetime import datetime
 from ddgs import DDGS
 from loguru import logger
 
-from argus.fixjsonformatting import Completeness_Schema
+from argus.fixjsonformatting import Completeness_Schema, fix_json_formatting
 from argus.scraper import get_page
 from argus.summarizearticle import summarize_article
 from argus.llamarouter import LlamaRouter
@@ -154,7 +154,9 @@ class Completeness_Agent:
                     if "properties" in response:
                         response = response["properties"]
                 except json.JSONDecodeError as e:
-                    logger.info(f"Error decoding JSON response: {e}")
+                    #final attempt to decode
+                    recent = "\n".join([f"{m['role']}: {m['content']}" for m in messages[-10:]])
+                    response = await fix_json_formatting(recent, Completeness_Schema, self.router) # type: ignore
                 except KeyError:
                     pass
 

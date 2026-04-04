@@ -5,7 +5,7 @@ import os
 import json
 from loguru import logger
 
-from argus.fixjsonformatting import Bias_Schema
+from argus.fixjsonformatting import Bias_Schema, fix_json_formatting
 from argus.llamarouter import LlamaRouter
 
 
@@ -170,7 +170,9 @@ class Bias_Agent:
                 if "properties" in response:
                     response = response["properties"]
             except json.JSONDecodeError as e:
-                logger.info(f"Error decoding JSON response: {e}")  
+                #final attempt to decode
+                recent = "\n".join([f"{m['role']}: {m['content']}" for m in messages[-10:]])
+                response = await fix_json_formatting(recent, Bias_Schema, self.router) # type: ignore
             except KeyError:
                 pass
 
