@@ -1,2 +1,4 @@
 ignore = ["E501"]
+
+[lint.isort]
 lines-after-imports = 3
