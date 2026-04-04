@@ -289,5 +289,6 @@ def extract_docx(content: bytes) -> str:
 
 if __name__ == "__main__":
     from sys import argv
+    import asyncio
 
-    print(get_page(argv[1])[0])
+    print(asyncio.run(get_page(argv[1]))[1])

@@ -1,0 +1,42 @@
+{
+  "to_benchmark": [
+    "gemma3:4b",
+    "gemma3n:e4b",
+    "gemma4:e4b",
+    "qwen3:8b",
+    "qwen3.5:9b",
+    "nemotron-3-nano:4b",
+    "glm-4.7-flask:q4_K_M",
+    "gpt-oss:20b",
+    "llama3.1:8b"
+  ],
+  "metadata": {
+    "gemma3:4b": {
+      "name": "gemma3:4b"
+    },
+    "gemma3n:e4b": {
+      "name": "gemma3n:e4b"
+    },
+    "gemma4:e4b": {
+      "name": "gemma4:e4b"
+    },
+    "qwen3:8b": {
+      "name": "qwen3:8b"
+    },
+    "qwen3.5:9b": {
+      "name": "qwen3.5:9b"
+    },
+    "nemotron-3-nano:4b": {
+      "name": "nemotron-3-nano:4b"
+    },
+    "glm-4.7-flask:q4_K_M": {
+      "name": "glm-4.7-flask:q4_K_M"
+    },
+    "gpt-oss:20b": {
+      "name": "gpt-oss:20b"
+    },
+    "llama3.1:8b": {
+      "name": "llama3.1:8b"
+    }
+  }
+}

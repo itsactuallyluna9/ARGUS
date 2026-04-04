@@ -11,6 +11,9 @@ from openai import AsyncOpenAI
 from dataclasses import dataclass, field
 from ollama import Message
 import httpx
+from pydantic import HttpUrl
+
+from argus.config import ModelRoute
 
 _LLAMA_TIMEOUT = httpx.Timeout(timeout=1800.0, connect=10.0)
 
@@ -19,7 +22,7 @@ _LLAMA_TIMEOUT = httpx.Timeout(timeout=1800.0, connect=10.0)
 class LlamaRouter:
     
     
-    def __init__(self, ips: list[str], ports: list[int], models: list[str], api_keys: list[str] = None, temperatures: list[float] = None, max_tokens_list: list[int] = None): # type: ignore
+    def __init__(self, model_routes: list[ModelRoute]):
 
         self.routes = {}
 
@@ -28,20 +31,20 @@ class LlamaRouter:
             "nemotron-3-nano:4b": "NVIDIA-Nemotron3-Nano-4B-Q4_K_M"
         }
 
-        for i in range(len(ips)):
+        for route in model_routes:
 
-            if models[i] in self.model_aliases:
-                models[i] = self.model_aliases[models[i]]
+            if route.model_name in self.model_aliases:
+                route.model_name = self.model_aliases[route.model_name]
 
-            self.add_route(Route(model=models[i], ip=ips[i], port=ports[i], api_key=api_keys[i] if api_keys else "", temperature=temperatures[i] if temperatures else 0.7, max_tokens=max_tokens_list[i] if max_tokens_list else 4096))
+            self.add_route(Route(**route.model_dump()))
 
 
     def add_route(self, route: Route):
 
-        if route.model not in self.routes:
-            self.routes[route.model] = []
+        if route.model_name not in self.routes:
+            self.routes[route.model_name] = []
 
-        self.routes[route.model].append(route)
+        self.routes[route.model_name].append(route)
 
 
     def get_route(self, model: str) -> list[Route]:
@@ -83,9 +86,9 @@ class LlamaRouter:
         routes[route_index].active_conversations += 1   
         self.routes[model][route_index] = routes[route_index]
 
-        logger.info(f"Selected route {routes[route_index].ip}:{routes[route_index].port} waiting for model {model} with current load {routes[route_index].active_conversations}")
+        logger.info(f"Selected route {routes[route_index].url} waiting for model {model} with current load {routes[route_index].active_conversations}")
         await routes[route_index].request_lock.acquire()
-        logger.info(f"Acquired lock for route {routes[route_index].ip}:{routes[route_index].port} and model {model}")
+        logger.info(f"Acquired lock for route {routes[route_index].url} and model {model}")
 
         override_client = None
         if override_url:
@@ -94,10 +97,10 @@ class LlamaRouter:
 
         try:
 
-            logger.info(f"Sending prompt to model {model} at {routes[route_index].ip}:{routes[route_index].port} with think={think}")
+            logger.info(f"Sending prompt to model {model} at {routes[route_index].url} with think={think}")
 
             raw_response = await client.chat.completions.create(
-                model = f"~/llamacpp/models/{model}.gguf",
+                model = model,
                 messages = [{
                     "role": "user",
                     "content": prompt
@@ -134,7 +137,7 @@ class LlamaRouter:
                 )
             
         except Exception as e:
-            logger.info(f"Error during generate with model {model} at {routes[route_index].ip}:{routes[route_index].port}: {e}")
+            logger.info(f"Error during generate with model {model} at {routes[route_index].url}: {e}")
             logger.info(f"Error type: {type(e)}")
             return Message(
                 role="assistant",
@@ -183,9 +186,9 @@ class LlamaRouter:
         routes[route_index].active_conversations += 1
         self.routes[model][route_index] = routes[route_index]
 
-        logger.info(f"Selected route {routes[route_index].ip}:{routes[route_index].port} waiting for model {model} with current load {routes[route_index].active_conversations}")
+        logger.info(f"Selected route {routes[route_index].url} waiting for model {model} with current load {routes[route_index].active_conversations}")
         await routes[route_index].request_lock.acquire()
-        logger.info(f"Acquired lock for route {routes[route_index].ip}:{routes[route_index].port} and model {model}")
+        logger.info(f"Acquired lock for route {routes[route_index].url} and model {model}")
 
         override_client = None
         if override_url:
@@ -202,13 +205,13 @@ class LlamaRouter:
                     msg["content"] = json.dumps(msg["content"]) if isinstance(msg["content"], dict) else msg["content"]
 
             if tools:
-                logger.info(f"Sending messages to model {model} at {routes[route_index].ip}:{routes[route_index].port} with tools {len(tools)} and think={think}")
+                logger.info(f"Sending messages to model {model} at {routes[route_index].url} with tools {len(tools)} and think={think}")
             
             else:
-                logger.info(f"Sending messages to model {model} at {routes[route_index].ip}:{routes[route_index].port} with think={think}")
+                logger.info(f"Sending messages to model {model} at {routes[route_index].url} with think={think}")
 
             raw_response = await client.chat.completions.create(
-                model = f"~/llamacpp/models/{model}.gguf",
+                model = model,
                 messages = messages, # type: ignore
                 tool_choice="auto" if tools else None, # type: ignore
                 tools = tools,
@@ -246,7 +249,7 @@ class LlamaRouter:
             return response
         
         except Exception as e:
-            logger.info(f"Error during chat with model {model} at {routes[route_index].ip}:{routes[route_index].port}: {e}")
+            logger.info(f"Error during chat with model {model} at {routes[route_index].url}: {e}")
             logger.info(f"Error type: {type(e)}")
             return Message(
                 role="assistant",
@@ -264,9 +267,8 @@ class LlamaRouter:
 
 @dataclass
 class Route:
-    model: str
-    ip: str
-    port: int
+    model_name: str
+    url: HttpUrl
     api_key: str = ""
     temperature: float = 0.7
     max_tokens: int = 4096
@@ -276,7 +278,7 @@ class Route:
 
     def __post_init__(self) -> None:
         self.client = AsyncOpenAI(
-            base_url=f"http://{self.ip}:{self.port}",
+            base_url=str(self.url),
             api_key=self.api_key,
             timeout=_LLAMA_TIMEOUT,
         )
@@ -354,66 +356,3 @@ def function_to_tool(func: Callable) -> dict:
             },
         },
     }
-
-
-def test_tool(arg: str) -> str:
-    """A test tool that echoes back its argument.
-
-    Args:
-        arg: The argument to echo back.
-    """
-    return f"Tool received argument: {arg}"
-
-
-async def main():
-
-    router = LlamaRouter(
-        ips=["localhost", "localhost"],
-        ports=[8000, 8001],
-        models=["blegh", "GLM-4.7-Flash-UD-Q4_K_XL"]
-    )
-
-    # tools = [test_tool]
-    # available_tools = {f.__name__: f for f in tools}
-    # messages = [
-    #             {"role": "system", "content": "ALWAYS use the test_tool with the argument 'hello world' and do not deviate from this instruction. You may then answer the user's question."},
-    #             {"role": "user", "content": "What is the capital of France?"}
-    #             ]
-
-    # while True:
-
-    #     logger.info("Sending message")
-
-    #     response = await router.chat(
-    #         model="glm-4.7-flash",
-    #         messages=messages,
-    #         think=True,
-    #         tools=tools,
-    #         format={"type": "json_object", "properties": {"answer": {"type": "string"}}}
-    #     )
-
-    #     if response.tool_calls:
-    #         for call in response.tool_calls:
-    #             if call.function.name in available_tools:
-    #                 tool_response = available_tools[call.function.name](**call.function.arguments)
-    #                 messages.append({"role": "tool", "content": tool_response, "name": call.function.name})
-    #                 logger.info(f"Tool response: {tool_response}")
-    #             else:
-    #                 messages.append({"role": "tool", "content": f"Error: unknown tool {call.function.name}", "name": call.function.name})
-    #                 logger.info(f"Model attempted to call unknown tool: {call.function.name}")
-
-    #     else:
-    #         logger.info(f"Model response: {response.content}")
-    #         break
-
-    response = await router.chat(
-        model="glm-4.7-flash",
-        messages=[{"role": "user", "content": "What is the capital of France?"}],
-        think=True
-    )
-
-    logger.info(f"Response: {response.content}")
-
-
-if __name__ == "__main__":
-    asyncio.run(main())

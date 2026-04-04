@@ -1,5 +1,5 @@
 import asyncio
-import os
+from pathlib import Path
 import json
 
 from argus.fixjsonformatting import SummarizeArticleSchema
@@ -23,10 +23,16 @@ JSON schema: {
 """
 
 
-async def summarize_article(article_text: str, router: LlamaRouter, model: str = "nemotron-3-nano:4b", think: bool = False, use_long_prompt: bool = True, keep_alive=360):
+async def summarize_article(
+    article_text: str,
+    router: LlamaRouter,
+    model: str = "nemotron-3-nano:4b",
+    think: bool = False,
+    use_long_prompt: bool = True,
+):
 
     if use_long_prompt:
-        with open(os.path.join(os.getcwd(), "prompts", "summarizeprompt.md"), "r") as f:
+        with open(Path(__file__).parent / "prompts" / "summarizeprompt.md", "r") as f:
             prompt = f.read()
     else:
         prompt = default_prompt
@@ -35,10 +41,10 @@ async def summarize_article(article_text: str, router: LlamaRouter, model: str =
         model=model,
         prompt=f"{prompt}\nArticle text: {article_text}",
         think=think,
-        format=json.dumps(SummarizeArticleSchema.model_json_schema()) # type: ignore
+        format=SummarizeArticleSchema.model_json_schema(),
     )
 
-    response = json.loads(r.content.split("json```")[-1].strip("json```").strip("```")) # type: ignore
+    response = json.loads(r.content.split("json```")[-1].strip("json```").strip("```"))  # type: ignore
 
     try:
         response = response["properties"]
@@ -49,16 +55,20 @@ async def summarize_article(article_text: str, router: LlamaRouter, model: str =
 
 
 if __name__ == "__main__":
-    router = LlamaRouter(
-        ips=["localhost"],
-        ports=[8001],
-        models=["glm-4.7-flash"]
-    )
+    router = LlamaRouter(ips=["localhost"], ports=[8001], models=["glm-4.7-flash"])
 
     url = "https://www.theguardian.com/tv-and-radio/2026/mar/24/power-the-downfall-of-huw-edwards-review-martin-clunes-is-sickening"
 
     article_text = "Huw Edwards, the BBC newsreader, has been accused of sexual misconduct by multiple"
 
-    response = asyncio.run(summarize_article(article_text, router, model="glm-4.7-flash", think=False, use_long_prompt=False))
+    response = asyncio.run(
+        summarize_article(
+            article_text,
+            router,
+            model="glm-4.7-flash",
+            think=False,
+            use_long_prompt=False,
+        )
+    )
 
     print(response)

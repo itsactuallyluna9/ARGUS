@@ -33,14 +33,7 @@ setup_logging(config)
 app = Flask(__name__, static_folder=str(FRONTEND_DIST), static_url_path="/")
 CORS(app, resources={r"/api/*": {"origins": "*"}})
 
-router = LlamaRouter(
-    ips=[str(route.url.host) for route in config.model_routes],
-    ports=[int(route.url.port or 8080) for route in config.model_routes],
-    models=[route.model_name for route in config.model_routes],
-    api_keys=[route.api_key for route in config.model_routes],
-    temperatures=[route.temperature for route in config.model_routes],
-    max_tokens_list=[route.max_tokens for route in config.model_routes],
-)
+router = LlamaRouter(config.model_routes)
 
 # Persistent event loop for background async tasks.
 # Flask's WSGI server tears down its per-request event loop when a handler
