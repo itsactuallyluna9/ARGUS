@@ -78,6 +78,8 @@ class PromptRefiner:
             else:
                 final_prompt = self.refined_prompt
 
+            self.refined_prompt = final_prompt
+
         except RetryError as e:
             print(f"[Error] ServerError encountered: {e}, returning last refined prompt without Gemini feedback.")
             final_prompt = self.refined_prompt
