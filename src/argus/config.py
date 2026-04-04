@@ -32,10 +32,10 @@ class Agent(BaseModel):
 
 
 class Agents(BaseModel):
-    summarizer: Agent = Field(default_factory=lambda: Agent("nemotron-3-nano:4b", False))
-    accuracy: Agent = Field(default_factory=lambda: Agent("glm-4.7-flash", True))
-    bias: Agent = Field(default_factory=lambda: Agent("glm-4.7-flash", True))
-    completeness: Agent = Field(default_factory=lambda: Agent("glm-4.7-flash", True))
+    summarizer: Agent = Field(default_factory=lambda: Agent(model="nemotron-3-nano:4b", thinking=False))
+    accuracy: Agent = Field(default_factory=lambda: Agent(model="glm-4.7-flash", thinking=True))
+    bias: Agent = Field(default_factory=lambda: Agent(model="glm-4.7-flash", thinking=True))
+    completeness: Agent = Field(default_factory=lambda: Agent(model="glm-4.7-flash", thinking=True))
 
 
 class ModelRoute(BaseModel):

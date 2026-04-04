@@ -21,6 +21,8 @@ from argus.compiledata import ArgusData
 from argus.log_config import setup_logging
 from loguru import logger
 
+
+
 PROJECT_ROOT = Path(__file__).resolve().parents[2]
 FRONTEND_DIST = PROJECT_ROOT / "frontend" / "dist"
 CONFIG_PATH = PROJECT_ROOT / "config.toml"
@@ -57,6 +59,7 @@ active_fact_checks_lock = threading.Lock()
 completed_fact_check_ids: set[str] = set()
 cached_data = ArgusData()
 cached_data.fetch_data(articles, past_checks)
+
 
 
 def _add_active_fact_check(check: FactCheck) -> None:
@@ -141,6 +144,7 @@ async def api_create():
 
     return jsonify(check.to_dict()), 202
 
+
 @app.get("/api/createrandom")
 async def api_create_random():
     with active_fact_checks_lock:
@@ -180,7 +184,6 @@ async def api_create_random():
     future.add_done_callback(lambda future, check=check: _finalize_fact_check(check, future))
 
     return jsonify(check.to_dict()), 202
-
 
 
 @app.post("/api/retry")

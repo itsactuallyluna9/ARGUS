@@ -22,6 +22,8 @@ from argus.webhooks import process_webhooks
 
 
 class FactCheck:
+
+
     def __init__(
         self,
         url: str,
@@ -91,10 +93,10 @@ class FactCheck:
             "finished": self.finished,
         }
 
+
     async def main(self, use_long_prompts: bool = False):
         
         self.fact_check_metadata["check_started"] = datetime.now().isoformat()
-
 
         logger.info("Scraping article and extracting text...\nThis may take a minute...\n")
         # url |> scrape |> clean -> raw article text

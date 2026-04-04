@@ -12,7 +12,10 @@ from argus.summarizearticle import summarize_article
 from argus.llamarouter import LlamaRouter
 
 
+
 class Accuracy_Agent:
+
+
     def __init__(self, article_text: str, article_metadata: dict, bias_rating: str, key_points: list[str], router: LlamaRouter, article_collection: chromadb.Collection, evaluation_model: str = "glm-4.7-flash", think: bool = True, use_long_prompt: bool = True, max_tool_calls: int = 15):
 
         self.article_text = article_text
@@ -72,6 +75,7 @@ class Accuracy_Agent:
 
     # initiates agentic model to evaluate articles accuracy, will use tool calls to research and take notes, coerces to structured output, returns accuracy score, reasoning, and sources used in evaluation
     async def evaluate_accuracy(self) -> tuple[int, str, list[str]]:  # type: ignore
+
         self.agent_metadata["started"] = datetime.now().isoformat()
         self.agent_metadata["total_tool_calls"] = 0
         self.agent_metadata["tool_calls"] = {}
@@ -93,6 +97,7 @@ class Accuracy_Agent:
         ]
 
         while True:
+            
             logger.info("Sending message to accuracy model...")
 
             response = await self.router.chat(
