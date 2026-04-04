@@ -4,6 +4,7 @@ import asyncio
 from typing import TYPE_CHECKING
 
 import httpx
+from loguru import logger
 from pydantic import HttpUrl
 
 from argus.config import Config
@@ -15,7 +16,7 @@ if TYPE_CHECKING:
 async def _process_webhook(fact_check: FactCheck, client: httpx.AsyncClient, url: HttpUrl):
 	try:
 		# TODO: support things other than discord
-		response = await client.post(url, json={
+		response = await client.post(str(url), json={
 		                       	"username": "ARGUS",
 		                       	"content": None,
 		                       	"embeds": [
@@ -58,11 +59,17 @@ async def _process_webhook(fact_check: FactCheck, client: httpx.AsyncClient, url
 		                       		}
 		                       	]
 		                       })
-	except:
-		pass
+		logger.debug("Got {status_code} for webhook {hook}", status_code=response.status_code, hook=url)
+	except Exception as e:
+		logger.exception(e)
 
 async def process_webhooks(fact_check: FactCheck, config: Config):
+    logger.info("Sending webhooks! URLs: {}", config.webhooks)
+    if not config.webhooks:
+        logger.warning("No webhook URLs configured, skipping")
+        return
     async with httpx.AsyncClient() as client:
-    	asyncio.gather(
+    	await asyncio.gather(*[
     		_process_webhook(fact_check, client, url) for url in config.webhooks
-    	)
+    	])
+    logger.info("All webhooks processed")
