@@ -72,7 +72,14 @@ export default function BasicDataSandboxView() {
   const [rBusy, setRBusy] = useState(false);
   const [busyMessage, setBusyMessage] = useState("");
   const [plotImage, setPlotImage] = useState<string | null>(null);
-  const [plotTheme, setPlotTheme] = useState<string>("auto_light_dark");
+  const [plotTheme, setPlotTheme] = useState<string>(() => {
+    const saved = localStorage.getItem("argus-sandbox-plot-theme");
+    return saved ?? "auto_light_dark";
+  });
+
+  useEffect(() => {
+    localStorage.setItem("argus-sandbox-plot-theme", plotTheme);
+  }, [plotTheme]);
   const [actualTheme, setActualTheme] = useState<string>("");
 
   useEffect(() => {
@@ -86,6 +93,11 @@ export default function BasicDataSandboxView() {
       case "auto_solarized":
         setActualTheme(
           isDarkMode ? "theme_solarized(light=FALSE)" : "theme_solarized()",
+        );
+        break;
+      case "auto_solarized_gray":
+        setActualTheme(
+          isDarkMode ? "theme_solarized_2(light=FALSE)" : "theme_solarized_2()",
         );
         break;
       case "theme_solarized_light":
@@ -574,6 +586,9 @@ export default function BasicDataSandboxView() {
                       </SelectItem>
                       <SelectItem value="auto_solarized">
                         Solarized Light/Dark
+                      </SelectItem>
+                      <SelectItem value="auto_solarized_gray">
+                        Solarized Gray
                       </SelectItem>
                     </SelectGroup>
                     <SelectGroup>

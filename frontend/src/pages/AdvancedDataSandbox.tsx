@@ -948,18 +948,28 @@ function DocumentationTab() {
   const [currentDocumentation, setCurrentDocumentation] =
     useState("data-reference");
 
-  // /docs/data-reference
-  // /docs/advanced-data
-  // https://cran.r-project.org/doc/manuals/r-release/R-intro.html
-  // https://ggplot2.tidyverse.org/reference/index.html
-  // https://ggplot2-book.org/
-  // https://jrnold.github.io/ggthemes
-  // https://plotly.com/r/
-  // https://r-graphics.org/
+  const docUrls: Record<string, string> = {
+    "data-reference": "/docs/data-reference",
+    "advanced-data-sandbox": "/docs/advanced-data",
+    "r-intro": "https://cran.r-project.org/doc/manuals/r-release/R-intro.html",
+    "ggplot-reference": "https://ggplot2.tidyverse.org/reference/index.html",
+    "ggplot-book": "https://ggplot2-book.org/",
+    ggthemes: "https://jrnold.github.io/ggthemes",
+    plotly: "https://plotly.com/r/",
+    "r-graphics": "https://r-graphics.org/",
+  };
+
+  const currentUrl = docUrls[currentDocumentation] || "";
+
+  const openExternal = () => {
+    if (currentUrl) {
+      window.open(currentUrl, "_blank", "noopener,noreferrer");
+    }
+  };
 
   return (
     <>
-      <div className="flex">
+      <div className="flex gap-2 mb-2">
         <Select
           value={currentDocumentation}
           onValueChange={setCurrentDocumentation}
@@ -969,15 +979,15 @@ function DocumentationTab() {
           </SelectTrigger>
           <SelectContent>
             <SelectGroup>
-              <SelectItem value="data_reference">Data Reference</SelectItem>
-              <SelectItem value="advanced_data_sandbox">
+              <SelectItem value="data-reference">Data Reference</SelectItem>
+              <SelectItem value="advanced-data-sandbox">
                 Advanced Data Sandbox
               </SelectItem>
               <SelectItem value="r-intro">An Introduction to R</SelectItem>
-              <SelectItem value="ggplot_reference">
+              <SelectItem value="ggplot-reference">
                 ggplot2 Reference
               </SelectItem>
-              <SelectItem value="ggplot_reference">
+              <SelectItem value="ggplot-book">
                 ggplot2: Elegant Graphics for Data Analysis
               </SelectItem>
               <SelectItem value="ggthemes">ggthemes</SelectItem>
@@ -986,11 +996,15 @@ function DocumentationTab() {
             </SelectGroup>
           </SelectContent>
         </Select>
-        <Button variant="outline">
+        <Button variant="outline" onClick={openExternal}>
           <ExternalLink />
         </Button>
       </div>
-      <iframe className="w-full h-full" src="https://example.com"></iframe>
+      <iframe
+        className="w-full h-[calc(100vh-300px)]"
+        src={currentUrl}
+        title={currentDocumentation}
+      />
     </>
   );
 }
