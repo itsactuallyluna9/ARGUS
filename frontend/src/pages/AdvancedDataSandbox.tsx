@@ -58,13 +58,17 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { Field, FieldLabel } from "@/components/ui/field";
+import { Input } from "@/components/ui/input";
 import { convertToCSV } from "./convertToCSV";
+import { useCanvasDimensions } from "@/hooks/useCanvasDimensions";
 
 const ENTER_KEY = 13;
 const BACKSPACE_KEY = 127;
 const FIRST_PRINTABLE_CHAR = 32;
 
 function DataSandboxView() {
+  const { dimensions, setWidth, setHeight } = useCanvasDimensions();
   const [rLoaded, setRLoaded] = useState(false);
   const [rInstallingPackages, setRInstallingPackages] = useState(false);
   const [rWorking, setRWorking] = useState(false);
@@ -109,6 +113,14 @@ function DataSandboxView() {
   const [pagerMethod, setPagerMethod] = useState("");
 
   const [currentTab, setCurrentTab] = useState("data-loader");
+
+  useEffect(() => {
+    if (webRRef.current && rLoaded) {
+      webRRef.current.evalRVoid(
+        `webr::canvas_install(width = ${dimensions.width}, height = ${dimensions.height})`
+      );
+    }
+  }, [dimensions.width, dimensions.height, rLoaded]);
 
   useEffect(() => {
     if (!rLoaded) {
@@ -475,18 +487,21 @@ function DataSandboxView() {
           break;
         case "canvas":
           switch (event.data.event) {
-            case "canvasNewPage":
-              // alright, we have a new plot coming in
-              console.debug("R: drawing new canvas page", event.data);
-              if (drawCanvas.current) {
-                setCanvasDrawIndex((prev) => {
-                  const nextIndex = prev + 1;
-                  setCanvasImageIndex(nextIndex);
-                  return nextIndex;
-                });
-              }
-              drawCanvas.current = new OffscreenCanvas(1008, 1008);
-              break;
+case "canvasNewPage":
+               // alright, we have a new plot coming in
+               console.debug("R: drawing new canvas page", event.data);
+               if (drawCanvas.current) {
+                 setCanvasDrawIndex((prev) => {
+                   const nextIndex = prev + 1;
+                   setCanvasImageIndex(nextIndex);
+                   return nextIndex;
+                 });
+               }
+               drawCanvas.current = new OffscreenCanvas(
+                 dimensions.width * 2,
+                 dimensions.height * 2
+               );
+               break;
             case "canvasImage":
               console.debug("R: drawing to canvas", event.data);
               if (!drawCanvas.current) {
@@ -735,6 +750,28 @@ function DataSandboxView() {
                   </TabsTrigger>
                   <TabsTrigger value="settings">Settings</TabsTrigger>
                 </TabsList>
+                <TabsContent value="settings">
+                  <div className="space-y-4">
+                    <Field>
+                      <FieldLabel htmlFor="canvas-width">Canvas Width (px)</FieldLabel>
+                      <Input
+                        id="canvas-width"
+                        type="number"
+                        value={dimensions.width}
+                        onChange={(e) => setWidth(Number(e.target.value))}
+                      />
+                    </Field>
+                    <Field>
+                      <FieldLabel htmlFor="canvas-height">Canvas Height (px)</FieldLabel>
+                      <Input
+                        id="canvas-height"
+                        type="number"
+                        value={dimensions.height}
+                        onChange={(e) => setHeight(Number(e.target.value))}
+                      />
+                    </Field>
+                  </div>
+                </TabsContent>
                 <TabsContent value="data-loader">
                   <Tabs defaultValue="dl-everything">
                     <TabsList>

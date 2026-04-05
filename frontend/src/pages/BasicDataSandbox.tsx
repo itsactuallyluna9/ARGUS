@@ -15,6 +15,7 @@ import {
   useComboboxAnchor,
 } from "@/components/ui/combobox";
 import { Field, FieldLabel } from "@/components/ui/field";
+import { Input } from "@/components/ui/input";
 import {
   Popover,
   PopoverContent,
@@ -53,10 +54,12 @@ import { Link } from "react-router-dom";
 import { WebR } from "webr";
 import { convertToCSV } from "./convertToCSV";
 import TernaryThemeButton from "@/components/TernaryThemeButton";
+import { useCanvasDimensions } from "@/hooks/useCanvasDimensions";
 
 
 export default function BasicDataSandboxView() {
   const { isDarkMode } = useTheme();
+  const { dimensions, setWidth, setHeight } = useCanvasDimensions();
   const [currentGraph, setCurrentGraph] = useState("");
   const [date, setDate] = useState<DateRange | undefined>({
     from: undefined,
@@ -110,6 +113,14 @@ export default function BasicDataSandboxView() {
         setActualTheme(`${plotTheme}()`);
     }
   }, [plotTheme, isDarkMode]);
+
+  useEffect(() => {
+    if (webRRef.current && rLoaded) {
+      webRRef.current.evalRVoid(
+        `webr::canvas_install(width = ${dimensions.width}, height = ${dimensions.height})`
+      );
+    }
+  }, [dimensions.width, dimensions.height, rLoaded]);
 
   const webRRef = useRef<WebR | null>(null);
   const drawCanvas = useRef<OffscreenCanvas | null>(null);
@@ -209,11 +220,14 @@ export default function BasicDataSandboxView() {
         case "canvas":
           switch (event.data.event) {
             case "canvasNewPage":
-              console.debug("R: drawing new canvas page", event.data);
-              drawCanvas.current = new OffscreenCanvas(1008, 1008);
-              setPlotType("none");
-              setPlotImage(null);
-              break;
+               console.debug("R: drawing new canvas page", event.data);
+               drawCanvas.current = new OffscreenCanvas(
+                 dimensions.width * 2,
+                 dimensions.height * 2
+               );
+               setPlotType("none");
+               setPlotImage(null);
+               break;
             case "canvasImage":
               console.debug("R: drawing to canvas", event.data);
               if (!drawCanvas.current) {
@@ -457,7 +471,7 @@ export default function BasicDataSandboxView() {
                   <img
                     src={plotImage}
                     alt="Plot"
-                    className="min-w-full min-h-full object-contain"
+                    className="w-full h-full object-contain"
                   />
                 )}
                 {!rBusy && !plotImage && rLoaded && (
@@ -631,6 +645,24 @@ export default function BasicDataSandboxView() {
                     </SelectGroup>
                   </SelectContent>
                 </Select>
+              </Field>
+              <Field>
+                <FieldLabel htmlFor="canvas-width">Canvas Width (px)</FieldLabel>
+                <Input
+                  id="canvas-width"
+                  type="number"
+                  value={dimensions.width}
+                  onChange={(e) => setWidth(Number(e.target.value))}
+                />
+              </Field>
+              <Field>
+                <FieldLabel htmlFor="canvas-height">Canvas Height (px)</FieldLabel>
+                <Input
+                  id="canvas-height"
+                  type="number"
+                  value={dimensions.height}
+                  onChange={(e) => setHeight(Number(e.target.value))}
+                />
               </Field>
             </ResizablePanel>
           </ResizablePanelGroup>
