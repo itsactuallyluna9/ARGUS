@@ -304,29 +304,29 @@ class Accuracy_Agent:
 
 
 
-async def main():
-    logger.info("starting")
-    article_metadata, article_text = await get_page("https://www.usatoday.com/story/travel/2026/03/23/check-tsa-wait-times-government-shutdown-airports/89282748007/?utm_source=firefox-newtab-en-us")
-    logger.info(article_text)
-    bias_rating = ""
-    key_points = []
+# async def main():
+#     logger.info("starting")
+#     article_metadata, article_text = await get_page("https://www.usatoday.com/story/travel/2026/03/23/check-tsa-wait-times-government-shutdown-airports/89282748007/?utm_source=firefox-newtab-en-us")
+#     logger.info(article_text)
+#     bias_rating = ""
+#     key_points = []
 
-    collection = chromadb.HttpClient().get_or_create_collection(name="articles")
+#     collection = chromadb.HttpClient().get_or_create_collection(name="articles")
 
-    accuracy_agent = Accuracy_Agent(
-        article_text,
-        article_metadata,
-        bias_rating,
-        key_points,
-        router=LlamaRouter(["cs-cluster-1", "localhost"], [8080, 8080], ["GLM-4.7-Flash-UD-Q4_K_XL", "NVIDIA-Nemotron3-Nano-4B-Q4_K_M"]),
-        article_collection=collection,
-        evaluation_model="glm-4.7-flash",
-        think=True,
-    )
-    val = await accuracy_agent.evaluate_accuracy()
-    logger.info(val)
+#     accuracy_agent = Accuracy_Agent(
+#         article_text,
+#         article_metadata,
+#         bias_rating,
+#         key_points,
+#         router=LlamaRouter(["cs-cluster-1", "localhost"], [8080, 8080], ["GLM-4.7-Flash-UD-Q4_K_XL", "NVIDIA-Nemotron3-Nano-4B-Q4_K_M"]),
+#         article_collection=collection,
+#         evaluation_model="glm-4.7-flash",
+#         think=True,
+#     )
+#     val = await accuracy_agent.evaluate_accuracy()
+#     logger.info(val)
 
 
 
-if __name__ == "__main__":
-    asyncio.run(main())
+# if __name__ == "__main__":
+#     asyncio.run(main())

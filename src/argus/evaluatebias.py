@@ -238,20 +238,20 @@ class Bias_Agent:
             return f"Error: Article {url} not found in database."
 
 
-if __name__ == "__main__":
-    article_collection = chromadb.HttpClient().get_or_create_collection(name="articles")
+# if __name__ == "__main__":
+#     article_collection = chromadb.HttpClient().get_or_create_collection(name="articles")
 
-    metadata = article_collection.query(query_texts=["Costco"], n_results=1)["metadatas"][0][0]  # type: ignore
-    article_metadata = {"title": "costco article", "source": "costco news", "date": "2024-01-01"}
+#     metadata = article_collection.query(query_texts=["Costco"], n_results=1)["metadatas"][0][0]  # type: ignore
+#     article_metadata = {"title": "costco article", "source": "costco news", "date": "2024-01-01"}
 
-    bias_agent = Bias_Agent(
-        article_text=metadata["article_text"],  # type: ignore
-        bias_rating=metadata["bias"],  # type: ignore
-        article_metadata=article_metadata,  # type: ignore
-        article_collection=article_collection,
-        router=LlamaRouter(["cs-cluster-1", "localhost"], [8080, 8080], ["GLM-4.7-Flash-UD-Q4_K_XL", "NVIDIA-Nemotron3-Nano-4B-Q4_K_M"]),
-        use_long_prompt=False
-    )
+#     bias_agent = Bias_Agent(
+#         article_text=metadata["article_text"],  # type: ignore
+#         bias_rating=metadata["bias"],  # type: ignore
+#         article_metadata=article_metadata,  # type: ignore
+#         article_collection=article_collection,
+#         router=LlamaRouter(["cs-cluster-1", "localhost"], [8080, 8080], ["GLM-4.7-Flash-UD-Q4_K_XL", "NVIDIA-Nemotron3-Nano-4B-Q4_K_M"]),
+#         use_long_prompt=False
+#     )
 
-    bias_evaluation = asyncio.run(bias_agent.analyze_bias())
-    logger.info(bias_evaluation)
+#     bias_evaluation = asyncio.run(bias_agent.analyze_bias())
+#     logger.info(bias_evaluation)

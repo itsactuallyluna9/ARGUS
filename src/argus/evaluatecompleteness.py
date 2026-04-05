@@ -306,29 +306,29 @@ class Completeness_Agent:
 
 
 
-if __name__ == "__main__":
-    logger.info("starting")
-    article_metadata, article_text = asyncio.run(get_page("https://www.usatoday.com/story/travel/2026/03/23/check-tsa-wait-times-government-shutdown-airports/89282748007/?utm_source=firefox-newtab-en-us"))
-    logger.info(article_text)
-    bias_rating = ""
-    key_points = []
-    related_summaries = []
+# if __name__ == "__main__":
+#     logger.info("starting")
+#     article_metadata, article_text = asyncio.run(get_page("https://www.usatoday.com/story/travel/2026/03/23/check-tsa-wait-times-government-shutdown-airports/89282748007/?utm_source=firefox-newtab-en-us"))
+#     logger.info(article_text)
+#     bias_rating = ""
+#     key_points = []
+#     related_summaries = []
 
-    collection = chromadb.HttpClient().get_or_create_collection(name="articles")
+#     collection = chromadb.HttpClient().get_or_create_collection(name="articles")
 
-    completeness_agent = Completeness_Agent(
-        article_text,
-        article_metadata,
-        bias_rating,
-        key_points,
-        router=LlamaRouter(ips=["localhost"], ports=[8001], models=["glm-4.7-flash"]),
-        article_collection=collection,
-        evaluation_model="glm-4.7-flash",
-        think=True,
-        use_long_prompt=False
-    )
+#     completeness_agent = Completeness_Agent(
+#         article_text,
+#         article_metadata,
+#         bias_rating,
+#         key_points,
+#         router=LlamaRouter(ips=["localhost"], ports=[8001], models=["glm-4.7-flash"]),
+#         article_collection=collection,
+#         evaluation_model="glm-4.7-flash",
+#         think=True,
+#         use_long_prompt=False
+#     )
     
-    scores = asyncio.run(completeness_agent.evaluate_completeness())
+#     scores = asyncio.run(completeness_agent.evaluate_completeness())
 
-    logger.info(f"Completeness score: {completeness_agent.completeness_score}")
-    logger.info(f"Completeness explanation: {completeness_agent.completeness_explanation}")
+#     logger.info(f"Completeness score: {completeness_agent.completeness_score}")
+#     logger.info(f"Completeness explanation: {completeness_agent.completeness_explanation}")
