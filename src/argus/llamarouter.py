@@ -112,7 +112,12 @@ class LlamaRouter:
             )
 
             message = raw_response.choices[0].message
-            reasoning = message.reasoning_content.strip() if think else None # type: ignore
+
+            try:
+                reasoning = message.reasoning_content.strip() if think else None # type: ignore
+            except AttributeError:
+                reasoning = None
+
             response_text = (message.content or "").strip()
 
             # for models that use literal <think> tags to indicate reasoning, we can remove them from the final output if think is True
@@ -222,7 +227,12 @@ class LlamaRouter:
             )
 
             message = raw_response.choices[0].message
-            reasoning = message.reasoning_content.strip() if think else None # type: ignore
+
+            try:
+                reasoning = message.reasoning_content.strip() if think else None # type: ignore
+            except AttributeError:
+                reasoning = None
+                
             response_text = (message.content or "").strip()
 
             # for models that use literal <think> tags to indicate reasoning, we can remove them from the final output if think is True

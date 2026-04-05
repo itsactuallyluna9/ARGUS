@@ -183,7 +183,7 @@ class Accuracy_Agent:
                     response = response["properties"]
             except json.JSONDecodeError as e:
                 #final attempt to decode
-                recent = "\n".join([f"{m['role']}: {m['content']}" for m in messages[-10:]])
+                recent = "\n".join([f"{messages[0]['role']}: {messages[0]['content']}", *[f"{m['role']}: {m['content']}" for m in messages[-10:]]])
                 response = await fix_json_formatting(recent, Accuracy_Schema, self.router) # type: ignore
             except KeyError:
                 pass

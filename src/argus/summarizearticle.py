@@ -54,21 +54,21 @@ async def summarize_article(
     return response
 
 
-if __name__ == "__main__":
-    router = LlamaRouter(ips=["localhost"], ports=[8001], models=["glm-4.7-flash"])
+# if __name__ == "__main__":
+#     router = LlamaRouter(ips=["localhost"], ports=[8001], models=["glm-4.7-flash"])
 
-    url = "https://www.theguardian.com/tv-and-radio/2026/mar/24/power-the-downfall-of-huw-edwards-review-martin-clunes-is-sickening"
+#     url = "https://www.theguardian.com/tv-and-radio/2026/mar/24/power-the-downfall-of-huw-edwards-review-martin-clunes-is-sickening"
 
-    article_text = "Huw Edwards, the BBC newsreader, has been accused of sexual misconduct by multiple"
+#     article_text = "Huw Edwards, the BBC newsreader, has been accused of sexual misconduct by multiple"
 
-    response = asyncio.run(
-        summarize_article(
-            article_text,
-            router,
-            model="glm-4.7-flash",
-            think=False,
-            use_long_prompt=False,
-        )
-    )
+#     response = asyncio.run(
+#         summarize_article(
+#             article_text,
+#             router,
+#             model="glm-4.7-flash",
+#             think=False,
+#             use_long_prompt=False,
+#         )
+#     )
 
-    print(response)
+#     print(response)

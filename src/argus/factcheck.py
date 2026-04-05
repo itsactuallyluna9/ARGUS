@@ -264,20 +264,18 @@ async def check_url(url: str, router: LlamaRouter) -> bool:
         return False
 
 
-if __name__ == "__main__":
-    chromadb_client = chromadb.HttpClient(host="localhost", port=8000)
-    url = "https://www.theguardian.com/tv-and-radio/2026/mar/24/power-the-downfall-of-huw-edwards-review-martin-clunes-is-sickening"
+# if __name__ == "__main__":
+#     chromadb_client = chromadb.HttpClient(host="localhost", port=8000)
+#     url = "https://www.theguardian.com/tv-and-radio/2026/mar/24/power-the-downfall-of-huw-edwards-review-martin-clunes-is-sickening"
 
-    router=LlamaRouter(["cs-cluster-1", "localhost"], [8080, 8080], ["GLM-4.7-Flash-UD-Q4_K_XL", "NVIDIA-Nemotron3-Nano-4B-Q4_K_M"])
+#     PROJECT_ROOT = Path(__file__).resolve().parents[2]
+#     CONFIG_PATH = PROJECT_ROOT / "config.toml"
 
-    PROJECT_ROOT = Path(__file__).resolve().parents[2]
-    CONFIG_PATH = PROJECT_ROOT / "config.toml"
+#     config = load_config(CONFIG_PATH)
+#     setup_logging(config)
 
-    config = load_config(CONFIG_PATH)
-    setup_logging(config)
+#     check = FactCheck(url, chromadb_client.get_or_create_collection(name="articles"), router, think=True, config=config)
 
-    check = FactCheck(url, chromadb_client.get_or_create_collection(name="articles"), router, think=True, config=config)
-
-    asyncio.run(check.main(use_long_prompts=False))
+#     asyncio.run(check.main(use_long_prompts=False))
 
     

@@ -14,7 +14,7 @@ from flask_cors import CORS
 
 import chromadb
 
-from argus.config import Config, load_config
+from argus.config import load_config
 from argus.llamarouter import LlamaRouter
 from argus.factcheck import FactCheck, check_url
 from argus.compiledata import ArgusData
