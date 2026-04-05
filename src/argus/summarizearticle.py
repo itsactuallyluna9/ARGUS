@@ -41,7 +41,7 @@ async def summarize_article(
         model=model,
         prompt=f"{prompt}\nArticle text: {article_text}",
         think=think,
-        format=SummarizeArticleSchema.model_json_schema(),
+        format=json.dumps(SummarizeArticleSchema.model_json_schema()) # type: ignore
     )
 
     response = json.loads(r.content.split("json```")[-1].strip("json```").strip("```"))  # type: ignore
