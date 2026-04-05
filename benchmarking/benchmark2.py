@@ -73,6 +73,7 @@ async def ollama_load(model: str) -> bool:
             return ollama_needed_model
         except OllamaResponseError:
             logger.warning("{model} not found - pulling", model=model)
+            ollama_needed_model = True
             await client.pull(model)
 
 

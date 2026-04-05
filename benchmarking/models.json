@@ -6,7 +6,7 @@
     "qwen3:8b",
     "qwen3.5:9b",
     "nemotron-3-nano:4b",
-    "glm-4.7-flask:q4_K_M",
+    "glm-4.7-flash:q4_K_M",
     "gpt-oss:20b",
     "llama3.1:8b"
   ],
@@ -29,8 +29,8 @@
     "nemotron-3-nano:4b": {
       "name": "nemotron-3-nano:4b"
     },
-    "glm-4.7-flask:q4_K_M": {
-      "name": "glm-4.7-flask:q4_K_M"
+    "glm-4.7-flash:q4_K_M": {
+      "name": "glm-4.7-flash:q4_K_M"
     },
     "gpt-oss:20b": {
       "name": "gpt-oss:20b"
