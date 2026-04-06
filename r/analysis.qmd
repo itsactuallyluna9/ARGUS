@@ -1,0 +1,22 @@
+---
+title: "analysis"
+format: html
+---
+
+```{r}
+library(tidyverse)
+
+checks <- read.csv("data/fact_check_data.csv")
+colnames(checks)
+```
+
+```{r}
+cleanchecks <- checks |> mutate(date = as.Date(date), check_date = as.Date(check_started), check_time = str_split_i(check_started, "T", 2)) |> select(accuracy_agent, bias_agent, completeness_agent, accuracy_score, completeness_score, political_score, sensationalism_score, emotional_language_score, date, check_date, check_time, check_duration_from_start, title, sitename) |> mutate(avg_bias = round((political_score + sensationalism_score + emotional_language_score)/3)) |> mutate(accuracy_tool_calls = trimws(str_split_i(accuracy_agent, '"tool_calls":', 2), whitespace = c("{", "}")), accuracy_tool_count = trimws(str_split_i(accuracy_agent, '"total_tool_calls":', 2), whitespace = "}"))
+
+cleanchecks |> head()
+```
+
+```{r}
+ggplot(aes())
+```
+
