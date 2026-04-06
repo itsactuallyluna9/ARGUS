@@ -29,10 +29,56 @@ import {
 import { Textarea } from "@/components/ui/textarea";
 import type { CheckMetadata } from "../DetailsResponse";
 import useSWR from "swr";
+import { Fade, Fades } from "@/components/animate-ui/primitives/effects/fade";
 
 type StatusFetchError = Error & {
   status?: number;
 };
+
+type ScoreAssessmentCardProps = {
+  title: string;
+  score: number | null | undefined;
+  description: string | null | undefined;
+  higherIsBetter?: boolean;
+};
+
+const clampScore = (score: number) => Math.max(0, Math.min(100, score));
+
+const getGoodnessScore = (score: number, higherIsBetter: boolean) => {
+  const safeScore = clampScore(score);
+  return higherIsBetter ? safeScore : 100 - safeScore;
+};
+
+const getScoreBarColorClass = (score: number, higherIsBetter: boolean) => {
+  const goodnessScore = getGoodnessScore(score, higherIsBetter);
+
+  if (goodnessScore === 100) return "bg-indigo-500 dark:bg-indigo-400";
+  if (goodnessScore >= 90) return "bg-emerald-500 dark:bg-emerald-400";
+
+  if (goodnessScore >= 80) return "bg-green-500 dark:bg-green-400";
+  if (goodnessScore >= 60) return "bg-lime-500 dark:bg-lime-400";
+  if (goodnessScore >= 40) return "bg-amber-500 dark:bg-amber-400";
+  
+  if (goodnessScore >= 20) return "bg-orange-500 dark:bg-orange-400";
+  if (goodnessScore >= 10) return "bg-rose-500 dark:bg-rose-400";
+  return "bg-red-600 dark:bg-red-500";
+};
+
+const animationTimings = {
+  notFoundTitle: 60,
+  notFoundBody: 120,
+  title: 50,
+  metadata: 120,
+  separator: 180,
+  cardsRowOne: 240,
+  cardsRowTwo: 320,
+  cardsRowThree: 400,
+  cardStagger: 70,
+  footerDisclaimer: 500,
+  footerReport: 560,
+  statusInitialOpacity: 0.35,
+  statusTransition: { duration: 0.25 },
+} as const;
 
 export const statusFetcher = async ([url, uuid]: [string, string]) => {
   const response = await fetch(url, {
@@ -73,281 +119,306 @@ function DetailsView() {
   if (notFound) {
     return (
       <main className="p-4">
-        <h1 className="font-semibold text-2xl text-pretty">
-          Article Not Found
-        </h1>
-        <p className="text-muted-foreground">
-          We couldn't find an analysis for this article. It may have been
-          removed, or the URL may be incorrect.
-        </p>
+        <Fade asChild delay={animationTimings.notFoundTitle}>
+          <h1 className="font-semibold text-2xl text-pretty">
+            Article Not Found
+          </h1>
+        </Fade>
+        <Fade asChild delay={animationTimings.notFoundBody}>
+          <p className="text-muted-foreground">
+            We couldn't find an analysis for this article. It may have been
+            removed, or the URL may be incorrect.
+          </p>
+        </Fade>
       </main>
     );
   }
 
   return (
     <main className="p-4">
-      <h1 className="font-semibold text-2xl text-pretty">
-        <a href={data?.article_metadata?.url || ""} className="hover:underline">
-          {data?.article_metadata?.title || "TBD"}
-        </a>
-      </h1>
-      <div className="sm:flex items-center text-muted-foreground">
-        <a
-          href={
-            (data &&
-              data.article_metadata &&
-              data.article_metadata.url &&
-              new URL(data?.article_metadata?.url).origin) ||
-            ""
-          }
-          className="flex items-center hover:underline"
-        >
-          <img
-            src={`${data && data.article_metadata && data.article_metadata.url && new URL(data?.article_metadata.url).origin}/favicon.ico`}
-            alt={`${data?.article_metadata?.sitename || "ARGUS"} Logo`}
-            className="h-6 mr-2 rounded bg-gray-300/50"
-          />
-          <p className="italic text-lg">
-            {data?.article_metadata?.sitename || "ARGUS"}
-          </p>
-        </a>
-        <Separator orientation="vertical" className="mx-4" />
-        <Tooltip>
-          <TooltipTrigger className="flex items-center">
-            <Clock className="mr-2" />
-            {data && data.article_metadata && data.article_metadata.date ? (
-              <p>
-                Published{" "}
-                {prettyMilliseconds(
-                  Date.now() - Date.parse(data?.article_metadata.date),
-                  { verbose: true, compact: true },
-                )}{" "}
-                ago
-              </p>
-            ) : (
-              <></>
-            )}
-          </TooltipTrigger>
-          <TooltipContent>
-            <p>{new Date(data?.article_metadata?.date).toLocaleDateString()}</p>
-          </TooltipContent>
-        </Tooltip>
-        <Separator orientation="vertical" className="mx-4" />
-        <Tooltip>
-          <TooltipTrigger className="flex items-center">
-            {/* only show spinner when analysis is in progress */}
-            {analysisComplete ? (
-              <>
-                <Bot className="mr-2" />
-                <p>Analysis Complete</p>
-              </>
-            ) : (
-              <>
-                <Spinner className="mr-2" />
+      <Fade asChild delay={animationTimings.title}>
+        <h1 className="font-semibold text-2xl text-pretty">
+          <a
+            href={data?.article_metadata?.url || ""}
+            className="hover:underline"
+          >
+            {data?.article_metadata?.title || "TBD"}
+          </a>
+        </h1>
+      </Fade>
+      <Fade asChild delay={animationTimings.metadata}>
+        <div className="sm:flex items-center text-muted-foreground">
+          <a
+            href={
+              (data &&
+                data.article_metadata &&
+                data.article_metadata.url &&
+                new URL(data?.article_metadata?.url).origin) ||
+              ""
+            }
+            className="flex items-center hover:underline"
+          >
+            <img
+              src={`${data && data.article_metadata && data.article_metadata.url && new URL(data?.article_metadata.url).origin}/favicon.ico`}
+              alt={`${data?.article_metadata?.sitename || "ARGUS"} Logo`}
+              className="h-6 mr-2 rounded bg-gray-300/50"
+            />
+            <p className="italic text-lg">
+              {data?.article_metadata?.sitename || "ARGUS"}
+            </p>
+          </a>
+          <Separator orientation="vertical" className="mx-4" />
+          <Tooltip>
+            <TooltipTrigger className="flex items-center">
+              <Clock className="mr-2" />
+              {data && data.article_metadata && data.article_metadata.date ? (
                 <p>
-                  {data?.fact_check_metadata?.check_started
-                    ? "Analysis In Progress..."
-                    : "Analysis Pending..."}
+                  Published{" "}
+                  {prettyMilliseconds(
+                    Date.now() - Date.parse(data?.article_metadata.date),
+                    { verbose: true, compact: true },
+                  )}{" "}
+                  ago
                 </p>
-              </>
-            )}
-          </TooltipTrigger>
-          <TooltipContent>
-            <p>
+              ) : (
+                <></>
+              )}
+            </TooltipTrigger>
+            <TooltipContent>
+              <p>
+                {new Date(data?.article_metadata?.date).toLocaleDateString()}
+              </p>
+            </TooltipContent>
+          </Tooltip>
+          <Separator orientation="vertical" className="mx-4" />
+          <Tooltip>
+            <TooltipTrigger className="flex items-center">
+              {/* only show spinner when analysis is in progress */}
               {analysisComplete ? (
-                <>
-                  <span>Duration: </span>
-                  <PrettyDuration
-                    milliseconds={
-                      (data?.fact_check_metadata.check_duration_from_start ??
-                        0) * 1000
-                    }
-                  />
-                </>
-              ) : data?.fact_check_metadata?.check_started ? (
-                <>
-                  <span>Elapsed: </span>
-                  <PrettyDynamicDuration
-                    date={
-                      new Date(
-                        data?.fact_check_metadata.check_started ?? Date.now(),
-                      )
-                    }
-                    msOpts={{
-                      secondsDecimalDigits: 0,
-                    }}
-                  />
-                </>
+                <Fade
+                  key="analysis-complete"
+                  className="flex items-center"
+                  initialOpacity={animationTimings.statusInitialOpacity}
+                  transition={animationTimings.statusTransition}
+                >
+                  <Bot className="mr-2" />
+                  <p>Analysis Complete</p>
+                </Fade>
+              ) : (
+                <Fade
+                  key="analysis-progress"
+                  className="flex items-center"
+                  initialOpacity={animationTimings.statusInitialOpacity}
+                  transition={animationTimings.statusTransition}
+                >
+                  <Spinner className="mr-2" />
+                  <p>
+                    {data?.fact_check_metadata?.check_started
+                      ? "Analysis In Progress..."
+                      : "Analysis Pending..."}
+                  </p>
+                </Fade>
+              )}
+            </TooltipTrigger>
+            <TooltipContent>
+              <p>
+                {analysisComplete ? (
+                  <>
+                    <span>Duration: </span>
+                    <PrettyDuration
+                      milliseconds={
+                        (data?.fact_check_metadata.check_duration_from_start ??
+                          0) * 1000
+                      }
+                    />
+                  </>
+                ) : data?.fact_check_metadata?.check_started ? (
+                  <>
+                    <span>Elapsed: </span>
+                    <PrettyDynamicDuration
+                      date={
+                        new Date(
+                          data?.fact_check_metadata.check_started ?? Date.now(),
+                        )
+                      }
+                      msOpts={{
+                        secondsDecimalDigits: 0,
+                      }}
+                    />
+                  </>
+                ) : (
+                  <>
+                    <span>Queued: </span>
+                    <PrettyDynamicDuration
+                      date={
+                        new Date(
+                          data?.fact_check_metadata.check_submitted ??
+                            Date.now(),
+                        )
+                      }
+                      msOpts={{
+                        secondsDecimalDigits: 0,
+                      }}
+                    />
+                  </>
+                )}
+              </p>
+            </TooltipContent>
+          </Tooltip>
+        </div>
+      </Fade>
+      <Fade asChild delay={animationTimings.separator}>
+        <Separator className="mt-4 mb-2" />
+      </Fade>
+      <div className="grid grid-cols-1 gap-4 py-2">
+        <Fades
+          className="h-full"
+          delay={animationTimings.cardsRowOne}
+          holdDelay={animationTimings.cardStagger}
+        >
+          <Card className="h-full">
+            <CardHeader>
+              <CardTitle>Article Summary</CardTitle>
+            </CardHeader>
+            <CardContent>
+              {data && data.summary != null ? (
+                <p>{data.summary}</p>
               ) : (
                 <>
-                  <span>Queued: </span>
-                  <PrettyDynamicDuration
-                    date={
-                      new Date(
-                        data?.fact_check_metadata.check_submitted ?? Date.now(),
-                      )
-                    }
-                    msOpts={{
-                      secondsDecimalDigits: 0,
-                    }}
-                  />
+                  <Skeleton className="h-4 w-full mb-2" />
+                  <Skeleton className="h-4 w-full mb-2" />
+                  <Skeleton className="h-4 w-full mb-2" />
+                  <Skeleton className="h-4 w-full mb-2" />
+                  <Skeleton className="h-4 w-1/4 mb-2" />
                 </>
               )}
-            </p>
-          </TooltipContent>
-        </Tooltip>
-      </div>
-      <Separator className="mt-4 mb-2" />
-      <div className="grid grid-cols-1 gap-4 py-2">
-        <Card>
-          <CardHeader>
-            <CardTitle>Article Summary</CardTitle>
-          </CardHeader>
-          <CardContent>
-            {data && data.summary != null ? (
-              <p>{data.summary}</p>
-            ) : (
-              <>
-                <Skeleton className="h-4 w-full mb-2" />
-                <Skeleton className="h-4 w-full mb-2" />
-                <Skeleton className="h-4 w-full mb-2" />
-                <Skeleton className="h-4 w-full mb-2" />
-                <Skeleton className="h-4 w-1/4 mb-2" />
-              </>
-            )}
-          </CardContent>
-        </Card>
-        <Card>
-          <CardHeader>
-            <CardTitle>Key Points</CardTitle>
-          </CardHeader>
-          <CardContent>
-            {data && data.key_points.length !== 0 ? (
-              <ul className="list-disc pl-5 space-y-1">
-                {data.key_points.map((point, index) => (
-                  <li key={index}>{point}</li>
-                ))}
-              </ul>
-            ) : (
-              <>
-                <Skeleton className="h-4 w-1/2 mb-2" />
-                <Skeleton className="h-4 w-1/2 mb-2" />
-                <Skeleton className="h-4 w-1/2 mb-2" />
-              </>
-            )}
-          </CardContent>
-        </Card>
+            </CardContent>
+          </Card>
+          <Card className="h-full">
+            <CardHeader>
+              <CardTitle>Key Points</CardTitle>
+            </CardHeader>
+            <CardContent>
+              {data && data.key_points.length !== 0 ? (
+                <ul className="list-disc pl-5 space-y-1">
+                  {data.key_points.map((point, index) => (
+                    <li key={index}>{point}</li>
+                  ))}
+                </ul>
+              ) : (
+                <>
+                  <Skeleton className="h-4 w-1/2 mb-2" />
+                  <Skeleton className="h-4 w-1/2 mb-2" />
+                  <Skeleton className="h-4 w-1/2 mb-2" />
+                </>
+              )}
+            </CardContent>
+          </Card>
+        </Fades>
       </div>
       <div className="grid sm:grid-cols-2 gap-4 py-2">
-        <Card>
-          <CardHeader>
-            <CardTitle>Completeness Assessment</CardTitle>
-          </CardHeader>
-          <CardContent>
-            {data && data.completeness_score != null ? (
-              <>
-                <p>Score: {data.completeness_score}/100</p>
-                <p>{data.completeness_explanation}</p>
-              </>
-            ) : (
-              <>
-                <Skeleton className="h-4 w-full mb-2" />
-                <Skeleton className="h-4 w-full mb-2" />
-                <Skeleton className="h-4 w-1/4 mb-2" />
-              </>
-            )}
-          </CardContent>
-        </Card>
-        <Card>
-          <CardHeader>
-            <CardTitle>Accuracy Assessment</CardTitle>
-          </CardHeader>
-          <CardContent>
-            {data && data.accuracy_score != null ? (
-              <>
-                <p>Score: {data.accuracy_score}/100</p>
-                <p>{data.accuracy_explanation}</p>
-              </>
-            ) : (
-              <>
-                <Skeleton className="h-4 w-full mb-2" />
-                <Skeleton className="h-4 w-full mb-2" />
-                <Skeleton className="h-4 w-1/4 mb-2" />
-              </>
-            )}
-          </CardContent>
-        </Card>
+        <Fades
+          className="h-full"
+          delay={animationTimings.cardsRowTwo}
+          holdDelay={animationTimings.cardStagger}
+        >
+          <ScoreAssessmentCard
+            title="Completeness Assessment"
+            score={data?.completeness_score}
+            description={data?.completeness_explanation}
+          />
+          <ScoreAssessmentCard
+            title="Accuracy Assessment"
+            score={data?.accuracy_score}
+            description={data?.accuracy_explanation}
+          />
+        </Fades>
       </div>
       <div className="grid sm:grid-cols-3 gap-4 py-2">
-        <Card>
-          <CardHeader>
-            <CardTitle>Political Assessment</CardTitle>
-          </CardHeader>
-          <CardContent>
-            {data && data.political_score != null ? (
-              <>
-                <p>Score: {data.political_score}/100</p>
-                <p>{data.political_bias}</p>
-              </>
-            ) : (
-              <>
-                <Skeleton className="h-4 w-full mb-2" />
-                <Skeleton className="h-4 w-full mb-2" />
-                <Skeleton className="h-4 w-1/4 mb-2" />
-              </>
-            )}
-          </CardContent>
-        </Card>
-        <Card>
-          <CardHeader>
-            <CardTitle>Sensationalism Assessment</CardTitle>
-          </CardHeader>
-          <CardContent>
-            {data && data.sensationalism_score != null ? (
-              <>
-                <p>Score: {data.sensationalism_score}/100</p>
-                <p>{data.sensationalism}</p>
-              </>
-            ) : (
-              <>
-                <Skeleton className="h-4 w-full mb-2" />
-                <Skeleton className="h-4 w-full mb-2" />
-                <Skeleton className="h-4 w-1/4 mb-2" />
-              </>
-            )}
-          </CardContent>
-        </Card>
-        <Card>
-          <CardHeader>
-            <CardTitle>Emotional Language Assessment</CardTitle>
-          </CardHeader>
-          <CardContent>
-            {data && data.emotional_language_score != null ? (
-              <>
-                <p>Score: {data.emotional_language_score}/100</p>
-                <p>{data.emotional_language}</p>
-              </>
-            ) : (
-              <>
-                <Skeleton className="h-4 w-full mb-2" />
-                <Skeleton className="h-4 w-full mb-2" />
-                <Skeleton className="h-4 w-1/4 mb-2" />
-              </>
-            )}
-          </CardContent>
-        </Card>
+        <Fades
+          className="h-full"
+          delay={animationTimings.cardsRowThree}
+          holdDelay={animationTimings.cardStagger}
+        >
+          <ScoreAssessmentCard
+            title="Political Assessment"
+            score={data?.political_score}
+            description={data?.political_bias}
+            higherIsBetter={false}
+          />
+          <ScoreAssessmentCard
+            title="Sensationalism Assessment"
+            score={data?.sensationalism_score}
+            description={data?.sensationalism}
+            higherIsBetter={false}
+          />
+          <ScoreAssessmentCard
+            title="Emotional Language Assessment"
+            score={data?.emotional_language_score}
+            description={data?.emotional_language}
+            higherIsBetter={false}
+          />
+        </Fades>
       </div>
-      <div className="flex text-muted-foreground items-center justify-center">
-        <Bot />
-        <span className="max-w-4/5">
-          ARGUS is built on top of LLMs and can make mistakes. Please
-          double-check responses.
-        </span>
-      </div>
-      <div className="flex items-center justify-center p-2">
-        <ReportAConcern />
-      </div>
+      <Fade asChild delay={animationTimings.footerDisclaimer}>
+        <div className="flex text-muted-foreground items-center justify-center">
+          <Bot />
+          <span className="max-w-4/5">
+            ARGUS is built on top of LLMs and can make mistakes. Please
+            double-check responses.
+          </span>
+        </div>
+      </Fade>
+      <Fade asChild delay={animationTimings.footerReport}>
+        <div className="flex items-center justify-center p-2">
+          <ReportAConcern />
+        </div>
+      </Fade>
     </main>
+  );
+}
+
+function ScoreAssessmentCard({
+  title,
+  score,
+  description,
+  higherIsBetter = true,
+}: ScoreAssessmentCardProps) {
+  const safeScore = score != null ? clampScore(score) : null;
+  const barColorClass =
+    score != null ? getScoreBarColorClass(score, higherIsBetter) : "";
+
+  return (
+    <Card className="h-full">
+      <CardHeader>
+        <CardTitle>{title}</CardTitle>
+      </CardHeader>
+      <CardContent>
+        {score != null ? (
+          <>
+            <div className="content-center">
+              <div className="flex items-baseline">
+                <p className="text-4xl font-bold pr-1">{safeScore}</p>
+                <p className="text-muted-foreground">out of 100</p>
+              </div>
+              <div className="w-full bg-muted rounded-full h-4 mt-1 mb-4 overflow-hidden">
+                <div
+                  className={`h-4 rounded-full transition-[width,background-color] duration-500 ${barColorClass}`}
+                  style={{ width: `${safeScore}%` }}
+                />
+              </div>
+            </div>
+            <p>{description}</p>
+          </>
+        ) : (
+          <>
+            <Skeleton className="h-4 w-full mb-2" />
+            <Skeleton className="h-4 w-full mb-2" />
+            <Skeleton className="h-4 w-1/4 mb-2" />
+          </>
+        )}
+      </CardContent>
+    </Card>
   );
 }
 
