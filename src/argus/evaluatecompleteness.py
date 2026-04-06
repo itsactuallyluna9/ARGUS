@@ -73,7 +73,7 @@ class CompletenessAgent(Agent):
         if "properties" in response:
             response = response["properties"]
 
-        completeness_score = int(response.get("completeness", 0))
+        completeness_score = response.get("completeness", 0)
         completeness_explanation = response.get("reasoning", "Completeness reasoning not found")
         sources = response.get("sources", [])
 

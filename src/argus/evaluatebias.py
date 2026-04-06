@@ -73,9 +73,9 @@ class BiasAgent(Agent):
         if "properties" in response:
             response = response["properties"]
 
-        political_score = int(response.get("political_score", 0))
-        sensationalism_score = int(response.get("sensationalism_score", 0))
-        emotional_language_score = int(response.get("emotional_language_score", 0))
+        political_score = response.get("political_score", 0)
+        sensationalism_score = response.get("sensationalism_score", 0)
+        emotional_language_score = response.get("emotional_language_score", 0)
         political_bias_explanation = response.get("political_bias_explanation", "Political bias explanation not found")
         sensationalism_explanation = response.get("sensationalism_explanation", "Sensationalism explanation not found")
         emotional_language_explanation = response.get("emotional_language_explanation", "Emotional language explanation not found")

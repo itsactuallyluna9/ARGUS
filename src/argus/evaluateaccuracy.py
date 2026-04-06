@@ -75,7 +75,7 @@ class AccuracyAgent(Agent):
         if "properties" in response:
             response = response["properties"]
 
-        accuracy_score = int(response.get("accuracy", 0))
+        accuracy_score = response.get("accuracy", 0)
         accuracy_explanation = response.get("reasoning", "Accuracy reasoning not found")
         sources = response.get("sources", [])
 
