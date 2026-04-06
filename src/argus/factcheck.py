@@ -177,6 +177,7 @@ class FactCheck:
             article_collection=self.article_collection,
             use_long_prompt=use_long_prompts,
             evaluation_model=evaluator_model,
+            max_tool_calls=20
         )
 
         accuracy_agent = AccuracyAgent(
@@ -188,6 +189,7 @@ class FactCheck:
             article_collection=self.article_collection,
             use_long_prompt=use_long_prompts,
             evaluation_model=evaluator_model,
+            max_tool_calls=20
         )
 
         bias_agent = BiasAgent(
@@ -199,6 +201,7 @@ class FactCheck:
             article_collection=self.article_collection,
             use_long_prompt=use_long_prompts,
             evaluation_model=evaluator_model,
+            max_tool_calls=10
         )
 
         self.fact_check_metadata["completeness_agent"] = completeness_agent.agent_metadata
