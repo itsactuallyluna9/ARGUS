@@ -1,10 +1,12 @@
 import { ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Spinner } from "@/components/ui/spinner";
-import { memo, useState, useEffect, useMemo } from "react";
+import { memo, useState, useEffect, useMemo, use } from "react";
 import { useNavigate } from "react-router";
 import Particles, { initParticlesEngine } from "@tsparticles/react";
 import { loadSlim } from "@tsparticles/slim";
+import type { CheckMetadata } from "../DetailsResponse";
+import useSWR from "swr";
 
 const PARTICLE_OPTIONS = {
   fullScreen: {
@@ -198,8 +200,48 @@ function Home() {
           <div className="text-red-700">{errorText}</div>
         </div>
       </div>
-      <div></div>
+      <div className="m-4">
+        <RecentArticles />
+      </div>
+      {/* TODO: how work */}
     </main>
+  );
+}
+
+function RecentArticles() {
+  const { data, error, isLoading } = useSWR<CheckMetadata[]>(
+    "/api/recent_articles",
+  );
+
+  return (
+    <div>
+      <h2 className="text-xl font-bold mb-2">Recent Articles</h2>
+      <div className="p-2">
+        {isLoading && (
+          <>
+            <Spinner />
+          </>
+        )}
+        {data && (
+          <>
+            {data
+              .sort(
+                (a, b) =>
+                  Date.parse(b.fact_check_metadata.check_submitted) -
+                  Date.parse(a.fact_check_metadata.check_submitted),
+              )
+              .map((article) => (
+                <div key={article.id} className="p-2">
+                  <h3 className="text-lg font-semibold">
+                    {article.article_metadata.title || "a"}
+                  </h3>
+                  <p className="text-gray-600">{article.finished}</p>
+                </div>
+              ))}
+          </>
+        )}
+      </div>
+    </div>
   );
 }
 

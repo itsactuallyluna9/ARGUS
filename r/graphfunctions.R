@@ -4,7 +4,7 @@ library(ggdensity)
 fact_checks <- read_csv("~/data/fact_check_data.csv")
 articles <- read_csv("~/data/article_data.csv")
 
-theme_set(theme_minimal())
+# To set theme globally: theme_set(theme_dark())
 
 bias_scores_by_source <- function(sources=NULL, start_date=NULL, end_date=NULL, data=fact_checks) {
   
@@ -152,3 +152,5 @@ gathered_articles_by_time <- function(start_date=NULL, end_date=NULL, data=artic
     ) + 
     ylim(0, NA)
 }
+
+# print(gathered_articles_by_time())

@@ -4,16 +4,9 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { Separator } from "@/components/ui/separator";
 import { Spinner } from "@/components/ui/spinner";
 import { Textarea } from "@/components/ui/textarea";
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipTrigger,
-} from "@/components/ui/tooltip";
-import { Bot, Cpu, Database, Eraser, Map, Search } from "lucide-react";
-import prettyMilliseconds from "pretty-ms";
-import prettyBytes from "pretty-bytes";
+import { Bot, Clock, Database, Eraser, Map, Search } from "lucide-react";
 import { useEffect, useState } from "react";
-import { useInterval } from "usehooks-ts";
+import useSWR from "swr";
 import { ButtonGroup } from "@/components/ui/button-group";
 import { Input } from "@/components/ui/input";
 import {
@@ -24,31 +17,47 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { PrettyDynamicDuration } from "@/components/PrettyDuration";
+import {
+  PrettyDuration,
+  PrettyDynamicDuration,
+} from "@/components/PrettyDuration";
+import { statusFetcher } from "./Details";
+import { Skeleton } from "@/components/ui/skeleton";
+import { type CheckMetadata, type AgentMetadata } from "../DetailsResponse";
+
+type DebugStatistics = {
+  factChecks: number;
+  activeFactChecks: number;
+  articlesInDatabase: number;
+};
+
+const fetcher = async <T,>(url: string): Promise<T> => {
+  const response = await fetch(url);
+  if (!response.ok) {
+    throw new Error(`Request failed: ${response.status}`);
+  }
+  return response.json();
+};
 
 function Debug() {
-  const [statistics, setStatistics] = useState({
-    factChecks: 0,
-    activeFactChecks: 0,
-    articlesInDatabase: 0,
-  });
   const [articleURLs, setArticleURLs] = useState("");
   const [onlySummarize, setOnlySummarize] = useState(false);
   const [bulkImportSubmitting, setBulkImportSubmitting] = useState(false);
-  const [activeFactChecks, setActiveFactChecks] = useState<string[]>([]);
   const [autoRoamState, setAutoRoamState] = useState(false);
   const [autoRoamStartTime, setAutoRoamStartTime] = useState<Date | null>(null);
 
-  // statistics
-  useInterval(async () => {
-    const response = await fetch("/api/debug/statistics");
-    if (response.ok) {
-      const data = await response.json();
-      setStatistics(data);
-    } else {
-      console.error("Failed to fetch debug data");
-    }
-  }, 10000);
+  const statistics = useSWR<DebugStatistics>("/api/debug/statistics", fetcher, {
+    refreshInterval: 10000,
+  }).data ?? {
+    factChecks: 0,
+    activeFactChecks: 0,
+    articlesInDatabase: 0,
+  };
+
+  const activeFactChecks =
+    useSWR<string[]>("/api/debug/active_checks", fetcher, {
+      refreshInterval: 10000,
+    }).data ?? [];
 
   // TODO: look into making this /api/create/random
   useEffect(() => {
@@ -67,30 +76,7 @@ function Debug() {
     const runAutoRoam = async () => {
       while (!cancelled) {
         try {
-          const response = await fetch("/api/createrandom");
-          if (!response.ok) {
-            // okay, let's check on all of our checks :3
-            activeFactChecks.forEach(async (factCheckId) => {
-              console.log(`Checking on fact check ${factCheckId}`);
-              try {
-                const statusResponse = await fetch(`/api/status`, {
-                  method: "POST",
-                  headers: {
-                    "Content-Type": "application/json",
-                  },
-                  body: JSON.stringify({ uuid: factCheckId }),
-                });
-                const data = await statusResponse.json();
-                console.log(`Fact check ${factCheckId} status:`, data);
-              } catch (err) {
-                console.error(
-                  `Error checking status of fact check ${factCheckId}:`,
-                  err,
-                );
-              }
-            });
-            console.error("Auto-roam create random failed", response.status);
-          }
+          await fetch("/api/createrandom");
         } catch (error) {
           if (!cancelled) {
             console.error("Auto-roam create random failed", error);
@@ -139,14 +125,6 @@ function Debug() {
     }
     setBulkImportSubmitting(false);
   };
-
-  useInterval(async () => {
-    const response = await fetch("/api/debug/active_checks");
-    if (response.ok) {
-      const data = await response.json();
-      setActiveFactChecks(data);
-    }
-  }, 10000);
 
   return (
     <main className="p-4">
@@ -246,12 +224,7 @@ function Debug() {
               <ul className="space-y-2">
                 {activeFactChecks.map((factCheckId) => (
                   <li key={factCheckId}>
-                    <a
-                      href={`/details/${factCheckId}`}
-                      className="underline hover:no-underline text-primary hover:text-primary/80 transition-colors"
-                    >
-                      {factCheckId}
-                    </a>
+                    <DebugFactCheck factCheckId={factCheckId} />
                   </li>
                 ))}
               </ul>
@@ -423,6 +396,104 @@ function ChromaViewer() {
           </pre>
         </div>
       )}
+    </div>
+  );
+}
+
+function DebugFactCheck({ factCheckId }: { factCheckId: string }) {
+  const { data, isLoading, error } = useSWR<CheckMetadata>(
+    ["/api/status", factCheckId],
+    statusFetcher,
+    {
+      refreshInterval: 5000,
+    },
+  );
+
+  if (error) {
+    return <div className="text-red-500">Error loading fact check status</div>;
+  }
+
+  if (isLoading) {
+    return <Skeleton className="h-4 w-1/3" />;
+  }
+
+  function AgentDuration({
+    agent,
+    agentName,
+  }: {
+    agent: AgentMetadata | undefined;
+    agentName: string;
+  }) {
+    if (!agent) {
+      return <div>{agentName} Not Started</div>;
+    }
+    return (
+      <div>
+        {agentName}:{" "}
+        {agent.started && agent.finished ? (
+          <>
+          <PrettyDuration
+            milliseconds={Date.parse(agent.finished) - Date.parse(agent.started)}
+          />
+          {" "}(Completed)
+          </>
+        ) : (
+          <PrettyDynamicDuration date={new Date(agent.started) || new Date()} />
+        )}
+        {" "}({agent.total_tool_calls} tool calls)
+      </div>
+    );
+  }
+
+  return (
+    <div className="grid grid-cols-2 gap-2">
+      <a href={`/details/${factCheckId}`} className="hover:underline">
+        {factCheckId}
+        {data?.article_metadata.title
+          ? ` - ${data.article_metadata.title}`
+          : ""}
+      </a>
+      <div>
+        Total:{" "}
+        {data ? (
+          <PrettyDynamicDuration
+            date={
+              new Date(data.fact_check_metadata.check_started) ||
+              new Date(data.fact_check_metadata.check_submitted)
+            }
+          />
+        ) : (
+          "Loading..."
+        )}
+        {data?.fact_check_metadata.scraper_duration && (
+          <div>
+            Scraper: {" "}
+            <PrettyDuration
+              milliseconds={data.fact_check_metadata.scraper_duration || -1}
+            />
+          </div>
+        )}
+        {data?.fact_check_metadata.summary_duration && (
+          <div>
+            Summary: {" "}
+            <PrettyDuration
+              milliseconds={data.fact_check_metadata.summary_duration || -1}
+            />
+          </div>
+        )}
+        <AgentDuration
+          agent={data?.fact_check_metadata.accuracy_agent}
+          agentName="Accuracy"
+        />
+        <AgentDuration
+          agent={data?.fact_check_metadata.completeness_agent}
+          agentName="Completeness"
+        />
+        <AgentDuration
+          agent={data?.fact_check_metadata.bias_agent}
+          agentName="Bias"
+        />
+      </div>
     </div>
   );
 }

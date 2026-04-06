@@ -1,16 +1,15 @@
-import { useNavigate, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { Separator } from "@/components/ui/separator";
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Clock, Bot, Flag } from "lucide-react";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { Spinner } from "@/components/ui/spinner";
 import {
   Tooltip,
   TooltipContent,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
-import { useInterval } from "usehooks-ts";
 import prettyMilliseconds from "pretty-ms";
 import { Button } from "@/components/ui/button";
 import {
@@ -28,66 +27,48 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import { Textarea } from "@/components/ui/textarea";
+import type { CheckMetadata } from "../DetailsResponse";
+import useSWR from "swr";
 
-interface DetailsResponse {
-  url: string;
-  id: string;
-  fact_check_metadata: Record<string, any>;
-  article_text: string;
-  summary: string | null;
-  bias_rating: string | null;
-  key_points: string[];
-  article_metadata: Record<string, any>;
-  accuracy_score: number | null;
-  completeness_score: number | null;
-  accuracy_explanation: string | null;
-  completeness_explanation: string | null;
-  sources: string[];
-  political_bias: string | null;
-  sensationalism: string | null;
-  emotional_language: string | null;
-  political_score: number | null;
-  sensationalism_score: number | null;
-  emotional_language_score: number | null;
-  finished: boolean;
-}
+type StatusFetchError = Error & {
+  status?: number;
+};
+
+export const statusFetcher = async ([url, uuid]: [string, string]) => {
+  const response = await fetch(url, {
+    body: JSON.stringify({
+      uuid,
+    }),
+    headers: {
+      "Content-Type": "application/json",
+    },
+    method: "POST",
+  });
+
+  if (!response.ok) {
+    const error = new Error(
+      "Failed to fetch article status",
+    ) as StatusFetchError;
+    error.status = response.status;
+    throw error;
+  }
+
+  return (await response.json()) as CheckMetadata;
+};
 
 function DetailsView() {
   const { id } = useParams();
-  const [analysisComplete, setAnalysisComplete] = useState(false);
-  const [data, setData] = useState<DetailsResponse | null>(null);
-  const [notFound, setNotFound] = useState(false);
-
-  const fetchData = async () => {
-    if (!analysisComplete) {
-      const response = await fetch(`/api/status`, {
-        body: JSON.stringify({
-          uuid: id,
-        }),
-        headers: {
-          "Content-Type": "application/json",
-        },
-        method: "POST",
-      });
-      if (!response.ok) {
-        if (response.status === 404) {
-          setNotFound(true);
-        } else {
-          // we'll just try again on the next interval, so do nothing for now
-        }
-      }
-      const data = await response.json();
-      if (data.finished) {
-        setAnalysisComplete(true);
-      }
-      setData(data);
-    }
-  };
-
-  useEffect(() => {
-    fetchData();
-  }, []);
-  useInterval(fetchData, 5000);
+  const { data, error } = useSWR<CheckMetadata, StatusFetchError>(
+    id ? ["/api/status", id] : null,
+    statusFetcher,
+    {
+      refreshInterval: (latestData) => (latestData?.finished ? 0 : 5000),
+      revalidateOnFocus: true,
+      shouldRetryOnError: (fetchError) => fetchError.status !== 404,
+    },
+  );
+  const analysisComplete = data?.finished ?? false;
+  const notFound = error?.status === 404;
 
   if (notFound) {
     return (
@@ -138,7 +119,7 @@ function DetailsView() {
               <p>
                 Published{" "}
                 {prettyMilliseconds(
-                  Date.now() - new Date(data?.article_metadata.date),
+                  Date.now() - Date.parse(data?.article_metadata.date),
                   { verbose: true, compact: true },
                 )}{" "}
                 ago
@@ -163,7 +144,11 @@ function DetailsView() {
             ) : (
               <>
                 <Spinner className="mr-2" />
-                <p>Analysis In Progress...</p>
+                <p>
+                  {data?.fact_check_metadata?.check_started
+                    ? "Analysis In Progress..."
+                    : "Analysis Pending..."}
+                </p>
               </>
             )}
           </TooltipTrigger>
@@ -174,15 +159,34 @@ function DetailsView() {
                   <span>Duration: </span>
                   <PrettyDuration
                     milliseconds={
-                      data?.fact_check_metadata.check_duration_from_start * 1000
+                      (data?.fact_check_metadata.check_duration_from_start ??
+                        0) * 1000
                     }
+                  />
+                </>
+              ) : data?.fact_check_metadata?.check_started ? (
+                <>
+                  <span>Elapsed: </span>
+                  <PrettyDynamicDuration
+                    date={
+                      new Date(
+                        data?.fact_check_metadata.check_started ?? Date.now(),
+                      )
+                    }
+                    msOpts={{
+                      secondsDecimalDigits: 0,
+                    }}
                   />
                 </>
               ) : (
                 <>
-                  <span>Elapsed: </span>
+                  <span>Queued: </span>
                   <PrettyDynamicDuration
-                    date={new Date(data?.fact_check_metadata.check_started)}
+                    date={
+                      new Date(
+                        data?.fact_check_metadata.check_submitted ?? Date.now(),
+                      )
+                    }
                     msOpts={{
                       secondsDecimalDigits: 0,
                     }}
@@ -412,7 +416,7 @@ function ReportAConcern() {
           <Button
             variant="destructive"
             disabled={submitting || retrying}
-            onClick={async (e) => {
+            onClick={async () => {
               setRetrying(true);
               await submitReport();
               await retryArticle();
@@ -425,7 +429,7 @@ function ReportAConcern() {
           <Button
             variant="destructive"
             disabled={submitting || retrying}
-            onClick={async (e) => {
+            onClick={async () => {
               setSubmitting(true);
               await submitReport();
               setSubmitting(false);
