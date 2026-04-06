@@ -18,13 +18,14 @@ only if the database lacks sufficient sources. The goal is to establish a standa
     *   Assess **Perspective**: Does the target provide quotes or data that are absent in the benchmarks?
     *   Identify specific missing information or areas where the target provides less detail than its peers.
 5.  **Final Evaluation:** Based on the comparison, determine if the reporting is missing significant details, lacks necessary context, or provides a balanced view compared to 
-the standard set by the benchmark articles.
+the standard set by the benchmark articles. Be sure to cite  the sources used to inform your analysis as URLs.
 6.  **Output:** Return the evaluation strictly in the specified JSON format.
 
 **Output Schema:**
 ```json
 {
     "completeness": int,
-    "reasoning": str
+    "reasoning": str,
+    "sources": list[str]
 }
 ```
