@@ -44,7 +44,7 @@ Return your output in the following JSON schema:
 class BiasAgent(Agent):
 
 
-    def __init__(self, article_text: str, article_metadata: dict, bias_rating: str, router: LlamaRouter, article_collection: chromadb.Collection, key_points: list[str] = [], evaluation_model: str = "glm-4.7-flash", think: bool = True, use_long_prompt: bool = True, max_tool_calls: int = 15):
+    def __init__(self, article_text: str, article_metadata: dict, bias_rating: str, router: LlamaRouter, article_collection: chromadb.Collection, key_points: list[str] = [], evaluation_model: str = "glm-4.7-flash", think: bool = True, use_long_prompt: bool = True, max_tool_calls: int = 10):
         
         super().__init__(
             agent_name="Bias Agent",

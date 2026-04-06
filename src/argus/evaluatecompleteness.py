@@ -44,7 +44,7 @@ default_prompt = """
 class CompletenessAgent(Agent):
 
 
-    def __init__(self, article_text: str, article_metadata: dict, bias_rating: str, key_points: list[str], router: LlamaRouter, article_collection: chromadb.Collection, evaluation_model: str = "glm-4.7-flash", think: bool = True, use_long_prompt: bool = True, max_tool_calls: int = 15):
+    def __init__(self, article_text: str, article_metadata: dict, bias_rating: str, key_points: list[str], router: LlamaRouter, article_collection: chromadb.Collection, evaluation_model: str = "glm-4.7-flash", think: bool = True, use_long_prompt: bool = True, max_tool_calls: int = 20):
         
         super().__init__(
             agent_name="Completeness Agent",
