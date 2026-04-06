@@ -327,15 +327,23 @@ async def api_debug_import():
 async def api_recent_checks():
 
     try:
-        if past_checks.count() >= 15:
-            recent_checks = past_checks.get(limit=10, offset=(past_checks.count() - 15), where={"finished": True})
-        else:
-            recent_checks = past_checks.get(limit=10, where={"finished": True})
-            
-        recent_checks = [
-            json.loads(doc) for doc in recent_checks["documents"]  # type: ignore
-        ]
-        return jsonify(recent_checks), 200
+        total_checks = past_checks.count()
+        if total_checks == 0:
+            return jsonify([]), 200
+
+        # pull 50 - just in case?
+        recent_batch_size = min(50, total_checks)
+        raw_checks = past_checks.get(limit=recent_batch_size, offset=(total_checks - recent_batch_size))
+        raw_documents = raw_checks.get("documents") or []
+
+        recent_checks = []
+        for doc in raw_documents:
+            check = json.loads(doc)
+            if check.get("finished"):
+                recent_checks.append(check)
+
+        # actually return 10
+        return jsonify(recent_checks[-10:]), 200
     
     except Exception as e:
 
@@ -430,7 +438,7 @@ def serve_frontend(path: str):
 
 def main() -> None:
     host = str(getattr(config.host, "ip", config.host))
-    app.run(host=host, port=config.port, debug=False)
+    app.run(host=host, port=config.port, debug=True)
 
 
 if __name__ == "__main__":
