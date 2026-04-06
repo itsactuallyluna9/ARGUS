@@ -29,7 +29,7 @@ async def summarize_article(
     model: str = "nemotron-3-nano:4b",
     think: bool = False,
     use_long_prompt: bool = True,
-):
+) -> dict:
 
     if use_long_prompt:
         with open(Path(__file__).parent / "prompts" / "summarizeprompt.md", "r") as f:

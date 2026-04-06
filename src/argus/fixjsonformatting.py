@@ -1,7 +1,6 @@
-import ollama
+from loguru import logger
 import json
 from pydantic import BaseModel
-from tenacity import retry, retry_if_exception_type, stop_after_attempt
 
 from argus.llamarouter import LlamaRouter
 
@@ -11,19 +10,42 @@ Return the properly formatted JSON object. Do not include any explanatory text o
 """
 
 
-@retry(
-    retry=retry_if_exception_type(json.decoder.JSONDecodeError),
-    stop=stop_after_attempt(3),
-)
-async def fix_json_formatting(s: str, schema: type[BaseModel], router: LlamaRouter) -> dict:
+async def fix_json_formatting(s: str, schema: type[BaseModel] | str, router: LlamaRouter) -> dict:
 
     response = await router.generate(
         prompt=f"{default_prompt}\nString to reformat: {s}",
         model="nemotron-3-nano:4b",
-        format=json.dumps(schema.model_json_schema()),
+        format=schema if isinstance(schema, str) else json.dumps(schema.model_json_schema()),
     )
 
-    return json.loads(response.content).split("```json")[-1].strip("```json")[0].strip("```")  # type: ignore
+    content = (response.content or "").strip() # type: ignore
+
+    if not content:
+        logger.info("Empty response content from fix_json_formatting model.")
+        return {}
+
+    match content[0]:
+
+        case "{":
+            try:
+                return json.loads(content)
+            except json.JSONDecodeError:
+                logger.info(f"JSON decoding error: {content}")
+                return {}
+            
+        case 'j':
+            if "json```" in content:
+                try:
+                    return json.loads(content.split("json```")[-1].strip("json```").strip("```"))
+                except json.JSONDecodeError:
+                    logger.info(f"JSON decoding error: {content}")
+                    return {}
+                
+        case _:
+            logger.info(f"Unexpected response format: {content}")
+            return {}
+
+    return {}
 
 
 class Accuracy_Schema(BaseModel):
@@ -35,6 +57,7 @@ class Accuracy_Schema(BaseModel):
 class Completeness_Schema(BaseModel):
     completeness: int
     reasoning: str
+    sources: list[str]
 
 
 class Bias_Schema(BaseModel):

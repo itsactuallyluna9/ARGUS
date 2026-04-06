@@ -86,7 +86,7 @@ class LlamaRouter:
         routes[route_index].active_conversations += 1   
         self.routes[model][route_index] = routes[route_index]
 
-        logger.info(f"Selected route {routes[route_index].url} waiting for model {model} with current load {routes[route_index].active_conversations}")
+        logger.info(f"Selected route {routes[route_index].url} waiting for model {model} with current load {routes[route_index].active_conversations} and approximate token count {tokens}")
         await routes[route_index].request_lock.acquire()
         logger.info(f"Acquired lock for route {routes[route_index].url} and model {model}")
 
@@ -97,7 +97,7 @@ class LlamaRouter:
 
         try:
 
-            logger.info(f"Sending prompt to model {model} at {routes[route_index].url} with think={think}")
+            logger.info(f"Sending prompt to model {model} at {routes[route_index].url} with think={think} and approximate token count {tokens}")
 
             raw_response = await client.chat.completions.create(
                 model = model,
@@ -157,7 +157,7 @@ class LlamaRouter:
             self.routes[model][route_index] = routes[route_index]
 
         
-    async def chat(self, model: str, messages: list[dict], think: bool = False, tools: list = None, format: dict = None, override_url: str = None) -> Message: # type: ignore
+    async def chat(self, model: str, messages: list[dict], think: bool = False, tools: list = None, format: str = None, override_url: str = None) -> Message: # type: ignore
 
         if model in self.model_aliases:
             model = self.model_aliases[model]
@@ -191,7 +191,7 @@ class LlamaRouter:
         routes[route_index].active_conversations += 1
         self.routes[model][route_index] = routes[route_index]
 
-        logger.info(f"Selected route {routes[route_index].url} waiting for model {model} with current load {routes[route_index].active_conversations}")
+        logger.info(f"Selected route {routes[route_index].url} waiting for model {model} with current load {routes[route_index].active_conversations} and approximate token count {tokens}")
         await routes[route_index].request_lock.acquire()
         logger.info(f"Acquired lock for route {routes[route_index].url} and model {model}")
 
@@ -210,10 +210,10 @@ class LlamaRouter:
                     msg["content"] = json.dumps(msg["content"]) if isinstance(msg["content"], dict) else msg["content"]
 
             if tools:
-                logger.info(f"Sending messages to model {model} at {routes[route_index].url} with tools {len(tools)} and think={think}")
+                logger.info(f"Sending messages to model {model} at {routes[route_index].url} with tools {len(tools)} and think={think} and approximate token count {tokens}")
             
             else:
-                logger.info(f"Sending messages to model {model} at {routes[route_index].url} with think={think}")
+                logger.info(f"Sending messages to model {model} at {routes[route_index].url} with think={think} and approximate token count {tokens}")
 
             raw_response = await client.chat.completions.create(
                 model = model,
@@ -223,7 +223,7 @@ class LlamaRouter:
                 reasoning_effort = "high" if think else None,
                 max_tokens = routes[route_index].max_tokens,
                 temperature = routes[route_index].temperature,
-                response_format = format, #type: ignore
+                response_format = format, # type: ignore
             )
 
             message = raw_response.choices[0].message

@@ -323,6 +323,25 @@ async def api_debug_import():
     ), 202
 
 
+@app.get("/api/recent_checks")
+async def api_recent_checks():
+
+    try:
+        if past_checks.count() >= 15:
+            recent_checks = past_checks.get(limit=10, offset=(past_checks.count() - 15), where={"finished": True})
+        else:
+            recent_checks = past_checks.get(limit=10, where={"finished": True})
+            
+        recent_checks = [
+            json.loads(doc) for doc in recent_checks["documents"]  # type: ignore
+        ]
+        return jsonify(recent_checks), 200
+    
+    except Exception as e:
+
+        return jsonify({"message": f"Error retrieving recent checks: {str(e)}"}), 500
+
+
 async def bulk_import_articles(urls, summarize_only, use_long_prompts=True):
     from argus.scraper import get_page
     from argus.summarizearticle import summarize_article

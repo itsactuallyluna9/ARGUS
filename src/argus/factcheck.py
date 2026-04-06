@@ -12,9 +12,9 @@ from argus.fixjsonformatting import URLCheckSchema
 from argus.log_config import setup_logging
 from argus.summarizearticle import summarize_article
 from argus.scraper import get_page
-from argus.evaluateaccuracy import Accuracy_Agent
-from argus.evaluatecompleteness import Completeness_Agent
-from argus.evaluatebias import Bias_Agent
+from argus.evaluateaccuracy import AccuracyAgent
+from argus.evaluatecompleteness import CompletenessAgent
+from argus.evaluatebias import BiasAgent
 from argus.timers import with_timing
 from argus.llamarouter import LlamaRouter
 from argus.config import Config, load_config
@@ -57,7 +57,8 @@ class FactCheck:
         self.completeness_score = None
         self.accuracy_explanation = None
         self.completeness_explanation = None
-        self.sources = []
+        self.accuracy_sources = []
+        self.completeness_sources = []
 
         self.political_bias = None
         self.sensationalism = None
@@ -83,7 +84,8 @@ class FactCheck:
             "completeness_score": self.completeness_score,
             "accuracy_explanation": self.accuracy_explanation,
             "completeness_explanation": self.completeness_explanation,
-            "sources": self.sources,
+            "accuracy_sources": self.accuracy_sources,
+            "completeness_sources": self.completeness_sources,
             "political_bias": self.political_bias,
             "sensationalism": self.sensationalism,
             "emotional_language": self.emotional_language,
@@ -117,8 +119,8 @@ class FactCheck:
             await self.fact_check(self.article_text, self.bias_rating, self.key_points, use_long_prompts=use_long_prompts, evaluator_model=self.evaluator_model)
 
         logger.info(f"\n\n\nFact check results for {self.url}:\n")
-        logger.info(f"\nAccuracy score: {self.accuracy_score}\nExplanation: {self.accuracy_explanation}\nSources: {self.sources}")
-        logger.info(f"\nCompleteness score: {self.completeness_score}\nExplanation: {self.completeness_explanation}")
+        logger.info(f"\nAccuracy score: {self.accuracy_score}\nExplanation: {self.accuracy_explanation}\nSources: {self.accuracy_sources}")
+        logger.info(f"\nCompleteness score: {self.completeness_score}\nExplanation: {self.completeness_explanation}\nSources: {self.completeness_sources}")
         logger.info(f"\nPolitical bias: {self.political_bias}\nPolitical bias score: {self.political_score}")
         logger.info(f"\nSensationalism: {self.sensationalism}\nSensationalism score: {self.sensationalism_score}")
         logger.info(f"\nEmotional language: {self.emotional_language}\nEmotional language score: {self.emotional_language_score}")
@@ -166,7 +168,7 @@ class FactCheck:
         evaluator_model: str = "glm-4.7-flash",
     ) -> dict[str, Any]:
 
-        completeness_agent = Completeness_Agent(
+        completeness_agent = CompletenessAgent(
             article_text=article_text,
             article_metadata=self.article_metadata,
             bias_rating=bias_rating,
@@ -177,7 +179,7 @@ class FactCheck:
             evaluation_model=evaluator_model,
         )
 
-        accuracy_agent = Accuracy_Agent(
+        accuracy_agent = AccuracyAgent(
             article_text=article_text,
             article_metadata=self.article_metadata,
             bias_rating=bias_rating,
@@ -188,14 +190,15 @@ class FactCheck:
             evaluation_model=evaluator_model,
         )
 
-        bias_agent = Bias_Agent(
+        bias_agent = BiasAgent(
             article_text=article_text,
             article_metadata=self.article_metadata,
             bias_rating=bias_rating,
+            key_points=key_points,
             router=self.router,
             article_collection=self.article_collection,
             use_long_prompt=use_long_prompts,
-            analysis_model=evaluator_model,
+            evaluation_model=evaluator_model,
         )
 
         self.fact_check_metadata["completeness_agent"] = completeness_agent.agent_metadata
@@ -205,7 +208,7 @@ class FactCheck:
         agent_results = await asyncio.gather(
             completeness_agent.evaluate_completeness(),
             accuracy_agent.evaluate_accuracy(),
-            bias_agent.analyze_bias(),
+            bias_agent.evaluate_bias(),
             return_exceptions=True,
         )
 
@@ -221,17 +224,18 @@ class FactCheck:
 
         self.accuracy_score = accuracy_agent.accuracy_score
         self.accuracy_explanation = accuracy_agent.accuracy_explanation
-        self.sources = accuracy_agent.sources
+        self.accuracy_sources = accuracy_agent.accuracy_sources
 
         self.completeness_score = completeness_agent.completeness_score
         self.completeness_explanation = completeness_agent.completeness_explanation
+        self.completeness_sources = completeness_agent.completeness_sources
 
-        self.political_bias = bias_agent.bias_rating["political_bias"]
-        self.sensationalism = bias_agent.bias_rating["sensationalism"]
-        self.emotional_language = bias_agent.bias_rating["emotional_language"]
-        self.political_score = bias_agent.bias_rating["political_score"]
-        self.sensationalism_score = bias_agent.bias_rating["sensationalism_score"]
-        self.emotional_language_score = bias_agent.bias_rating["emotional_language_score"]
+        self.political_bias = bias_agent.political_bias_explanation
+        self.sensationalism = bias_agent.sensationalism_explanation
+        self.emotional_language = bias_agent.emotional_language_explanation
+        self.political_score = bias_agent.political_score
+        self.sensationalism_score = bias_agent.sensationalism_score
+        self.emotional_language_score = bias_agent.emotional_language_score
 
         return self.to_dict()
 
@@ -245,9 +249,9 @@ async def check_url(url: str, router: LlamaRouter) -> bool:
 
     logger.info(f"Checking URL: {url}")
     try:
-        text = await get_page(url)
+        _, text = await get_page(url)
 
-        logger.info("got page!!")
+        logger.info(f"Got text from URL: {url}\nText: {text[:50]}...")
 
         response = await router.generate(
             model="nemotron-3-nano:4b",
@@ -255,7 +259,10 @@ async def check_url(url: str, router: LlamaRouter) -> bool:
             format=json.dumps(URLCheckSchema.model_json_schema()),
         )
 
-        logger.info("got response from model!!!!!")
+        try:
+            logger.info(f"URL check response: {response.content[:50]}")  # type: ignore
+        except Exception as e:
+            logger.exception(f"Error logging URL check response: {e}")
 
         return response.content == "True"  # type: ignore
 

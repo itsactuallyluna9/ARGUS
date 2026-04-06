@@ -141,8 +141,6 @@ class ArgusData(pd.DataFrame):
                     
                     fact_check_dict[column] = self.fact_check_df["article_metadata"][i][column]
 
-                print(fact_check_dict)
-
                 fact_checks.append(fact_check_dict)
 
             except:
