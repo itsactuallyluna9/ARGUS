@@ -209,9 +209,8 @@ function Home() {
 }
 
 function RecentArticles() {
-  const { data, error, isLoading } = useSWR<CheckMetadata[]>(
-    "/api/recent_articles",
-  );
+  const { data, error, isLoading } =
+    useSWR<CheckMetadata[]>("/api/recent_checks");
 
   return (
     <div>
