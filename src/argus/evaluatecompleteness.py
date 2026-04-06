@@ -188,7 +188,12 @@ class Completeness_Agent:
                 if "properties" in response:
                     response = response["properties"]
             except json.JSONDecodeError as e:
-                logger.info(f"Error decoding JSON response: {e}")
+                recent = "\n".join([f"{messages[0]['role']}: {messages[0]['content']}", *[f"{m['role']}: {m['content']}" for m in messages[-10:]]])
+                try:
+                    response = await fix_json_formatting(recent, Completeness_Schema, self.router) # type: ignore
+                    done = True
+                except Exception as e:
+                    logger.info(f"Error fixing JSON formatting: {e}")
             except KeyError:
                 pass
 
