@@ -1,12 +1,25 @@
 import { ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Spinner } from "@/components/ui/spinner";
-import { memo, useState, useEffect, useMemo, use } from "react";
+import { memo, useState, useEffect, useMemo } from "react";
 import { useNavigate } from "react-router";
 import Particles, { initParticlesEngine } from "@tsparticles/react";
 import { loadSlim } from "@tsparticles/slim";
 import type { CheckMetadata } from "../DetailsResponse";
 import useSWR from "swr";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
 
 const PARTICLE_OPTIONS = {
   fullScreen: {
@@ -82,6 +95,31 @@ const HeroParticles = memo(function HeroParticles() {
     />
   );
 });
+
+const clampScore = (score: number) => Math.max(0, Math.min(100, score));
+
+const getGoodnessScore = (score: number, higherIsBetter: boolean) => {
+  const safeScore = clampScore(score);
+  return higherIsBetter ? safeScore : 100 - safeScore;
+};
+
+const getScoreDotColorClass = (
+  score: number | null | undefined,
+  higherIsBetter = true,
+) => {
+  if (score == null) return "bg-muted";
+
+  const goodnessScore = getGoodnessScore(score, higherIsBetter);
+
+  if (goodnessScore === 100) return "bg-indigo-500 dark:bg-indigo-400";
+  if (goodnessScore >= 90) return "bg-emerald-500 dark:bg-emerald-400";
+  if (goodnessScore >= 80) return "bg-green-500 dark:bg-green-400";
+  if (goodnessScore >= 60) return "bg-lime-500 dark:bg-lime-400";
+  if (goodnessScore >= 40) return "bg-amber-500 dark:bg-amber-400";
+  if (goodnessScore >= 20) return "bg-orange-500 dark:bg-orange-400";
+  if (goodnessScore >= 10) return "bg-rose-500 dark:bg-rose-400";
+  return "bg-red-600 dark:bg-red-500";
+};
 
 function Home() {
   const navigate = useNavigate();
@@ -209,8 +247,9 @@ function Home() {
 }
 
 function RecentArticles() {
-  const { data, error, isLoading } =
-    useSWR<CheckMetadata[]>("/api/recent_checks");
+  const { data, isLoading } = useSWR<CheckMetadata[]>("/api/recent_checks");
+
+  const navigate = useNavigate();
 
   return (
     <div>
@@ -230,12 +269,92 @@ function RecentArticles() {
                   Date.parse(a.fact_check_metadata.check_submitted),
               )
               .map((article) => (
-                <div key={article.id} className="p-2">
-                  <h3 className="text-lg font-semibold">
-                    {article.article_metadata.title || "a"}
-                  </h3>
-                  <p className="text-gray-600">{article.finished}</p>
-                </div>
+                <Card key={article.id}>
+                  <CardHeader>
+                    <CardTitle>{article.article_metadata.title}</CardTitle>
+                    <CardDescription>
+                      {article.article_metadata.sitename}
+                    </CardDescription>
+                  </CardHeader>
+                  <CardContent>
+                    <span className="line-clamp-3">{article.summary}</span>
+                    <div className="items-center justify-center flex pt-2">
+                      {/* a dot (with tooltip) for each rating */}
+                      {/* completeness, accuracy, political, sensationalism, emotional language */}
+                      {/* Completeness */}
+                      <Tooltip>
+                        <TooltipTrigger>
+                          <div
+                            className={`w-3 h-3 rounded-full mx-1 ${getScoreDotColorClass(article.completeness_score)}`}
+                          />
+                        </TooltipTrigger>
+                        <TooltipContent>
+                          <p>Completeness: {article.completeness_score}</p>
+                        </TooltipContent>
+                      </Tooltip>
+                      {/* Accuracy */}
+                      <Tooltip>
+                        <TooltipTrigger>
+                          <div
+                            className={`w-3 h-3 rounded-full mx-1 ${getScoreDotColorClass(article.accuracy_score)}`}
+                          />
+                        </TooltipTrigger>
+                        <TooltipContent>
+                          <p>Accuracy: {article.accuracy_score}</p>
+                        </TooltipContent>
+                      </Tooltip>
+                      <Tooltip>
+                        <TooltipTrigger>
+                          <div
+                            className={`w-3 h-3 rounded-full mx-1 ${getScoreDotColorClass(article.political_score, false)}`}
+                          />
+                        </TooltipTrigger>
+                        <TooltipContent>
+                          <p>Political: {article.political_score}</p>
+                        </TooltipContent>
+                      </Tooltip>
+                      <Tooltip>
+                        <TooltipTrigger>
+                          <div
+                            className={`w-3 h-3 rounded-full mx-1 ${getScoreDotColorClass(article.sensationalism_score, false)}`}
+                          />
+                        </TooltipTrigger>
+                        <TooltipContent>
+                          <p>Sensationalism: {article.sensationalism_score}</p>
+                        </TooltipContent>
+                      </Tooltip>
+                      <Tooltip>
+                        <TooltipTrigger>
+                          <div
+                            className={`w-3 h-3 rounded-full mx-1 ${getScoreDotColorClass(article.emotional_language_score, false)}`}
+                          />
+                        </TooltipTrigger>
+                        <TooltipContent>
+                          <p>
+                            Emotional Language:{" "}
+                            {article.emotional_language_score}
+                          </p>
+                        </TooltipContent>
+                      </Tooltip>
+                    </div>
+                  </CardContent>
+                  <CardFooter>
+                    <Button
+                      variant="outline"
+                      size="lg"
+                      onClick={() => {
+                        navigate(`/details/${article.id}`);
+                      }}
+                    >
+                      <ArrowRight /> View Details
+                    </Button>
+                    <span className="ml-auto text-sm text-muted-foreground">
+                      {new Date(
+                        article.fact_check_metadata.check_submitted,
+                      ).toLocaleString()}
+                    </span>
+                  </CardFooter>
+                </Card>
               ))}
           </>
         )}
