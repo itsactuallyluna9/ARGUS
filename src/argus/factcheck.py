@@ -189,7 +189,7 @@ class FactCheck:
             article_collection=self.article_collection,
             use_long_prompt=use_long_prompts,
             evaluation_model=evaluator_model,
-            max_tool_calls=20
+            max_tool_calls=30
         )
 
         bias_agent = BiasAgent(
@@ -272,20 +272,3 @@ async def check_url(url: str, router: LlamaRouter) -> bool:
     except:
         logger.exception("Error checking URL")
         return False
-
-
-# if __name__ == "__main__":
-#     chromadb_client = chromadb.HttpClient(host="localhost", port=8000)
-#     url = "https://www.theguardian.com/tv-and-radio/2026/mar/24/power-the-downfall-of-huw-edwards-review-martin-clunes-is-sickening"
-
-#     PROJECT_ROOT = Path(__file__).resolve().parents[2]
-#     CONFIG_PATH = PROJECT_ROOT / "config.toml"
-
-#     config = load_config(CONFIG_PATH)
-#     setup_logging(config)
-
-#     check = FactCheck(url, chromadb_client.get_or_create_collection(name="articles"), router, think=True, config=config)
-
-#     asyncio.run(check.main(use_long_prompts=False))
-
-    
