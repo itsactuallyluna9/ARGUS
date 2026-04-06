@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, useCallback } from "react";
 import {
   ResizableHandle,
   ResizablePanel,
@@ -54,7 +54,6 @@ import {
   SelectContent,
   SelectGroup,
   SelectItem,
-  SelectLabel,
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
@@ -62,6 +61,7 @@ import { Field, FieldLabel } from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
 import { convertToCSV } from "./convertToCSV";
 import { useCanvasDimensions } from "@/hooks/useCanvasDimensions";
+import { Kbd, KbdGroup } from "@/components/ui/kbd";
 
 const ENTER_KEY = 13;
 const BACKSPACE_KEY = 127;
@@ -113,6 +113,8 @@ function DataSandboxView() {
   const [pagerMethod, setPagerMethod] = useState("");
 
   const [currentTab, setCurrentTab] = useState("data-loader");
+  const [defaultScript, setDefaultScript] = useState("");
+  const [scriptLoaded, setScriptLoaded] = useState(false);
 
   useEffect(() => {
     if (webRRef.current && rLoaded) {
@@ -547,13 +549,35 @@ case "canvasNewPage":
     }
   };
 
+  const loadDefaultScript = useCallback(async () => {
+    try {
+      const response = await fetch("/r/graphfunctions.R", {
+        cache: "no-cache",
+      });
+      if (!response.ok) {
+        throw new Error("Failed to fetch R script");
+      }
+      const script = await response.text();
+      setDefaultScript(script);
+    } catch (error) {
+      console.error("Error loading default script:", error);
+      setDefaultScript("# hello, world!\n1 + 1\n\nplot(cars)");
+    } finally {
+      setScriptLoaded(true);
+    }
+  }, []);
+
   useEffect(() => {
-    if (!editorRef.current) return;
+    loadDefaultScript();
+  }, [loadDefaultScript]);
+
+  useEffect(() => {
+    if (!editorRef.current || !scriptLoaded) return;
 
     // get current content
     const currentContent = viewRef.current
       ? viewRef.current.state.doc.toString()
-      : "# hello, world!\n1 + 1\n\nplot(cars)";
+      : defaultScript;
 
     if (viewRef.current) {
       viewRef.current.destroy();
@@ -569,7 +593,7 @@ case "canvasNewPage":
 
     // (re-?)focus the editor
     viewRef.current?.focus();
-  }, [darkMode]);
+  }, [darkMode, defaultScript, scriptLoaded]);
 
   const runCode = async () => {
     if (!webRRef.current) return;
@@ -598,6 +622,28 @@ case "canvasNewPage":
     if (!webRRef.current) return;
     webRRef.current.interrupt();
   };
+
+  const handleKeyDown = useCallback(
+    (event: KeyboardEvent) => {
+      if (!viewRef.current) return;
+
+      const isMac = navigator.platform.toUpperCase().indexOf("MAC") >= 0;
+      const ctrlKey = isMac ? event.metaKey : event.ctrlKey;
+
+      if (ctrlKey && event.key === "Enter") {
+        event.preventDefault();
+        runCode();
+      }
+    },
+    [runCode]
+  );
+
+  useEffect(() => {
+    window.addEventListener("keydown", handleKeyDown);
+    return () => {
+      window.removeEventListener("keydown", handleKeyDown);
+    };
+  }, [handleKeyDown]);
 
   return (
     <main className="w-full h-screen">
@@ -680,20 +726,30 @@ case "canvasNewPage":
                 </ButtonGroup>
                 <ButtonGroup>
                   <Tooltip>
-                    <TooltipTrigger asChild>
-                      <Button
-                        size="icon"
-                        disabled={rBusy}
-                        variant="outline"
-                        onClick={runCode}
-                      >
-                        {rWorking ? <Spinner /> : <Play />}
-                      </Button>
-                    </TooltipTrigger>
-                    <TooltipContent side="bottom" sideOffset={8}>
-                      Run code
-                    </TooltipContent>
-                  </Tooltip>
+                     <TooltipTrigger asChild>
+                       <Button
+                         size="icon"
+                         disabled={rBusy}
+                         variant="outline"
+                         onClick={runCode}
+                       >
+                         {rWorking ? <Spinner /> : <Play />}
+                       </Button>
+                     </TooltipTrigger>
+                     <TooltipContent side="bottom" sideOffset={8}>
+                       <div className="flex items-center gap-1">
+                         Run code
+                         <KbdGroup>
+                           <Kbd>
+                             {navigator.platform.toUpperCase().indexOf("MAC") >= 0
+                               ? "⌘"
+                               : "Ctrl"}
+                           </Kbd>
+                           <Kbd>Enter</Kbd>
+                         </KbdGroup>
+                       </div>
+                     </TooltipContent>
+                   </Tooltip>
                   {window.crossOriginIsolated && (
                     <Tooltip>
                       <TooltipTrigger asChild>
