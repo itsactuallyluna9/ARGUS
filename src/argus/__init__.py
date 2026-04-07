@@ -10,8 +10,9 @@ from simpleeval import simple_eval
 from pygooglenews import GoogleNews
 from loguru import logger
 
-from flask import Flask, jsonify, request, send_from_directory
+from flask import Flask, jsonify, request, send_from_directory, redirect
 from flask_cors import CORS
+from urllib.parse import urlparse
 
 import chromadb
 
@@ -230,6 +231,55 @@ async def api_status():
         return jsonify(json.loads(past_checks.get(ids=[uuid])["documents"][0])), 200  # type: ignore
 
     return jsonify({"message": f"No fact check found for UUID {uuid}."}), 404
+
+
+@app.get("/api/article_metadata/<path:url>")
+def api_article_metadata(url: str):
+    """Fetch article metadata from ChromaDB by URL"""
+    try:
+        result = articles.get(ids=[url])
+        if not result["ids"]:
+            return jsonify({"error": "Article not found", "url": url}), 404
+
+        metadata = result["metadatas"][0]
+        article_meta = json.loads(metadata.get("metadata", "{}"))
+
+        # Extract hostname as fallback for sitename
+        parsed_url = urlparse(url)
+        hostname = parsed_url.hostname or url
+
+        return jsonify(
+            {
+                "url": url,
+                "title": article_meta.get("title", "Unknown Title"),
+                "sitename": article_meta.get("sitename", hostname),
+                "summary": metadata.get("summary", ""),
+                "description": metadata.get("description", ""),
+                "author": article_meta.get("author"),
+                "date": article_meta.get("date"),
+            }
+        ), 200
+    except Exception as e:
+        logger.error(f"Error fetching article metadata for {url}: {e}")
+        return jsonify({"error": str(e), "url": url}), 500
+
+
+@app.get("/api/favicon/<path:url>")
+def api_favicon(url: str):
+    """Get favicon URL for an article and redirect to it"""
+    from argus.scraper import get_favicon_url
+
+    try:
+        favicon_url = asyncio.run_coroutine_threadsafe(
+            get_favicon_url(url), _bg_loop
+        ).result(timeout=5)
+        return redirect(favicon_url, code=302)
+    except Exception as e:
+        logger.error(f"Error fetching favicon for {url}: {e}")
+        # Fallback to generic favicon
+        parsed = urlparse(url)
+        fallback = f"{parsed.scheme}://{parsed.netloc}/favicon.ico"
+        return redirect(fallback, code=302)
 
 
 @app.get("/api/data")
