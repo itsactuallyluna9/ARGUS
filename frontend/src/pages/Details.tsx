@@ -1,4 +1,4 @@
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import { Separator } from "@/components/ui/separator";
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
@@ -55,7 +55,7 @@ type ScoreAssessmentCardProps = {
   score: number | null | undefined;
   description: string | null | undefined;
   higherIsBetter?: boolean;
-  sources: string[] | undefined;
+  sources?: string[] | undefined;
 };
 
 const clampScore = (score: number) => Math.max(0, Math.min(100, score));
@@ -171,7 +171,7 @@ function DetailsView() {
               className="h-6 mr-2 rounded bg-gray-300/50"
             />
             <p className="italic text-lg">
-              {data?.article_metadata?.sitename || new URL(data?.url).hostname}
+              {data?.article_metadata?.sitename || (data?.url ? new URL(data.url).hostname : "")}
             </p>
           </a>
           <Separator orientation="vertical" className="mx-4" />
@@ -527,38 +527,174 @@ function ReportAConcern() {
   );
 }
 
+interface SourceMetadata {
+  url: string;
+  title: string;
+  sitename: string;
+  summary: string;
+  error?: string;
+}
+
 function Sources({ sources }: { sources: string[] }) {
+  const navigate = useNavigate();
+  
+  // Fetch metadata for all sources
+  const { data: sourcesData } = useSWR<SourceMetadata[]>(
+    sources.length > 0 ? ["/api/article_metadata_batch", sources] : null,
+    async ([_, urls]: [string, string[]]) => {
+      const results = await Promise.all(
+        urls.map(async (url) => {
+          try {
+            const response = await fetch(`/api/article_metadata/${encodeURIComponent(url)}`);
+            if (response.ok) {
+              return await response.json();
+            }
+            // If not found, return minimal data
+            const hostname = new URL(url).hostname;
+            return {
+              url,
+              title: hostname,
+              sitename: hostname,
+              summary: "",
+              error: "Not found in database"
+            };
+          } catch (error) {
+            return {
+              url,
+              title: url,
+              sitename: "Unknown Source",
+              summary: "",
+              error: "Invalid URL"
+            };
+          }
+        })
+      );
+      return results;
+    },
+    { revalidateOnFocus: false }
+  );
+
+  const startFactCheck = async (url: string) => {
+    const response = await fetch("/api/create", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ url }),
+    });
+    
+    if (response.ok) {
+      const data = await response.json();
+      navigate(`/details/${data.id}`);
+    }
+  };
+
+  if (!sources || sources.length === 0) {
+    return null;
+  }
+
   return (
-    <>
-      <Drawer>
-        <DrawerTrigger>
-          <div className="flex">
-            <span className="pr-2 text-md text-muted-foreground items-center">
-              Sources
-            </span>
-            <AvatarGroup>
-              {sources.slice(0, 3).map((_url) => (
-                <Avatar size="sm">
-                  <AvatarImage src="" alt="" />
-                  <AvatarFallback>:3</AvatarFallback>
+    <Drawer>
+      <DrawerTrigger asChild>
+        <button className="flex items-center hover:underline">
+          <span className="pr-2 text-md text-muted-foreground">
+            Sources
+          </span>
+          <AvatarGroup>
+            {sources.slice(0, 3).map((url, idx) => {
+              // Get hostname for fallback
+              let hostname = "??";
+              try {
+                hostname = new URL(url).hostname.slice(0, 2).toUpperCase();
+              } catch {}
+              
+              return (
+                <Avatar key={idx} size="sm">
+                  <AvatarImage 
+                    src={`/api/favicon/${encodeURIComponent(url)}`} 
+                    alt={`${url} favicon`}
+                  />
+                  <AvatarFallback className="text-xs">
+                    {hostname}
+                  </AvatarFallback>
                 </Avatar>
-              ))}
-            </AvatarGroup>
-          </div>
-        </DrawerTrigger>
-        <DrawerContent>
-          <DrawerHeader>
-            <DrawerTitle>Sources</DrawerTitle>
-          </DrawerHeader>
-          <div className="no-scrollbar overflow-y-auto px-4"></div>
-          <DrawerFooter>
-            <DrawerClose asChild>
-              <Button variant="outline">Close</Button>
-            </DrawerClose>
-          </DrawerFooter>
-        </DrawerContent>
-      </Drawer>
-    </>
+              );
+            })}
+          </AvatarGroup>
+        </button>
+      </DrawerTrigger>
+      <DrawerContent>
+        <DrawerHeader>
+          <DrawerTitle>Sources ({sources.length})</DrawerTitle>
+        </DrawerHeader>
+        <div className="no-scrollbar overflow-y-auto px-4 max-h-96">
+          {!sourcesData ? (
+            <div className="flex items-center justify-center p-4">
+              <Spinner />
+            </div>
+          ) : (
+            <div className="space-y-3 pb-4">
+              {sourcesData.map((source, idx) => {
+                // Get hostname for fallback
+                let hostname = "??";
+                try {
+                  hostname = new URL(source.url).hostname.slice(0, 2).toUpperCase();
+                } catch {}
+                
+                return (
+                  <div 
+                    key={idx} 
+                    className="flex items-start gap-3 p-3 rounded-lg border hover:bg-accent transition-colors"
+                  >
+                    <Avatar size="sm" className="mt-1 flex-shrink-0">
+                      <AvatarImage
+                        src={`/api/favicon/${encodeURIComponent(source.url)}`}
+                        alt={`${source.sitename} favicon`}
+                      />
+                      <AvatarFallback className="text-xs">
+                        {hostname}
+                      </AvatarFallback>
+                    </Avatar>
+                    <div className="flex-1 min-w-0">
+                      <p className="text-sm font-medium text-muted-foreground">
+                        {source.sitename}
+                      </p>
+                      <p className="text-sm font-semibold truncate">
+                        {source.title}
+                      </p>
+                      {source.summary && (
+                        <p className="text-xs text-muted-foreground line-clamp-2 mt-1">
+                          {source.summary}
+                        </p>
+                      )}
+                      <a 
+                        href={source.url} 
+                        target="_blank" 
+                        rel="noopener noreferrer"
+                        className="text-xs text-blue-600 hover:underline mt-1 inline-block truncate max-w-full"
+                      >
+                        {source.url}
+                      </a>
+                    </div>
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      onClick={() => startFactCheck(source.url)}
+                      className="flex-shrink-0"
+                    >
+                      Fact Check
+                    </Button>
+                  </div>
+                );
+              })}
+            </div>
+          )}
+        </div>
+        <DrawerFooter>
+          <DrawerClose asChild>
+            <Button variant="outline">Close</Button>
+          </DrawerClose>
+        </DrawerFooter>
+      </DrawerContent>
+    </Drawer>
   );
 }
 
