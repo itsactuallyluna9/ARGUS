@@ -3,7 +3,6 @@ import mimetypes
 from time import time
 
 from bs4 import BeautifulSoup
-import ollama
 import requests
 import trafilatura
 from trafilatura.readability_lxml import is_probably_readerable
@@ -78,9 +77,8 @@ async def get_page(url: str) -> tuple[dict[str, str], str]:
                     return metadata, cleaned
             # maybe we got something trafilatura doesn't like, but that still has content?
             metadata["readerable"] = False
-            # well. readerlm?
-            cleaned = ollama.generate("reader-lm", html).response
-            return metadata, cleaned
+            soup = BeautifulSoup(html, "html.parser")
+            return metadata, soup.get_text(separator="\n", strip=True)
         case "application/pdf":
             return metadata, extract_pdf(content)
         case "application/msword":
