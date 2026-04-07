@@ -8,6 +8,7 @@ from playwright.async_api import async_playwright
 from playwright_stealth import Stealth
 from simpleeval import simple_eval
 from pygooglenews import GoogleNews
+from loguru import logger
 
 from flask import Flask, jsonify, request, send_from_directory
 from flask_cors import CORS
@@ -19,8 +20,7 @@ from argus.llamarouter import LlamaRouter
 from argus.factcheck import FactCheck, check_url
 from argus.compiledata import ArgusData
 from argus.log_config import setup_logging
-from loguru import logger
-
+from argus.db_cleaner import main as clean_db
 
 
 PROJECT_ROOT = Path(__file__).resolve().parents[2]
@@ -278,6 +278,15 @@ def api_data_filter():
         data = [{col: item[col] for col in cols} for item in data]
 
     return jsonify(data), 200
+
+
+@app.get("/api/cleandb")
+def api_cleandb():
+    
+    # run the cleaning script in the background, since it can take a while and we don't want to block the API
+    asyncio.run_coroutine_threadsafe(clean_db(router, past_checks, articles, workers=len(router.get_route("nemotron-3-nano:4b"))), _bg_loop) #fails if no nemotron-3-nano:4b route, but that's the only model we want to use for cleaning so it should be fine
+
+    return jsonify({"message": "Database cleaning started."}), 202
 
 
 @app.get("/api/debug/statistics")
