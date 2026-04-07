@@ -165,11 +165,13 @@ async def api_create_random():
             if total > 0:
                 url = articles.get(limit=1, offset=random.randint(0, total - 1))["ids"][0]
                 # TODO: consider checking if we have a fact check for this article already
-
-            # return jsonify({"message": f"Failed to load URL."}), 400
         
         finally:
             await browser.close()
+
+        if not await check_url(url, router): # type: ignore
+            logger.info("URL is not valid or cannot be scraped.")
+            return jsonify({"message": f"Failed to load URL."}), 400
 
     check = FactCheck(url, articles, router, config, evaluator_model="glm-4.7-flash") # type: ignore
     _add_active_fact_check(check)

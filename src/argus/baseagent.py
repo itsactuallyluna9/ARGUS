@@ -89,7 +89,7 @@ class Agent:
 
             if self.agent_metadata["total_tool_calls"] >= self.max_tool_calls:
                 logger.info(f"{self.agent_name}: Maximum tool calls ({self.max_tool_calls}) reached. Ending evaluation.\n")
-                messages.append({"role": "system", "content": f"Maximum tool calls ({self.max_tool_calls}) reached.\nI need to finish my evaluation with the available information. My response should follow the following strict json schema: {schema}"})
+                messages.append({"role": "system", "content": f"Maximum tool calls ({self.max_tool_calls}) reached.\nI need to finish my evaluation with the available information. My response should follow the following strict json schema: {schema}. I should return my evaluation in this format with no additional characters, explanation, or markdown formatting."})
                 
                 r = await self.router.chat(
                     model=self.analysis_model,
