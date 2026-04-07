@@ -3,7 +3,6 @@ import mimetypes
 from time import time
 
 from bs4 import BeautifulSoup
-import ollama
 import requests
 import trafilatura
 from trafilatura.readability_lxml import is_probably_readerable
@@ -78,9 +77,8 @@ async def get_page(url: str) -> tuple[dict[str, str], str]:
                     return metadata, cleaned
             # maybe we got something trafilatura doesn't like, but that still has content?
             metadata["readerable"] = False
-            # well. readerlm?
-            cleaned = ollama.generate("reader-lm", html).response
-            return metadata, cleaned
+            soup = BeautifulSoup(html, "html.parser")
+            return metadata, soup.get_text(separator="\n", strip=True)
         case "application/pdf":
             return metadata, extract_pdf(content)
         case "application/msword":
@@ -192,6 +190,36 @@ async def get_source_chrome(url: str) -> tuple[str, bytes]:
             await browser.close()
 
     return content_type, content
+
+
+async def get_favicon_url(full_url: str) -> str:
+    from urllib.parse import urljoin
+
+    content_type, content, _ = await get_source(full_url)
+    if content_type in ["text/html", "application/xhtml+xml"]:
+        soup = BeautifulSoup(content, "html.parser")
+        # try to find favicon with various rel attributes
+        icon_tags = soup.find_all(
+            "link",
+            rel=lambda x: (
+                x
+                and any(
+                    rel in x.lower()
+                    for rel in ["icon", "shortcut icon", "apple-touch-icon"]
+                )
+            ),
+        )
+
+        if icon_tags:
+            # get the first icon tag's href
+            icon_href = icon_tags[0].get("href")
+            if icon_href:
+                # Handle relative URLs
+                return urljoin(full_url, icon_href)
+
+    # fallback: we're just gonna send it
+    parsed_url = urljoin(full_url, "/favicon.ico")
+    return parsed_url
 
 
 # MARK: - Parsers

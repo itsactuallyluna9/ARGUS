@@ -30,6 +30,21 @@ import { Textarea } from "@/components/ui/textarea";
 import type { CheckMetadata } from "../DetailsResponse";
 import useSWR from "swr";
 import { Fade, Fades } from "@/components/animate-ui/primitives/effects/fade";
+import {
+  Avatar,
+  AvatarFallback,
+  AvatarGroup,
+  AvatarImage,
+} from "@/components/ui/avatar";
+import {
+  Drawer,
+  DrawerContent,
+  DrawerFooter,
+  DrawerHeader,
+  DrawerTitle,
+  DrawerTrigger,
+  DrawerClose,
+} from "@/components/ui/drawer";
 
 type StatusFetchError = Error & {
   status?: number;
@@ -40,6 +55,7 @@ type ScoreAssessmentCardProps = {
   score: number | null | undefined;
   description: string | null | undefined;
   higherIsBetter?: boolean;
+  sources: string[] | undefined;
 };
 
 const clampScore = (score: number) => Math.max(0, Math.min(100, score));
@@ -58,7 +74,7 @@ const getScoreBarColorClass = (score: number, higherIsBetter: boolean) => {
   if (goodnessScore >= 80) return "bg-green-500 dark:bg-green-400";
   if (goodnessScore >= 60) return "bg-lime-500 dark:bg-lime-400";
   if (goodnessScore >= 40) return "bg-amber-500 dark:bg-amber-400";
-  
+
   if (goodnessScore >= 20) return "bg-orange-500 dark:bg-orange-400";
   if (goodnessScore >= 10) return "bg-rose-500 dark:bg-rose-400";
   return "bg-red-600 dark:bg-red-500";
@@ -326,11 +342,13 @@ function DetailsView() {
             title="Completeness Assessment"
             score={data?.completeness_score}
             description={data?.completeness_explanation}
+            sources={data?.completeness_sources}
           />
           <ScoreAssessmentCard
             title="Accuracy Assessment"
             score={data?.accuracy_score}
             description={data?.accuracy_explanation}
+            sources={data?.accuracy_sources}
           />
         </Fades>
       </div>
@@ -382,9 +400,10 @@ function ScoreAssessmentCard({
   title,
   score,
   description,
+  sources = undefined,
   higherIsBetter = true,
 }: ScoreAssessmentCardProps) {
-  const safeScore = score != null ? clampScore(score) : null;
+  const safeScore = score != null ? clampScore(score) : 0;
   const barColorClass =
     score != null ? getScoreBarColorClass(score, higherIsBetter) : "";
 
@@ -408,7 +427,8 @@ function ScoreAssessmentCard({
                 />
               </div>
             </div>
-            <p>{description}</p>
+            <p className="mb-2">{description}</p>
+            {sources !== undefined && <Sources sources={sources} />}
           </>
         ) : (
           <>
@@ -513,6 +533,41 @@ function ReportAConcern() {
         </DialogFooter>
       </DialogContent>
     </Dialog>
+  );
+}
+
+function Sources({ sources }: { sources: string[] }) {
+  return (
+    <>
+      <Drawer>
+        <DrawerTrigger>
+          <div className="flex">
+            <span className="pr-2 text-md text-muted-foreground items-center">
+              Sources
+            </span>
+            <AvatarGroup>
+              {sources.slice(0, 3).map((_url) => (
+                <Avatar size="sm">
+                  <AvatarImage src="" alt="" />
+                  <AvatarFallback>:3</AvatarFallback>
+                </Avatar>
+              ))}
+            </AvatarGroup>
+          </div>
+        </DrawerTrigger>
+        <DrawerContent>
+          <DrawerHeader>
+            <DrawerTitle>Sources</DrawerTitle>
+          </DrawerHeader>
+          <div className="no-scrollbar overflow-y-auto px-4"></div>
+          <DrawerFooter>
+            <DrawerClose asChild>
+              <Button variant="outline">Close</Button>
+            </DrawerClose>
+          </DrawerFooter>
+        </DrawerContent>
+      </Drawer>
+    </>
   );
 }
 
