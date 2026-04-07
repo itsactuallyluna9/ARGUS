@@ -154,10 +154,7 @@ function DetailsView() {
     <main className="p-4">
       <Fade asChild delay={animationTimings.title}>
         <h1 className="font-semibold text-2xl text-pretty">
-          <a
-            href={data?.article_metadata?.url || ""}
-            className="hover:underline"
-          >
+          <a href={data?.url || ""} className="hover:underline">
             {data?.article_metadata?.title || "TBD"}
           </a>
         </h1>
@@ -165,22 +162,16 @@ function DetailsView() {
       <Fade asChild delay={animationTimings.metadata}>
         <div className="sm:flex items-center text-muted-foreground">
           <a
-            href={
-              (data &&
-                data.article_metadata &&
-                data.article_metadata.url &&
-                new URL(data?.article_metadata?.url).origin) ||
-              ""
-            }
+            href={(data && data.url && new URL(data?.url).origin) || ""}
             className="flex items-center hover:underline"
           >
             <img
-              src={`${data && data.article_metadata && data.article_metadata.url && new URL(data?.article_metadata.url).origin}/favicon.ico`}
+              src={`${data && data.url && new URL(data?.url).origin}/favicon.ico`}
               alt={`${data?.article_metadata?.sitename || "ARGUS"} Logo`}
               className="h-6 mr-2 rounded bg-gray-300/50"
             />
             <p className="italic text-lg">
-              {data?.article_metadata?.sitename || "ARGUS"}
+              {data?.article_metadata?.sitename || new URL(data?.url).hostname}
             </p>
           </a>
           <Separator orientation="vertical" className="mx-4" />
