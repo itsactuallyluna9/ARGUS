@@ -13,7 +13,7 @@ async def check_fact_check(id, col: chromadb.Collection, router: LlamaRouter, se
 
     async with semaphore:
         try:
-            item = json.loads(col.get(ids=[id])['documents'][0])
+            item = json.loads(col.get(ids=[id])['documents'][0]) # type: ignore
             if item["finished"] == True:
                 if not await is_valid_check(item, router):
                     print(f"Deleting {id} because it is marked finished but fails the check_fact_check function")
@@ -55,7 +55,7 @@ async def check_summary(id, router: LlamaRouter, semaphore: asyncio.Semaphore):
     
     async with semaphore:
         try:
-            summary = articles.get(ids=[id])['documents'][0]
+            summary = articles.get(ids=[id])['documents'][0] # type: ignore
             if summary in ['', 'Summary not found']:
                 print(f"Deleting {id} because it has an empty summary")
                 articles.delete(ids=[id])
