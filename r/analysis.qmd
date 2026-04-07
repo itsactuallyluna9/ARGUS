@@ -5,13 +5,14 @@ format: html
 
 ```{r}
 library(tidyverse)
+library(ggthemes)
 
 checks <- read.csv("data/fact_check_data.csv")
-colnames(checks)
+benchmarks <- read.csv("data/stuff.csv")
 ```
 
 ```{r}
-cleanchecks <- checks |> mutate(date = as.Date(date), check_date = as.Date(check_started), check_time = str_split_i(check_started, "T", 2)) |> select(accuracy_agent, bias_agent, completeness_agent, accuracy_score, completeness_score, political_score, sensationalism_score, emotional_language_score, date, check_date, check_time, check_duration_from_start, title, sitename) |> mutate(avg_bias = round((political_score + sensationalism_score + emotional_language_score)/3)) |> 
+cleanchecks <- checks |> mutate(date = as.Date(date), check_date = as.Date(check_started), check_time = str_split_i(check_started, "T", 2)) |> select(accuracy_explanation, completeness_explanation, political_bias, sensationalism, emotional_language, accuracy_agent, bias_agent, completeness_agent, accuracy_score, completeness_score, political_score, sensationalism_score, emotional_language_score, date, check_date, check_time, check_duration_from_start, title, sitename) |> mutate(avg_bias = round((political_score + sensationalism_score + emotional_language_score)/3)) |> 
   mutate(accuracy_tool_calls = str_split_i(trimws(str_split_i(accuracy_agent, '"tool_calls":', 2), whitespace = "{"), fixed("},"), 1), accuracy_tool_count = trimws(str_split_i(accuracy_agent, '"total_tool_calls":', 2), whitespace = "}")) |>
   mutate(completeness_tool_calls = str_split_i(trimws(str_split_i(completeness_agent, '"tool_calls":', 2), whitespace = "{"), fixed("},"), 1), completeness_tool_count = trimws(str_split_i(completeness_agent, '"total_tool_calls":', 2), whitespace = "}")) |>
   mutate(bias_tool_calls = str_split_i(trimws(str_split_i(bias_agent, '"tool_calls":', 2), whitespace = "{"), fixed("},"), 1), bias_tool_count = trimws(str_split_i(bias_agent, '"total_tool_calls":', 2), whitespace = "}")) |>
@@ -19,10 +20,80 @@ cleanchecks <- checks |> mutate(date = as.Date(date), check_date = as.Date(check
   mutate(completeness_tool_calls = str_split(completeness_tool_calls, ","), completeness_tool_count = as.integer(completeness_tool_count)) |>
   mutate(bias_tool_calls = str_split(bias_tool_calls, ","), bias_tool_count = as.integer(bias_tool_count))
 
+cleanchecks <- cleanchecks |> drop_na(sitename, title)
+  
 cleanchecks |> head()
 ```
 
 ```{r}
-ggplot(aes())
+cleanchecks$bias_breaks <- cut(cleanchecks$avg_bias, breaks=c(seq(0,100,20)))
+cleanchecks <- cleanchecks |> filter(accuracy_score > 60, completeness_score > 50) #remove known bad values
+cleanchecks |> 
+  filter(!is.na(bias_breaks)) |> 
+  ggplot(aes(x=accuracy_score, y=completeness_score, color=cut(avg_bias, breaks=c(seq(0,100,20))), shape=cut(avg_bias, breaks=c(seq(0,100,20))))) + 
+  geom_point(size=3, alpha=0.5) + 
+  labs(
+    title = "Article Accuracy vs Completeness by Average Bias",
+    subtitle = "Bias as average of political bias, sensationalism, and emotional language\nAs evaluated by ARGUS",
+    x = "Accuracy score",
+    y = "Completeness score"
+  ) + 
+  guides(color=guide_legend(title="Bias score"),shape=guide_legend(title="Bias score")) + 
+  theme_solarized(light=FALSE) + scale_color_solarized()
+```
+
+```{r}
+scores <- cleanchecks |> select(accuracy_score, completeness_score, political_score, sensationalism_score, emotional_language_score, sitename) |> pivot_longer(!sitename, names_to = "type", values_to = "score")
+scores <- scores |> 
+  mutate(type = str_replace(type, "accuracy_score", "Accuracy")) |>
+  mutate(type = str_replace(type, "completeness_score", "Completeness")) |>
+  mutate(type = str_replace(type, "political_score", "Political bias")) |>
+  mutate(type = str_replace(type, "sensationalism_score", "Sensationalism")) |>
+  mutate(type = str_replace(type, "emotional_language_score", "Emotional language"))
+scores
+
+scores |>
+  filter(type %in% c("Accuracy", "Completeness")) |>
+  ggplot(aes(x=score, y=type, fill=type)) +
+  geom_col() +
+  facet_wrap(~sitename, ) +
+  xlim(0, 100) + 
+  labs(
+      title = "Mean Scores by Source",
+      subtitle = "Accuracy and completeness\nAs evaluated by ARGUS",
+      x = "", y = ""
+  ) + 
+  scale_fill_discrete(name = "", seq(0,100,50)) +
+  theme(axis.text.y = element_text(size=7), strip.text = element_text(size=1)) +
+  theme_solarized(light=FALSE) + scale_color_solarized()
+
+scores |>
+  filter(!(type %in% c("Accuracy", "Completeness"))) |>
+  ggplot(aes(x=score, y=type, fill=type)) +
+  geom_col() +
+  facet_wrap(~sitename, ) +
+  xlim(0, 100) + 
+  labs(
+      title = "Mean Scores by Source",
+      subtitle = "Bias scores\nAs evaluated by ARGUS",
+      x = "", y = ""
+  ) + 
+  scale_fill_discrete(name = "", seq(0,100,50)) +
+  theme(axis.text.y = element_text(size=7), strip.text = element_text(size=1)) +
+  theme_solarized(light=FALSE) + scale_color_solarized()
+```
+
+```{r}
+cleanchecks |> mutate(total_tool_calls = accuracy_tool_count + completeness_tool_count + bias_tool_count) |>
+  ggplot(aes(x=total_tool_calls, y=check_duration_from_start, color=as.factor(check_date))) +
+  geom_point() +
+  labs(
+    title = "Total Tool Calls vs Time Taken (s)",
+    subtitle = "By ARGUS evaluation date",
+    x = "Number of tool calls",
+    y = "Check duration (seconds)"
+  ) + 
+  guides(color=guide_legend(title="Date of evaluation")) +
+  theme_solarized(light=FALSE) + scale_color_solarized()
 ```
 
