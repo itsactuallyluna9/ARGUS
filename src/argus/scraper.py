@@ -194,6 +194,36 @@ async def get_source_chrome(url: str) -> tuple[str, bytes]:
     return content_type, content
 
 
+async def get_favicon_url(full_url: str) -> str:
+    from urllib.parse import urljoin
+
+    content_type, content, _ = await get_source(full_url)
+    if content_type in ["text/html", "application/xhtml+xml"]:
+        soup = BeautifulSoup(content, "html.parser")
+        # try to find favicon with various rel attributes
+        icon_tags = soup.find_all(
+            "link",
+            rel=lambda x: (
+                x
+                and any(
+                    rel in x.lower()
+                    for rel in ["icon", "shortcut icon", "apple-touch-icon"]
+                )
+            ),
+        )
+
+        if icon_tags:
+            # get the first icon tag's href
+            icon_href = icon_tags[0].get("href")
+            if icon_href:
+                # Handle relative URLs
+                return urljoin(full_url, icon_href)
+
+    # fallback: we're just gonna send it
+    parsed_url = urljoin(full_url, "/favicon.ico")
+    return parsed_url
+
+
 # MARK: - Parsers
 
 

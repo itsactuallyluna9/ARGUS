@@ -11,7 +11,8 @@ export interface CheckMetadata {
   completeness_score: number | null;
   accuracy_explanation: string | null;
   completeness_explanation: string | null;
-  sources: string[];
+  accuracy_sources: string[];
+  completeness_sources: string[];
   political_bias: string | null;
   sensationalism: string | null;
   emotional_language: string | null;
