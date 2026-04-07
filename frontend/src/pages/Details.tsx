@@ -45,6 +45,12 @@ import {
   DrawerTrigger,
   DrawerClose,
 } from "@/components/ui/drawer";
+import {
+  clampScore,
+  getGoodnessScore,
+  getScoreDotColorClass,
+  getScoreBarColorClass,
+} from "@/components/lib/utils";
 
 type StatusFetchError = Error & {
   status?: number;
@@ -58,27 +64,14 @@ type ScoreAssessmentCardProps = {
   sources?: string[] | undefined;
 };
 
-const clampScore = (score: number) => Math.max(0, Math.min(100, score));
-
-const getGoodnessScore = (score: number, higherIsBetter: boolean) => {
-  const safeScore = clampScore(score);
-  return higherIsBetter ? safeScore : 100 - safeScore;
-};
-
-const getScoreBarColorClass = (score: number, higherIsBetter: boolean) => {
-  const goodnessScore = getGoodnessScore(score, higherIsBetter);
-
-  if (goodnessScore === 100) return "bg-indigo-500 dark:bg-indigo-400";
-  if (goodnessScore >= 90) return "bg-emerald-500 dark:bg-emerald-400";
-
-  if (goodnessScore >= 80) return "bg-green-500 dark:bg-green-400";
-  if (goodnessScore >= 60) return "bg-lime-500 dark:bg-lime-400";
-  if (goodnessScore >= 40) return "bg-amber-500 dark:bg-amber-400";
-
-  if (goodnessScore >= 20) return "bg-orange-500 dark:bg-orange-400";
-  if (goodnessScore >= 10) return "bg-rose-500 dark:bg-rose-400";
-  return "bg-red-600 dark:bg-red-500";
-};
+// Utility to safely extract values from potentially corrupted API responses
+// where schema definitions ({title, type}) were returned instead of actual data
+function safeExtractValue<T>(value: T | { title: string; type: string }, fallback: T): T {
+  if (value && typeof value === 'object' && 'type' in value && 'title' in value) {
+    return fallback;
+  }
+  return value as T;
+}
 
 const animationTimings = {
   notFoundTitle: 60,
@@ -155,7 +148,9 @@ function DetailsView() {
       <Fade asChild delay={animationTimings.title}>
         <h1 className="font-semibold text-2xl text-pretty">
           <a href={data?.url || ""} className="hover:underline">
-            {data?.article_metadata?.title || "TBD"}
+            {typeof data?.article_metadata?.title === 'string'
+              ? data.article_metadata.title
+              : data?.article_metadata?.title?.title || "TBD"}
           </a>
         </h1>
       </Fade>
@@ -171,7 +166,8 @@ function DetailsView() {
               className="h-6 mr-2 rounded bg-gray-300/50"
             />
             <p className="italic text-lg">
-              {data?.article_metadata?.sitename || (data?.url ? new URL(data.url).hostname : "")}
+              {data?.article_metadata?.sitename ||
+                (data?.url ? new URL(data.url).hostname : "")}
             </p>
           </a>
           <Separator orientation="vertical" className="mx-4" />
@@ -394,9 +390,14 @@ function ScoreAssessmentCard({
   sources = undefined,
   higherIsBetter = true,
 }: ScoreAssessmentCardProps) {
-  const safeScore = score != null ? clampScore(score) : 0;
+  // Safely extract values in case API returned schema instead of data
+  const safeDescription = safeExtractValue(description, null);
+  const safeSources = safeExtractValue(sources, undefined);
+  const scoreValue = safeExtractValue(score, null);
+  
+  const safeScore = scoreValue != null ? clampScore(scoreValue) : 0;
   const barColorClass =
-    score != null ? getScoreBarColorClass(score, higherIsBetter) : "";
+    scoreValue != null ? getScoreBarColorClass(scoreValue, higherIsBetter) : "";
 
   return (
     <Card className="h-full">
@@ -404,7 +405,7 @@ function ScoreAssessmentCard({
         <CardTitle>{title}</CardTitle>
       </CardHeader>
       <CardContent>
-        {score != null ? (
+        {scoreValue != null ? (
           <>
             <div className="content-center">
               <div className="flex items-baseline">
@@ -418,8 +419,8 @@ function ScoreAssessmentCard({
                 />
               </div>
             </div>
-            <p className="mb-2">{description}</p>
-            {sources !== undefined && <Sources sources={sources} />}
+            <p className="mb-2">{safeDescription || "No description available"}</p>
+            {safeSources !== undefined && <Sources sources={safeSources} />}
           </>
         ) : (
           <>
@@ -537,7 +538,7 @@ interface SourceMetadata {
 
 function Sources({ sources }: { sources: string[] }) {
   const navigate = useNavigate();
-  
+
   // Fetch metadata for all sources
   const { data: sourcesData } = useSWR<SourceMetadata[]>(
     sources.length > 0 ? ["/api/article_metadata_batch", sources] : null,
@@ -545,7 +546,9 @@ function Sources({ sources }: { sources: string[] }) {
       const results = await Promise.all(
         urls.map(async (url) => {
           try {
-            const response = await fetch(`/api/article_metadata/${encodeURIComponent(url)}`);
+            const response = await fetch(
+              `/api/article_metadata/${encodeURIComponent(url)}`,
+            );
             if (response.ok) {
               return await response.json();
             }
@@ -556,7 +559,7 @@ function Sources({ sources }: { sources: string[] }) {
               title: hostname,
               sitename: hostname,
               summary: "",
-              error: "Not found in database"
+              error: "Not found in database",
             };
           } catch (error) {
             return {
@@ -564,14 +567,14 @@ function Sources({ sources }: { sources: string[] }) {
               title: url,
               sitename: "Unknown Source",
               summary: "",
-              error: "Invalid URL"
+              error: "Invalid URL",
             };
           }
-        })
+        }),
       );
       return results;
     },
-    { revalidateOnFocus: false }
+    { revalidateOnFocus: false },
   );
 
   const startFactCheck = async (url: string) => {
@@ -580,7 +583,7 @@ function Sources({ sources }: { sources: string[] }) {
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ url }),
     });
-    
+
     if (response.ok) {
       const data = await response.json();
       navigate(`/details/${data.id}`);
@@ -595,9 +598,7 @@ function Sources({ sources }: { sources: string[] }) {
     <Drawer>
       <DrawerTrigger asChild>
         <button className="flex items-center hover:underline">
-          <span className="pr-2 text-md text-muted-foreground">
-            Sources
-          </span>
+          <span className="pr-2 text-md text-muted-foreground">Sources</span>
           <AvatarGroup>
             {sources.slice(0, 3).map((url, idx) => {
               // Get hostname for fallback
@@ -605,11 +606,11 @@ function Sources({ sources }: { sources: string[] }) {
               try {
                 hostname = new URL(url).hostname.slice(0, 2).toUpperCase();
               } catch {}
-              
+
               return (
                 <Avatar key={idx} size="sm">
-                  <AvatarImage 
-                    src={`/api/favicon/${encodeURIComponent(url)}`} 
+                  <AvatarImage
+                    src={`/api/favicon/${encodeURIComponent(url)}`}
                     alt={`${url} favicon`}
                   />
                   <AvatarFallback className="text-xs">
@@ -636,12 +637,14 @@ function Sources({ sources }: { sources: string[] }) {
                 // Get hostname for fallback
                 let hostname = "??";
                 try {
-                  hostname = new URL(source.url).hostname.slice(0, 2).toUpperCase();
+                  hostname = new URL(source.url).hostname
+                    .slice(0, 2)
+                    .toUpperCase();
                 } catch {}
-                
+
                 return (
-                  <div 
-                    key={idx} 
+                  <div
+                    key={idx}
                     className="flex items-start gap-3 p-3 rounded-lg border hover:bg-accent transition-colors"
                   >
                     <Avatar size="sm" className="mt-1 flex-shrink-0">
@@ -665,9 +668,9 @@ function Sources({ sources }: { sources: string[] }) {
                           {source.summary}
                         </p>
                       )}
-                      <a 
-                        href={source.url} 
-                        target="_blank" 
+                      <a
+                        href={source.url}
+                        target="_blank"
                         rel="noopener noreferrer"
                         className="text-xs text-blue-600 hover:underline mt-1 inline-block truncate max-w-full"
                       >

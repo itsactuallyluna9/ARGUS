@@ -17,6 +17,8 @@ import {
   navigationMenuTriggerStyle,
 } from "./components/ui/navigation-menu";
 
+const DEV_MODE = false;
+
 function App() {
   return (
     <>
@@ -50,14 +52,16 @@ function App() {
               </ul>
             </NavigationMenuContent>
           </NavigationMenuItem>
-          <NavigationMenuItem>
-            <NavigationMenuLink
-              asChild
-              className={navigationMenuTriggerStyle()}
-            >
-              <Link to="/debug">Debug</Link>
-            </NavigationMenuLink>
-          </NavigationMenuItem>
+          {DEV_MODE && (
+            <NavigationMenuItem>
+              <NavigationMenuLink
+                asChild
+                className={navigationMenuTriggerStyle()}
+              >
+                <Link to="/debug">Debug</Link>
+              </NavigationMenuLink>
+            </NavigationMenuItem>
+          )}
         </NavigationMenuList>
         <div className="w-screen"></div>
         <TernaryThemeButton variant="ghost" />

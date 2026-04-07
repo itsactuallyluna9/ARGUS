@@ -20,6 +20,12 @@ import {
   TooltipContent,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
+import { InputGroup, InputGroupInput } from "@/components/ui/input-group";
+import {
+  clampScore,
+  getGoodnessScore,
+  getScoreDotColorClass,
+} from "@/components/lib/utils";
 
 const PARTICLE_OPTIONS = {
   fullScreen: {
@@ -95,31 +101,6 @@ const HeroParticles = memo(function HeroParticles() {
     />
   );
 });
-
-const clampScore = (score: number) => Math.max(0, Math.min(100, score));
-
-const getGoodnessScore = (score: number, higherIsBetter: boolean) => {
-  const safeScore = clampScore(score);
-  return higherIsBetter ? safeScore : 100 - safeScore;
-};
-
-const getScoreDotColorClass = (
-  score: number | null | undefined,
-  higherIsBetter = true,
-) => {
-  if (score == null) return "bg-muted";
-
-  const goodnessScore = getGoodnessScore(score, higherIsBetter);
-
-  if (goodnessScore === 100) return "bg-indigo-500 dark:bg-indigo-400";
-  if (goodnessScore >= 90) return "bg-emerald-500 dark:bg-emerald-400";
-  if (goodnessScore >= 80) return "bg-green-500 dark:bg-green-400";
-  if (goodnessScore >= 60) return "bg-lime-500 dark:bg-lime-400";
-  if (goodnessScore >= 40) return "bg-amber-500 dark:bg-amber-400";
-  if (goodnessScore >= 20) return "bg-orange-500 dark:bg-orange-400";
-  if (goodnessScore >= 10) return "bg-rose-500 dark:bg-rose-400";
-  return "bg-red-600 dark:bg-red-500";
-};
 
 function Home() {
   const navigate = useNavigate();
@@ -199,7 +180,7 @@ function Home() {
 
   return (
     <main className="min-h-screen">
-      <div className="relative isolate flex h-[90vh] items-center justify-center overflow-hidden p-4">
+      <div className="relative isolate flex h-[85vh] items-center justify-center overflow-hidden p-4">
         <div
           className={`pointer-events-none absolute inset-0 -z-10 bg-linear-to-b transition-colors duration-500 ${particlesGradientClass}`}
         />
@@ -210,35 +191,36 @@ function Home() {
             Analytical Reasoning and Grounded Understanding System
           </p>
 
-          <div className="rounded-full border-2 transition border-red-400 hover:border-red-300 flex pl-2 mt-8">
-            <input
-              autoFocus
-              type="url"
-              placeholder="Enter a URL..."
-              className="grow"
-              onChange={(e) => setURL(e.target.value)}
-              onKeyDown={(e) => {
-                if (e.key === "Enter") {
-                  submitURL();
-                }
-              }}
-              value={url}
-              disabled={submitting}
-            />
-            <Button
-              variant="outline"
-              size="icon"
-              className="rounded-full border-red-400 border-2"
-              onClick={submitURL}
-              disabled={submitting}
-            >
-              {submitting ? <Spinner /> : <ArrowRight />}
-            </Button>
+          <div className="mt-8">
+            <InputGroup>
+              <InputGroupInput
+                autoFocus
+                type="url"
+                placeholder="Enter a URL..."
+                value={url}
+                onChange={(e) => setURL(e.target.value)}
+                onKeyDown={(e) => {
+                  if (e.key === "Enter") {
+                    submitURL();
+                  }
+                }}
+                disabled={submitting}
+              />
+              <Button
+                variant="outline"
+                size="icon"
+                className="border-red-400"
+                onClick={submitURL}
+                disabled={submitting}
+              >
+                {submitting ? <Spinner /> : <ArrowRight />}
+              </Button>
+            </InputGroup>
+            <div className="text-red-700 mt-2">{errorText}</div>
           </div>
-          <div className="text-red-700">{errorText}</div>
         </div>
       </div>
-      <div className="m-4">
+      <div className="m-4 flex-1">
         <RecentArticles />
       </div>
       {/* TODO: how work */}
@@ -254,7 +236,7 @@ function RecentArticles() {
   return (
     <div>
       <h2 className="text-xl font-bold mb-2">Recent Articles</h2>
-      <div className="p-2">
+      <div className="p-2 grid md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
         {isLoading && (
           <>
             <Spinner />
@@ -269,14 +251,19 @@ function RecentArticles() {
                   Date.parse(a.fact_check_metadata.check_submitted),
               )
               .map((article) => (
-                <Card key={article.id}>
+                <Card key={article.id} className="h-full flex flex-col">
                   <CardHeader>
-                    <CardTitle>{article.article_metadata.title}</CardTitle>
+                    <CardTitle>
+                      {typeof article.article_metadata.title === 'string'
+                        ? article.article_metadata.title
+                        : article.article_metadata.title?.title || 'Unknown Title'}
+                    </CardTitle>
                     <CardDescription>
-                      {article.article_metadata.sitename}
+                      {article.article_metadata.sitename ||
+                        new URL(article.url).hostname}
                     </CardDescription>
                   </CardHeader>
-                  <CardContent>
+                  <CardContent className="flex-1">
                     <span className="line-clamp-3">{article.summary}</span>
                     <div className="items-center justify-center flex pt-2">
                       {/* a dot (with tooltip) for each rating */}
