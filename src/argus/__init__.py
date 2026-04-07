@@ -241,8 +241,8 @@ def api_article_metadata(url: str):
         if not result["ids"]:
             return jsonify({"error": "Article not found", "url": url}), 404
 
-        metadata = result["metadatas"][0]
-        article_meta = json.loads(metadata.get("metadata", "{}"))
+        metadata = result["metadatas"][0] # type: ignore
+        article_meta = json.loads(metadata.get("metadata", "{}")) # type: ignore
 
         # Extract hostname as fallback for sitename
         parsed_url = urlparse(url)
@@ -330,7 +330,7 @@ def api_data_filter():
     return jsonify(data), 200
 
 
-@app.get("/api/cleandb")
+@app.post("/api/cleandb")
 def api_cleandb():
     
     # run the cleaning script in the background, since it can take a while and we don't want to block the API
