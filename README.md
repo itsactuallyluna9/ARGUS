@@ -10,7 +10,7 @@
 ![Cornell College Computer Science Capstone](https://img.shields.io/badge/Cornell%20College%20Computer%20Science%20Capstone-8A2BE2)
 ![Trans Rights](https://pride-badges.pony.workers.dev/static/v1?label=trans%20rights&stripeWidth=6&stripeColors=5BCEFA,F5A9B8,FFFFFF,F5A9B8,5BCEFA)
 
-ARGUS is an open-source, LLM-powered fact-checking application for web articles. Developed as a open source altertanive to ChatGPT Deep Research or Grok, that can run on consumer hardware. Paste in a URL and ARGUS searches the web for reliable sources, cross-references the article's claims, evaluates reporting bias, and produces a cited summary report.
+ARGUS is an open-source, LLM-powered fact-checking application for web articles. Developed as a open source altertanive to ChatGPT Deep Research or Grok that can run on consumer hardware. Paste in a URL and ARGUS searches the web for reliable sources, cross-references the article's claims, evaluates reporting bias, and produces a cited summary report.
 
 > Developed as a capstone project at Cornell College.
 
