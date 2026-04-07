@@ -4,7 +4,15 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { Separator } from "@/components/ui/separator";
 import { Spinner } from "@/components/ui/spinner";
 import { Textarea } from "@/components/ui/textarea";
-import { Bot, Clock, Database, Eraser, Map, Search } from "lucide-react";
+import {
+  Bot,
+  BrushCleaning,
+  Clock,
+  Database,
+  Eraser,
+  Map,
+  Search,
+} from "lucide-react";
 import { useEffect, useState } from "react";
 import useSWR from "swr";
 import { ButtonGroup } from "@/components/ui/button-group";
@@ -126,11 +134,15 @@ function Debug() {
     setBulkImportSubmitting(false);
   };
 
+  function startDBClean() {
+    fetch("/api/cleandb");
+  }
+
   return (
     <main className="p-4">
       <h1 className="font-semibold text-2xl">Debug Page</h1>
       <div className="flex gap-4 my-4">
-        <Card className="w-1/2">
+        <Card className="w-full">
           <CardHeader>
             <CardTitle>
               <div className="flex items-center gap-2">
@@ -143,6 +155,10 @@ function Debug() {
             <p>FactChecks: {statistics.factChecks}</p>
             <p>Active FactChecks: {statistics.activeFactChecks}</p>
             <p>Articles in Database: {statistics.articlesInDatabase}</p>
+            <Button variant="destructive" onClick={startDBClean}>
+              <BrushCleaning />
+              Clean Database
+            </Button>
           </CardContent>
         </Card>
       </div>
@@ -432,15 +448,17 @@ function DebugFactCheck({ factCheckId }: { factCheckId: string }) {
         {agentName}:{" "}
         {agent.started && agent.finished ? (
           <>
-          <PrettyDuration
-            milliseconds={Date.parse(agent.finished) - Date.parse(agent.started)}
-          />
-          {" "}(Completed)
+            <PrettyDuration
+              milliseconds={
+                Date.parse(agent.finished) - Date.parse(agent.started)
+              }
+            />{" "}
+            (Completed)
           </>
         ) : (
           <PrettyDynamicDuration date={new Date(agent.started) || new Date()} />
-        )}
-        {" "}({agent.total_tool_calls} tool calls)
+        )}{" "}
+        ({agent.total_tool_calls} tool calls)
       </div>
     );
   }
@@ -467,7 +485,7 @@ function DebugFactCheck({ factCheckId }: { factCheckId: string }) {
         )}
         {data?.fact_check_metadata.scraper_duration && (
           <div>
-            Scraper: {" "}
+            Scraper:{" "}
             <PrettyDuration
               milliseconds={data.fact_check_metadata.scraper_duration || -1}
             />
@@ -475,7 +493,7 @@ function DebugFactCheck({ factCheckId }: { factCheckId: string }) {
         )}
         {data?.fact_check_metadata.summary_duration && (
           <div>
-            Summary: {" "}
+            Summary:{" "}
             <PrettyDuration
               milliseconds={data.fact_check_metadata.summary_duration || -1}
             />
