@@ -10,7 +10,7 @@
 ![Cornell College Computer Science Capstone](https://img.shields.io/badge/Cornell%20College%20Computer%20Science%20Capstone-8A2BE2)
 ![Trans Rights](https://pride-badges.pony.workers.dev/static/v1?label=trans%20rights&stripeWidth=6&stripeColors=5BCEFA,F5A9B8,FFFFFF,F5A9B8,5BCEFA)
 
-ARGUS is an open-source, LLM-powered fact-checking application for web articles. Developed as a open source altertanive to ChatGPT Deep Research or Grok that can run on consumer hardware. Paste in a URL and ARGUS searches the web for reliable sources, cross-references the article's claims, evaluates reporting bias, and produces a cited summary report.
+ARGUS is an open-source, LLM-powered fact-checking application for web articles. Developed as a open source alternative to ChatGPT Deep Research or Grok that can run on consumer hardware. Paste in a URL and ARGUS searches the web for reliable sources, cross-references the article's claims, evaluates reporting bias, and produces a cited summary report.
 
 > Developed as a capstone project at Cornell College.
 
@@ -31,6 +31,8 @@ ARGUS is an open-source, LLM-powered fact-checking application for web articles.
 * **OpenAI Compatible** - use any OpenAI compatible endpoint - such as Ollama, LlamaCPP, or vLLM
 
 ## Architecture
+
+ARGUS is built on top of a Flask web server which processes user requests, routes LLM prompts to all available endpoints, collects, formats, and returns results. The elegant React-native frontend integrates seamlessly to provide a streamlined and comfortable user experience. OpenAI compatible endpoints must be provided, with their routes being configured in the `config.toml` file. LLM requests are routed based on model name and context length, with the system doing its best to balance the load when possible. Additionally, the system runs and accesses a local ChromaDB database, allowing the system to cache article summaries and past fact checks, so that the system can reference that information without having to search the internet again.
 
 ## Getting Started
 
