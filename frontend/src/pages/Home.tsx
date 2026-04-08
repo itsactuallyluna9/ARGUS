@@ -22,8 +22,6 @@ import {
 } from "@/components/ui/tooltip";
 import { InputGroup, InputGroupInput } from "@/components/ui/input-group";
 import {
-  clampScore,
-  getGoodnessScore,
   getScoreDotColorClass,
 } from "@/components/lib/utils";
 

@@ -32,5 +32,5 @@ export function PrettyDynamicDuration({
   msOpts?: Options;
 }) {
   const time = useTime(timeResolution);
-  return <>{prettyMilliseconds(time - date, msOpts)}</>;
+  return <>{prettyMilliseconds(time.getTime() - date.getTime(), msOpts)}</>;
 }

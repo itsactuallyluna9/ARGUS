@@ -7,7 +7,6 @@ import { Textarea } from "@/components/ui/textarea";
 import {
   Bot,
   BrushCleaning,
-  Clock,
   Database,
   Eraser,
   Map,
@@ -456,7 +455,7 @@ function DebugFactCheck({ factCheckId }: { factCheckId: string }) {
             (Completed)
           </>
         ) : (
-          <PrettyDynamicDuration date={new Date(agent.started) || new Date()} />
+          <PrettyDynamicDuration date={agent.started ? new Date(agent.started) : new Date()} />
         )}{" "}
         ({agent.total_tool_calls} tool calls)
       </div>
@@ -473,16 +472,17 @@ function DebugFactCheck({ factCheckId }: { factCheckId: string }) {
       </a>
       <div>
         Total:{" "}
-        {data ? (
-          <PrettyDynamicDuration
-            date={
-              new Date(data.fact_check_metadata.check_started) ||
-              new Date(data.fact_check_metadata.check_submitted)
-            }
-          />
-        ) : (
-          "Loading..."
-        )}
+         {data ? (
+           <PrettyDynamicDuration
+             date={
+               data.fact_check_metadata.check_started
+                 ? new Date(data.fact_check_metadata.check_started)
+                 : new Date(data.fact_check_metadata.check_submitted)
+             }
+           />
+         ) : (
+           "Loading..."
+         )}
         {data?.fact_check_metadata.scraper_duration && (
           <div>
             Scraper:{" "}

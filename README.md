@@ -118,7 +118,7 @@ You will need to create a configuration file (named `config.toml`) in the projec
 
 Each agent can be configured with a model, with the defaults being `nemotron-3-nano:4b` for the summarizer and `glm-4.7-flash` for the accuracy, bias, and completeness agents. A route for *each* model will need to be present in the `model_routes` section of the config.
 
-You will need to provide your own OpenAI-compatible endpoints. Please see the [Ollama](), [llama.cpp](), or your provider's documentation for details.
+You will need to provide your own OpenAI-compatible endpoints. Please see the [Ollama](https://ollama.com/), [llama.cpp](https://github.com/ggerganov/llama.cpp), or your provider's documentation for details.
 
 ### ChromaDB
 
@@ -157,8 +157,6 @@ The Data Sandbox is a way to view all of the data that ARGUS has compiled. It's 
 The sandbox has either premade plots, the data of which will be updated approximately every 24 hours. All plots will be generated on the user's device, and can be filtered based on time and the originating source.
 
 The advanced data sandbox surfaces a R-Studio like interface, where the users can experiment with ARGUS's data, in their browser. All scripts are run on-device. The script for the basic sandbox is loaded, for reference. Additionally, the user can download the generated data as `csv` files to their device, for further processing and analysis.
-
-Please see the [Advanced Data Sandbox Guide]() and [Data Format]() for further details.
 
 ## Future Improvements
 

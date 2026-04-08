@@ -43,10 +43,7 @@ import {
   CalendarIcon,
   Download,
   FlaskConical,
-  MoonStar,
   RefreshCw,
-  Sun,
-  SunMoon,
 } from "lucide-react";
 import { useState, useEffect, useRef } from "react";
 import type { DateRange } from "react-day-picker";

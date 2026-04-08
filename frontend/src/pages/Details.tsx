@@ -47,8 +47,6 @@ import {
 } from "@/components/ui/drawer";
 import {
   clampScore,
-  getGoodnessScore,
-  getScoreDotColorClass,
   getScoreBarColorClass,
 } from "@/components/lib/utils";
 

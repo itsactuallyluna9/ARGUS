@@ -102,7 +102,6 @@ function DataSandboxView() {
 
   const [canvasImages, setCanvasImages] = useState<string[]>([]);
   const [canvasImageIndex, setCanvasImageIndex] = useState(0); // which canvas is the user viewing?
-  const [canvasDrawIndex, setCanvasDrawIndex] = useState(0); // which canvas are we currently drawing on?
   const drawCanvas = useRef<OffscreenCanvas | null>(null);
 
   const [viewData, setViewData] = useState<Record<string, unknown>[]>([]);
@@ -225,18 +224,19 @@ function DataSandboxView() {
       document.body.removeChild(factChecksLink);
       URL.revokeObjectURL(factChecksUrl);
 
-      // if we can, show a message
-      if (xtermRef.current) {
-        xtermRef.current.writeln(
-          "# Downloaded article_data.csv and fact_check_data.csv to computer",
-        );
-      }
-    } catch (error) {
-      console.error("Error downloading data:", error);
-      if (xtermRef.current) {
-        xtermRef.current.writeln(`# Error downloading data: ${error.message}`);
-      }
-    } finally {
+       // if we can, show a message
+       if (xtermRef.current) {
+         xtermRef.current.writeln(
+           "# Downloaded article_data.csv and fact_check_data.csv to computer",
+         );
+       }
+     } catch (error) {
+       console.error("Error downloading data:", error);
+       if (xtermRef.current) {
+         const message = error instanceof Error ? error.message : String(error);
+         xtermRef.current.writeln(`# Error downloading data: ${message}`);
+       }
+     } finally {
       setRWorking(false);
     }
   };
@@ -416,7 +416,7 @@ function DataSandboxView() {
             i < to_process[Object.keys(to_process)[0]].values.length;
             i++
           ) {
-            let row = {};
+            let row: Record<string, unknown> = {};
             for (const col_name in to_process) {
               row[col_name] = to_process[col_name].values[i];
             }
@@ -492,13 +492,12 @@ function DataSandboxView() {
 case "canvasNewPage":
                // alright, we have a new plot coming in
                console.debug("R: drawing new canvas page", event.data);
-               if (drawCanvas.current) {
-                 setCanvasDrawIndex((prev) => {
-                   const nextIndex = prev + 1;
-                   setCanvasImageIndex(nextIndex);
-                   return nextIndex;
-                 });
-               }
+                if (drawCanvas.current) {
+                  setCanvasImageIndex((prev) => {
+                    const nextIndex = prev + 1;
+                    return nextIndex;
+                  });
+                }
                drawCanvas.current = new OffscreenCanvas(
                  dimensions.width * 2,
                  dimensions.height * 2
@@ -522,17 +521,14 @@ case "canvasNewPage":
               // also can't promise we'll actually recieve newpage when we're done, so we'll just update the image as we get it and hope for the best
               const blob = await drawCanvas.current.convertToBlob();
               const url = URL.createObjectURL(blob);
-              setCanvasDrawIndex((currentDrawIndex) => {
-                setCanvasImages((prev) => {
-                  if (currentDrawIndex >= prev.length) {
-                    return [...prev, url];
-                  }
-                  const newImages = [...prev];
-                  newImages[currentDrawIndex] = url;
-                  return newImages;
-                });
-                return currentDrawIndex;
-              });
+               setCanvasImages((prev) => {
+                 if (canvasImageIndex >= prev.length) {
+                   return [...prev, url];
+                 }
+                 const newImages = [...prev];
+                 newImages[canvasImageIndex] = url;
+                 return newImages;
+               });
               break;
           }
           break;
@@ -994,9 +990,9 @@ case "canvasNewPage":
                               setCanvasImages((prev) =>
                                 prev.filter((_, i) => i !== canvasImageIndex),
                               );
-                              setCanvasDrawIndex((prev) =>
-                                Math.max(0, prev - 1),
-                              );
+                               setCanvasImageIndex((prev) =>
+                                 Math.max(0, prev - 1),
+                               );
                               setCanvasImageIndex((prev) =>
                                 Math.min(prev, canvasImages.length - 2),
                               );
