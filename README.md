@@ -7,8 +7,8 @@
 [![Python](https://img.shields.io/badge/python-3.x-blue)](https://www.python.org/)
 [![React](https://img.shields.io/badge/react-18.x-61DAFB?logo=react&logoColor=black)](https://react.dev/)
 [![Flask](https://img.shields.io/badge/flask-3.x-black?logo=flask)](https://flask.palletsprojects.com/)
-![Cornell College Computer Science Capstone](https://img.shields.io/badge/Cornell%20College%20Computer%20Science%20Capstone-8A2BE2)
-![Trans Rights](https://pride-badges.pony.workers.dev/static/v1?label=trans%20rights&stripeWidth=6&stripeColors=5BCEFA,F5A9B8,FFFFFF,F5A9B8,5BCEFA)
+[![Cornell College Computer Science Capstone](https://img.shields.io/badge/Cornell%20College%20Computer%20Science%20Capstone-8A2BE2)](https://cornellcollege.edu)
+[![Trans Rights](https://pride-badges.pony.workers.dev/static/v1?label=trans%20rights&stripeWidth=6&stripeColors=5BCEFA,F5A9B8,FFFFFF,F5A9B8,5BCEFA)]()
 
 ARGUS is an open-source, LLM-powered fact-checking application for web articles. Developed as a open source alternative to ChatGPT Deep Research or Grok that can run on consumer hardware. Paste in a URL and ARGUS searches the web for reliable sources, cross-references the article's claims, evaluates reporting bias, and produces a cited summary report.
 
@@ -16,7 +16,26 @@ ARGUS is an open-source, LLM-powered fact-checking application for web articles.
 
 ## Demo
 
-> To be added!
+[![Demo Video](https://img.youtube.com/vi/IwTv_WlMico/0.jpg)](https://youtu.be/IwTv_WlMico)
+
+<details>
+<summary>Light Mode Screenshots</summary>
+<img src="docs/screenshots/home_light.png" alt="Home Page Light Mode" width="400"/>
+<img src="docs/screenshots/article_details_light.png" alt="Article Details Light Mode" width="400"/>
+<img src="docs/screenshots/basic_data_sandbox_light.png" alt="Basic Data Sandbox Light Mode" width="400"/>
+<img src="docs/screenshots/advanced_data_sandbox_light.png" alt="Advanced Data Sandbox Light Mode" width="400"/>
+<img src="docs/screenshots/recent_checks_light.png" alt="Recent Checks Light Mode" width="400"/>
+</details>
+
+
+<details>
+<summary>Dark Mode Screenshots</summary>
+<img src="docs/screenshots/home_dark.png" alt="Home Page Dark Mode" width="400"/>
+<img src="docs/screenshots/article_details_dark.png" alt="Article Details Dark Mode" width="400"/>
+<img src="docs/screenshots/basic_data_sandbox_dark.png" alt="Basic Data Sandbox Dark Mode" width="400"/>
+<img src="docs/screenshots/advanced_data_sandbox_dark.png" alt="Advanced Data Sandbox Dark Mode" width="400"/>
+<img src="docs/screenshots/recent_checks_dark.png" alt="Recent Checks Dark Mode" width="400"/>
+</details>
 
 ## Features
 

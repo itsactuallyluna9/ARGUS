@@ -1,0 +1,212 @@
+# ARGUS Sample Configuration File
+# This file shows all available configuration options with examples and explanations
+# Copy this file to config.toml and adjust values as needed
+
+# ============================================================================
+# Server Configuration
+# ============================================================================
+[server]
+# Host address to bind the server to
+# Examples: "0.0.0.0" (all interfaces), "127.0.0.1" (localhost only)
+host = "127.0.0.1"
+
+# Port number for the server
+port = 5000
+
+
+# ============================================================================
+# Agent Configuration
+# ============================================================================
+# Each agent performs a specific analysis task
+# Available options for each agent:
+#   - model: The model name to use (must match a model_name in model_routes)
+#   - thinking: Enable reasoning/thinking mode (extended model reasoning)
+#   - use_long_prompts: Use detailed prompts from markdown files (default: true)
+#   - max_tool_calls: Maximum number of tool calls the agent can make (default: 512)
+
+[agents.summarizer]
+# Generates article summaries and extracts key points
+model = "nemotron-3-nano:4b"
+thinking = false
+use_long_prompts = true
+max_tool_calls = 512
+
+[agents.accuracy]
+# Evaluates factual accuracy and provides scoring
+model = "glm-4.7-flash"
+thinking = true
+use_long_prompts = true
+max_tool_calls = 512
+
+[agents.bias]
+# Analyzes political bias, sensationalism, and emotional language
+model = "glm-4.7-flash"
+thinking = true
+use_long_prompts = true
+max_tool_calls = 512
+
+[agents.completeness]
+# Assesses information completeness and context
+model = "glm-4.7-flash"
+thinking = true
+use_long_prompts = true
+max_tool_calls = 512
+
+
+# ============================================================================
+# Model Routes Configuration
+# ============================================================================
+# Define OpenAI-compatible API endpoints for models
+# Each route specifies how to connect to a model endpoint
+
+[[model_routes]]
+# Local Ollama instance example
+url = "http://localhost:11434/v1"
+model_name = "nemotron-3-nano:4b"
+api_key = ""  # Ollama doesn't require an API key
+temperature = 0.7
+max_tokens = 16384
+
+[[model_routes]]
+# Another local model example
+url = "http://localhost:11434/v1"
+model_name = "glm-4.7-flash"
+api_key = ""
+temperature = 0.7
+max_tokens = 16384
+
+[[model_routes]]
+# External API example (e.g., OpenAI, Anthropic via proxy, etc.)
+url = "https://api.openai.com/v1"
+model_name = "gpt-4"
+api_key = "sk-your-api-key-here"
+temperature = 0.7
+max_tokens = 8192
+
+[[model_routes]]
+# Custom endpoint example with authentication
+url = "https://custom-llm-api.example.com/v1"
+model_name = "custom-model-name"
+api_key = "your-custom-api-key"
+temperature = 0.5
+max_tokens = 32768
+
+
+# ============================================================================
+# ChromaDB Configuration
+# ============================================================================
+# Vector database for storing and searching article data
+[chroma]
+# Backend type: "memory", "persistent", or "http"
+# - memory: In-memory storage (data lost on restart)
+# - persistent: Local file-based storage
+# - http: Remote ChromaDB server
+backend = "http"
+
+# Path for persistent backend (only used when backend = "persistent")
+# path = "./chroma_data"
+
+# URL for HTTP backend (only used when backend = "http")
+url = "http://localhost:8000"
+
+
+# ============================================================================
+# Webhooks Configuration
+# ============================================================================
+# Send notifications when fact checks complete
+# Currently supports Discord webhook format with embeds
+webhooks = [
+    # "https://discord.com/api/webhooks/YOUR_WEBHOOK_ID/YOUR_WEBHOOK_TOKEN",
+    # "https://another-webhook-url.example.com/endpoint"
+]
+
+
+# ============================================================================
+# Logging Configuration
+# ============================================================================
+[logging]
+
+# Standard error output logging
+[logging.stderr]
+# Log level: DEBUG, INFO, WARNING, ERROR, CRITICAL
+level = "INFO"
+
+# Optional filter to only show logs from specific modules
+# filter = "argus.agents"
+
+# File-based logging (optional)
+[logging.file]
+# Path to log file
+path = "./logs/argus.log"
+
+# Log level for file output
+level = "DEBUG"
+
+# Optional filter
+# filter = "argus"
+
+# Rotation: when to rotate log files
+# Examples: "100 MB", "500 MB", "1 GB", "1 day", "1 week"
+rotation = "100 MB"
+
+# Compression format for rotated logs
+# Options: "gz", "bz2", "xz", "zip"
+compression = "gz"
+
+# Number of rotated log files to keep
+retention = 5
+
+
+# ============================================================================
+# Example Configurations for Different Use Cases
+# ============================================================================
+
+# --- Minimal Configuration ---
+# [server]
+# host = "127.0.0.1"
+# port = 5000
+#
+# [agents.summarizer]
+# model = "nemotron-3-nano:4b"
+#
+# [agents.accuracy]
+# model = "glm-4.7-flash"
+#
+# [agents.bias]
+# model = "glm-4.7-flash"
+#
+# [agents.completeness]
+# model = "glm-4.7-flash"
+#
+# [[model_routes]]
+# url = "http://localhost:11434/v1"
+# model_name = "nemotron-3-nano:4b"
+#
+# [[model_routes]]
+# url = "http://localhost:11434/v1"
+# model_name = "glm-4.7-flash"
+#
+# [chroma]
+# backend = "memory"
+
+# --- Production Configuration ---
+# [server]
+# host = "0.0.0.0"
+# port = 5000
+#
+# [chroma]
+# backend = "http"
+# url = "http://chroma-server:8000"
+#
+# [logging.stderr]
+# level = "WARNING"
+#
+# [logging.file]
+# path = "/var/log/argus/argus.log"
+# level = "INFO"
+# rotation = "500 MB"
+# retention = 10
+#
+# webhooks = [
+#     "https://discord.com/api/webhooks/123/abc",
+# ]

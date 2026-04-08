@@ -1,4 +1,4 @@
-import { ArrowRight } from "lucide-react";
+import { ArrowRight, Link2, Search, CheckCircle } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Spinner } from "@/components/ui/spinner";
 import { memo, useState, useEffect, useMemo } from "react";
@@ -101,6 +101,39 @@ const HeroParticles = memo(function HeroParticles() {
     />
   );
 });
+
+function HowItWorks() {
+  return (
+    <div className="space-y-6">
+      <h2 className="text-2xl font-bold text-center">How ARGUS Works</h2>
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <div className="flex flex-col items-center space-y-4">
+          <div className="w-12 h-12 bg-blue-500/10 rounded-full flex items-center justify-center">
+            <Link2 className="w-6 h-6 text-blue-600" />
+          </div>
+          <h3 className="text-lg font-semibold">1. Submit URL</h3>
+          <p className="text-muted-foreground text-center">Paste any web article URL into the input field and click submit.</p>
+        </div>
+        
+        <div className="flex flex-col items-center space-y-4">
+          <div className="w-12 h-12 bg-blue-500/10 rounded-full flex items-center justify-center">
+            <Search className="w-6 h-6 text-blue-600" />
+          </div>
+          <h3 className="text-lg font-semibold">2. Analysis Begins</h3>
+          <p className="text-muted-foreground text-center">ARGUS searches the web for reliable sources and cross-references claims using LLMs.</p>
+        </div>
+        
+        <div className="flex flex-col items-center space-y-4">
+          <div className="w-12 h-12 bg-blue-500/10 rounded-full flex items-center justify-center">
+            <CheckCircle className="w-6 h-6 text-blue-600" />
+          </div>
+          <h3 className="text-lg font-semibold">3. Get Results</h3>
+          <p className="text-muted-foreground text-center">Receive a detailed fact-check report with accuracy scores and cited sources.</p>
+        </div>
+      </div>
+    </div>
+  );
+}
 
 function Home() {
   const navigate = useNavigate();
@@ -220,11 +253,11 @@ function Home() {
           </div>
         </div>
       </div>
-      <div className="m-4 flex-1">
-        <RecentArticles />
-      </div>
-      {/* TODO: how work */}
-    </main>
+       <div className="m-4 flex-1">
+         <RecentArticles />
+         <HowItWorks />
+       </div>
+     </main>
   );
 }
 
@@ -254,9 +287,10 @@ function RecentArticles() {
                 <Card key={article.id} className="h-full flex flex-col">
                   <CardHeader>
                     <CardTitle>
-                      {typeof article.article_metadata.title === 'string'
+                      {typeof article.article_metadata.title === "string"
                         ? article.article_metadata.title
-                        : article.article_metadata.title?.title || 'Unknown Title'}
+                        : article.article_metadata.title?.title ||
+                          "Unknown Title"}
                     </CardTitle>
                     <CardDescription>
                       {article.article_metadata.sitename ||
@@ -335,7 +369,7 @@ function RecentArticles() {
                     >
                       <ArrowRight /> View Details
                     </Button>
-                    <span className="ml-auto text-sm text-muted-foreground">
+                    <span className="pl-2 ml-auto text-sm text-muted-foreground">
                       {new Date(
                         article.fact_check_metadata.check_submitted,
                       ).toLocaleString()}
